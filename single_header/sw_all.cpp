@@ -886,7 +886,13 @@ CHOOSECOLORW *sw::ColorDialog::GetChooseColorStruct()
 // ComboBox.cpp
 
 sw::ComboBox::ComboBox()
-    : IsEditable(
+    : Items(
+          Property<ObservableCollection<std::wstring> *>::Init(this)
+              .Getter([](ComboBox *self) -> ObservableCollection<std::wstring> * {
+                  return &self->_items;
+              })),
+
+      IsEditable(
           Property<bool>::Init(this)
               .Getter([](ComboBox *self) -> bool {
                   return (self->GetStyle() & (CBS_DROPDOWN | CBS_DROPDOWNLIST)) == CBS_DROPDOWN;
@@ -896,163 +902,200 @@ sw::ComboBox::ComboBox()
                       auto baseStyle = self->GetStyle() & ~(CBS_DROPDOWN | CBS_DROPDOWNLIST);
                       self->SetStyle(baseStyle | (value ? CBS_DROPDOWN : CBS_DROPDOWNLIST));
                       self->ResetHandle();
-                      self->SetInternalText(self->WndBase::GetInternalText()); // 使切换后文本框内容能够保留
+                      self->Refresh();
+                      self->OnSelectionChanged();
+                      self->RaisePropertyChanged(&ComboBox::IsEditable);
                   }
               }))
 {
-    this->InitControl(L"COMBOBOX", L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | CBS_AUTOHSCROLL | CBS_HASSTRINGS | CBS_DROPDOWNLIST, 0);
-    this->Rect    = sw::Rect(0, 0, 100, 24);
-    this->TabStop = true;
+    InitControl(
+        L"COMBOBOX", L"",
+        WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | CBS_AUTOHSCROLL | CBS_DROPDOWNLIST | CBS_HASSTRINGS, 0);
+
+    Rect    = sw::Rect(0, 0, 100, 24);
+    TabStop = true;
+    UpdateCurrentItemsSource();
 }
 
-int sw::ComboBox::GetItemsCount()
+void sw::ComboBox::Refresh()
 {
-    return (int)this->SendMessageW(CB_GETCOUNT, 0, 0);
+    int index = GetSelectedIndex();
+    SendMessageW(WM_SETREDRAW, FALSE, 0);
+    _UpdateItems();
+    SetSelectedIndex(index);
+    _UpdateSelectedText();
+    SendMessageW(WM_SETREDRAW, TRUE, 0);
+    Redraw();
+    RaisePropertyChanged(&TBase::ItemsCount);
+}
+
+void sw::ComboBox::ShowDropDown()
+{
+    SendMessageW(CB_SHOWDROPDOWN, TRUE, 0);
+}
+
+void sw::ComboBox::CloseDropDown()
+{
+    SendMessageW(CB_SHOWDROPDOWN, FALSE, 0);
+}
+
+sw::IList *sw::ComboBox::GetDefaultItemsSource()
+{
+    return &_items;
+}
+
+void sw::ComboBox::OnCurrentItemsSourceChanged(IList *oldItemsSource, IList *newItemsSource)
+{
+    Refresh();
+}
+
+void sw::ComboBox::OnCurrentItemsSourceCollectionChanged(const NotifyCollectionChangedEventArgs &args)
+{
+    int index = GetSelectedIndex();
+    SendMessageW(WM_SETREDRAW, FALSE, 0);
+
+    bool itemsCountChanged = false;
+
+    switch (args.action) {
+        case NotifyCollectionChangedAction::Add:
+            if (index >= args.index) {
+                index++;
+            }
+            _InsertString(args.index, GetDisplayText(args.index, args.list->GetVariantAt(args.index)));
+            itemsCountChanged = true;
+            break;
+
+        case NotifyCollectionChangedAction::Remove:
+            if (index == args.index) {
+                index = -1;
+            } else if (index > args.index) {
+                index--;
+            }
+            _DeleteString(args.index);
+            itemsCountChanged = true;
+            break;
+
+        case NotifyCollectionChangedAction::Reset:
+            _UpdateItems();
+            itemsCountChanged = true;
+            break;
+
+        case NotifyCollectionChangedAction::Replace:
+            _DeleteString(args.index);
+            _InsertString(args.index, GetDisplayText(args.index, args.list->GetVariantAt(args.index)));
+            break;
+
+        case NotifyCollectionChangedAction::Move:
+            if (index == args.oldIndex) {
+                index = args.index;
+            } else if (index > args.oldIndex && index <= args.index) {
+                index--;
+            } else if (index < args.oldIndex && index >= args.index) {
+                index++;
+            }
+            _DeleteString(args.oldIndex);
+            _InsertString(args.index, GetDisplayText(args.index, args.list->GetVariantAt(args.index)));
+            break;
+    }
+
+    SetSelectedIndex(index);
+    SendMessageW(WM_SETREDRAW, TRUE, 0);
+    Redraw();
+
+    if (itemsCountChanged) {
+        RaisePropertyChanged(&TBase::ItemsCount);
+    }
 }
 
 int sw::ComboBox::GetSelectedIndex()
 {
-    return (int)this->SendMessageW(CB_GETCURSEL, 0, 0);
+    return (int)SendMessageW(CB_GETCURSEL, 0, 0);
 }
 
 void sw::ComboBox::SetSelectedIndex(int index)
 {
-    this->SendMessageW(CB_SETCURSEL, index, 0);
-    this->OnSelectionChanged();
-}
-
-std::wstring sw::ComboBox::GetSelectedItem()
-{
-    return this->GetItemAt(this->GetSelectedIndex());
+    if (GetSelectedIndex() != index) {
+        SendMessageW(CB_SETCURSEL, index, 0);
+        OnSelectionChanged();
+    }
 }
 
 std::wstring &sw::ComboBox::GetInternalText()
 {
-    if (this->_isTextChanged) {
-        this->UpdateInternalText();
-        this->_isTextChanged = false;
+    if (_isTextChanged) {
+        UpdateInternalText();
+        _isTextChanged = false;
     }
-    return this->WndBase::GetInternalText();
-}
-
-void sw::ComboBox::SetInternalText(const std::wstring &value)
-{
-    // 当组合框可编辑时，直接调用WndBase::SetInternalText以更新文本框
-    // 不可编辑时，直接修改_text字段（WndBase中定义，用于保存窗体文本）
-    // 修改IsEditable属性后会重新创建句柄，会直接将_text字段设为新的文本
-    // 这里直接修改_text以实现在IsEditable为false时修改的Text能够在IsEditable更改为true时文本框内容能正确显示
-
-    if (this->IsEditable) {
-        this->WndBase::SetInternalText(value);
-    } else {
-        this->WndBase::GetInternalText() = value;
-        this->_isTextChanged             = false;
-    }
+    return TBase::GetInternalText();
 }
 
 void sw::ComboBox::OnCommand(int code)
 {
     switch (code) {
-        case CBN_EDITCHANGE:
-            this->_isTextChanged = true;
-            this->OnTextChanged();
-            break;
-
         case CBN_SELCHANGE:
-            this->OnSelectionChanged();
-            this->OnTextChanged();
+            OnSelectionChanged();
             break;
 
-        default:
+        case CBN_EDITCHANGE:
+            _isTextChanged = true;
+            OnTextChanged();
             break;
     }
 }
 
 void sw::ComboBox::OnSelectionChanged()
 {
-    this->_isTextChanged             = false;
-    this->WndBase::GetInternalText() = this->GetSelectedItem();
-
-    this->ItemsControl::OnSelectionChanged();
+    _UpdateSelectedText();
+    TBase::OnSelectionChanged();
 }
 
-void sw::ComboBox::Clear()
+std::wstring sw::ComboBox::GetDisplayText(int index, const Variant &item)
 {
-    this->SendMessageW(CB_RESETCONTENT, 0, 0);
-    this->RaisePropertyChanged(&ComboBox::ItemsCount);
-}
+    std::wstring text;
 
-std::wstring sw::ComboBox::GetItemAt(int index)
-{
-    int len = (int)this->SendMessageW(CB_GETLBTEXTLEN, index, 0);
-
-    if (len <= 0) {
-        return std::wstring{};
+    if (item.IsType<std::wstring>()) {
+        text = item.UnsafeCast<std::wstring>();
     }
-
-    std::wstring result;
-    result.resize(len + 1);
-    this->SendMessageW(CB_GETLBTEXT, index, reinterpret_cast<LPARAM>(&result[0]));
-    result.resize(len);
-    return result;
+    return text;
 }
 
-bool sw::ComboBox::AddItem(const std::wstring &item)
+void sw::ComboBox::_UpdateSelectedText()
 {
-    int count = this->GetItemsCount();
-    this->SendMessageW(CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(item.c_str()));
+    auto items = GetCurrentItemsSource();
+    int index  = GetSelectedIndex();
 
-    bool success = this->GetItemsCount() == count + 1;
-    if (success) {
-        this->RaisePropertyChanged(&ComboBox::ItemsCount);
+    if (items == nullptr || index < 0 || index >= items->Count()) {
+        SetInternalText(L"");
+    } else {
+        SetInternalText(GetDisplayText(index, items->GetVariantAt(index)));
     }
-    return success;
 }
 
-bool sw::ComboBox::InsertItem(int index, const std::wstring &item)
+void sw::ComboBox::_UpdateItems()
 {
-    int count = this->GetItemsCount();
-    this->SendMessageW(CB_INSERTSTRING, index, reinterpret_cast<LPARAM>(item.c_str()));
-    this->RaisePropertyChanged(&ComboBox::ItemsCount);
+    SendMessageW(CB_RESETCONTENT, 0, 0);
 
-    bool success = this->GetItemsCount() == count + 1;
-    if (success) {
-        this->RaisePropertyChanged(&ComboBox::ItemsCount);
+    if (IList *items = GetCurrentItemsSource()) {
+        int count = items->Count();
+        for (int i = 0; i < count; ++i) {
+            _AddString(GetDisplayText(i, items->GetVariantAt(i)));
+        }
     }
-    return success;
 }
 
-bool sw::ComboBox::UpdateItem(int index, const std::wstring &newValue)
+void sw::ComboBox::_AddString(const std::wstring &str)
 {
-    bool selected = this->GetSelectedIndex() == index;
-    bool updated  = this->RemoveItemAt(index) && this->InsertItem(index, newValue);
-
-    if (updated && selected) {
-        this->SetSelectedIndex(index);
-    }
-    return updated;
+    SendMessageW(CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(str.c_str()));
 }
 
-bool sw::ComboBox::RemoveItemAt(int index)
+void sw::ComboBox::_InsertString(int index, const std::wstring &str)
 {
-    int count = this->GetItemsCount();
-    this->SendMessageW(CB_DELETESTRING, index, 0);
-
-    bool success = this->GetItemsCount() == count - 1;
-    if (success) {
-        this->RaisePropertyChanged(&ComboBox::ItemsCount);
-    }
-    return success;
+    SendMessageW(CB_INSERTSTRING, index, reinterpret_cast<LPARAM>(str.c_str()));
 }
 
-void sw::ComboBox::ShowDropDown()
+void sw::ComboBox::_DeleteString(int index)
 {
-    this->SendMessageW(CB_SHOWDROPDOWN, TRUE, 0);
-}
-
-void sw::ComboBox::CloseDropDown()
-{
-    this->SendMessageW(CB_SHOWDROPDOWN, FALSE, 0);
+    SendMessageW(CB_DELETESTRING, index, 0);
 }
 
 // CommandLink.cpp
@@ -1275,41 +1318,56 @@ bool sw::Control::OnCustomDraw(NMCUSTOMDRAW *pNMCD, LRESULT &result)
 {
     switch (pNMCD->dwDrawStage) {
         case CDDS_PREERASE: {
-            return OnPreErase(pNMCD->hdc, result);
+            return OnPreErase(pNMCD, result);
         }
         case CDDS_POSTERASE: {
-            return OnPostErase(pNMCD->hdc, result);
+            return OnPostErase(pNMCD, result);
         }
         case CDDS_PREPAINT: {
-            return OnPrePaint(pNMCD->hdc, result);
+            return OnPrePaint(pNMCD, result);
         }
         case CDDS_POSTPAINT: {
-            return OnPostPaint(pNMCD->hdc, result);
+            return OnPostPaint(pNMCD, result);
         }
         default: {
+            if ((pNMCD->dwDrawStage & CDDS_ITEMPREPAINT) == CDDS_ITEMPREPAINT) {
+                bool subItem = (pNMCD->dwDrawStage & CDDS_SUBITEM) == CDDS_SUBITEM;
+                return OnItemPrePaint(pNMCD, subItem, result);
+            } else if ((pNMCD->dwDrawStage & CDDS_ITEMPOSTPAINT) == CDDS_ITEMPOSTPAINT) {
+                bool subItem = (pNMCD->dwDrawStage & CDDS_SUBITEM) == CDDS_SUBITEM;
+                return OnItemPostPaint(pNMCD, subItem, result);
+            }
             return false;
         }
     }
 }
 
-bool sw::Control::OnPreErase(HDC hdc, LRESULT &result)
-{
-    result = CDRF_NOTIFYPOSTERASE;
-    return true;
-}
-
-bool sw::Control::OnPostErase(HDC hdc, LRESULT &result)
+bool sw::Control::OnPreErase(NMCUSTOMDRAW *pNMCD, LRESULT &result)
 {
     return false;
 }
 
-bool sw::Control::OnPrePaint(HDC hdc, LRESULT &result)
+bool sw::Control::OnPostErase(NMCUSTOMDRAW *pNMCD, LRESULT &result)
 {
-    result = CDRF_NOTIFYPOSTPAINT;
-    return true;
+    return false;
 }
 
-bool sw::Control::OnPostPaint(HDC hdc, LRESULT &result)
+bool sw::Control::OnPrePaint(NMCUSTOMDRAW *pNMCD, LRESULT &result)
+{
+    return false;
+}
+
+bool sw::Control::OnPostPaint(NMCUSTOMDRAW *pNMCD, LRESULT &result)
+{
+    return false;
+}
+
+bool sw::Control::OnItemPrePaint(NMCUSTOMDRAW *pNMCD, bool subItem, LRESULT &result)
+{
+    return false;
+}
+
+bool sw::Control::OnItemPostPaint(NMCUSTOMDRAW *pNMCD, bool subItem, LRESULT &result)
 {
     return false;
 }
@@ -2098,7 +2156,7 @@ sw::FileDialog::FileDialog()
                   if (!self->MultiSelect) {
                       auto fileName = self->FileName.Get();
                       if (!fileName.empty())
-                          result.Append(fileName);
+                          result.Add(fileName);
                       return result;
                   }
 
@@ -2107,16 +2165,16 @@ sw::FileDialog::FileDialog()
 
                   if (*pFile == 0) { // 多选状态下只选中一项时，buffer中存放的就是选择的文件路径
                       if (!path.empty()) {
-                          result.Append(path);
-                          self->ProcessFileName(result[result.Count() - 1]);
+                          result.Add(path);
+                          self->ProcessFileName(result.GetAt(result.Count() - 1));
                       }
                       return result;
                   }
 
                   while (*pFile) {
                       std::wstring file = pFile;
-                      result.Append(Path::Combine({path, file}));
-                      self->ProcessFileName(result[result.Count() - 1]);
+                      result.Add(Path::Combine({path, file}));
+                      self->ProcessFileName(result.GetAt(result.Count() - 1));
                       pFile += file.size() + 1;
                   }
                   return result;
@@ -2782,7 +2840,7 @@ sw::Grid::Grid()
 
 void sw::Grid::AddRow(const GridRow &row)
 {
-    this->_gridLayout.rows.Append(row);
+    this->_gridLayout.rows.Add(row);
     this->InvalidateMeasure();
 }
 
@@ -2795,7 +2853,7 @@ void sw::Grid::SetRows(std::initializer_list<GridRow> rows)
 
 void sw::Grid::AddColumn(const GridColumn &col)
 {
-    this->_gridLayout.columns.Append(col);
+    this->_gridLayout.columns.Add(col);
     this->InvalidateMeasure();
 }
 
@@ -3332,14 +3390,14 @@ void sw::GridLayout::_UpdateInternalData()
     {
         _RowInfo info;
 
-        if (this->rows.IsEmpty()) {
+        if (this->rows.Count() == 0) {
             info.proportion = 1;
             this->_internalData.rowsInfo.emplace_back(info);
         } else {
             int count  = 0; // 类型为FillRemain的行数
             double sum = 0; // FillRemain行的高度求和
 
-            for (GridRow &row : this->rows) {
+            for (GridRow &row : this->rows.GetStdVector()) {
                 info.row = row;
                 // 防止值小于0
                 if (info.row.height < 0) {
@@ -3375,14 +3433,14 @@ void sw::GridLayout::_UpdateInternalData()
     {
         _ColInfo info;
 
-        if (this->columns.IsEmpty()) {
+        if (this->columns.Count() == 0) {
             info.proportion = 1;
             this->_internalData.colsInfo.emplace_back(info);
         } else {
             int count  = 0; // 类型为FillRemain的列数
             double sum = 0; // FillRemain列的高度求和
 
-            for (GridColumn &col : this->columns) {
+            for (GridColumn &col : this->columns.GetStdVector()) {
                 info.col = col;
                 // 防止值小于0
                 if (info.col.width < 0) {
@@ -4354,6 +4412,95 @@ void sw::ImageList::_DestroyIfNotWrap()
     }
 }
 
+// ItemsControl.cpp
+
+sw::ItemsControl::ItemsControl()
+    : ItemsSource(
+          Property<IList *>::Init(this)
+              .Getter([](ItemsControl *self) -> IList * {
+                  return self->_itemsSource;
+              })
+              .Setter([](ItemsControl *self, IList *value) {
+                  if (self->_itemsSource != value) {
+                      self->_itemsSource = value;
+                      self->UpdateCurrentItemsSource();
+                      self->RaisePropertyChanged(&ItemsControl::ItemsSource);
+                  }
+              })),
+
+      ItemsCount(
+          Property<int>::Init(this)
+              .Getter([](ItemsControl *self) -> int {
+                  IList *currentItemsSource = self->_current.itemsSource;
+                  return currentItemsSource ? currentItemsSource->Count() : 0;
+              })),
+
+      SelectedIndex(
+          Property<int>::Init(this)
+              .Getter([](ItemsControl *self) -> int {
+                  return self->GetSelectedIndex();
+              })
+              .Setter([](ItemsControl *self, int value) {
+                  self->SetSelectedIndex(value);
+              })),
+
+      SelectedItem(
+          Property<Variant>::Init(this)
+              .Getter([](ItemsControl *self) -> Variant {
+                  if (IList *currentItemsSource = self->GetCurrentItemsSource()) {
+                      int index = self->GetSelectedIndex();
+                      if (index >= 0 && index < currentItemsSource->Count()) {
+                          return currentItemsSource->GetVariantAt(index);
+                      }
+                  }
+                  return Variant{};
+              }))
+{
+}
+
+sw::IList *sw::ItemsControl::GetCurrentItemsSource()
+{
+    return _current.itemsSource;
+}
+
+void sw::ItemsControl::UpdateCurrentItemsSource()
+{
+    IList *oldItemsSource = _current.itemsSource;
+    IList *newItemsSource = _itemsSource ? _itemsSource : GetDefaultItemsSource();
+
+    if (newItemsSource == oldItemsSource) {
+        return;
+    }
+
+    if (_current.notifyCollectionChanged != nullptr) {
+        _current.notifyCollectionChanged->CollectionChanged -=
+            NotifyCollectionChangedEventHandler(*this, &ItemsControl::_CollectionChangedEventHandler);
+    }
+
+    _current.itemsSource             = newItemsSource;
+    _current.notifyCollectionChanged = dynamic_cast<INotifyCollectionChanged *>(newItemsSource);
+
+    if (_current.notifyCollectionChanged != nullptr) {
+        _current.notifyCollectionChanged->CollectionChanged +=
+            NotifyCollectionChangedEventHandler(*this, &ItemsControl::_CollectionChangedEventHandler);
+    }
+
+    OnCurrentItemsSourceChanged(oldItemsSource, newItemsSource);
+}
+
+void sw::ItemsControl::OnSelectionChanged()
+{
+    RaisePropertyChanged(&ItemsControl::SelectedIndex);
+    RaisePropertyChanged(&ItemsControl::SelectedItem);
+    RaiseRoutedEvent(ItemsControl_SelectionChanged);
+}
+
+void sw::ItemsControl::_CollectionChangedEventHandler(
+    INotifyCollectionChanged &sender, NotifyCollectionChangedEventArgs &args)
+{
+    OnCurrentItemsSourceCollectionChanged(args);
+}
+
 // Label.cpp
 
 sw::Label::Label()
@@ -4617,7 +4764,26 @@ sw::ILayout &sw::LayoutHost::GetChildLayoutAt(int index) const
 // ListBox.cpp
 
 sw::ListBox::ListBox()
-    : TopIndex(
+    : Items(
+          Property<ObservableCollection<std::wstring> *>::Init(this)
+              .Getter([](ListBox *self) -> ObservableCollection<std::wstring> * {
+                  return &self->_items;
+              })),
+
+      ItemHeight(
+          Property<double>::Init(this)
+              .Getter([](ListBox *self) -> double {
+                  return self->_itemHeight;
+              })
+              .Setter([](ListBox *self, double value) {
+                  if (self->_itemHeight != value) {
+                      self->_itemHeight = value;
+                      self->_UpdateItemHeight();
+                      self->RaisePropertyChanged(&ListBox::ItemHeight);
+                  }
+              })),
+
+      TopIndex(
           Property<int>::Init(this)
               .Getter([](ListBox *self) -> int {
                   return (int)self->SendMessageW(LB_GETTOPINDEX, 0, 0);
@@ -4626,196 +4792,208 @@ sw::ListBox::ListBox()
                   self->SendMessageW(LB_SETTOPINDEX, value, 0);
               })),
 
-      MultiSelect(
-          Property<bool>::Init(this)
-              .Getter([](ListBox *self) -> bool {
-                  return self->GetStyle(LBS_MULTIPLESEL);
+      SelectedItemBackColor(
+          Property<Color>::Init(this)
+              .Getter([](ListBox *self) -> Color {
+                  return self->_selectedItemBackColor;
               })
-              .Setter([](ListBox *self, bool value) {
-                  if (self->GetStyle(LBS_MULTIPLESEL) != value) {
-                      self->SetStyle(LBS_MULTIPLESEL, value);
-                      self->ResetHandle();
+              .Setter([](ListBox *self, const Color &value) {
+                  if (self->_selectedItemBackColor != value) {
+                      self->_selectedItemBackColor = value;
+                      self->Redraw();
+                      self->RaisePropertyChanged(&ListBox::SelectedItemBackColor);
                   }
               })),
 
-      SelectedCount(
-          Property<int>::Init(this)
-              .Getter([](ListBox *self) -> int {
-                  return (int)self->SendMessageW(LB_GETSELCOUNT, 0, 0);
+      SelectedItemTextColor(
+          Property<Color>::Init(this)
+              .Getter([](ListBox *self) -> Color {
+                  return self->_selectedItemTextColor;
+              })
+              .Setter([](ListBox *self, const Color &value) {
+                  if (self->_selectedItemTextColor != value) {
+                      self->_selectedItemTextColor = value;
+                      self->Redraw();
+                      self->RaisePropertyChanged(&ListBox::SelectedItemTextColor);
+                  }
               }))
 {
-    this->InitControl(L"LISTBOX", L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | WS_VSCROLL | LBS_NOINTEGRALHEIGHT | LBS_NOTIFY, 0);
-    this->Rect    = sw::Rect(0, 0, 150, 200);
-    this->TabStop = true;
+    InitControl(
+        L"LISTBOX", L"",
+        WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | WS_VSCROLL | LBS_NOTIFY | LBS_OWNERDRAWFIXED | LBS_NOINTEGRALHEIGHT | LBS_NODATA, 0);
+
+    Rect    = sw::Rect(0, 0, 150, 200);
+    TabStop = true;
+
+    _UpdateItemHeight();
+    UpdateCurrentItemsSource();
 }
 
-int sw::ListBox::GetItemsCount()
+void sw::ListBox::Refresh()
 {
-    return (int)this->SendMessageW(LB_GETCOUNT, 0, 0);
-}
-
-int sw::ListBox::GetSelectedIndex()
-{
-    return (int)this->SendMessageW(LB_GETCURSEL, 0, 0);
-}
-
-void sw::ListBox::SetSelectedIndex(int index)
-{
-    this->SendMessageW(LB_SETCURSEL, index, 0);
-    this->OnSelectionChanged();
-}
-
-std::wstring sw::ListBox::GetSelectedItem()
-{
-    return this->GetItemAt(this->GetSelectedIndex());
-}
-
-bool sw::ListBox::OnContextMenu(bool isKeyboardMsg, const Point &mousePosition)
-{
-    int index = this->GetItemIndexFromPoint(this->PointFromScreen(mousePosition));
-
-    if (index >= 0 && index < this->GetItemsCount()) {
-        this->SetSelectedIndex(index);
-    }
-
-    return this->UIElement::OnContextMenu(isKeyboardMsg, mousePosition);
-}
-
-void sw::ListBox::OnCommand(int code)
-{
-    if (code == LBN_SELCHANGE) {
-        this->OnSelectionChanged();
-    }
-}
-
-void sw::ListBox::Clear()
-{
-    this->SendMessageW(LB_RESETCONTENT, 0, 0);
-    this->RaisePropertyChanged(&ListBox::ItemsCount);
-}
-
-std::wstring sw::ListBox::GetItemAt(int index)
-{
-    int len = (int)this->SendMessageW(LB_GETTEXTLEN, index, 0);
-
-    if (len <= 0) {
-        return std::wstring{};
-    }
-
-    // wchar_t *buf = new wchar_t[len + 1];
-    // this->SendMessageW(LB_GETTEXT, index, reinterpret_cast<LPARAM>(buf));
-    // std::wstring result = buf;
-    // delete[] buf;
-    // return result;
-
-    std::wstring result;
-    result.resize(len + 1);
-    this->SendMessageW(LB_GETTEXT, index, reinterpret_cast<LPARAM>(&result[0]));
-    result.resize(len);
-    return result;
-}
-
-bool sw::ListBox::AddItem(const std::wstring &item)
-{
-    int count = this->GetItemsCount();
-    this->SendMessageW(LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(item.c_str()));
-
-    bool success = this->GetItemsCount() == count + 1;
-    if (success) {
-        this->RaisePropertyChanged(&ListBox::ItemsCount);
-    }
-    return success;
-}
-
-bool sw::ListBox::InsertItem(int index, const std::wstring &item)
-{
-    int count = this->GetItemsCount();
-    this->SendMessageW(LB_INSERTSTRING, index, reinterpret_cast<LPARAM>(item.c_str()));
-
-    bool success = this->GetItemsCount() == count + 1;
-    if (success) {
-        this->RaisePropertyChanged(&ListBox::ItemsCount);
-    }
-    return success;
-}
-
-bool sw::ListBox::UpdateItem(int index, const std::wstring &newValue)
-{
-    bool selected = this->GetSelectedIndex() == index;
-    bool updated  = this->RemoveItemAt(index) && this->InsertItem(index, newValue.c_str());
-
-    if (updated && selected) {
-        this->SetSelectedIndex(index);
-    }
-
-    return updated;
-}
-
-bool sw::ListBox::RemoveItemAt(int index)
-{
-    int count = this->GetItemsCount();
-    this->SendMessageW(LB_DELETESTRING, index, 0);
-
-    bool success = this->GetItemsCount() == count - 1;
-    if (success) {
-        this->RaisePropertyChanged(&ListBox::ItemsCount);
-    }
-    return success;
+    _UpdateCount();
+    Redraw();
 }
 
 int sw::ListBox::GetItemIndexFromPoint(const Point &point)
 {
     POINT p = point;
-    return (int)this->SendMessageW(LB_ITEMFROMPOINT, 0, MAKELPARAM(p.x, p.y));
+    return (int)SendMessageW(LB_ITEMFROMPOINT, 0, MAKELPARAM(p.x, p.y));
 }
 
-sw::List<int> sw::ListBox::GetSelectedIndices()
+sw::IList *sw::ListBox::GetDefaultItemsSource()
 {
-    List<int> result;
-    int selectedCount = this->SelectedCount.Get();
-    if (selectedCount > 0) {
-        int *buf = new int[selectedCount];
-        if (this->SendMessageW(LB_GETSELITEMS, selectedCount, reinterpret_cast<LPARAM>(buf)) != LB_ERR) {
-            for (int i = 0; i < selectedCount; ++i) result.Append(buf[i]);
+    return &_items;
+}
+
+void sw::ListBox::OnCurrentItemsSourceChanged(IList *oldItemsSource, IList *newItemsSource)
+{
+    Refresh();
+}
+
+void sw::ListBox::OnCurrentItemsSourceCollectionChanged(const NotifyCollectionChangedEventArgs &args)
+{
+    switch (args.action) {
+        case NotifyCollectionChangedAction::Add:
+        case NotifyCollectionChangedAction::Remove:
+        case NotifyCollectionChangedAction::Reset:
+            _UpdateCount();
+            break;
+        case NotifyCollectionChangedAction::Replace:
+        case NotifyCollectionChangedAction::Move:
+            break; // 数量未变无需更新
+    }
+    Redraw();
+}
+
+void sw::ListBox::FontChanged(HFONT hfont)
+{
+    _UpdateItemHeight();
+    TBase::FontChanged(hfont);
+}
+
+int sw::ListBox::GetSelectedIndex()
+{
+    return (int)SendMessageW(LB_GETCURSEL, 0, 0);
+}
+
+void sw::ListBox::SetSelectedIndex(int index)
+{
+    if (GetSelectedIndex() != index) {
+        SendMessageW(LB_SETCURSEL, index, 0);
+        OnSelectionChanged();
+    }
+}
+
+void sw::ListBox::OnCommand(int code)
+{
+    if (code == LBN_SELCHANGE) {
+        OnSelectionChanged();
+    }
+}
+
+bool sw::ListBox::OnContextMenu(bool isKeyboardMsg, const Point &mousePosition)
+{
+    int index = GetItemIndexFromPoint(PointFromScreen(mousePosition));
+    int count = ItemsCount;
+
+    if (index >= 0 && index < count) {
+        SetSelectedIndex(index);
+    }
+    return UIElement::OnContextMenu(isKeyboardMsg, mousePosition);
+}
+
+bool sw::ListBox::OnDrawItemSelf(DRAWITEMSTRUCT *pDrawItem)
+{
+    IList *items = GetCurrentItemsSource();
+
+    int index = static_cast<int>(pDrawItem->itemID);
+    int count = items ? items->Count() : 0;
+
+    if (index < 0 || index >= count) {
+        return true;
+    }
+
+    HDC hdc   = pDrawItem->hDC;
+    RECT rect = pDrawItem->rcItem;
+
+    std::wstring text =
+        GetDisplayText(index, items->GetVariantAt(index));
+
+    if (pDrawItem->itemState & ODS_SELECTED) {
+        ::SetBkColor(hdc, static_cast<COLORREF>(_selectedItemBackColor));
+        ::SetTextColor(hdc, static_cast<COLORREF>(_selectedItemTextColor));
+    } else {
+        ::SetBkColor(hdc, static_cast<COLORREF>(GetRealBackColor()));
+        ::SetTextColor(hdc, static_cast<COLORREF>(GetRealTextColor()));
+    }
+
+    ::ExtTextOutW(hdc, rect.left, rect.top, ETO_OPAQUE, &rect, nullptr, 0, nullptr);
+    ::DrawTextW(hdc, text.c_str(), -1, &rect, DT_LEFT | DT_VCENTER | DT_SINGLELINE);
+
+    if ((pDrawItem->itemState & ODS_FOCUS) && IsFocusedViaTab) {
+        ::DrawFocusRect(hdc, &rect);
+    }
+    return true;
+}
+
+std::wstring sw::ListBox::GetDisplayText(int index, const Variant &item)
+{
+    std::wstring text;
+
+    if (item.IsType<std::wstring>()) {
+        text = item.UnsafeCast<std::wstring>();
+    }
+    return text;
+}
+
+void sw::ListBox::_SetCount(int count)
+{
+    SendMessageW(LB_SETCOUNT, count, 0);
+}
+
+void sw::ListBox::_UpdateCount()
+{
+    int selectedIndex = GetSelectedIndex();
+
+    IList *currentItemsSource = GetCurrentItemsSource();
+    _SetCount(currentItemsSource ? currentItemsSource->Count() : 0);
+
+    RaisePropertyChanged(&ItemsControl::ItemsCount);
+    SetSelectedIndex(selectedIndex); // 尝试恢复选中项，若原选中项索引超出范围则会被重置为-1
+}
+
+void sw::ListBox::_UpdateItemHeight()
+{
+    int cyHeight;
+
+    if (_itemHeight >= 0) {
+        cyHeight = Dip::DipToPxY(_itemHeight);
+    } else {
+        HWND hwnd   = Handle;
+        HDC hdc     = GetDC(hwnd);
+        HFONT hFont = (HFONT)SendMessageW(WM_GETFONT, 0, 0);
+
+        if (hFont == NULL) {
+            hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
         }
-        delete[] buf;
+
+        HFONT hFontOld = (HFONT)SelectObject(hdc, hFont);
+
+        TEXTMETRIC tm{};
+        GetTextMetrics(hdc, &tm);
+
+        cyHeight = tm.tmHeight + tm.tmExternalLeading;
+        cyHeight += GetSystemMetrics(SM_CYBORDER) * 2;
+
+        SelectObject(hdc, hFontOld);
+        ReleaseDC(hwnd, hdc);
     }
-    return result;
-}
 
-sw::StrList sw::ListBox::GetSelectedItems()
-{
-    StrList result;
-    for (int i : this->GetSelectedIndices()) {
-        result.Append(this->GetItemAt(i));
-    }
-    return result;
-}
-
-bool sw::ListBox::GetItemSelectionState(int index)
-{
-    return this->SendMessageW(LB_GETSEL, index, 0) > 0;
-}
-
-void sw::ListBox::SetItemSelectionState(int index, bool value)
-{
-    this->SendMessageW(LB_SETSEL, value, index);
+    SendMessageW(LB_SETITEMHEIGHT, 0, cyHeight);
 }
 
 // ListView.cpp
-
-namespace
-{
-    /**
-     * @brief 获取文本时缓冲区的初始大小
-     */
-    constexpr int _ListViewTextInitialBufferSize = 256;
-}
-
-sw::ListViewColumn::ListViewColumn(const std::wstring &header)
-    : ListViewColumn(header, 100)
-{
-}
 
 sw::ListViewColumn::ListViewColumn(const std::wstring &header, double width)
     : header(header), width(width)
@@ -4827,23 +5005,23 @@ sw::ListViewColumn::ListViewColumn(const LVCOLUMNW &lvc)
     double scaleX = Dip::ScaleX;
 
     if (lvc.mask & LVCF_TEXT) {
-        this->header = lvc.pszText;
+        header = lvc.pszText;
     } else {
-        this->header = L"";
+        header = L"";
     }
 
     if (lvc.mask & LVCF_WIDTH) {
-        this->width = lvc.cx * scaleX;
+        width = lvc.cx * scaleX;
     } else {
-        this->width = 0;
+        width = 0;
     }
 
     if (lvc.mask & LVCF_FMT) {
         if (lvc.fmt & LVCFMT_RIGHT) {
-            this->alignment = ListViewColumnAlignment::Right;
+            alignment = ListViewColumnAlignment::Right;
         } else if (lvc.fmt & LVCFMT_CENTER) {
-            this->alignment = ListViewColumnAlignment::Center;
-        } /*else { this->alignment = ListViewColumnAlignment::Left; }*/
+            alignment = ListViewColumnAlignment::Center;
+        } /*else { alignment = ListViewColumnAlignment::Left; }*/
     }
 }
 
@@ -4853,19 +5031,36 @@ sw::ListViewColumn::operator LVCOLUMNW() const
 
     LVCOLUMNW lvc{};
     lvc.mask    = LVCF_TEXT | LVCF_FMT;
-    lvc.pszText = const_cast<LPWSTR>(this->header.c_str());
-    lvc.fmt     = (int)this->alignment;
+    lvc.pszText = const_cast<LPWSTR>(header.c_str());
+    lvc.fmt     = (int)alignment;
 
-    if (this->width >= 0) {
+    if (width >= 0) {
         lvc.mask |= LVCF_WIDTH;
-        lvc.cx = std::lround(this->width / scaleX);
+        lvc.cx = std::lround(width / scaleX);
     }
-
     return lvc;
 }
 
+sw::ListViewItem::ListViewItem(ListViewItem &&other) noexcept
+    : subItems(std::move(other.subItems)), imageIndex(other.imageIndex), checked(other.checked)
+{
+    other.imageIndex = -1;
+    other.checked    = false;
+}
+
+sw::ListViewItem::ListViewItem(std::initializer_list<std::wstring> subItems)
+    : subItems(subItems)
+{
+}
+
 sw::ListView::ListView()
-    : ColumnsCount(
+    : Items(
+          Property<ObservableCollection<ListViewItem> *>::Init(this)
+              .Getter([](ListView *self) -> ObservableCollection<ListViewItem> * {
+                  return &self->_items;
+              })),
+
+      ColumnsCount(
           Property<int>::Init(this)
               .Getter([](ListView *self) -> int {
                   return self->_GetColCount();
@@ -4934,20 +5129,151 @@ sw::ListView::ListView()
                   self->SetStyle(LVS_EDITLABELS, value);
               }))
 {
-    this->InitControl(WC_LISTVIEWW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | LVS_REPORT, 0);
-    this->_SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
-    this->Rect    = sw::Rect(0, 0, 200, 200);
-    this->TabStop = true;
+    InitControl(
+        WC_LISTVIEWW, L"",
+        WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | LVS_REPORT | LVS_OWNERDATA, 0);
+
+    _SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
+
+    Rect    = sw::Rect(0, 0, 200, 200);
+    TabStop = true;
+    UpdateCurrentItemsSource();
 }
 
-int sw::ListView::GetItemsCount()
+void sw::ListView::Refresh()
 {
-    return this->_GetRowCount();
+    _UpdateCount();
+    Redraw();
+}
+
+bool sw::ListView::AddColumn(const ListViewColumn &column)
+{
+    return InsertColumn(_GetColCount(), column);
+}
+
+bool sw::ListView::AddColumn(const std::wstring &header)
+{
+    ListViewColumn column(header);
+    return InsertColumn(_GetColCount(), column);
+}
+
+bool sw::ListView::InsertColumn(int index, const ListViewColumn &column)
+{
+    LVCOLUMNW lvc = column;
+    return SendMessageW(LVM_INSERTCOLUMNW, index, reinterpret_cast<LPARAM>(&lvc)) != -1;
+}
+
+bool sw::ListView::InsertColumn(int index, const std::wstring &header)
+{
+    ListViewColumn column(header);
+    return InsertColumn(index, column);
+}
+
+bool sw::ListView::SetColumnHeader(int index, const std::wstring &header)
+{
+    LVCOLUMNW lvc;
+    lvc.mask    = LVCF_TEXT;
+    lvc.pszText = const_cast<LPWSTR>(header.c_str());
+    return SendMessageW(LVM_SETCOLUMNW, index, reinterpret_cast<LPARAM>(&lvc));
+}
+
+double sw::ListView::GetColumnWidth(int index)
+{
+    if (index < 0 || index >= _GetColCount()) {
+        return -1;
+    } else {
+        return SendMessageW(LVM_GETCOLUMNWIDTH, index, 0) * Dip::ScaleX;
+    }
+}
+
+bool sw::ListView::SetColumnWidth(int index, double width)
+{
+    return SendMessageW(LVM_SETCOLUMNWIDTH, index, std::lround(width / Dip::ScaleX));
+}
+
+bool sw::ListView::RemoveColumnAt(int index)
+{
+    return SendMessageW(LVM_DELETECOLUMN, index, 0);
+}
+
+sw::List<int> sw::ListView::GetSelectedIndices()
+{
+    List<int> result;
+
+    for (int i = -1; (i = (int)SendMessageW(LVM_GETNEXTITEM, i, LVNI_SELECTED)) != -1;) {
+        result.Add(i);
+    }
+    return result;
+}
+
+bool sw::ListView::GetItemCheckState(int index)
+{
+    bool checked = false;
+
+    OnGetItemCheckState(index, checked);
+    return checked;
+}
+
+void sw::ListView::SetItemCheckState(int index, bool value)
+{
+    OnSetItemCheckState(index, value);
+}
+
+int sw::ListView::GetItemIndexFromPoint(const Point &point)
+{
+    LVHITTESTINFO hitTestInfo{};
+    hitTestInfo.pt = point;
+    return (int)SendMessageW(LVM_HITTEST, 0, reinterpret_cast<LPARAM>(&hitTestInfo));
+}
+
+sw::ImageList sw::ListView::GetImageList(ListViewImageList imageList)
+{
+    return ImageList::Wrap((HIMAGELIST)SendMessageW(LVM_GETIMAGELIST, (WPARAM)imageList, 0));
+}
+
+HIMAGELIST sw::ListView::SetImageList(ListViewImageList imageList, HIMAGELIST value)
+{
+    return (HIMAGELIST)SendMessageW(LVM_SETIMAGELIST, (WPARAM)imageList, (LPARAM)value);
+}
+
+bool sw::ListView::EditItem(int index)
+{
+    return SendMessageW(LVM_EDITLABELW, index, 0) != 0;
+}
+
+void sw::ListView::CancelEdit()
+{
+    SendMessageW(LVM_CANCELEDITLABEL, 0, 0);
+}
+
+sw::IList *sw::ListView::GetDefaultItemsSource()
+{
+    return &_items;
+}
+
+void sw::ListView::OnCurrentItemsSourceChanged(IList *oldItemsSource, IList *newItemsSource)
+{
+    Refresh();
+}
+
+void sw::ListView::OnCurrentItemsSourceCollectionChanged(const NotifyCollectionChangedEventArgs &args)
+{
+    switch (args.action) {
+        case NotifyCollectionChangedAction::Add:
+        case NotifyCollectionChangedAction::Remove:
+        case NotifyCollectionChangedAction::Reset:
+            _UpdateCount();
+            break;
+        case NotifyCollectionChangedAction::Replace:
+        case NotifyCollectionChangedAction::Move:
+            break; // 数量未变无需更新
+    }
+    Redraw();
 }
 
 int sw::ListView::GetSelectedIndex()
 {
-    return (int)this->SendMessageW(LVM_GETNEXTITEM, -1, LVNI_SELECTED);
+    return (int)SendMessageW(LVM_GETNEXTITEM, -1, LVNI_SELECTED);
 }
 
 void sw::ListView::SetSelectedIndex(int index)
@@ -4956,40 +5282,35 @@ void sw::ListView::SetSelectedIndex(int index)
 
     lvi.stateMask = LVIS_SELECTED;
     lvi.state     = 0;
-    this->SendMessageW(LVM_SETITEMSTATE, -1, reinterpret_cast<LPARAM>(&lvi));
+    SendMessageW(LVM_SETITEMSTATE, -1, reinterpret_cast<LPARAM>(&lvi));
 
     lvi.stateMask = LVIS_SELECTED | LVIS_FOCUSED;
     lvi.state     = LVIS_SELECTED | LVIS_FOCUSED;
-    this->SendMessageW(LVM_SETITEMSTATE, index, reinterpret_cast<LPARAM>(&lvi));
-}
-
-sw::StrList sw::ListView::GetSelectedItem()
-{
-    return this->GetItemAt(this->GetSelectedIndex());
+    SendMessageW(LVM_SETITEMSTATE, index, reinterpret_cast<LPARAM>(&lvi));
 }
 
 void sw::ListView::SetBackColor(Color color, bool redraw)
 {
-    this->Control::SetBackColor(color, false);
-    this->SendMessageW(LVM_SETBKCOLOR, 0, (LPARAM)(COLORREF)color);
-    this->SendMessageW(LVM_SETTEXTBKCOLOR, 0, (LPARAM)(COLORREF)color);
+    Control::SetBackColor(color, false);
+    SendMessageW(LVM_SETBKCOLOR, 0, (LPARAM)(COLORREF)color);
+    SendMessageW(LVM_SETTEXTBKCOLOR, 0, (LPARAM)(COLORREF)color);
 }
 
 void sw::ListView::SetTextColor(Color color, bool redraw)
 {
-    this->Control::SetTextColor(color, false);
-    this->SendMessageW(LVM_SETTEXTCOLOR, 0, (LPARAM)(COLORREF)color);
+    Control::SetTextColor(color, false);
+    SendMessageW(LVM_SETTEXTCOLOR, 0, (LPARAM)(COLORREF)color);
 }
 
 bool sw::ListView::OnNotify(NMHDR *pNMHDR, LRESULT &result)
 {
     switch (pNMHDR->code) {
         case HDN_ITEMCLICKW: {
-            this->OnHeaderItemClicked(reinterpret_cast<NMHEADERW *>(pNMHDR));
+            OnHeaderItemClicked(reinterpret_cast<NMHEADERW *>(pNMHDR));
             break;
         }
         case HDN_ITEMDBLCLICKW: {
-            this->OnHeaderItemDoubleClicked(reinterpret_cast<NMHEADERW *>(pNMHDR));
+            OnHeaderItemDoubleClicked(reinterpret_cast<NMHEADERW *>(pNMHDR));
             break;
         }
     };
@@ -5000,40 +5321,85 @@ bool sw::ListView::OnNotified(NMHDR *pNMHDR, LRESULT &result)
 {
     switch (pNMHDR->code) {
         case LVN_ITEMCHANGED: {
-            this->OnItemChanged(reinterpret_cast<NMLISTVIEW *>(pNMHDR));
+            OnItemChanged(reinterpret_cast<NMLISTVIEW *>(pNMHDR));
             break;
         }
         case NM_CLICK: {
-            this->OnItemClicked(reinterpret_cast<NMITEMACTIVATE *>(pNMHDR));
+            OnItemClicked(reinterpret_cast<NMITEMACTIVATE *>(pNMHDR));
             break;
         }
         case NM_DBLCLK: {
-            this->OnItemDoubleClicked(reinterpret_cast<NMITEMACTIVATE *>(pNMHDR));
+            OnItemDoubleClicked(reinterpret_cast<NMITEMACTIVATE *>(pNMHDR));
             break;
         }
         case LVN_GETDISPINFOW: {
-            this->OnGetDispInfo(reinterpret_cast<NMLVDISPINFOW *>(pNMHDR));
+            OnGetDispInfo(reinterpret_cast<NMLVDISPINFOW *>(pNMHDR));
             return true;
         }
         case LVN_ENDLABELEDITW: {
-            result = (LRESULT)this->OnEndEdit(reinterpret_cast<NMLVDISPINFOW *>(pNMHDR));
+            NMLVDISPINFOW *pNMInfo =
+                reinterpret_cast<NMLVDISPINFOW *>(pNMHDR);
+
+            if (pNMInfo->item.pszText == nullptr) {
+                result = FALSE;
+            } else {
+                ListViewEndEditEventArgs args(pNMInfo->item.iItem, pNMInfo->item.pszText);
+                OnEndEdit(args);
+                result = !args.cancel;
+                if (result) OnApplyEdit(args.index, args.newText);
+            }
             return true;
         }
     }
-    return this->Control::OnNotified(pNMHDR, result);
+    return Control::OnNotified(pNMHDR, result);
+}
+
+bool sw::ListView::OnPrePaint(NMCUSTOMDRAW *pNMCD, LRESULT &result)
+{
+    result = CDRF_NOTIFYITEMDRAW;
+    return true;
+}
+
+bool sw::ListView::OnItemPrePaint(NMCUSTOMDRAW *pNMCD, bool subItem, LRESULT &result)
+{
+    if (!subItem) {
+        result = CDRF_NOTIFYSUBITEMDRAW;
+        return true;
+    }
+
+    if (!CheckBoxes) {
+        return false;
+    }
+
+    auto *pCD =
+        reinterpret_cast<LPNMLVCUSTOMDRAW>(pNMCD);
+
+    int row = static_cast<int>(pCD->nmcd.dwItemSpec);
+    int col = pCD->iSubItem;
+
+    if (col == 0) {
+        RECT rtCheck{};
+        GetCheckBoxRect(row, rtCheck);
+
+        DrawFrameControl(
+            pCD->nmcd.hdc,
+            &rtCheck,
+            DFC_BUTTON,
+            DFCS_BUTTONCHECK | (GetItemCheckState(row) ? DFCS_CHECKED : 0));
+
+        result = CDRF_DODEFAULT;
+    }
+    return true;
 }
 
 void sw::ListView::OnItemChanged(NMLISTVIEW *pNMLV)
 {
     if (pNMLV->uChanged & LVIF_STATE) {
-        auto changedState = pNMLV->uOldState ^ pNMLV->uNewState;
+        auto changedState =
+            pNMLV->uOldState ^ pNMLV->uNewState;
 
         if (changedState & LVIS_SELECTED) {
-            this->OnSelectionChanged();
-        }
-
-        if (((changedState & LVIS_STATEIMAGEMASK) >> 12) & ~1) { // checkbox state changed
-            this->OnCheckStateChanged(pNMLV->iItem);
+            OnSelectionChanged();
         }
     }
 }
@@ -5041,351 +5407,240 @@ void sw::ListView::OnItemChanged(NMLISTVIEW *pNMLV)
 void sw::ListView::OnCheckStateChanged(int index)
 {
     ListViewCheckStateChangedEventArgs args(index);
-    this->RaiseRoutedEvent(args);
+    RaiseRoutedEvent(args);
 }
 
 void sw::ListView::OnHeaderItemClicked(NMHEADERW *pNMH)
 {
     ListViewHeaderClickedEventArgs args(pNMH->iItem);
-    this->RaiseRoutedEvent(args);
+    RaiseRoutedEvent(args);
 }
 
 void sw::ListView::OnHeaderItemDoubleClicked(NMHEADERW *pNMH)
 {
     ListViewHeaderDoubleClickedEventArgs args(pNMH->iItem);
-    this->RaiseRoutedEvent(args);
+    RaiseRoutedEvent(args);
 }
 
 void sw::ListView::OnItemClicked(NMITEMACTIVATE *pNMIA)
 {
     ListViewItemClickedEventArgs args(pNMIA->iItem, pNMIA->iSubItem);
-    this->RaiseRoutedEvent(args);
+    RaiseRoutedEvent(args);
+
+    if (!args.handled && CheckBoxes) {
+        POINT pt;
+        GetCursorPos(&pt);
+        ScreenToClient(Handle, &pt);
+
+        RECT rtCheck{};
+        GetCheckBoxRect(pNMIA->iItem, rtCheck);
+
+        if (PtInRect(&rtCheck, pt)) {
+            OnCheckBoxClicked(pNMIA->iItem);
+        }
+    }
 }
 
 void sw::ListView::OnItemDoubleClicked(NMITEMACTIVATE *pNMIA)
 {
     ListViewItemDoubleClickedEventArgs args(pNMIA->iItem, pNMIA->iSubItem);
-    this->RaiseRoutedEvent(args);
+    RaiseRoutedEvent(args);
+}
+
+void sw::ListView::OnCheckBoxClicked(int index)
+{
+    SetItemCheckState(index, !GetItemCheckState(index));
+}
+
+void sw::ListView::OnEndEdit(ListViewEndEditEventArgs &args)
+{
+    RaiseRoutedEvent(args);
+}
+
+void sw::ListView::OnApplyEdit(int index, const std::wstring &newText)
+{
+    IList *source = GetCurrentItemsSource();
+
+    if (source == nullptr || index < 0 || index >= source->Count()) {
+        return;
+    }
+
+    Variant item = source->GetVariantAt(index);
+
+    // Windows消息只支持编辑主项，因此只修改索引0处的文本
+
+    if (item.IsType<ListViewItem>()) {
+        // ListViewItem
+        auto &lvItem = item.UnsafeCast<ListViewItem>();
+        if (lvItem.subItems.Count() > 0) {
+            lvItem.subItems[0] = newText;
+        }
+    } else if (item.IsType<std::wstring>()) {
+        // std::wstring
+        item.UnsafeCast<std::wstring>() = newText;
+    } else if (item.IsType<List<std::wstring>>()) {
+        // List<std::wstring>
+        auto &subItems = item.UnsafeCast<List<std::wstring>>();
+        if (subItems.Count() > 0) {
+            subItems[0] = newText;
+        }
+    }
 }
 
 void sw::ListView::OnGetDispInfo(NMLVDISPINFOW *pNMInfo)
 {
-}
+    IList *items = GetCurrentItemsSource();
 
-bool sw::ListView::OnEndEdit(NMLVDISPINFOW *pNMInfo)
-{
-    if (pNMInfo->item.pszText == nullptr) {
-        return false;
-    }
-    ListViewEndEditEventArgs args(pNMInfo->item.iItem, pNMInfo->item.pszText);
-    this->RaiseRoutedEvent(args);
-    pNMInfo->item.pszText = args.newText;
-    return !args.cancel;
-}
+    int index = static_cast<int>(pNMInfo->item.iItem);
+    int count = items ? items->Count() : 0;
 
-void sw::ListView::Clear()
-{
-    this->SendMessageW(LVM_DELETEALLITEMS, 0, 0);
-    this->RaisePropertyChanged(&ListView::ItemsCount);
-}
-
-sw::StrList sw::ListView::GetItemAt(int index)
-{
-    StrList result;
-    if (index < 0) return result;
-
-    int rows = this->_GetRowCount();
-    if (rows <= 0 || index >= rows) return result;
-
-    int cols = this->_GetColCount();
-    if (cols <= 0) return result;
-
-    // int bufsize     = _ListViewTextInitialBufferSize;
-    // auto &resultVec = result.GetStdVector();
-
-    // LVITEMW lvi{};
-    // lvi.mask  = LVIF_TEXT;
-    // lvi.iItem = index;
-
-    // for (int j = 0; j < cols; ++j) {
-    //     lvi.iSubItem = j;
-    //     resultVec.emplace_back();
-
-    //     auto &str = resultVec.back();
-    //     str.resize(bufsize);
-
-    //     while (true) {
-    //         lvi.pszText    = &str[0];
-    //         lvi.cchTextMax = bufsize;
-
-    //         int len = (int)this->SendMessageW(
-    //             LVM_GETITEMTEXTW, index, reinterpret_cast<LPARAM>(&lvi));
-
-    //         if (len <= 0) {
-    //             str.clear();
-    //             break;
-    //         }
-
-    //         if (len < bufsize - 1 || bufsize >= INT_MAX / 2) {
-    //             str.resize(len);
-    //             break;
-    //         } else {
-    //             bufsize *= 2;
-    //             str.resize(bufsize);
-    //         }
-    //     }
-    // }
-
-    for (int j = 0; j < cols; ++j) {
-        result.Append(this->GetItemAt(index, j));
-    }
-    return result;
-}
-
-bool sw::ListView::AddItem(const StrList &item)
-{
-    return this->InsertItem(this->_GetRowCount(), item);
-}
-
-bool sw::ListView::InsertItem(int index, const StrList &item)
-{
-    int colCount = item.Count();
-    if (colCount == 0) return false;
-
-    LVITEMW lvi;
-    lvi.mask     = LVIF_TEXT;
-    lvi.iItem    = index;
-    lvi.iSubItem = 0;
-    lvi.pszText  = const_cast<LPWSTR>(item[0].c_str());
-
-    index = (int)this->SendMessageW(LVM_INSERTITEMW, 0, reinterpret_cast<LPARAM>(&lvi));
-    if (index == -1) return false;
-
-    lvi.iItem = index;
-    for (int j = 1; j < colCount; ++j) {
-        lvi.iSubItem = j;
-        lvi.pszText  = const_cast<LPWSTR>(item[j].c_str());
-        this->SendMessageW(LVM_SETITEMW, 0, reinterpret_cast<LPARAM>(&lvi));
+    if (index < 0 || index >= count) {
+        return;
     }
 
-    this->RaisePropertyChanged(&ListView::ItemsCount);
-    return true;
+    Variant item = items->GetVariantAt(index);
+    GetDisplayInfo(index, item, pNMInfo);
 }
 
-bool sw::ListView::UpdateItem(int index, const StrList &newValue)
+void sw::ListView::GetDisplayInfo(int index, const Variant &item, NMLVDISPINFOW *pNMInfo)
 {
-    if (index < 0 || index >= this->_GetRowCount() || newValue.IsEmpty()) {
-        return false;
+    std::type_index itemType = item.GetType();
+
+    _itemDisplayBuffer.subItems.Clear();
+    _itemDisplayBuffer.imageIndex = -1;
+    _itemDisplayBuffer.checked    = false;
+
+    if (GetDisplayInfo(index, item, _itemDisplayBuffer)) {
+        _ApplyDispInfo(_itemDisplayBuffer, pNMInfo);
+        return;
     }
 
-    LVITEMW lvi;
-    lvi.mask  = LVIF_TEXT;
-    lvi.iItem = index;
-
-    int colCount = newValue.Count();
-    for (int j = 0; j < colCount; ++j) {
-        lvi.iSubItem = j;
-        lvi.pszText  = const_cast<LPWSTR>(newValue[j].c_str());
-        this->SendMessageW(LVM_SETITEMW, 0, reinterpret_cast<LPARAM>(&lvi));
-    }
-
-    return true;
-}
-
-bool sw::ListView::RemoveItemAt(int index)
-{
-    bool success = this->SendMessageW(LVM_DELETEITEM, index, 0);
-    if (success) {
-        this->RaisePropertyChanged(&ListView::ItemsCount);
-    }
-    return success;
-}
-
-std::wstring sw::ListView::GetItemAt(int row, int col)
-{
-    int bufsize = _ListViewTextInitialBufferSize;
-
-    LVITEMW lvi{};
-    lvi.mask     = LVIF_TEXT;
-    lvi.iItem    = row;
-    lvi.iSubItem = col;
-
-    std::wstring result;
-    result.resize(bufsize);
-
-    while (true) {
-        lvi.pszText    = &result[0];
-        lvi.cchTextMax = bufsize;
-
-        int len = (int)this->SendMessageW(
-            LVM_GETITEMTEXTW, row, reinterpret_cast<LPARAM>(&lvi));
-
-        if (len <= 0) {
-            result.clear();
-            break;
+    if (itemType == typeid(ListViewItem)) {
+        // ListViewItem
+        auto &lvItem = item.UnsafeCast<ListViewItem>();
+        _ApplyDispInfo(lvItem, pNMInfo);
+    } else if (itemType == typeid(std::wstring)) {
+        // std::wstring
+        if (pNMInfo->item.mask & LVIF_TEXT && pNMInfo->item.iSubItem == 0) {
+            pNMInfo->item.pszText = const_cast<LPWSTR>(item.UnsafeCast<std::wstring>().c_str());
         }
-
-        if (len < bufsize - 1 || bufsize >= INT_MAX / 2) {
-            result.resize(len);
-            break;
-        } else {
-            bufsize *= 2;
-            result.resize(bufsize);
+    } else if (itemType == typeid(List<std::wstring>)) {
+        // List<std::wstring>
+        auto &subItems = item.UnsafeCast<List<std::wstring>>();
+        if (pNMInfo->item.mask & LVIF_TEXT) {
+            int subIndex = pNMInfo->item.iSubItem;
+            if (subIndex >= 0 && subIndex < subItems.Count()) {
+                pNMInfo->item.pszText = const_cast<LPWSTR>(subItems[subIndex].c_str());
+            }
         }
     }
-
-    return result;
 }
 
-bool sw::ListView::UpdateItem(int row, int col, const std::wstring &newValue)
+bool sw::ListView::GetDisplayInfo(int index, const Variant &item, ListViewItem &listViewItem)
 {
-    LVITEMW lvi;
-    lvi.mask     = LVIF_TEXT;
-    lvi.iItem    = row;
-    lvi.iSubItem = col;
-    lvi.pszText  = const_cast<LPWSTR>(newValue.c_str());
-
-    return this->SendMessageW(LVM_SETITEMTEXTW, row, reinterpret_cast<LPARAM>(&lvi));
+    return false;
 }
 
-bool sw::ListView::AddColumn(const ListViewColumn &column)
+void sw::ListView::GetCheckBoxRect(int index, RECT &rect)
 {
-    return this->InsertColumn(this->_GetColCount(), column);
+    ListView_GetItemRect(Handle, index, &rect, LVIR_ICON);
+
+    int rowHeight   = rect.bottom - rect.top;
+    int cxMenuCheck = GetSystemMetrics(SM_CXMENUCHECK);
+    int cyMenuCheck = GetSystemMetrics(SM_CYMENUCHECK);
+
+    rect.top += (rowHeight - cyMenuCheck) / 2;
+    rect.left -= cxMenuCheck;
+    rect.right  = rect.left + cxMenuCheck;
+    rect.bottom = rect.top + cyMenuCheck;
 }
 
-bool sw::ListView::AddColumn(const std::wstring &header)
+void sw::ListView::OnGetItemCheckState(int index, bool &checked)
 {
-    ListViewColumn column(header);
-    return this->InsertColumn(this->_GetColCount(), column);
-}
+    IList *itemsSource = GetCurrentItemsSource();
 
-bool sw::ListView::InsertColumn(int index, const ListViewColumn &column)
-{
-    LVCOLUMNW lvc = column;
-    return this->SendMessageW(LVM_INSERTCOLUMNW, index, reinterpret_cast<LPARAM>(&lvc)) != -1;
-}
+    if (itemsSource == nullptr || index < 0 || index >= itemsSource->Count()) {
+        checked = false;
+        return;
+    }
 
-bool sw::ListView::InsertColumn(int index, const std::wstring &header)
-{
-    ListViewColumn column(header);
-    return this->InsertColumn(index, column);
-}
+    ListViewItem lvItem{};
+    Variant item = itemsSource->GetVariantAt(index);
 
-bool sw::ListView::SetColumnHeader(int index, const std::wstring &header)
-{
-    LVCOLUMNW lvc;
-    lvc.mask    = LVCF_TEXT;
-    lvc.pszText = const_cast<LPWSTR>(header.c_str());
-    return this->SendMessageW(LVM_SETCOLUMNW, index, reinterpret_cast<LPARAM>(&lvc));
-}
-
-double sw::ListView::GetColumnWidth(int index)
-{
-    if (index < 0 || index >= this->_GetColCount()) {
-        return -1;
+    if (GetDisplayInfo(index, item, lvItem)) {
+        checked = lvItem.checked;
     } else {
-        return this->SendMessageW(LVM_GETCOLUMNWIDTH, index, 0) * Dip::ScaleX;
+        ListViewItem *pItem;
+        checked = item.IsType(&pItem) && pItem->checked;
     }
 }
 
-bool sw::ListView::SetColumnWidth(int index, double width)
+void sw::ListView::OnSetItemCheckState(int index, bool checked)
 {
-    return this->SendMessageW(LVM_SETCOLUMNWIDTH, index, std::lround(width / Dip::ScaleX));
-}
+    IList *itemsSource = GetCurrentItemsSource();
 
-bool sw::ListView::RemoveColumnAt(int index)
-{
-    return this->SendMessageW(LVM_DELETECOLUMN, index, 0);
-}
-
-sw::List<int> sw::ListView::GetSelectedIndices()
-{
-    List<int> result;
-    for (int i = -1; (i = (int)this->SendMessageW(LVM_GETNEXTITEM, i, LVNI_SELECTED)) != -1;)
-        result.Append(i);
-    return result;
-}
-
-sw::List<int> sw::ListView::GetCheckedIndices()
-{
-    List<int> result;
-    HWND hwnd    = this->Handle;
-    int rowCount = this->_GetRowCount();
-    for (int i = 0; i < rowCount; ++i) {
-        int state = (int)ListView_GetCheckState(hwnd, i);
-        if (state != -1 && state) result.Append(i);
+    if (itemsSource == nullptr || index < 0 || index >= itemsSource->Count()) {
+        return;
     }
-    return result;
+
+    Variant item = itemsSource->GetVariantAt(index);
+    ListViewItem *pItem;
+
+    if (item.IsType(&pItem) && pItem->checked != checked) {
+        pItem->checked = checked;
+        Redraw();
+        OnCheckStateChanged(index);
+    }
 }
 
-bool sw::ListView::GetItemCheckState(int index)
+void sw::ListView::_SetCount(int count)
 {
-    int result = (int)ListView_GetCheckState(this->Handle, index);
-    return result == -1 ? false : result;
+    SendMessageW(LVM_SETITEMCOUNT, count, 0);
 }
 
-void sw::ListView::SetItemCheckState(int index, bool value)
+void sw::ListView::_UpdateCount()
 {
-    ListView_SetCheckState(this->Handle, index, value);
-}
+    int selectedIndex = GetSelectedIndex();
 
-int sw::ListView::GetItemIndexFromPoint(const Point &point)
-{
-    LVHITTESTINFO hitTestInfo{};
-    hitTestInfo.pt = point;
-    return (int)this->SendMessageW(LVM_HITTEST, 0, reinterpret_cast<LPARAM>(&hitTestInfo));
-}
+    IList *currentItemsSource = GetCurrentItemsSource();
+    _SetCount(currentItemsSource ? currentItemsSource->Count() : 0);
 
-sw::ImageList sw::ListView::GetImageList(ListViewImageList imageList)
-{
-    return ImageList::Wrap((HIMAGELIST)this->SendMessageW(LVM_GETIMAGELIST, (WPARAM)imageList, 0));
-}
-
-HIMAGELIST sw::ListView::SetImageList(ListViewImageList imageList, HIMAGELIST value)
-{
-    return (HIMAGELIST)this->SendMessageW(LVM_SETIMAGELIST, (WPARAM)imageList, (LPARAM)value);
-}
-
-bool sw::ListView::SetItemImage(int index, int imgIndex)
-{
-    LVITEMW lvi;
-    lvi.mask     = LVIF_IMAGE;
-    lvi.iItem    = index;
-    lvi.iSubItem = 0;
-    lvi.iImage   = imgIndex;
-
-    return this->SendMessageW(LVM_SETITEMW, 0, reinterpret_cast<LPARAM>(&lvi));
-}
-
-bool sw::ListView::EditItem(int index)
-{
-    return this->SendMessageW(LVM_EDITLABELW, index, 0) != 0;
-}
-
-void sw::ListView::CancelEdit()
-{
-    this->SendMessageW(LVM_CANCELEDITLABEL, 0, 0);
+    RaisePropertyChanged(&ItemsControl::ItemsCount);
+    SetSelectedIndex(selectedIndex); // 尝试恢复选中项，若原选中项索引超出范围则会被重置为-1
 }
 
 int sw::ListView::_GetRowCount()
 {
-    return (int)this->SendMessageW(LVM_GETITEMCOUNT, 0, 0);
+    return (int)SendMessageW(LVM_GETITEMCOUNT, 0, 0);
 }
 
 int sw::ListView::_GetColCount()
 {
-    HWND hHeader = (HWND)this->SendMessageW(LVM_GETHEADER, 0, 0);
+    HWND hHeader = (HWND)SendMessageW(LVM_GETHEADER, 0, 0);
     return (int)::SendMessageW(hHeader, HDM_GETITEMCOUNT, 0, 0);
 }
 
 DWORD sw::ListView::_GetExtendedListViewStyle()
 {
-    return (DWORD)this->SendMessageW(LVM_GETEXTENDEDLISTVIEWSTYLE, 0, 0);
+    return (DWORD)SendMessageW(LVM_GETEXTENDEDLISTVIEWSTYLE, 0, 0);
 }
 
 DWORD sw::ListView::_SetExtendedListViewStyle(DWORD style)
 {
-    return (DWORD)this->SendMessageW(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, (LPARAM)style);
+    return (DWORD)SendMessageW(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, (LPARAM)style);
+}
+
+void sw::ListView::_ApplyDispInfo(const ListViewItem &item, NMLVDISPINFOW *pNMInfo)
+{
+    if (pNMInfo->item.mask & LVIF_TEXT) {
+        int subIndex = pNMInfo->item.iSubItem;
+        if (subIndex >= 0 && subIndex < item.subItems.Count()) {
+            pNMInfo->item.pszText = const_cast<LPWSTR>(item.subItems[subIndex].c_str());
+        }
+    }
+    if (pNMInfo->item.mask & LVIF_IMAGE) {
+        pNMInfo->item.iImage = item.imageIndex;
+    }
 }
 
 // Menu.cpp
@@ -12138,7 +12393,7 @@ LRESULT sw::WndBase::WndProc(ProcMsg &refMsg)
         case WM_SETTEXT: {
             LRESULT result  = this->DefaultWndProc(refMsg);
             LPCWSTR newText = reinterpret_cast<LPCWSTR>(refMsg.lParam);
-            if (result == TRUE && this->_text != newText) {
+            if ((result == TRUE || result == CB_ERR) && this->_text != newText) {
                 this->_text = newText;
                 this->OnTextChanged();
             }

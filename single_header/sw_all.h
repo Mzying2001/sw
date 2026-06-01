@@ -6678,6 +6678,128 @@ namespace sw
             }
         }
 
+        /**
+         * @brief 非引用的拷贝构造实现
+         * @param other 另一个装箱对象
+         * @throws std::logic_error 如果T不可拷贝构造
+         */
+        template <typename U = T>
+        auto NotRefCopyConstructImpl(const BoxedObject &other) noexcept(std::is_nothrow_copy_constructible<U>::value)
+            -> typename std::enable_if<std::is_copy_constructible<U>::value>::type
+        {
+            new (_data.objbuf) T(other.Unbox());
+        }
+
+        /**
+         * @brief 非引用的拷贝构造实现（T不可拷贝构造时，抛出异常）
+         * @param other 另一个装箱对象
+         * @throws std::logic_error 如果T不可拷贝构造
+         */
+        template <typename U = T>
+        auto NotRefCopyConstructImpl(const BoxedObject &other) noexcept(false)
+            -> typename std::enable_if<!std::is_copy_constructible<U>::value>::type
+        {
+            throw std::logic_error("Type T must be copy constructible to copy construct a non-ref BoxedObject.");
+        }
+
+        /**
+         * @brief 非引用的移动构造实现
+         * @param other 另一个装箱对象
+         * @throws std::logic_error 如果T不可移动构造
+         */
+        template <typename U = T>
+        auto NotRefMoveConstructImpl(BoxedObject &&other) noexcept(std::is_nothrow_move_constructible<U>::value)
+            -> typename std::enable_if<std::is_move_constructible<U>::value>::type
+        {
+            new (_data.objbuf) T(std::move(other.Unbox()));
+        }
+
+        /**
+         * @brief 非引用的移动构造实现（T不可移动构造时，抛出异常）
+         * @param other 另一个装箱对象
+         * @throws std::logic_error 如果T不可移动构造
+         */
+        template <typename U = T>
+        auto NotRefMoveConstructImpl(BoxedObject &&other) noexcept(false)
+            -> typename std::enable_if<!std::is_move_constructible<U>::value>::type
+        {
+            throw std::logic_error("Type T must be move constructible to move construct a non-ref BoxedObject.");
+        }
+
+        /**
+         * @brief 非引用的拷贝赋值实现
+         * @param other 另一个装箱对象
+         * @throws std::logic_error 如果other为非引用装箱且T不可拷贝赋值
+         */
+        template <typename U = T>
+        auto NotRefCopyAssignImpl(const BoxedObject &other)
+            -> typename std::enable_if<std::is_copy_assignable<U>::value>::type
+        {
+            if (other._isRef) {
+                Release();
+                _data.refptr = other._data.refptr;
+                _isRef       = true;
+            } else {
+                Unbox() = other.Unbox();
+            }
+        }
+
+        /**
+         * @brief 非引用的拷贝赋值实现（T不可拷贝赋值时，抛出异常）
+         * @param other 另一个装箱对象
+         * @throws std::logic_error 如果other为非引用装箱且T不可拷贝赋值
+         */
+        template <typename U = T>
+        auto NotRefCopyAssignImpl(const BoxedObject &other)
+            -> typename std::enable_if<!std::is_copy_assignable<U>::value>::type
+        {
+            if (other._isRef) {
+                Release();
+                _data.refptr = other._data.refptr;
+                _isRef       = true;
+            } else {
+                throw std::logic_error("Type T must be copy assignable to copy assign a non-ref BoxedObject.");
+            }
+        }
+
+        /**
+         * @brief 非引用的移动赋值实现
+         * @param other 另一个装箱对象
+         * @throws std::logic_error 如果other为非引用装箱且T不可移动赋值
+         */
+        template <typename U = T>
+        auto NotRefMoveAssignImpl(BoxedObject &&other)
+            -> typename std::enable_if<std::is_move_assignable<U>::value>::type
+        {
+            if (other._isRef) {
+                Release();
+                _data.refptr       = other._data.refptr;
+                _isRef             = true;
+                other._data.refptr = nullptr;
+            } else {
+                Unbox() = std::move(other.Unbox());
+            }
+        }
+
+        /**
+         * @brief 非引用的移动赋值实现（T不可移动赋值时，抛出异常）
+         * @param other 另一个装箱对象
+         * @throws std::logic_error 如果other为非引用装箱且T不可移动赋值
+         */
+        template <typename U = T>
+        auto NotRefMoveAssignImpl(BoxedObject &&other)
+            -> typename std::enable_if<!std::is_move_assignable<U>::value>::type
+        {
+            if (other._isRef) {
+                Release();
+                _data.refptr       = other._data.refptr;
+                _isRef             = true;
+                other._data.refptr = nullptr;
+            } else {
+                throw std::logic_error("Type T must be move assignable to move assign a non-ref BoxedObject.");
+            }
+        }
+
     public:
         /**
          * @brief 构造值类型的装箱对象
@@ -6738,6 +6860,7 @@ namespace sw
         /**
          * @brief 拷贝构造函数
          * @param other 另一个装箱对象
+         * @throws std::logic_error 如果other为非引用装箱且T不可拷贝构造
          */
         BoxedObject(const BoxedObject &other) noexcept(std::is_nothrow_copy_constructible<T>::value)
             : BoxedObject(_IsRefParam{other._isRef})
@@ -6745,13 +6868,14 @@ namespace sw
             if (_isRef) {
                 _data.refptr = other._data.refptr;
             } else {
-                new (_data.objbuf) T(other.Unbox());
+                NotRefCopyConstructImpl(other);
             }
         }
 
         /**
          * @brief 移动构造函数
          * @param other 另一个装箱对象
+         * @throws std::logic_error 如果other为非引用装箱且T不可移动构造
          */
         BoxedObject(BoxedObject &&other) noexcept(std::is_nothrow_move_constructible<T>::value)
             : BoxedObject(_IsRefParam{other._isRef})
@@ -6760,7 +6884,7 @@ namespace sw
                 _data.refptr       = other._data.refptr;
                 other._data.refptr = nullptr;
             } else {
-                new (_data.objbuf) T(std::move(other.Unbox()));
+                NotRefMoveConstructImpl(std::move(other));
             }
         }
 
@@ -6768,6 +6892,8 @@ namespace sw
          * @brief 拷贝赋值运算符
          * @param other 另一个装箱对象
          * @return 当前装箱对象的引用
+         * @throws std::logic_error 如果当前对象为引用装箱且other为非引用装箱，同时T不可拷贝构造
+         * @throws std::logic_error 如果当前对象为非引用装箱且other为非引用装箱，同时T不可拷贝赋值
          */
         BoxedObject &operator=(const BoxedObject &other)
         {
@@ -6780,7 +6906,7 @@ namespace sw
                 } else {
                     auto oldPtr = _data.refptr;
                     try {
-                        new (_data.objbuf) T(other.Unbox());
+                        NotRefCopyConstructImpl(other);
                         _isRef = false;
                     } catch (...) {
                         _data.refptr = oldPtr;
@@ -6788,13 +6914,7 @@ namespace sw
                     }
                 }
             } else {
-                if (other._isRef) {
-                    Release();
-                    _data.refptr = other._data.refptr;
-                    _isRef       = true;
-                } else {
-                    Unbox() = other.Unbox();
-                }
+                NotRefCopyAssignImpl(other);
             }
             return *this;
         }
@@ -6803,6 +6923,8 @@ namespace sw
          * @brief 移动赋值运算符
          * @param other 另一个装箱对象
          * @return 当前装箱对象的引用
+         * @throws std::logic_error 如果当前对象为引用装箱且other为非引用装箱，同时T不可移动构造
+         * @throws std::logic_error 如果当前对象为非引用装箱且other为非引用装箱，同时T不可移动赋值
          */
         BoxedObject &operator=(BoxedObject &&other)
         {
@@ -6816,7 +6938,7 @@ namespace sw
                 } else {
                     auto oldPtr = _data.refptr;
                     try {
-                        new (_data.objbuf) T(std::move(other.Unbox()));
+                        NotRefMoveConstructImpl(std::move(other));
                         _isRef = false;
                     } catch (...) {
                         _data.refptr = oldPtr;
@@ -6824,14 +6946,7 @@ namespace sw
                     }
                 }
             } else {
-                if (other._isRef) {
-                    Release();
-                    _data.refptr       = other._data.refptr;
-                    _isRef             = true;
-                    other._data.refptr = nullptr;
-                } else {
-                    Unbox() = std::move(other.Unbox());
-                }
+                NotRefMoveAssignImpl(std::move(other));
             }
             return *this;
         }
@@ -6910,7 +7025,9 @@ namespace sw
          */
         virtual void *GetBoxedRawPtr() noexcept override
         {
-            return _isRef ? static_cast<void *>(_data.refptr) : static_cast<void *>(_data.objbuf);
+            // 当T带const时，refptr无法直接转换为void*，需要先转换为const void*再去掉const
+            return const_cast<void *>(
+                _isRef ? static_cast<const void *>(_data.refptr) : static_cast<const void *>(_data.objbuf));
         }
 
         /**
@@ -8779,193 +8896,6 @@ namespace sw
 #pragma warning(pop)
 #endif
 
-// Dictionary.h
-
-
-namespace sw
-{
-    template <typename TKey, typename TVal>
-    class Dictionary; // 向前声明
-
-    /**
-     * @brief 以字符串为键值的字典
-     */
-    template <typename TVal>
-    using StrDictionary = Dictionary<std::wstring, TVal>;
-
-    /**
-     * @brief 字典类，内部维护了一个指向std::map的智能指针
-     */
-    template <typename TKey, typename TVal>
-    class Dictionary : public IToString<Dictionary<TKey, TVal>>,
-                       public IEqualityComparable<Dictionary<TKey, TVal>>
-    {
-    private:
-        /**
-         * @brief 指向std::map的智能指针
-         */
-        std::shared_ptr<std::map<TKey, TVal>> _pMap;
-
-    public:
-        /**
-         * @brief 初始化字典
-         */
-        Dictionary()
-            : _pMap(std::make_shared<std::map<TKey, TVal>>())
-        {
-        }
-
-        /**
-         * @brief 使用初始化列表
-         */
-        Dictionary(std::initializer_list<std::pair<const TKey, TVal>> list)
-            : _pMap(std::make_shared<std::map<TKey, TVal>>(list))
-        {
-        }
-
-        /**
-         * @brief 正向迭代器开始
-         */
-        auto begin() const
-        {
-            return this->_pMap->begin();
-        }
-
-        /**
-         * @brief 正向迭代器结束
-         */
-        auto end() const
-        {
-            return this->_pMap->end();
-        }
-
-        /**
-         * @brief 反向迭代器开始
-         */
-        auto rbegin() const
-        {
-            return this->_pMap->rbegin();
-        }
-
-        /**
-         * @brief 反向迭代器结束
-         */
-        auto rend() const
-        {
-            return this->_pMap->rend();
-        }
-
-        /**
-         * @brief 获取或设置值
-         * @param key 键值
-         */
-        auto &operator[](const TKey &key) const
-        {
-            return this->_pMap->at(key);
-        }
-
-        /**
-         * @brief 判断是否为同一个字典
-         */
-        bool Equals(const Dictionary &other) const
-        {
-            return this->_pMap == other._pMap;
-        }
-
-        /**
-         * @brief 获取键值对个数
-         */
-        int Count() const
-        {
-            return (int)this->_pMap->size();
-        }
-
-        /**
-         * @brief 字典是否为空
-         */
-        bool IsEmpty() const
-        {
-            return this->_pMap->empty();
-        }
-
-        /**
-         * @brief 添加键值对到字典
-         * @return 当前字典
-         */
-        auto Add(const TKey &key, const TVal &value) const
-        {
-            this->_pMap->insert(std::make_pair(key, value));
-            return *this;
-        }
-
-        /**
-         * @brief 是否存在某个键值
-         * @param key 要查询的键值
-         */
-        bool ContainsKey(const TKey &key) const
-        {
-            return this->_pMap->count(key);
-        }
-
-        /**
-         * @brief 遍历字典，查询是否存在某个值
-         * @param value 要查询的值
-         */
-        bool ContainsValue(const TVal &value) const
-        {
-            for (const auto &pair : *this->_pMap) {
-                if (pair.second == value) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /**
-         * @brief 移除指定键值对
-         * @param key 要删除的键值
-         */
-        void Remove(const TKey &key) const
-        {
-            this->_pMap->erase(key);
-        }
-
-        /**
-         * @brief 清空字典
-         */
-        void Clear() const
-        {
-            this->_pMap->clear();
-        }
-
-        /**
-         * @brief 复制当前字典
-         */
-        Dictionary Copy() const
-        {
-            Dictionary dic;
-            dic._pMap->insert(this->_pMap->begin(), this->_pMap->end());
-            return dic;
-        }
-
-        /**
-         * @brief 获取字典内部维护的std::map
-         */
-        std::map<TKey, TVal> &GetStdMap() const
-        {
-            return *this->_pMap;
-        }
-
-        /**
-         * @brief 获取描述当前对象的字符串
-         */
-        std::wstring ToString() const
-        {
-            return Utils::BuildStr(*this->_pMap);
-        }
-    };
-}
-
 // EventHandlerWrapper.h
 
 
@@ -9425,249 +9355,6 @@ namespace sw
          * @brief 若_isWrap为false时调用ImageList_Destroy
          */
         void _DestroyIfNotWrap();
-    };
-}
-
-// List.h
-
-
-namespace sw
-{
-    template <typename T>
-    class List; // 向前声明
-
-    /**
-     * @brief 字符串列表
-     */
-    using StrList = List<std::wstring>;
-
-    /**
-     * @brief 列表类，内部维护了一个指向std::vector的智能指针
-     */
-    template <typename T>
-    class List : public IToString<List<T>>,
-                 public IEqualityComparable<List<T>>
-    {
-    private:
-        /**
-         * @brief 指向std::vector的智能指针
-         */
-        std::shared_ptr<std::vector<T>> _pVec;
-
-    public:
-        /**
-         * @brief 初始化列表
-         */
-        List()
-            : _pVec(std::make_shared<std::vector<T>>())
-        {
-        }
-
-        /**
-         * @brief 使用初始化列表
-         */
-        List(std::initializer_list<T> list)
-            : _pVec(std::make_shared<std::vector<T>>(list))
-        {
-        }
-
-        /**
-         * @brief 初始化列表并指定容量
-         */
-        explicit List(int capacity)
-            : List()
-        {
-            this->_pVec->reserve(capacity);
-        }
-
-        /**
-         * @brief 正向迭代器开始
-         */
-        auto begin() const
-        {
-            return this->_pVec->begin();
-        }
-
-        /**
-         * @brief 正向迭代器结束
-         */
-        auto end() const
-        {
-            return this->_pVec->end();
-        }
-
-        /**
-         * @brief 反向迭代器开始
-         */
-        auto rbegin() const
-        {
-            return this->_pVec->rbegin();
-        }
-
-        /**
-         * @brief 反向迭代器结束
-         */
-        auto rend() const
-        {
-            return this->_pVec->rend();
-        }
-
-        /**
-         * @brief 获取或设置列表中指定位置的值
-         */
-        auto &operator[](int index) const
-        {
-            return this->_pVec->at(index);
-        }
-
-        /**
-         * @brief 判断是否为同一个列表
-         */
-        bool Equals(const List &other) const
-        {
-            return this->_pVec == other._pVec;
-        }
-
-        /**
-         * @brief 列表当前的容量
-         */
-        int Capacity() const
-        {
-            return (int)this->_pVec->capacity();
-        }
-
-        /**
-         * @brief 获取元素个数
-         */
-        int Count() const
-        {
-            return (int)this->_pVec->size();
-        }
-
-        /**
-         * @brief 列表是否为空
-         */
-        bool IsEmpty() const
-        {
-            return this->_pVec->empty();
-        }
-
-        /**
-         * @brief 添加一个值到列表末尾
-         * @return 当前列表
-         */
-        auto Append(const T &value) const
-        {
-            this->_pVec->push_back(value);
-            return *this;
-        }
-
-        /**
-         * @brief 添加一个值到列表末尾
-         * @return 当前列表
-         */
-        auto Append(T &&value) const
-        {
-            this->_pVec->push_back(std::forward<T>(value));
-            return *this;
-        }
-
-        /**
-         * @brief 在指定位置插入值
-         * @return 当前列表
-         */
-        auto Insert(int index, const T &value) const
-        {
-            this->_pVec->insert(this->_pVec->begin() + index, value);
-            return *this;
-        }
-
-        /**
-         * @brief 在指定位置插入值
-         * @return 当前列表
-         */
-        auto Insert(int index, T &&value) const
-        {
-            this->_pVec->insert(this->_pVec->begin() + index, std::forward<T>(value));
-            return *this;
-        }
-
-        /**
-         * @brief 列表是否包含某个值
-         * @param value 要查找的值
-         */
-        bool Contains(const T &value) const
-        {
-            return std::find(this->_pVec->begin(), this->_pVec->end(), value) != this->_pVec->end();
-        }
-
-        /**
-         * @brief 查找值在列表中的索引
-         * @param value 要查找的值
-         * @return 若列表中包含该值则返回其索引，否则返回-1
-         */
-        int IndexOf(const T &value) const
-        {
-            auto it = std::find(this->_pVec->begin(), this->_pVec->end(), value);
-            return it == this->_pVec->end() ? -1 : int(it - this->_pVec->begin());
-        }
-
-        /**
-         * @brief 移除列表中第一个指定的值
-         * @param value 要移除的值
-         * @return 是否成功移除
-         */
-        bool Remove(const T &value) const
-        {
-            auto it = std::find(this->_pVec->begin(), this->_pVec->end(), value);
-            if (it == this->_pVec->end())
-                return false;
-            this->_pVec->erase(it);
-            return true;
-        }
-
-        /**
-         * @brief 移除指定索引处的值
-         * @param index 要移除元素的索引
-         */
-        void RemoveAt(int index) const
-        {
-            this->_pVec->erase(this->_pVec->begin() + index);
-        }
-
-        /**
-         * @brief 清空列表
-         */
-        void Clear() const
-        {
-            this->_pVec->clear();
-        }
-
-        /**
-         * @brief 复制当前列表
-         */
-        List Copy() const
-        {
-            List list((int)this->_pVec->capacity());
-            list._pVec->assign(this->_pVec->begin(), this->_pVec->end());
-            return list;
-        }
-
-        /**
-         * @brief 获取列表内部维护的std::vector
-         */
-        std::vector<T> &GetStdVector() const
-        {
-            return *this->_pVec;
-        }
-
-        /**
-         * @brief 获取描述当前对象的字符串
-         */
-        std::wstring ToString() const
-        {
-            return Utils::BuildStr(*this->_pVec);
-        }
     };
 }
 
@@ -10193,8 +9880,8 @@ namespace sw
      * @brief 列表视图编辑状态结束事件参数类型
      */
     struct ListViewEndEditEventArgs : ListViewItemEventArgs<ListView_EndEdit, CancelableEventArgs> {
-        wchar_t *newText; // 新的文本
-        ListViewEndEditEventArgs(int index, wchar_t *newText)
+        std::wstring newText; // 新的文本
+        ListViewEndEditEventArgs(int index, const std::wstring &newText)
             : ListViewItemEventArgs<ListView_EndEdit, CancelableEventArgs>(index), newText(newText) {}
     };
 
@@ -11598,451 +11285,245 @@ namespace sw
     };
 }
 
-// FileDialog.h
+// IList.h
 
 
 namespace sw
 {
     /**
-     * @brief https://learn.microsoft.com/en-us/windows/win32/api/commdlg/ns-commdlg-openfilenamew
+     * @brief 非模板列表接口，提供基于Variant的元素访问
      */
-    enum class FileDialogFlags : DWORD {
-        /// The File Name list box allows multiple selections. If you also set the OFN_EXPLORER flag,
-        /// the dialog box uses the Explorer-style user interface; otherwise, it uses the old-style
-        /// user interface.
-        /// If the user selects more than one file, the lpstrFile buffer returns the path to the
-        /// current directory followed by the file names of the selected files. The nFileOffset member
-        /// is the offset, in bytes or characters, to the first file name, and the nFileExtension
-        /// member is not used. For Explorer-style dialog boxes, the directory and file name strings
-        /// are NULL separated, with an extra NULL character after the last file name. This format
-        /// enables the Explorer-style dialog boxes to return long file names that include spaces.
-        /// For old-style dialog boxes, the directory and file name strings are separated by spaces
-        /// and the function uses short file names for file names with spaces. You can use the
-        /// FindFirstFile function to convert between long and short file names.
-        /// If you specify a custom template for an old-style dialog box, the definition of the File
-        /// Name list box must contain the LBS_EXTENDEDSEL value.
-        AllowMultiSelect = 0x00000200,
-
-        /// If the user specifies a file that does not exist, this flag causes the dialog box to
-        /// prompt the user for permission to create the file. If the user chooses to create the
-        /// file, the dialog box closes and the function returns the specified name; otherwise,
-        /// the dialog box remains open. If you use this flag with the OFN_ALLOWMULTISELECT flag,
-        /// the dialog box allows the user to specify only one nonexistent file.
-        CreatePrompt = 0x00002000,
-
-        /// Prevents the system from adding a link to the selected file in the file system directory
-        /// that contains the user's most recently used documents. To retrieve the location of this
-        /// directory, call the SHGetSpecialFolderLocation function with the CSIDL_RECENT flag.
-        DontAddTorecent = 0x02000000,
-
-        /// Enables the hook function specified in the lpfnHook member.
-        EnableHook = 0x00000020,
-
-        /// Causes the dialog box to send CDN_INCLUDEITEM notification messages to your OFNHookProc hook
-        /// procedure when the user opens a folder. The dialog box sends a notification for each item in
-        /// the newly opened folder. These messages enable you to control which items the dialog box
-        /// displays in the folder's item list.
-        EnableIncludeNotify = 0x00400000,
-
-        /// Enables the Explorer-style dialog box to be resized using either the mouse or the keyboard.
-        /// By default, the Explorer-style Open and Save As dialog boxes allow the dialog box to be resized
-        /// regardless of whether this flag is set. This flag is necessary only if you provide a hook
-        /// procedure or custom template. The old-style dialog box does not permit resizing.
-        EnableSizing = 0x00800000,
-
-        /// The lpTemplateName member is a pointer to the name of a dialog template resource in the module
-        /// identified by the hInstance member. If the OFN_EXPLORER flag is set, the system uses the specified
-        /// template to create a dialog box that is a child of the default Explorer-style dialog box. If the
-        /// OFN_EXPLORER flag is not set, the system uses the template to create an old-style dialog box that
-        /// replaces the default dialog box.
-        EnableTemplate = 0x00000040,
-
-        /// The hInstance member identifies a data block that contains a preloaded dialog box template.
-        /// The system ignores lpTemplateName if this flag is specified. If the OFN_EXPLORER flag is set,
-        /// the system uses the specified template to create a dialog box that is a child of the default
-        /// Explorer-style dialog box. If the OFN_EXPLORER flag is not set, the system uses the template to
-        /// create an old-style dialog box that replaces the default dialog box.
-        EnableTemplateHandle = 0x00000080,
-
-        /// Indicates that any customizations made to the Open or Save As dialog box use the Explorer-style
-        /// customization methods. For more information, see Explorer-Style Hook Procedures and Explorer-Style
-        /// Custom Templates.
-        /// By default, the Open and Save As dialog boxes use the Explorer-style user interface regardless of
-        /// whether this flag is set. This flag is necessary only if you provide a hook procedure or custom template,
-        /// or set the OFN_ALLOWMULTISELECT flag.
-        /// If you want the old-style user interface, omit the OFN_EXPLORER flag and provide a replacement old-style
-        /// template or hook procedure. If you want the old style but do not need a custom template or hook procedure,
-        /// simply provide a hook procedure that always returns FALSE.
-        Explorer = 0x00080000,
-
-        /// The user typed a file name extension that differs from the extension specified by lpstrDefExt.
-        /// The function does not use this flag if lpstrDefExt is NULL.
-        ExtensionDifferent = 0x00000400,
-
-        /// The user can type only names of existing files in the File Name entry field. If this flag is specified and
-        /// the user enters an invalid name, the dialog box procedure displays a warning in a message box. If this flag
-        /// is specified, the OFN_PATHMUSTEXIST flag is also used. This flag can be used in an Open dialog box. It cannot
-        /// be used with a Save As dialog box.
-        FileMustExist = 0x00001000,
-
-        /// Forces the showing of system and hidden files, thus overriding the user setting to show or not show hidden
-        /// files. However, a file that is marked both system and hidden is not shown.
-        ForceShowHidden = 0x10000000,
-
-        /// Hides the Read Only check box.
-        HideReadOnly = 0x00000004,
-
-        /// For old-style dialog boxes, this flag causes the dialog box to use long file names. If this flag is not
-        /// specified, or if the OFN_ALLOWMULTISELECT flag is also set, old-style dialog boxes use short file names
-        /// (8.3 format) for file names with spaces. Explorer-style dialog boxes ignore this flag and always display
-        /// long file names.
-        LongNames = 0x00200000,
-
-        /// Restores the current directory to its original value if the user changed the directory while searching for files.
-        /// This flag is ineffective for GetOpenFileName.
-        NoChangeDir = 0x00000008,
-
-        /// Directs the dialog box to return the path and file name of the selected shortcut (.LNK) file. If this value
-        /// is not specified, the dialog box returns the path and file name of the file referenced by the shortcut.
-        NoDereferenceLinks = 0x00100000,
-
-        /// For old-style dialog boxes, this flag causes the dialog box to use short file names (8.3 format). Explorer-style
-        /// dialog boxes ignore this flag and always display long file names.
-        NoLongNames = 0x00040000,
-
-        /// Hides and disables the Network button.
-        NoNetworkButton = 0x00020000,
-
-        /// The returned file does not have the Read Only check box selected and is not in a write-protected directory.
-        NoReadOnlyReturn = 0x00008000,
-
-        /// The file is not created before the dialog box is closed. This flag should be specified if the application saves
-        /// the file on a create-nonmodify network share. When an application specifies this flag, the library does not
-        /// check for write protection, a full disk, an open drive door, or network protection. Applications using this flag
-        /// must perform file operations carefully, because a file cannot be reopened once it is closed.
-        NoTestFileCreate = 0x00010000,
-
-        /// The common dialog boxes allow invalid characters in the returned file name. Typically, the calling application
-        /// uses a hook procedure that checks the file name by using the FILEOKSTRING message. If the text box in the edit
-        /// control is empty or contains nothing but spaces, the lists of files and directories are updated. If the text box
-        /// in the edit control contains anything else, nFileOffset and nFileExtension are set to values generated by parsing
-        /// the text. No default extension is added to the text, nor is text copied to the buffer specified by lpstrFileTitle.
-        /// If the value specified by nFileOffset is less than zero, the file name is invalid. Otherwise, the file name is valid,
-        /// and nFileExtension and nFileOffset can be used as if the OFN_NOVALIDATE flag had not been specified.
-        NoValidate = 0x00000100,
-
-        /// Causes the Save As dialog box to generate a message box if the selected file already exists. The user must confirm
-        /// whether to overwrite the file.
-        OverwritePrompt = 0x00000002,
-
-        /// The user can type only valid paths and file names. If this flag is used and the user types an invalid path and
-        /// file name in the File Name entry field, the dialog box function displays a warning in a message box.
-        PathMustExist = 0x00000800,
-
-        /// Causes the Read Only check box to be selected initially when the dialog box is created. This flag indicates the
-        /// state of the Read Only check box when the dialog box is closed.
-        ReadOnly = 0x00000001,
-
-        /// Specifies that if a call to the OpenFile function fails because of a network sharing violation, the error is ignored
-        /// and the dialog box returns the selected file name. If this flag is not set, the dialog box notifies your hook procedure
-        /// when a network sharing violation occurs for the file name specified by the user. If you set the OFN_EXPLORER flag,
-        /// the dialog box sends the CDN_SHAREVIOLATION message to the hook procedure. If you do not set OFN_EXPLORER, the dialog
-        /// box sends the SHAREVISTRING registered message to the hook procedure.
-        ShareAware = 0x00004000,
-
-        /// Causes the dialog box to display the Help button. The hwndOwner member must specify the window to receive the
-        /// HELPMSGSTRING registered messages that the dialog box sends when the user clicks the Help button. An Explorer-style
-        /// dialog box sends a CDN_HELP notification message to your hook procedure when the user clicks the Help button.
-        ShowHelp = 0x00000010,
-    };
-
-    /**
-     * @brief 标记FileDialogFlags枚举支持位运算
-     */
-    _SW_ENUM_ENABLE_BIT_OPERATIONS(FileDialogFlags);
-
-    /**
-     * @brief 文件筛选器信息
-     */
-    struct FileFilterItem {
-        /**
-         * @brief 文本
-         */
-        std::wstring name;
-
-        /**
-         * @brief 筛选器字符串，有多个类型时用分号分隔
-         */
-        std::wstring filter;
-
-        /**
-         * @brief 默认扩展名，当SaveFileDialog用户没有填写扩展名时会使用该值作为扩展名
-         */
-        std::wstring defaultExt;
-    };
-
-    /**
-     * @brief 文件筛选器
-     */
-    class FileFilter
-    {
-    private:
-        /**
-         * @brief 缓冲区
-         */
-        std::vector<wchar_t> _buffer;
-
-        /**
-         * @brief 默认扩展名
-         */
-        std::vector<std::wstring> _defaultExts;
-
-    public:
-        /**
-         * @brief 默认构造函数
-         */
-        FileFilter() = default;
-
-        /**
-         * @brief 初始话并设置筛选器
-         */
-        FileFilter(std::initializer_list<FileFilterItem> filters);
-
-        /**
-         * @brief 添加筛选器
-         * @param name 名称，示例：All Files
-         * @param filter 筛选器，示例：*.*
-         * @return 是否成功添加
-         */
-        bool AddFilter(const std::wstring &name, const std::wstring &filter, const std::wstring &defaultExt = L"");
-
-        /**
-         * @brief 清空现有筛选器并重新设置筛选器
-         * @param filters 筛选器列表
-         * @return 成功添加的筛选器个数
-         */
-        int SetFilter(std::initializer_list<FileFilterItem> filters);
-
-        /**
-         * @brief 清空所有已添加的筛选器
-         */
-        void Clear();
-
-        /**
-         * @brief 获取OPENFILENAMEW结构体lpstrFilter格式的字符串
-         */
-        wchar_t *GetFilterStr();
-
-        /**
-         * @brief 获取指定索引处筛选器的默认扩展名
-         */
-        const wchar_t *GetDefaultExt(int index);
-    };
-
-    /**
-     * @brief “打开文件”对话框与“另存为”对话框的基类
-     */
-    class FileDialog : public IDialog
-    {
-    private:
-        /**
-         * @brief OPENFILENAMEW结构体
-         */
-        OPENFILENAMEW _ofn{};
-
-        /**
-         * @brief 储存文件名的缓冲区
-         */
-        std::vector<wchar_t> _buffer;
-
-        /**
-         * @brief 对话框标题
-         */
-        std::wstring _title;
-
-        /**
-         * @brief 初始目录
-         */
-        std::wstring _initialDir;
-
-        /**
-         * @brief 筛选器
-         */
-        FileFilter _filter;
-
-    public:
-        /**
-         * @brief 储存文件名的缓冲区大小，值不能小于MAX_PATH
-         */
-        const Property<int> BufferSize;
-
-        /**
-         * @brief 对话框标志
-         */
-        const Property<FileDialogFlags> Flags;
-
-        /**
-         * @brief 对话框标题，设为空字符串可显示默认标题
-         */
-        const Property<std::wstring> Title;
-
-        /**
-         * @brief 初始目录
-         */
-        const Property<std::wstring> InitialDir;
-
-        /**
-         * @brief 筛选器
-         */
-        const ReadOnlyProperty<FileFilter *> Filter;
-
-        /**
-         * @brief 当前筛选器的索引，索引值从0开始
-         */
-        const Property<int> FilterIndex;
-
-        /**
-         * @brief 选中文件的路径
-         */
-        const ReadOnlyProperty<std::wstring> FileName;
-
-        /**
-         * @brief 是否允许多选
-         */
-        const Property<bool> MultiSelect;
-
-        /**
-         * @brief 所有选中的文件路径
-         */
-        const ReadOnlyProperty<sw::List<std::wstring>> FileNames;
-
-    public:
-        /**
-         * @brief 初始化FileDialog
-         */
-        FileDialog();
-
-        /**
-         * @brief 设置筛选器
-         * @param filter 筛选器
-         */
-        void SetFilter(const FileFilter &filter);
-
-        /**
-         * @brief FileDialog默认不支持该函数，调用该函数不会执行任何操作
-         */
-        virtual void Close() override;
-
-        /**
-         * @brief FileDialog默认不支持该函数，调用该函数不会执行任何操作
-         */
-        virtual void Show() override;
-
-        /**
-         * @brief 显示对话框，并指定所有者窗口
-         * @return 若用户选择了文件则返回true，否则返回false
-         */
-        virtual int ShowDialog(Window *owner = nullptr) override = 0;
-
-        /**
-         * @brief 显示对话框，并指定所有者窗口
-         * @return 若用户选择了文件则返回true，否则返回false
-         */
-        virtual int ShowDialog(Window &owner) = 0;
-
-    protected:
-        /**
-         * @brief 获取OPENFILENAMEW指针
-         */
-        OPENFILENAMEW *GetOFN();
-
-        /**
-         * @brief 获取指向缓冲区的指针
-         */
-        wchar_t *GetBuffer();
-
-        /**
-         * @brief 清空缓冲区，显示对话框前必须调用此函数
-         */
-        void ClearBuffer();
-
-        /**
-         * @brief 处理文件路径，获取文件路径时会先调用这个函数对返回值进行处理
-         * @param fileName 获取到的文件路径，可通过修改该值改变FileName和FileNames属性获取到的内容
-         */
-        virtual void ProcessFileName(std::wstring &fileName);
-    };
-
-    /**
-     * @brief “打开文件”对话框
-     */
-    class OpenFileDialog : public FileDialog
+    class IList
     {
     public:
         /**
-         * @brief 初始化OpenFileDialog
+         * @brief 虚析构函数
          */
-        OpenFileDialog();
-
-        /**
-         * @brief 显示对话框，并指定所有者窗口
-         * @return 若用户选择了文件则返回true，否则返回false
-         */
-        virtual int ShowDialog(Window *owner = nullptr) override;
-
-        /**
-         * @brief 显示对话框，并指定所有者窗口
-         * @return 若用户选择了文件则返回true，否则返回false
-         */
-        virtual int ShowDialog(Window &owner) override;
-    };
-
-    /**
-     * @brief “另存为”对话框
-     */
-    class SaveFileDialog : public FileDialog
-    {
-    private:
-        /**
-         * @brief 初始文件名
-         */
-        std::wstring _initialFileName;
+        virtual ~IList() = default;
 
     public:
         /**
-         * @brief 初始文件名
+         * @brief 获取列表元素的类型信息
+         * @return 元素类型的std::type_index
          */
-        const Property<std::wstring> InitialFileName;
+        virtual std::type_index GetElementType() const noexcept = 0;
 
         /**
-         * @brief 初始化SaveFileDialog
+         * @brief 返回列表中的元素数量
+         * @return 元素数量
          */
-        SaveFileDialog();
+        virtual int Count() const noexcept = 0;
 
         /**
-         * @brief 显示对话框，并指定所有者窗口
-         * @return 若用户选择了文件则返回true，否则返回false
+         * @brief 获取指定索引处元素的Variant引用
+         * @param index 元素索引
+         * @return 元素的Variant引用
+         * @throws std::out_of_range 索引超出范围
          */
-        virtual int ShowDialog(Window *owner = nullptr) override;
+        virtual Variant GetVariantAt(int index) = 0;
 
         /**
-         * @brief 显示对话框，并指定所有者窗口
-         * @return 若用户选择了文件则返回true，否则返回false
+         * @brief 获取指定索引处元素的const Variant引用
+         * @param index 元素索引
+         * @return 元素的const Variant引用
+         * @throws std::out_of_range 索引超出范围
          */
-        virtual int ShowDialog(Window &owner) override;
+        virtual const Variant GetVariantAt(int index) const = 0;
 
-    protected:
         /**
-         * @brief 处理文件路径，获取文件路径时会先调用这个函数对返回值进行处理
-         * @param fileName 获取到的文件路径，可通过修改该值改变FileName和FileNames属性获取到的内容
+         * @brief 设置指定索引处的元素值
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::out_of_range 索引超出范围
          */
-        virtual void ProcessFileName(std::wstring &fileName) override;
+        virtual void SetVariantAt(int index, const Variant &value) = 0;
+
+        /**
+         * @brief 设置指定索引处的元素值（移动语义）
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::out_of_range 索引超出范围
+         */
+        virtual void MoveVariantAt(int index, Variant &value) = 0;
+    };
+
+    /**
+     * @brief 类型安全的列表接口，继承IList并提供类型化的元素访问
+     * @tparam T 列表元素类型
+     */
+    template <typename T>
+    class IListT : public IList
+    {
+    public:
+        /**
+         * @brief 虚析构函数
+         */
+        virtual ~IListT() = default;
+
+        /**
+         * @brief 获取列表元素的类型信息
+         * @return 元素类型的std::type_index
+         */
+        virtual std::type_index GetElementType() const noexcept override final
+        {
+            return typeid(T);
+        }
+
+        /**
+         * @brief 获取指定索引处元素的Variant引用
+         * @param index 元素索引
+         * @return 元素的Variant引用
+         * @throws std::out_of_range 索引超出范围
+         */
+        virtual Variant GetVariantAt(int index) override final
+        {
+            return Variant::MakeRef(GetAt(index));
+        }
+
+        /**
+         * @brief 获取指定索引处元素的const Variant引用
+         * @param index 元素索引
+         * @return 元素的const Variant引用
+         * @throws std::out_of_range 索引超出范围
+         */
+        virtual const Variant GetVariantAt(int index) const override final
+        {
+            return Variant::MakeRef(GetAt(index));
+        }
+
+        /**
+         * @brief 设置指定索引处的元素值
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::out_of_range 索引超出范围
+         * @throws std::logic_error T不可拷贝赋值时
+         * @throws std::invalid_argument value为null（T不为Variant时）
+         * @throws std::bad_cast Variant类型与T不匹配（T不为Variant时）
+         */
+        virtual void SetVariantAt(int index, const Variant &value) override final
+        {
+            SetVariantAtImpl(index, value);
+        }
+
+        /**
+         * @brief 设置指定索引处的元素值（移动语义）
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::out_of_range 索引超出范围
+         * @throws std::logic_error T不可移动赋值时
+         * @throws std::invalid_argument value为null（T不为Variant时）
+         * @throws std::bad_cast Variant类型与T不匹配（T不为Variant时）
+         */
+        virtual void MoveVariantAt(int index, Variant &value) override final
+        {
+            MoveVariantAtImpl(index, value);
+        }
 
     private:
         /**
-         * @brief 设置初始文件名到缓冲区
+         * @brief 设置Variant值的实现（T为Variant时，直接赋值）
+         * @param index 元素索引
+         * @param value 要设置的Variant值
+         * @throws std::out_of_range 索引超出范围
          */
-        void _SetInitialFileName();
+        template <typename U = T>
+        auto SetVariantAtImpl(int index, const Variant &value)
+            -> typename std::enable_if<std::is_same<U, Variant>::value>::type
+        {
+            SetAt(index, value);
+        }
+
+        /**
+         * @brief 设置Variant值的实现（T不为Variant时，提取类型并赋值）
+         * @param index 元素索引
+         * @param value 要设置的Variant值
+         * @throws std::out_of_range 索引超出范围
+         * @throws std::invalid_argument value为null
+         * @throws std::bad_cast Variant类型与T不匹配
+         */
+        template <typename U = T>
+        auto SetVariantAtImpl(int index, const Variant &value)
+            -> typename std::enable_if<!std::is_same<U, Variant>::value>::type
+        {
+            if (value.IsNull()) {
+                throw std::invalid_argument(
+                    "Cannot set a null Variant to a non-Variant IListT.");
+            }
+            SetAt(index, value.DynamicCast<T>());
+        }
+
+        /**
+         * @brief 设置指定索引处的元素值（移动语义）
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::out_of_range 索引超出范围
+         */
+        template <typename U = T>
+        auto MoveVariantAtImpl(int index, Variant &value)
+            -> typename std::enable_if<std::is_same<U, Variant>::value>::type
+        {
+            SetAt(index, std::move(value));
+        }
+
+        /**
+         * @brief 设置指定索引处的元素值（移动语义）
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::out_of_range 索引超出范围
+         * @throws std::invalid_argument value为null
+         * @throws std::bad_cast Variant类型与T不匹配
+         */
+        template <typename U = T>
+        auto MoveVariantAtImpl(int index, Variant &value)
+            -> typename std::enable_if<!std::is_same<U, Variant>::value>::type
+        {
+            if (value.IsNull()) {
+                throw std::invalid_argument(
+                    "Cannot set a null Variant to a non-Variant IListT.");
+            }
+            SetAt(index, std::move(value.DynamicCast<T>()));
+        }
+
+    public:
+        /**
+         * @brief 返回列表中的元素数量
+         * @return 元素数量
+         */
+        virtual int Count() const noexcept = 0;
+
+        /**
+         * @brief 获取指定索引处的元素引用
+         * @param index 元素索引
+         * @return 元素引用
+         * @throws std::out_of_range 索引超出范围
+         */
+        virtual T &GetAt(int index) = 0;
+
+        /**
+         * @brief 获取指定索引处的const元素引用
+         * @param index 元素索引
+         * @return const元素引用
+         * @throws std::out_of_range 索引超出范围
+         */
+        virtual const T &GetAt(int index) const = 0;
+
+        /**
+         * @brief 设置指定索引处的元素值
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::out_of_range 索引超出范围
+         * @throws std::logic_error T不可拷贝赋值时
+         */
+        virtual void SetAt(int index, const T &value) = 0;
+
+        /**
+         * @brief 设置指定索引处的元素值（移动语义）
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::out_of_range 索引超出范围
+         * @throws std::logic_error T不可移动赋值时
+         */
+        virtual void SetAt(int index, T &&value) = 0;
     };
 }
 
@@ -12833,268 +12314,482 @@ namespace sw
     };
 }
 
-// GridLayout.h
+// INotifyCollectionChanged.h
+
+
+namespace sw
+{
+    // 前向声明
+    class INotifyCollectionChanged;
+    class NotifyCollectionChangedEventArgs;
+
+    /**
+     * @brief 集合变更事件处理函数类型
+     */
+    using NotifyCollectionChangedEventHandler =
+        EventHandler<INotifyCollectionChanged, NotifyCollectionChangedEventArgs>;
+
+    /**
+     * @brief 描述集合变更的原因
+     */
+    enum class NotifyCollectionChangedAction {
+        Add,     ///< 添加项
+        Remove,  ///< 移除项
+        Replace, ///< 替换项
+        Move,    ///< 移动项
+        Reset    ///< 重置集合
+    };
+
+    /**
+     * @brief 集合变更事件参数类型
+     */
+    class NotifyCollectionChangedEventArgs : public EventArgs
+    {
+    public:
+        /**
+         * @brief 集合变更的原因
+         */
+        NotifyCollectionChangedAction action =
+            NotifyCollectionChangedAction::Reset;
+
+        /**
+         * @brief 变更发生的集合对象
+         */
+        IList *list = nullptr;
+
+        /**
+         * @brief 变更发生的项索引
+         */
+        int index = -1;
+
+        /**
+         * @brief 记录移动项的原始索引
+         */
+        int oldIndex = -1;
+    };
+
+    /**
+     * @brief 支持集合变更通知的接口
+     */
+    class INotifyCollectionChanged
+    {
+    public:
+        /**
+         * @brief 集合变更事件，当集合发生添加、移除、替换、移动或重置等变更时触发
+         */
+        Event<NotifyCollectionChangedEventHandler> CollectionChanged{
+            Event<NotifyCollectionChangedEventHandler>::Init(this)
+                .Delegate([](INotifyCollectionChanged *self) -> NotifyCollectionChangedEventHandler & {
+                    return self->GetCollectionChangedEventDelegate();
+                }) //
+        };
+
+        /**
+         * @brief 虚析构函数
+         */
+        virtual ~INotifyCollectionChanged() = default;
+
+    protected:
+        /**
+         * @brief 获取集合变更事件委托的引用
+         * @note CollectionChanged事件使用该函数返回的委托来保存事件处理程序
+         */
+        virtual NotifyCollectionChangedEventHandler &GetCollectionChangedEventDelegate() = 0;
+    };
+}
+
+// List.h
 
 
 namespace sw
 {
     /**
-     * @brief 网格布局方式的布局标记
+     * @brief 基于std::vector的泛型列表，实现IListT接口
+     * @tparam T 列表元素类型
      */
-    struct GridLayoutTag {
-        /**
-         * @brief 所在行
-         */
-        uint16_t row;
-
-        /**
-         * @brief 所在列
-         */
-        uint16_t column;
-
-        /**
-         * @brief 所跨行数
-         */
-        uint16_t rowSpan;
-
-        /**
-         * @brief 所跨列数
-         */
-        uint16_t columnSpan;
-
-        /**
-         * @brief GridLayoutTag默认值
-         */
-        GridLayoutTag();
-
-        /**
-         * @brief 初始化GridLayoutTag
-         */
-        GridLayoutTag(uint16_t row, uint16_t column, uint16_t rowSpan, uint16_t columnSpan);
-
-        /**
-         * @brief 初始化GridLayoutTag
-         */
-        GridLayoutTag(uint16_t row, uint16_t column);
-
-        /**
-         * @brief 从LayoutTag创建
-         */
-        GridLayoutTag(uint64_t layoutTag);
-
-        /**
-         * @brief 隐式转换LayoutTag
-         */
-        operator uint64_t() const;
-    };
-
-    /**
-     * @brief GridRow和GridColumn的类型
-     */
-    enum class GridRCType {
-        FixSize,    ///< 固定大小
-        AutoSize,   ///< 自动大小
-        FillRemain, ///< 填充剩余空间
-    };
-
-    /**
-     * @brief 网格中的行信息
-     */
-    struct GridRow {
-        /**
-         * @brief 类型
-         */
-        GridRCType type;
-
-        /**
-         * @brief 高度
-         */
-        double height;
-
-        /**
-         * @brief 创建一个FillRemain的GridRow
-         */
-        GridRow();
-
-        /**
-         * @brief 初始化GridRow
-         */
-        GridRow(GridRCType type, double height);
-
-        /**
-         * @brief 固定大小的行
-         */
-        GridRow(double height);
-    };
-
-    /**
-     * @brief 固定高度的行
-     */
-    struct FixSizeGridRow : public GridRow {
-        /**
-         * @brief 初始化FixSizeGridRow
-         */
-        FixSizeGridRow(double height);
-    };
-
-    /**
-     * @brief 自动高度的行
-     */
-    struct AutoSizeGridRow : public GridRow {
-        /**
-         * @brief 初始化AutoSizeGridRow
-         */
-        AutoSizeGridRow();
-    };
-
-    /**
-     * @brief 填充剩余高度的行
-     */
-    struct FillRemainGridRow : public GridRow {
-        /**
-         * @brief 初始化FillRemainGridRow
-         */
-        FillRemainGridRow(double proportion = 1);
-    };
-
-    /**
-     * @brief 网格中的列信息
-     */
-    struct GridColumn {
-        /**
-         * @brief 类型
-         */
-        GridRCType type;
-
-        /**
-         * @brief 宽度
-         */
-        double width;
-
-        /**
-         * @brief 创建一个FillRemain的GridColumn
-         */
-        GridColumn();
-
-        /**
-         * @brief 初始化GridColumn
-         */
-        GridColumn(GridRCType type, double width);
-
-        /**
-         * @brief 固定大小的列
-         */
-        GridColumn(double width);
-    };
-
-    /**
-     * @brief 固定宽度的列
-     */
-    struct FixSizeGridColumn : public GridColumn {
-        /**
-         * @brief 初始化FixSizeGridColumn
-         */
-        FixSizeGridColumn(double width);
-    };
-
-    /**
-     * @brief 自动宽度的列
-     */
-    struct AutoSizeGridColumn : public GridColumn {
-        /**
-         * @brief 初始化AutoSizeGridColumn
-         */
-        AutoSizeGridColumn();
-    };
-
-    /**
-     * @brief 填充剩余宽度的列
-     */
-    struct FillRemainGridColumn : public GridColumn {
-        /**
-         * @brief 初始化FillRemainGridColumn
-         */
-        FillRemainGridColumn(double proportion = 1);
-    };
-
-    /**
-     * @brief 网格布局方式
-     */
-    class GridLayout : public LayoutHost
+    template <typename T>
+    class List final : public IListT<T>,
+                       public IToString<List<T>>
     {
     private:
         /**
-         * @brief 子元素的信息
+         * @brief 底层数据存储
          */
-        struct _ChildInfo {
-            ILayout *instance;         // 子元素对象
-            GridLayoutTag layoutTag;   // 布局标记
-            GridRCType rowMeasureType; // 元素measure行时的类型
-            GridRCType colMeasureType; // 元素measure列时的类型
-        };
-
-        /**
-         * @brief 行信息
-         */
-        struct _RowInfo {
-            GridRow row;           // 行
-            double size       = 0; // 所需空间大小
-            double proportion = 0; // 类型为FillRemain时该字段保存该行的高度占比，范围为0~1
-        };
-
-        /**
-         * @brief 列信息
-         */
-        struct _ColInfo {
-            GridColumn col;        // 列
-            double size       = 0; // 所需空间大小
-            double proportion = 0; // 类型为FillRemain时该字段保存该列的宽度占比，范围为0~1
-        };
-
-        /**
-         * @brief 一些内部数据
-         */
-        struct {
-            std::vector<_RowInfo> rowsInfo;       // 行信息
-            std::vector<_ColInfo> colsInfo;       // 列信息
-            std::vector<_ChildInfo> childrenInfo; // 子元素信息
-            std::vector<Rect> cells;              // 保存格信息
-        } _internalData;
+        std::vector<T> _data;
 
     public:
         /**
-         * @brief 行定义
+         * @brief 默认构造函数，创建空列表
          */
-        List<GridRow> rows;
+        List() = default;
 
         /**
-         * @brief 列定义
+         * @brief 使用初始化列表构造
+         * @param list 初始化元素列表
          */
-        List<GridColumn> columns;
+        List(std::initializer_list<T> list)
+            : _data(list)
+        {
+        }
 
         /**
-         * @brief 测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return 返回元素需要占用的尺寸
+         * @brief 指定初始容量构造
+         * @param capacity 初始容量
          */
-        virtual Size MeasureOverride(const Size &availableSize) override;
+        explicit List(int capacity)
+            : _data()
+        {
+            _data.reserve(static_cast<size_t>(capacity));
+        }
 
         /**
-         * @brief 安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
+         * @brief 拷贝构造函数
+         * @param other 源列表
          */
-        virtual void ArrangeOverride(const Size &finalSize) override;
+        List(const List<T> &other)
+            : _data(other._data)
+        {
+        }
+
+        /**
+         * @brief 移动构造函数
+         * @param other 源列表
+         */
+        List(List<T> &&other) noexcept
+            : _data(std::move(other._data))
+        {
+        }
+
+        /**
+         * @brief 拷贝赋值运算符
+         * @param other 源列表
+         * @return 当前列表的引用
+         */
+        List<T> &operator=(const List<T> &other)
+        {
+            if (this != &other) {
+                _data = other._data;
+            }
+            return *this;
+        }
+
+        /**
+         * @brief 移动赋值运算符
+         * @param other 源列表
+         * @return 当前列表的引用
+         */
+        List<T> &operator=(List<T> &&other) noexcept
+        {
+            if (this != &other) {
+                _data = std::move(other._data);
+            }
+            return *this;
+        }
+
+        /**
+         * @brief 获取指定索引处的元素引用
+         * @param index 元素索引
+         * @return 元素引用
+         * @throws std::out_of_range 索引超出范围
+         */
+        T &operator[](int index)
+        {
+            return GetAt(index);
+        }
+
+        /**
+         * @brief 获取指定索引处的const元素引用
+         * @param index 元素索引
+         * @return const元素引用
+         * @throws std::out_of_range 索引超出范围
+         */
+        const T &operator[](int index) const
+        {
+            return GetAt(index);
+        }
+
+        /**
+         * @brief 获取当前分配的容量
+         * @return 容量大小
+         */
+        int Capacity() const noexcept
+        {
+            return static_cast<int>(_data.capacity());
+        }
+
+        /**
+         * @brief 预留至少指定数量的元素空间
+         * @param newCapacity 要预留的容量，仅在大于当前容量时生效
+         */
+        void Reserve(int newCapacity)
+        {
+            if (newCapacity > Capacity()) {
+                _data.reserve(static_cast<size_t>(newCapacity));
+            }
+        }
+
+        /**
+         * @brief 清空列表中的所有元素
+         */
+        void Clear()
+        {
+            _data.clear();
+        }
+
+        /**
+         * @brief 在列表末尾追加元素
+         * @param value 要追加的值
+         */
+        void Add(const T &value)
+        {
+            _data.push_back(value);
+        }
+
+        /**
+         * @brief 在列表末尾追加元素（移动语义）
+         * @param value 要追加的值
+         */
+        void Add(T &&value)
+        {
+            _data.push_back(std::move(value));
+        }
+
+        /**
+         * @brief 移除指定索引处的元素
+         * @param index 要移除的元素索引
+         * @throws std::out_of_range 索引超出范围
+         */
+        void RemoveAt(int index)
+        {
+            if (index < 0 || index >= Count()) {
+                throw std::out_of_range("Index out of range in List::RemoveAt.");
+            }
+            _data.erase(_data.begin() + static_cast<size_t>(index));
+        }
+
+        /**
+         * @brief 在指定索引处插入元素
+         * @param index 插入位置
+         * @param value 要插入的值
+         * @throws std::out_of_range 索引超出范围
+         */
+        void Insert(int index, const T &value)
+        {
+            if (index < 0 || index > Count()) {
+                throw std::out_of_range("Index out of range in List::Insert.");
+            }
+            _data.insert(_data.begin() + static_cast<size_t>(index), value);
+        }
+
+        /**
+         * @brief 在指定索引处插入元素（移动语义）
+         * @param index 插入位置
+         * @param value 要插入的值
+         * @throws std::out_of_range 索引超出范围
+         */
+        void Insert(int index, T &&value)
+        {
+            if (index < 0 || index > Count()) {
+                throw std::out_of_range("Index out of range in List::Insert.");
+            }
+            _data.insert(_data.begin() + static_cast<size_t>(index), std::move(value));
+        }
+
+        /**
+         * @brief 查找指定值在列表中首次出现的索引
+         * @param value 要查找的值
+         * @return 首次出现的索引，未找到返回-1
+         */
+        int IndexOf(const T &value) const
+        {
+            auto it = std::find(_data.begin(), _data.end(), value);
+            return it != _data.end() ? static_cast<int>(std::distance(_data.begin(), it)) : -1;
+        }
+
+        /**
+         * @brief 查找指定值在列表中最后出现的索引
+         * @param value 要查找的值
+         * @return 最后出现的索引，未找到返回-1
+         */
+        int LastIndexOf(const T &value) const
+        {
+            auto it = std::find(_data.rbegin(), _data.rend(), value);
+            return it != _data.rend() ? static_cast<int>(std::distance(it, _data.rend()) - 1) : -1;
+        }
+
+        /**
+         * @brief 判断列表是否包含指定值
+         * @param value 要查找的值
+         * @return 包含返回true，否则返回false
+         */
+        bool Contains(const T &value) const
+        {
+            return std::find(_data.begin(), _data.end(), value) != _data.end();
+        }
+
+        /**
+         * @brief 移除列表中首次出现的指定值
+         * @param value 要移除的值
+         * @return 成功移除返回true，未找到返回false
+         */
+        bool Remove(const T &value)
+        {
+            int index = IndexOf(value);
+            if (index == -1) {
+                return false;
+            } else {
+                RemoveAt(index);
+                return true;
+            }
+        }
+
+        /**
+         * @brief 将列表转换为字符串表示
+         * @return 列表的字符串表示
+         */
+        std::wstring ToString() const
+        {
+            return Utils::BuildStr(_data);
+        }
+
+        /**
+         * @brief 获取底层std::vector的引用
+         * @return std::vector的引用
+         */
+        std::vector<T> &GetStdVector() noexcept
+        {
+            return _data;
+        }
+
+        /**
+         * @brief 获取底层std::vector的const引用
+         * @return std::vector的const引用
+         */
+        const std::vector<T> &GetStdVector() const noexcept
+        {
+            return _data;
+        }
 
     private:
         /**
-         * @brief 更新内部数据
+         * @brief 设置元素值的实现（T可拷贝赋值时）
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::out_of_range 索引超出范围
          */
-        void _UpdateInternalData();
+        template <typename U = T>
+        auto SetAtImpl(int index, const T &value)
+            -> typename std::enable_if<std::is_copy_assignable<U>::value>::type
+        {
+            if (index < 0 || index >= Count()) {
+                throw std::out_of_range("Index out of range in List::SetAt.");
+            }
+            _data[static_cast<size_t>(index)] = value;
+        }
 
         /**
-         * @brief 获取指定行列处的网格信息
+         * @brief 设置元素值的实现（T不可拷贝赋值时，抛出异常）
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::logic_error T不可拷贝赋值
          */
-        Rect &_GetCell(int row, int col);
+        template <typename U = T>
+        auto SetAtImpl(int index, const T &value)
+            -> typename std::enable_if<!std::is_copy_assignable<U>::value>::type
+        {
+            throw std::logic_error("Type T must be copy assignable to use SetAt in List.");
+        }
+
+        /**
+         * @brief 设置元素值的实现（移动语义，T可移动赋值时）
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::out_of_range 索引超出范围
+         */
+        template <typename U = T>
+        auto SetAtImpl(int index, T &&value)
+            -> typename std::enable_if<std::is_move_assignable<U>::value>::type
+        {
+            if (index < 0 || index >= Count()) {
+                throw std::out_of_range("Index out of range in List::SetAt.");
+            }
+            _data[static_cast<size_t>(index)] = std::move(value);
+        }
+
+        /**
+         * @brief 设置元素值的实现（移动语义，T不可移动赋值时，抛出异常）
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::logic_error T不可移动赋值
+         */
+        template <typename U = T>
+        auto SetAtImpl(int index, T &&value)
+            -> typename std::enable_if<!std::is_move_assignable<U>::value>::type
+        {
+            throw std::logic_error("Type T must be move assignable to use move SetAt in List.");
+        }
+
+    public:
+        /**
+         * @brief 返回列表中的元素数量
+         * @return 元素数量
+         */
+        virtual int Count() const noexcept override
+        {
+            return static_cast<int>(_data.size());
+        }
+
+        /**
+         * @brief 获取指定索引处的元素引用
+         * @param index 元素索引
+         * @return 元素引用
+         * @throws std::out_of_range 索引超出范围
+         */
+        virtual T &GetAt(int index) override
+        {
+            if (index < 0 || index >= Count()) {
+                throw std::out_of_range("Index out of range in List::GetAt.");
+            }
+            return _data[static_cast<size_t>(index)];
+        }
+
+        /**
+         * @brief 获取指定索引处的const元素引用
+         * @param index 元素索引
+         * @return const元素引用
+         * @throws std::out_of_range 索引超出范围
+         */
+        virtual const T &GetAt(int index) const override
+        {
+            if (index < 0 || index >= Count()) {
+                throw std::out_of_range("Index out of range in List::GetAt.");
+            }
+            return _data[static_cast<size_t>(index)];
+        }
+
+        /**
+         * @brief 设置指定索引处的元素值
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::out_of_range 索引超出范围
+         * @throws std::logic_error T不可拷贝赋值时
+         */
+        virtual void SetAt(int index, const T &value) override
+        {
+            SetAtImpl(index, value);
+        }
+
+        /**
+         * @brief 设置指定索引处的元素值（移动语义）
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::out_of_range 索引超出范围
+         * @throws std::logic_error T不可移动赋值时
+         */
+        virtual void SetAt(int index, T &&value) override
+        {
+            SetAtImpl(index, std::move(value));
+        }
     };
 }
 
@@ -13399,6 +13094,454 @@ namespace sw
     };
 }
 
+// FileDialog.h
+
+
+namespace sw
+{
+    /**
+     * @brief https://learn.microsoft.com/en-us/windows/win32/api/commdlg/ns-commdlg-openfilenamew
+     */
+    enum class FileDialogFlags : DWORD {
+        /// The File Name list box allows multiple selections. If you also set the OFN_EXPLORER flag,
+        /// the dialog box uses the Explorer-style user interface; otherwise, it uses the old-style
+        /// user interface.
+        /// If the user selects more than one file, the lpstrFile buffer returns the path to the
+        /// current directory followed by the file names of the selected files. The nFileOffset member
+        /// is the offset, in bytes or characters, to the first file name, and the nFileExtension
+        /// member is not used. For Explorer-style dialog boxes, the directory and file name strings
+        /// are NULL separated, with an extra NULL character after the last file name. This format
+        /// enables the Explorer-style dialog boxes to return long file names that include spaces.
+        /// For old-style dialog boxes, the directory and file name strings are separated by spaces
+        /// and the function uses short file names for file names with spaces. You can use the
+        /// FindFirstFile function to convert between long and short file names.
+        /// If you specify a custom template for an old-style dialog box, the definition of the File
+        /// Name list box must contain the LBS_EXTENDEDSEL value.
+        AllowMultiSelect = 0x00000200,
+
+        /// If the user specifies a file that does not exist, this flag causes the dialog box to
+        /// prompt the user for permission to create the file. If the user chooses to create the
+        /// file, the dialog box closes and the function returns the specified name; otherwise,
+        /// the dialog box remains open. If you use this flag with the OFN_ALLOWMULTISELECT flag,
+        /// the dialog box allows the user to specify only one nonexistent file.
+        CreatePrompt = 0x00002000,
+
+        /// Prevents the system from adding a link to the selected file in the file system directory
+        /// that contains the user's most recently used documents. To retrieve the location of this
+        /// directory, call the SHGetSpecialFolderLocation function with the CSIDL_RECENT flag.
+        DontAddTorecent = 0x02000000,
+
+        /// Enables the hook function specified in the lpfnHook member.
+        EnableHook = 0x00000020,
+
+        /// Causes the dialog box to send CDN_INCLUDEITEM notification messages to your OFNHookProc hook
+        /// procedure when the user opens a folder. The dialog box sends a notification for each item in
+        /// the newly opened folder. These messages enable you to control which items the dialog box
+        /// displays in the folder's item list.
+        EnableIncludeNotify = 0x00400000,
+
+        /// Enables the Explorer-style dialog box to be resized using either the mouse or the keyboard.
+        /// By default, the Explorer-style Open and Save As dialog boxes allow the dialog box to be resized
+        /// regardless of whether this flag is set. This flag is necessary only if you provide a hook
+        /// procedure or custom template. The old-style dialog box does not permit resizing.
+        EnableSizing = 0x00800000,
+
+        /// The lpTemplateName member is a pointer to the name of a dialog template resource in the module
+        /// identified by the hInstance member. If the OFN_EXPLORER flag is set, the system uses the specified
+        /// template to create a dialog box that is a child of the default Explorer-style dialog box. If the
+        /// OFN_EXPLORER flag is not set, the system uses the template to create an old-style dialog box that
+        /// replaces the default dialog box.
+        EnableTemplate = 0x00000040,
+
+        /// The hInstance member identifies a data block that contains a preloaded dialog box template.
+        /// The system ignores lpTemplateName if this flag is specified. If the OFN_EXPLORER flag is set,
+        /// the system uses the specified template to create a dialog box that is a child of the default
+        /// Explorer-style dialog box. If the OFN_EXPLORER flag is not set, the system uses the template to
+        /// create an old-style dialog box that replaces the default dialog box.
+        EnableTemplateHandle = 0x00000080,
+
+        /// Indicates that any customizations made to the Open or Save As dialog box use the Explorer-style
+        /// customization methods. For more information, see Explorer-Style Hook Procedures and Explorer-Style
+        /// Custom Templates.
+        /// By default, the Open and Save As dialog boxes use the Explorer-style user interface regardless of
+        /// whether this flag is set. This flag is necessary only if you provide a hook procedure or custom template,
+        /// or set the OFN_ALLOWMULTISELECT flag.
+        /// If you want the old-style user interface, omit the OFN_EXPLORER flag and provide a replacement old-style
+        /// template or hook procedure. If you want the old style but do not need a custom template or hook procedure,
+        /// simply provide a hook procedure that always returns FALSE.
+        Explorer = 0x00080000,
+
+        /// The user typed a file name extension that differs from the extension specified by lpstrDefExt.
+        /// The function does not use this flag if lpstrDefExt is NULL.
+        ExtensionDifferent = 0x00000400,
+
+        /// The user can type only names of existing files in the File Name entry field. If this flag is specified and
+        /// the user enters an invalid name, the dialog box procedure displays a warning in a message box. If this flag
+        /// is specified, the OFN_PATHMUSTEXIST flag is also used. This flag can be used in an Open dialog box. It cannot
+        /// be used with a Save As dialog box.
+        FileMustExist = 0x00001000,
+
+        /// Forces the showing of system and hidden files, thus overriding the user setting to show or not show hidden
+        /// files. However, a file that is marked both system and hidden is not shown.
+        ForceShowHidden = 0x10000000,
+
+        /// Hides the Read Only check box.
+        HideReadOnly = 0x00000004,
+
+        /// For old-style dialog boxes, this flag causes the dialog box to use long file names. If this flag is not
+        /// specified, or if the OFN_ALLOWMULTISELECT flag is also set, old-style dialog boxes use short file names
+        /// (8.3 format) for file names with spaces. Explorer-style dialog boxes ignore this flag and always display
+        /// long file names.
+        LongNames = 0x00200000,
+
+        /// Restores the current directory to its original value if the user changed the directory while searching for files.
+        /// This flag is ineffective for GetOpenFileName.
+        NoChangeDir = 0x00000008,
+
+        /// Directs the dialog box to return the path and file name of the selected shortcut (.LNK) file. If this value
+        /// is not specified, the dialog box returns the path and file name of the file referenced by the shortcut.
+        NoDereferenceLinks = 0x00100000,
+
+        /// For old-style dialog boxes, this flag causes the dialog box to use short file names (8.3 format). Explorer-style
+        /// dialog boxes ignore this flag and always display long file names.
+        NoLongNames = 0x00040000,
+
+        /// Hides and disables the Network button.
+        NoNetworkButton = 0x00020000,
+
+        /// The returned file does not have the Read Only check box selected and is not in a write-protected directory.
+        NoReadOnlyReturn = 0x00008000,
+
+        /// The file is not created before the dialog box is closed. This flag should be specified if the application saves
+        /// the file on a create-nonmodify network share. When an application specifies this flag, the library does not
+        /// check for write protection, a full disk, an open drive door, or network protection. Applications using this flag
+        /// must perform file operations carefully, because a file cannot be reopened once it is closed.
+        NoTestFileCreate = 0x00010000,
+
+        /// The common dialog boxes allow invalid characters in the returned file name. Typically, the calling application
+        /// uses a hook procedure that checks the file name by using the FILEOKSTRING message. If the text box in the edit
+        /// control is empty or contains nothing but spaces, the lists of files and directories are updated. If the text box
+        /// in the edit control contains anything else, nFileOffset and nFileExtension are set to values generated by parsing
+        /// the text. No default extension is added to the text, nor is text copied to the buffer specified by lpstrFileTitle.
+        /// If the value specified by nFileOffset is less than zero, the file name is invalid. Otherwise, the file name is valid,
+        /// and nFileExtension and nFileOffset can be used as if the OFN_NOVALIDATE flag had not been specified.
+        NoValidate = 0x00000100,
+
+        /// Causes the Save As dialog box to generate a message box if the selected file already exists. The user must confirm
+        /// whether to overwrite the file.
+        OverwritePrompt = 0x00000002,
+
+        /// The user can type only valid paths and file names. If this flag is used and the user types an invalid path and
+        /// file name in the File Name entry field, the dialog box function displays a warning in a message box.
+        PathMustExist = 0x00000800,
+
+        /// Causes the Read Only check box to be selected initially when the dialog box is created. This flag indicates the
+        /// state of the Read Only check box when the dialog box is closed.
+        ReadOnly = 0x00000001,
+
+        /// Specifies that if a call to the OpenFile function fails because of a network sharing violation, the error is ignored
+        /// and the dialog box returns the selected file name. If this flag is not set, the dialog box notifies your hook procedure
+        /// when a network sharing violation occurs for the file name specified by the user. If you set the OFN_EXPLORER flag,
+        /// the dialog box sends the CDN_SHAREVIOLATION message to the hook procedure. If you do not set OFN_EXPLORER, the dialog
+        /// box sends the SHAREVISTRING registered message to the hook procedure.
+        ShareAware = 0x00004000,
+
+        /// Causes the dialog box to display the Help button. The hwndOwner member must specify the window to receive the
+        /// HELPMSGSTRING registered messages that the dialog box sends when the user clicks the Help button. An Explorer-style
+        /// dialog box sends a CDN_HELP notification message to your hook procedure when the user clicks the Help button.
+        ShowHelp = 0x00000010,
+    };
+
+    /**
+     * @brief 标记FileDialogFlags枚举支持位运算
+     */
+    _SW_ENUM_ENABLE_BIT_OPERATIONS(FileDialogFlags);
+
+    /**
+     * @brief 文件筛选器信息
+     */
+    struct FileFilterItem {
+        /**
+         * @brief 文本
+         */
+        std::wstring name;
+
+        /**
+         * @brief 筛选器字符串，有多个类型时用分号分隔
+         */
+        std::wstring filter;
+
+        /**
+         * @brief 默认扩展名，当SaveFileDialog用户没有填写扩展名时会使用该值作为扩展名
+         */
+        std::wstring defaultExt;
+    };
+
+    /**
+     * @brief 文件筛选器
+     */
+    class FileFilter
+    {
+    private:
+        /**
+         * @brief 缓冲区
+         */
+        std::vector<wchar_t> _buffer;
+
+        /**
+         * @brief 默认扩展名
+         */
+        std::vector<std::wstring> _defaultExts;
+
+    public:
+        /**
+         * @brief 默认构造函数
+         */
+        FileFilter() = default;
+
+        /**
+         * @brief 初始话并设置筛选器
+         */
+        FileFilter(std::initializer_list<FileFilterItem> filters);
+
+        /**
+         * @brief 添加筛选器
+         * @param name 名称，示例：All Files
+         * @param filter 筛选器，示例：*.*
+         * @return 是否成功添加
+         */
+        bool AddFilter(const std::wstring &name, const std::wstring &filter, const std::wstring &defaultExt = L"");
+
+        /**
+         * @brief 清空现有筛选器并重新设置筛选器
+         * @param filters 筛选器列表
+         * @return 成功添加的筛选器个数
+         */
+        int SetFilter(std::initializer_list<FileFilterItem> filters);
+
+        /**
+         * @brief 清空所有已添加的筛选器
+         */
+        void Clear();
+
+        /**
+         * @brief 获取OPENFILENAMEW结构体lpstrFilter格式的字符串
+         */
+        wchar_t *GetFilterStr();
+
+        /**
+         * @brief 获取指定索引处筛选器的默认扩展名
+         */
+        const wchar_t *GetDefaultExt(int index);
+    };
+
+    /**
+     * @brief “打开文件”对话框与“另存为”对话框的基类
+     */
+    class FileDialog : public IDialog
+    {
+    private:
+        /**
+         * @brief OPENFILENAMEW结构体
+         */
+        OPENFILENAMEW _ofn{};
+
+        /**
+         * @brief 储存文件名的缓冲区
+         */
+        std::vector<wchar_t> _buffer;
+
+        /**
+         * @brief 对话框标题
+         */
+        std::wstring _title;
+
+        /**
+         * @brief 初始目录
+         */
+        std::wstring _initialDir;
+
+        /**
+         * @brief 筛选器
+         */
+        FileFilter _filter;
+
+    public:
+        /**
+         * @brief 储存文件名的缓冲区大小，值不能小于MAX_PATH
+         */
+        const Property<int> BufferSize;
+
+        /**
+         * @brief 对话框标志
+         */
+        const Property<FileDialogFlags> Flags;
+
+        /**
+         * @brief 对话框标题，设为空字符串可显示默认标题
+         */
+        const Property<std::wstring> Title;
+
+        /**
+         * @brief 初始目录
+         */
+        const Property<std::wstring> InitialDir;
+
+        /**
+         * @brief 筛选器
+         */
+        const ReadOnlyProperty<FileFilter *> Filter;
+
+        /**
+         * @brief 当前筛选器的索引，索引值从0开始
+         */
+        const Property<int> FilterIndex;
+
+        /**
+         * @brief 选中文件的路径
+         */
+        const ReadOnlyProperty<std::wstring> FileName;
+
+        /**
+         * @brief 是否允许多选
+         */
+        const Property<bool> MultiSelect;
+
+        /**
+         * @brief 所有选中的文件路径
+         */
+        const ReadOnlyProperty<sw::List<std::wstring>> FileNames;
+
+    public:
+        /**
+         * @brief 初始化FileDialog
+         */
+        FileDialog();
+
+        /**
+         * @brief 设置筛选器
+         * @param filter 筛选器
+         */
+        void SetFilter(const FileFilter &filter);
+
+        /**
+         * @brief FileDialog默认不支持该函数，调用该函数不会执行任何操作
+         */
+        virtual void Close() override;
+
+        /**
+         * @brief FileDialog默认不支持该函数，调用该函数不会执行任何操作
+         */
+        virtual void Show() override;
+
+        /**
+         * @brief 显示对话框，并指定所有者窗口
+         * @return 若用户选择了文件则返回true，否则返回false
+         */
+        virtual int ShowDialog(Window *owner = nullptr) override = 0;
+
+        /**
+         * @brief 显示对话框，并指定所有者窗口
+         * @return 若用户选择了文件则返回true，否则返回false
+         */
+        virtual int ShowDialog(Window &owner) = 0;
+
+    protected:
+        /**
+         * @brief 获取OPENFILENAMEW指针
+         */
+        OPENFILENAMEW *GetOFN();
+
+        /**
+         * @brief 获取指向缓冲区的指针
+         */
+        wchar_t *GetBuffer();
+
+        /**
+         * @brief 清空缓冲区，显示对话框前必须调用此函数
+         */
+        void ClearBuffer();
+
+        /**
+         * @brief 处理文件路径，获取文件路径时会先调用这个函数对返回值进行处理
+         * @param fileName 获取到的文件路径，可通过修改该值改变FileName和FileNames属性获取到的内容
+         */
+        virtual void ProcessFileName(std::wstring &fileName);
+    };
+
+    /**
+     * @brief “打开文件”对话框
+     */
+    class OpenFileDialog : public FileDialog
+    {
+    public:
+        /**
+         * @brief 初始化OpenFileDialog
+         */
+        OpenFileDialog();
+
+        /**
+         * @brief 显示对话框，并指定所有者窗口
+         * @return 若用户选择了文件则返回true，否则返回false
+         */
+        virtual int ShowDialog(Window *owner = nullptr) override;
+
+        /**
+         * @brief 显示对话框，并指定所有者窗口
+         * @return 若用户选择了文件则返回true，否则返回false
+         */
+        virtual int ShowDialog(Window &owner) override;
+    };
+
+    /**
+     * @brief “另存为”对话框
+     */
+    class SaveFileDialog : public FileDialog
+    {
+    private:
+        /**
+         * @brief 初始文件名
+         */
+        std::wstring _initialFileName;
+
+    public:
+        /**
+         * @brief 初始文件名
+         */
+        const Property<std::wstring> InitialFileName;
+
+        /**
+         * @brief 初始化SaveFileDialog
+         */
+        SaveFileDialog();
+
+        /**
+         * @brief 显示对话框，并指定所有者窗口
+         * @return 若用户选择了文件则返回true，否则返回false
+         */
+        virtual int ShowDialog(Window *owner = nullptr) override;
+
+        /**
+         * @brief 显示对话框，并指定所有者窗口
+         * @return 若用户选择了文件则返回true，否则返回false
+         */
+        virtual int ShowDialog(Window &owner) override;
+
+    protected:
+        /**
+         * @brief 处理文件路径，获取文件路径时会先调用这个函数对返回值进行处理
+         * @param fileName 获取到的文件路径，可通过修改该值改变FileName和FileNames属性获取到的内容
+         */
+        virtual void ProcessFileName(std::wstring &fileName) override;
+
+    private:
+        /**
+         * @brief 设置初始文件名到缓冲区
+         */
+        void _SetInitialFileName();
+    };
+}
+
 // FrameworkElement.h
 
 
@@ -13580,6 +13723,664 @@ namespace sw
          * @throw std::out_of_range 如果索引超出范围
          */
         virtual FrameworkElement &GetChildAt(int index) const = 0;
+    };
+}
+
+// GridLayout.h
+
+
+namespace sw
+{
+    /**
+     * @brief 网格布局方式的布局标记
+     */
+    struct GridLayoutTag {
+        /**
+         * @brief 所在行
+         */
+        uint16_t row;
+
+        /**
+         * @brief 所在列
+         */
+        uint16_t column;
+
+        /**
+         * @brief 所跨行数
+         */
+        uint16_t rowSpan;
+
+        /**
+         * @brief 所跨列数
+         */
+        uint16_t columnSpan;
+
+        /**
+         * @brief GridLayoutTag默认值
+         */
+        GridLayoutTag();
+
+        /**
+         * @brief 初始化GridLayoutTag
+         */
+        GridLayoutTag(uint16_t row, uint16_t column, uint16_t rowSpan, uint16_t columnSpan);
+
+        /**
+         * @brief 初始化GridLayoutTag
+         */
+        GridLayoutTag(uint16_t row, uint16_t column);
+
+        /**
+         * @brief 从LayoutTag创建
+         */
+        GridLayoutTag(uint64_t layoutTag);
+
+        /**
+         * @brief 隐式转换LayoutTag
+         */
+        operator uint64_t() const;
+    };
+
+    /**
+     * @brief GridRow和GridColumn的类型
+     */
+    enum class GridRCType {
+        FixSize,    ///< 固定大小
+        AutoSize,   ///< 自动大小
+        FillRemain, ///< 填充剩余空间
+    };
+
+    /**
+     * @brief 网格中的行信息
+     */
+    struct GridRow {
+        /**
+         * @brief 类型
+         */
+        GridRCType type;
+
+        /**
+         * @brief 高度
+         */
+        double height;
+
+        /**
+         * @brief 创建一个FillRemain的GridRow
+         */
+        GridRow();
+
+        /**
+         * @brief 初始化GridRow
+         */
+        GridRow(GridRCType type, double height);
+
+        /**
+         * @brief 固定大小的行
+         */
+        GridRow(double height);
+    };
+
+    /**
+     * @brief 固定高度的行
+     */
+    struct FixSizeGridRow : public GridRow {
+        /**
+         * @brief 初始化FixSizeGridRow
+         */
+        FixSizeGridRow(double height);
+    };
+
+    /**
+     * @brief 自动高度的行
+     */
+    struct AutoSizeGridRow : public GridRow {
+        /**
+         * @brief 初始化AutoSizeGridRow
+         */
+        AutoSizeGridRow();
+    };
+
+    /**
+     * @brief 填充剩余高度的行
+     */
+    struct FillRemainGridRow : public GridRow {
+        /**
+         * @brief 初始化FillRemainGridRow
+         */
+        FillRemainGridRow(double proportion = 1);
+    };
+
+    /**
+     * @brief 网格中的列信息
+     */
+    struct GridColumn {
+        /**
+         * @brief 类型
+         */
+        GridRCType type;
+
+        /**
+         * @brief 宽度
+         */
+        double width;
+
+        /**
+         * @brief 创建一个FillRemain的GridColumn
+         */
+        GridColumn();
+
+        /**
+         * @brief 初始化GridColumn
+         */
+        GridColumn(GridRCType type, double width);
+
+        /**
+         * @brief 固定大小的列
+         */
+        GridColumn(double width);
+    };
+
+    /**
+     * @brief 固定宽度的列
+     */
+    struct FixSizeGridColumn : public GridColumn {
+        /**
+         * @brief 初始化FixSizeGridColumn
+         */
+        FixSizeGridColumn(double width);
+    };
+
+    /**
+     * @brief 自动宽度的列
+     */
+    struct AutoSizeGridColumn : public GridColumn {
+        /**
+         * @brief 初始化AutoSizeGridColumn
+         */
+        AutoSizeGridColumn();
+    };
+
+    /**
+     * @brief 填充剩余宽度的列
+     */
+    struct FillRemainGridColumn : public GridColumn {
+        /**
+         * @brief 初始化FillRemainGridColumn
+         */
+        FillRemainGridColumn(double proportion = 1);
+    };
+
+    /**
+     * @brief 网格布局方式
+     */
+    class GridLayout : public LayoutHost
+    {
+    private:
+        /**
+         * @brief 子元素的信息
+         */
+        struct _ChildInfo {
+            ILayout *instance;         // 子元素对象
+            GridLayoutTag layoutTag;   // 布局标记
+            GridRCType rowMeasureType; // 元素measure行时的类型
+            GridRCType colMeasureType; // 元素measure列时的类型
+        };
+
+        /**
+         * @brief 行信息
+         */
+        struct _RowInfo {
+            GridRow row;           // 行
+            double size       = 0; // 所需空间大小
+            double proportion = 0; // 类型为FillRemain时该字段保存该行的高度占比，范围为0~1
+        };
+
+        /**
+         * @brief 列信息
+         */
+        struct _ColInfo {
+            GridColumn col;        // 列
+            double size       = 0; // 所需空间大小
+            double proportion = 0; // 类型为FillRemain时该字段保存该列的宽度占比，范围为0~1
+        };
+
+        /**
+         * @brief 一些内部数据
+         */
+        struct {
+            std::vector<_RowInfo> rowsInfo;       // 行信息
+            std::vector<_ColInfo> colsInfo;       // 列信息
+            std::vector<_ChildInfo> childrenInfo; // 子元素信息
+            std::vector<Rect> cells;              // 保存格信息
+        } _internalData;
+
+    public:
+        /**
+         * @brief 行定义
+         */
+        List<GridRow> rows;
+
+        /**
+         * @brief 列定义
+         */
+        List<GridColumn> columns;
+
+        /**
+         * @brief 测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return 返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief 安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+
+    private:
+        /**
+         * @brief 更新内部数据
+         */
+        void _UpdateInternalData();
+
+        /**
+         * @brief 获取指定行列处的网格信息
+         */
+        Rect &_GetCell(int row, int col);
+    };
+}
+
+// ObservableCollection.h
+
+
+namespace sw
+{
+    /**
+     * @brief 支持集合变更通知的泛型集合类
+     * @tparam T 集合元素类型
+     */
+    template <typename T>
+    class ObservableCollection : public ObservableObject,
+                                 public IListT<T>,
+                                 public INotifyCollectionChanged,
+                                 public IToString<ObservableCollection<T>>
+    {
+    private:
+        /**
+         * @brief 内部列表存储
+         */
+        List<T> _items;
+
+        /**
+         * @brief 集合变更事件委托
+         */
+        NotifyCollectionChangedEventHandler _collectionChanged;
+
+    public:
+        /**
+         * @brief 默认构造函数，创建空集合
+         */
+        ObservableCollection() = default;
+
+        // 删除拷贝构造函数
+        ObservableCollection(const ObservableCollection<T> &) = delete;
+
+        // 删除移动构造函数
+        ObservableCollection(ObservableCollection<T> &&) = delete;
+
+        // 删除拷贝赋值运算符
+        ObservableCollection<T> &operator=(const ObservableCollection<T> &) = delete;
+
+        // 删除移动赋值运算符
+        ObservableCollection<T> &operator=(ObservableCollection<T> &&) = delete;
+
+        /**
+         * @brief 使用初始化列表构造
+         * @param list 初始化元素列表
+         */
+        ObservableCollection(std::initializer_list<T> list)
+            : _items(list)
+        {
+        }
+
+        /**
+         * @brief 指定初始容量构造
+         * @param capacity 初始容量
+         */
+        explicit ObservableCollection(int capacity)
+            : _items(capacity)
+        {
+        }
+
+    protected:
+        /**
+         * @brief 获取集合变更事件委托的引用
+         * @note CollectionChanged事件使用该函数返回的委托来保存事件处理程序
+         */
+        virtual NotifyCollectionChangedEventHandler &GetCollectionChangedEventDelegate() override final
+        {
+            return _collectionChanged;
+        }
+
+        /**
+         * @brief 触发集合变更事件
+         * @param args 集合变更事件参数
+         */
+        virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs &args)
+        {
+            if (_collectionChanged) {
+                _collectionChanged(*this, args);
+            }
+        }
+
+    public:
+        /**
+         * @brief 获取当前分配的容量
+         * @return 容量大小
+         */
+        int Capacity() const noexcept
+        {
+            return _items.Capacity();
+        }
+
+        /**
+         * @brief 预留至少指定数量的元素空间
+         * @param newCapacity 要预留的容量，仅在大于当前容量时生效
+         */
+        void Reserve(int newCapacity)
+        {
+            _items.Reserve(newCapacity);
+        }
+
+        /**
+         * @brief 刷新集合，触发集合重置通知
+         */
+        void Refresh()
+        {
+            NotifyCollectionChangedEventArgs args{};
+            args.action = NotifyCollectionChangedAction::Reset;
+            args.list   = this;
+            OnCollectionChanged(args);
+        }
+
+        /**
+         * @brief 清空集合中的所有元素，并触发集合重置通知
+         */
+        void Clear()
+        {
+            if (_items.Count() == 0) {
+                return;
+            }
+
+            _items.Clear();
+
+            NotifyCollectionChangedEventArgs args{};
+            args.action = NotifyCollectionChangedAction::Reset;
+            args.list   = this;
+            OnCollectionChanged(args);
+        }
+
+        /**
+         * @brief 在集合末尾追加元素，并触发添加通知
+         * @param value 要追加的值
+         */
+        void Add(const T &value)
+        {
+            int index = _items.Count();
+            _items.Add(value);
+
+            NotifyCollectionChangedEventArgs args{};
+            args.action = NotifyCollectionChangedAction::Add;
+            args.list   = this;
+            args.index  = index;
+            OnCollectionChanged(args);
+        }
+
+        /**
+         * @brief 在集合末尾追加元素（移动语义），并触发添加通知
+         * @param value 要追加的值
+         */
+        void Add(T &&value)
+        {
+            int index = _items.Count();
+            _items.Add(std::move(value));
+
+            NotifyCollectionChangedEventArgs args{};
+            args.action = NotifyCollectionChangedAction::Add;
+            args.list   = this;
+            args.index  = index;
+            OnCollectionChanged(args);
+        }
+
+        /**
+         * @brief 移除指定索引处的元素，并触发移除通知
+         * @param index 要移除的元素索引
+         * @throws std::out_of_range 索引超出范围
+         */
+        void RemoveAt(int index)
+        {
+            _items.RemoveAt(index);
+
+            NotifyCollectionChangedEventArgs args{};
+            args.action = NotifyCollectionChangedAction::Remove;
+            args.list   = this;
+            args.index  = index;
+            OnCollectionChanged(args);
+        }
+
+        /**
+         * @brief 在指定索引处插入元素，并触发添加通知
+         * @param index 插入位置
+         * @param value 要插入的值
+         * @throws std::out_of_range 索引超出范围
+         */
+        void Insert(int index, const T &value)
+        {
+            _items.Insert(index, value);
+
+            NotifyCollectionChangedEventArgs args{};
+            args.action = NotifyCollectionChangedAction::Add;
+            args.list   = this;
+            args.index  = index;
+            OnCollectionChanged(args);
+        }
+
+        /**
+         * @brief 在指定索引处插入元素（移动语义），并触发添加通知
+         * @param index 插入位置
+         * @param value 要插入的值
+         * @throws std::out_of_range 索引超出范围
+         */
+        void Insert(int index, T &&value)
+        {
+            _items.Insert(index, std::move(value));
+
+            NotifyCollectionChangedEventArgs args{};
+            args.action = NotifyCollectionChangedAction::Add;
+            args.list   = this;
+            args.index  = index;
+            OnCollectionChanged(args);
+        }
+
+        /**
+         * @brief 将元素从一个索引移动到另一个索引，并触发移动通知
+         * @param oldIndex 要移动的元素原索引
+         * @param newIndex 移动后的元素索引
+         * @throws std::out_of_range 索引超出范围
+         */
+        void Move(int oldIndex, int newIndex)
+        {
+            int count = _items.Count();
+            if (oldIndex < 0 || oldIndex >= count || newIndex < 0 || newIndex >= count) {
+                throw std::out_of_range("Index out of range in ObservableCollection::Move.");
+            }
+
+            if (oldIndex == newIndex) {
+                return;
+            }
+
+            auto &items = _items.GetStdVector();
+
+            T value = std::move(items[static_cast<size_t>(oldIndex)]);
+            items.erase(items.begin() + static_cast<size_t>(oldIndex));
+            items.insert(items.begin() + static_cast<size_t>(newIndex), std::move(value));
+
+            NotifyCollectionChangedEventArgs args{};
+            args.action   = NotifyCollectionChangedAction::Move;
+            args.list     = this;
+            args.index    = newIndex;
+            args.oldIndex = oldIndex;
+            OnCollectionChanged(args);
+        }
+
+        /**
+         * @brief 查找指定值在集合中首次出现的索引
+         * @param value 要查找的值
+         * @return 首次出现的索引，未找到返回-1
+         */
+        int IndexOf(const T &value) const
+        {
+            return _items.IndexOf(value);
+        }
+
+        /**
+         * @brief 查找指定值在集合中最后出现的索引
+         * @param value 要查找的值
+         * @return 最后出现的索引，未找到返回-1
+         */
+        int LastIndexOf(const T &value) const
+        {
+            return _items.LastIndexOf(value);
+        }
+
+        /**
+         * @brief 判断集合是否包含指定值
+         * @param value 要查找的值
+         * @return 包含返回true，否则返回false
+         */
+        bool Contains(const T &value) const
+        {
+            return _items.Contains(value);
+        }
+
+        /**
+         * @brief 移除集合中首次出现的指定值，并在成功移除时触发移除通知
+         * @param value 要移除的值
+         * @return 成功移除返回true，未找到返回false
+         */
+        bool Remove(const T &value)
+        {
+            int index = _items.IndexOf(value);
+            if (index == -1) {
+                return false;
+            }
+
+            _items.RemoveAt(index);
+
+            NotifyCollectionChangedEventArgs args{};
+            args.action = NotifyCollectionChangedAction::Remove;
+            args.list   = this;
+            args.index  = index;
+            OnCollectionChanged(args);
+
+            return true;
+        }
+
+        /**
+         * @brief 将集合转换为字符串表示
+         * @return 集合的字符串表示
+         */
+        std::wstring ToString() const
+        {
+            return _items.ToString();
+        }
+
+        /**
+         * @brief 获取底层std::vector的引用
+         * @return std::vector的引用
+         */
+        std::vector<T> &GetStdVector() noexcept
+        {
+            return _items.GetStdVector();
+        }
+
+        /**
+         * @brief 获取底层std::vector的const引用
+         * @return std::vector的const引用
+         */
+        const std::vector<T> &GetStdVector() const noexcept
+        {
+            return _items.GetStdVector();
+        }
+
+    public:
+        /**
+         * @brief 返回列表中的元素数量
+         * @return 元素数量
+         */
+        virtual int Count() const noexcept override final
+        {
+            return _items.Count();
+        }
+
+        /**
+         * @brief 获取指定索引处的元素引用
+         * @param index 元素索引
+         * @return 元素引用
+         * @throws std::out_of_range 索引超出范围
+         */
+        virtual T &GetAt(int index) override final
+        {
+            return _items.GetAt(index);
+        }
+
+        /**
+         * @brief 获取指定索引处的const元素引用
+         * @param index 元素索引
+         * @return const元素引用
+         * @throws std::out_of_range 索引超出范围
+         */
+        virtual const T &GetAt(int index) const override final
+        {
+            return _items.GetAt(index);
+        }
+
+        /**
+         * @brief 设置指定索引处的元素值
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::out_of_range 索引超出范围
+         * @throws std::logic_error T不可拷贝赋值时
+         */
+        virtual void SetAt(int index, const T &value) override final
+        {
+            _items.SetAt(index, value);
+
+            NotifyCollectionChangedEventArgs args{};
+            args.action = NotifyCollectionChangedAction::Replace;
+            args.list   = this;
+            args.index  = index;
+            OnCollectionChanged(args);
+        }
+
+        /**
+         * @brief 设置指定索引处的元素值（移动语义）
+         * @param index 元素索引
+         * @param value 要设置的值
+         * @throws std::out_of_range 索引超出范围
+         * @throws std::logic_error T不可移动赋值时
+         */
+        virtual void SetAt(int index, T &&value) override final
+        {
+            _items.SetAt(index, std::move(value));
+
+            NotifyCollectionChangedEventArgs args{};
+            args.action = NotifyCollectionChangedAction::Replace;
+            args.list   = this;
+            args.index  = index;
+            OnCollectionChanged(args);
+        }
     };
 }
 
@@ -16871,35 +17672,53 @@ namespace sw
 
         /**
          * @brief 擦除背景前调用该函数
-         * @param hdc 绘制设备句柄
+         * @param pNMCD 包含有关自定义绘制的信息
          * @param result 函数返回值为true时将该值作为NM_CUSTOMDRAW消息的返回值
          * @return 若已完成绘制则返回true，否则返回false以使用默认绘制
          */
-        virtual bool OnPreErase(HDC hdc, LRESULT &result);
+        virtual bool OnPreErase(NMCUSTOMDRAW *pNMCD, LRESULT &result);
 
         /**
          * @brief 擦除背景后调用该函数
-         * @param hdc 绘制设备句柄
+         * @param pNMCD 包含有关自定义绘制的信息
          * @param result 函数返回值为true时将该值作为NM_CUSTOMDRAW消息的返回值
          * @return 若已完成绘制则返回true，否则返回false以使用默认绘制
          */
-        virtual bool OnPostErase(HDC hdc, LRESULT &result);
+        virtual bool OnPostErase(NMCUSTOMDRAW *pNMCD, LRESULT &result);
 
         /**
          * @brief 绘制控件前调用该函数
-         * @param hdc 绘制设备句柄
+         * @param pNMCD 包含有关自定义绘制的信息
          * @param result 函数返回值为true时将该值作为NM_CUSTOMDRAW消息的返回值
          * @return 若已完成绘制则返回true，否则返回false以使用默认绘制
          */
-        virtual bool OnPrePaint(HDC hdc, LRESULT &result);
+        virtual bool OnPrePaint(NMCUSTOMDRAW *pNMCD, LRESULT &result);
 
         /**
          * @brief 绘制控件后调用该函数
-         * @param hdc 绘制设备句柄
+         * @param pNMCD 包含有关自定义绘制的信息
          * @param result 函数返回值为true时将该值作为NM_CUSTOMDRAW消息的返回值
          * @return 若已完成绘制则返回true，否则返回false以使用默认绘制
          */
-        virtual bool OnPostPaint(HDC hdc, LRESULT &result);
+        virtual bool OnPostPaint(NMCUSTOMDRAW *pNMCD, LRESULT &result);
+
+        /**
+         * @brief 绘制子项前调用该函数
+         * @param pNMCD 包含有关自定义绘制的信息
+         * @param subItem 若消息包含CDDS_SUBITEM标志则该值为true，否则为false
+         * @param result 函数返回值为true时将该值作为NM_CUSTOMDRAW消息的返回值
+         * @return 若已完成绘制则返回true，否则返回false以使用默认绘制
+         */
+        virtual bool OnItemPrePaint(NMCUSTOMDRAW *pNMCD, bool subItem, LRESULT &result);
+
+        /**
+         * @brief 绘制子项后调用该函数
+         * @param pNMCD 包含有关自定义绘制的信息
+         * @param subItem 若消息包含CDDS_SUBITEM标志则该值为true，否则为false
+         * @param result 函数返回值为true时将该值作为NM_CUSTOMDRAW消息的返回值
+         * @return 若已完成绘制则返回true，否则返回false以使用默认绘制
+         */
+        virtual bool OnItemPostPaint(NMCUSTOMDRAW *pNMCD, bool subItem, LRESULT &result);
 
         /**
          * @brief 控件句柄发生改变时调用该函数
@@ -18057,67 +18876,101 @@ namespace sw
 
 namespace sw
 {
-    template <typename TItem>
-    class ItemsControl; // 向前声明
-
-    /**
-     * @brief 表示可用于呈现一组字符串的控件
-     */
-    typedef ItemsControl<std::wstring> StrItemsControl;
-
     /**
      * @brief 表示可用于呈现一组项的控件
      */
-    template <typename TItem>
     class ItemsControl : public Control
     {
+    private:
+        /**
+         * @brief 用户设置的数据源
+         */
+        IList *_itemsSource = nullptr;
+
+        /**
+         * @brief 当前数据源相关的状态
+         */
+        struct {
+            /// @brief 当前数据源的IList指针
+            IList *itemsSource = nullptr;
+
+            /// @brief 若当前数据源实现了INotifyCollectionChanged接口，
+            ///        则该指针指向该接口以便订阅事件；否则为nullptr
+            INotifyCollectionChanged *notifyCollectionChanged = nullptr;
+        } _current;
+
     public:
         /**
-         * @brief 项数
+         * @brief 数据源
          */
-        const ReadOnlyProperty<int> ItemsCount{
-            Property<int>::Init(this)
-                .Getter([](ItemsControl *self) -> int {
-                    return self->GetItemsCount();
-                })};
+        const Property<IList *> ItemsSource;
+
+        /**
+         * @brief 子项数量
+         */
+        const ReadOnlyProperty<int> ItemsCount;
 
         /**
          * @brief 选中项的索引，当无选中项时为-1
          */
-        const Property<int> SelectedIndex{
-            Property<int>::Init(this)
-                .Getter([](ItemsControl *self) -> int {
-                    return self->GetSelectedIndex();
-                })
-                .Setter([](ItemsControl *self, int value) {
-                    self->SetSelectedIndex(value);
-                })};
+        const Property<int> SelectedIndex;
 
         /**
-         * @brief 选中项
+         * @brief 当前选中项的引用，当无选中项时返回空Variant对象
          */
-        const ReadOnlyProperty<TItem> SelectedItem{
-            Property<TItem>::Init(this)
-                .Getter([](ItemsControl *self) -> TItem {
-                    return self->GetSelectedItem();
-                })};
+        const ReadOnlyProperty<Variant> SelectedItem;
+
+    public:
+        /**
+         * @brief 构造函数
+         */
+        ItemsControl();
 
     protected:
+        /**
+         * @brief 获取当前正在使用的数据源
+         */
+        IList *GetCurrentItemsSource();
+
+        /**
+         * @brief 更新当前数据源状态并订阅新数据源的CollectionChanged事件（如果支持）
+         */
+        void UpdateCurrentItemsSource();
+
         /**
          * @brief 选中项改变时调用该函数
          */
-        virtual void OnSelectionChanged()
-        {
-            this->RaisePropertyChanged(&ItemsControl<TItem>::SelectedIndex);
-            this->RaisePropertyChanged(&ItemsControl<TItem>::SelectedItem);
-            this->RaiseRoutedEvent(ItemsControl_SelectionChanged);
-        }
+        virtual void OnSelectionChanged();
+
+    private:
+        /**
+         * @brief 处理数据源集合变更事件的函数
+         * @param sender 事件发送者，即数据源对象
+         * @param args 集合变更事件参数
+         */
+        void _CollectionChangedEventHandler(
+            INotifyCollectionChanged &sender, NotifyCollectionChangedEventArgs &args);
 
     protected:
         /**
-         * @brief 获取子项数
+         * @brief 获取默认数据源，当ItemsSource未设置时使用该数据源
+         * @return 默认数据源的IList指针，若无默认数据源则返回nullptr
+         * @note 子类应确保返回的IList在ItemsControl生命周期内始终有效，且保证多次调用返回同一指针
          */
-        virtual int GetItemsCount() = 0;
+        virtual IList *GetDefaultItemsSource() = 0;
+
+        /**
+         * @brief 当前数据源改变时调用该函数
+         * @param oldItemsSource 旧的数据源
+         * @param newItemsSource 新的数据源
+         */
+        virtual void OnCurrentItemsSourceChanged(IList *oldItemsSource, IList *newItemsSource) = 0;
+
+        /**
+         * @brief 当数据源集合发生变更时调用该函数
+         * @param args 包含集合变更信息的事件参数
+         */
+        virtual void OnCurrentItemsSourceCollectionChanged(const NotifyCollectionChangedEventArgs &args) = 0;
 
         /**
          * @brief 选中项的索引，当无选中项时为-1
@@ -18128,53 +18981,6 @@ namespace sw
          * @brief 设置选中项索引
          */
         virtual void SetSelectedIndex(int index) = 0;
-
-        /**
-         * @brief 获取选中项
-         */
-        virtual TItem GetSelectedItem() = 0;
-
-    public:
-        /**
-         * @brief 清空所有子项
-         */
-        virtual void Clear() = 0;
-
-        /**
-         * @brief 获取指定索引处子项的值
-         * @param index 子项的索引
-         */
-        virtual TItem GetItemAt(int index) = 0;
-
-        /**
-         * @brief 添加新的子项
-         * @param item 要添加的子项
-         * @return 是否添加成功
-         */
-        virtual bool AddItem(const TItem &item) = 0;
-
-        /**
-         * @brief 添加子项到指定索引
-         * @param index 要插入的位置
-         * @param item 要添加的子项
-         * @return 是否添加成功
-         */
-        virtual bool InsertItem(int index, const TItem &item) = 0;
-
-        /**
-         * @brief 更新指定位置的子项
-         * @param index 要更新子项的位置
-         * @param newValue 子项的新值
-         * @return 操作是否成功
-         */
-        virtual bool UpdateItem(int index, const TItem &newValue) = 0;
-
-        /**
-         * @brief 移除指定索引处的子项
-         * @param index 要移除子项的索引
-         * @return 操作是否成功
-         */
-        virtual bool RemoveItemAt(int index) = 0;
     };
 }
 
@@ -20110,17 +20916,32 @@ namespace sw
     /**
      * @brief 组合框
      */
-    class ComboBox : public StrItemsControl
+    class ComboBox : public ItemsControl
     {
     private:
         /**
-         * @brief 在读取Text属性时用于判断是否需要更新储存的文本
+         * @brief 基类别名，方便调用基类函数
+         */
+        using TBase = ItemsControl;
+
+        /**
+         * @brief 当控件为可编辑时标记文本是否被用户修改过
          */
         bool _isTextChanged = false;
 
+        /**
+         * @brief 组合框的默认数据源
+         */
+        ObservableCollection<std::wstring> _items;
+
     public:
         /**
-         * @brief 组合框内容是否可编辑，更新该属性会导致已添加的子项被清空
+         * @brief 列表框的子项集合，当未设置ItemsSource时使用该集合作为数据源
+         */
+        const ReadOnlyProperty<ObservableCollection<std::wstring> *> Items;
+
+        /**
+         * @brief 组合框内容是否可编辑
          */
         const Property<bool> IsEditable;
 
@@ -20130,11 +20951,41 @@ namespace sw
          */
         ComboBox();
 
+        /**
+         * @brief 刷新控件以反映数据源的当前状态
+         */
+        void Refresh();
+
+        /**
+         * @brief 显示下拉列表
+         */
+        void ShowDropDown();
+
+        /**
+         * @brief 关闭下拉列表
+         */
+        void CloseDropDown();
+
     protected:
         /**
-         * @brief 获取子项数
+         * @brief 获取默认数据源，当ItemsSource未设置时使用该数据源
+         * @return 默认数据源的IList指针，若无默认数据源则返回nullptr
+         * @note 子类应确保返回的IList在ItemsControl生命周期内始终有效，且保证多次调用返回同一指针
          */
-        virtual int GetItemsCount() override;
+        virtual IList *GetDefaultItemsSource() override final;
+
+        /**
+         * @brief 当前数据源改变时调用该函数
+         * @param oldItemsSource 旧的数据源
+         * @param newItemsSource 新的数据源
+         */
+        virtual void OnCurrentItemsSourceChanged(IList *oldItemsSource, IList *newItemsSource) override;
+
+        /**
+         * @brief 当数据源集合发生变更时调用该函数
+         * @param args 包含集合变更信息的事件参数
+         */
+        virtual void OnCurrentItemsSourceCollectionChanged(const NotifyCollectionChangedEventArgs &args) override;
 
         /**
          * @brief 选中项的索引，当无选中项时为-1
@@ -20147,20 +20998,10 @@ namespace sw
         virtual void SetSelectedIndex(int index) override;
 
         /**
-         * @brief 获取选中项
-         */
-        virtual std::wstring GetSelectedItem() override;
-
-        /**
-         * @brief 获取可编辑状态下的编辑框文本内容
+         * @brief 获取窗口文本
+         * @return 编辑框的文本内容
          */
         virtual std::wstring &GetInternalText() override;
-
-        /**
-         * @brief 设置Text属性时调用该函数
-         * @param value 要设置的文本
-         */
-        virtual void SetInternalText(const std::wstring &value) override;
 
         /**
          * @brief 当父窗口接收到控件的WM_COMMAND时调用该函数
@@ -20173,57 +21014,42 @@ namespace sw
          */
         virtual void OnSelectionChanged() override;
 
-    public:
         /**
-         * @brief 清空所有子项
+         * @brief 获取子项要显示的文本
+         * @param index 子项索引
+         * @param item 包含子项数据的Variant对象
          */
-        virtual void Clear() override;
+        virtual std::wstring GetDisplayText(int index, const Variant &item);
+
+    private:
+        /**
+         * @brief 根据当前选中项更新组合框的文本内容
+         */
+        void _UpdateSelectedText();
 
         /**
-         * @brief 获取指定索引处子项的值
-         * @param index 子项的索引
+         * @brief 根据数据源更新组合框的项内容
          */
-        virtual std::wstring GetItemAt(int index) override;
+        void _UpdateItems();
 
         /**
-         * @brief 添加新的子项
-         * @param item 要添加的子项
-         * @return 是否添加成功
+         * @brief 发送CB_ADDSTRING消息添加一个字符串项
+         * @param str 要添加的字符串
          */
-        virtual bool AddItem(const std::wstring &item) override;
+        void _AddString(const std::wstring &str);
 
         /**
-         * @brief 添加子项到指定索引
-         * @param index 要插入的位置
-         * @param item 要添加的子项
-         * @return 是否添加成功
+         * @brief 发送CB_INSERTSTRING消息在指定索引处插入一个字符串项
+         * @param index 要插入的项的索引
+         * @param str 要插入的字符串
          */
-        virtual bool InsertItem(int index, const std::wstring &item) override;
+        void _InsertString(int index, const std::wstring &str);
 
         /**
-         * @brief 更新指定位置的子项
-         * @param index 要更新子项的位置
-         * @param newValue 子项的新值
-         * @return 操作是否成功
+         * @brief 发送CB_DELETESTRING消息删除指定索引处的项
+         * @param index 要删除的项的索引
          */
-        virtual bool UpdateItem(int index, const std::wstring &newValue) override;
-
-        /**
-         * @brief 移除指定索引处的子项
-         * @param index 要移除子项的索引
-         * @return 操作是否成功
-         */
-        virtual bool RemoveItemAt(int index) override;
-
-        /**
-         * @brief 显示下拉列表
-         */
-        void ShowDropDown();
-
-        /**
-         * @brief 关闭下拉列表
-         */
-        void CloseDropDown();
+        void _DeleteString(int index);
     };
 }
 
@@ -20968,23 +21794,59 @@ namespace sw
     /**
      * @brief 列表框
      */
-    class ListBox : public StrItemsControl
+    class ListBox : public ItemsControl
     {
+    private:
+        /**
+         * @brief 基类别名，方便调用基类函数
+         */
+        using TBase = ItemsControl;
+
+        /**
+         * @brief 列表框的默认数据源
+         */
+        ObservableCollection<std::wstring> _items;
+
+        /**
+         * @brief 列表框子项的高度，负值表示根据字体自动计算高度
+         */
+        double _itemHeight = -1;
+
+        /**
+         * @brief 选中项的背景颜色
+         */
+        Color _selectedItemBackColor{GetSysColor(COLOR_HIGHLIGHT)};
+
+        /**
+         * @brief 选中项的文本颜色
+         */
+        Color _selectedItemTextColor{GetSysColor(COLOR_HIGHLIGHTTEXT)};
+
     public:
+        /**
+         * @brief 列表框的子项集合，当未设置ItemsSource时使用该集合作为数据源
+         */
+        const ReadOnlyProperty<ObservableCollection<std::wstring> *> Items;
+
+        /**
+         * @brief 列表框子项的高度，负值表示根据字体自动计算高度
+         */
+        const Property<double> ItemHeight;
+
         /**
          * @brief 当前列表框页面第一个子项的索引
          */
         const Property<int> TopIndex;
 
         /**
-         * @brief 是否允许多选，更新该属性会导致已添加的子项被清空
+         * @brief 选中项的背景颜色
          */
-        const Property<bool> MultiSelect;
+        const Property<Color> SelectedItemBackColor;
 
         /**
-         * @brief 多选状态下可通过该属性获取选中项的个数
+         * @brief 选中项的文本颜色
          */
-        const ReadOnlyProperty<int> SelectedCount;
+        const Property<Color> SelectedItemTextColor;
 
     public:
         /**
@@ -20992,11 +21854,37 @@ namespace sw
          */
         ListBox();
 
+        /**
+         * @brief 刷新控件以反映数据源的当前状态
+         */
+        void Refresh();
+
+        /**
+         * @brief 获取指定点处子项的索引
+         * @param point 相对于列表框用户区左上角点的位置
+         */
+        int GetItemIndexFromPoint(const Point &point);
+
     protected:
         /**
-         * @brief 获取子项数
+         * @brief 获取默认数据源，当ItemsSource未设置时使用该数据源
+         * @return 默认数据源的IList指针，若无默认数据源则返回nullptr
+         * @note 子类应确保返回的IList在ItemsControl生命周期内始终有效，且保证多次调用返回同一指针
          */
-        virtual int GetItemsCount() override;
+        virtual IList *GetDefaultItemsSource() override final;
+
+        /**
+         * @brief 当前数据源改变时调用该函数
+         * @param oldItemsSource 旧的数据源
+         * @param newItemsSource 新的数据源
+         */
+        virtual void OnCurrentItemsSourceChanged(IList *oldItemsSource, IList *newItemsSource) override;
+
+        /**
+         * @brief 当数据源集合发生变更时调用该函数
+         * @param args 包含集合变更信息的事件参数
+         */
+        virtual void OnCurrentItemsSourceCollectionChanged(const NotifyCollectionChangedEventArgs &args) override;
 
         /**
          * @brief 选中项的索引，当无选中项时为-1
@@ -21009,9 +21897,16 @@ namespace sw
         virtual void SetSelectedIndex(int index) override;
 
         /**
-         * @brief 获取选中项
+         * @brief 字体改变时调用该函数
+         * @param hfont 字体句柄
          */
-        virtual std::wstring GetSelectedItem() override;
+        virtual void FontChanged(HFONT hfont) override;
+
+        /**
+         * @brief 当父窗口接收到控件的WM_COMMAND时调用该函数
+         * @param code 通知代码
+         */
+        virtual void OnCommand(int code) override;
 
         /**
          * @brief 接收到WM_CONTEXTMENU后调用目标控件的该函数
@@ -21022,84 +21917,35 @@ namespace sw
         virtual bool OnContextMenu(bool isKeyboardMsg, const Point &mousePosition) override;
 
         /**
-         * @brief 当父窗口接收到控件的WM_COMMAND时调用该函数
-         * @param code 通知代码
+         * @brief 父窗口接收到WM_DRAWITEM后且父窗口OnDrawItem函数返回false时调用发出通知控件的该函数
+         * @param pDrawItem 包含有关要绘制的项和所需绘图类型的信息的结构体指针
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual void OnCommand(int code) override;
-
-    public:
-        /**
-         * @brief 清空所有子项
-         */
-        virtual void Clear() override;
+        virtual bool OnDrawItemSelf(DRAWITEMSTRUCT *pDrawItem) override;
 
         /**
-         * @brief 获取指定索引处子项的值
-         * @param index 子项的索引
+         * @brief 获取子项要显示的文本
+         * @param index 子项索引
+         * @param item 包含子项数据的Variant对象
          */
-        virtual std::wstring GetItemAt(int index) override;
+        virtual std::wstring GetDisplayText(int index, const Variant &item);
+
+    private:
+        /**
+         * @brief 设置子项数量
+         * @param count 指定列表框中的新项计数
+         */
+        void _SetCount(int count);
 
         /**
-         * @brief 添加新的子项
-         * @param item 要添加的子项
-         * @return 是否添加成功
+         * @brief 更新子项数量
          */
-        virtual bool AddItem(const std::wstring &item) override;
+        void _UpdateCount();
 
         /**
-         * @brief 添加子项到指定索引
-         * @param index 要插入的位置
-         * @param item 要添加的子项
-         * @return 是否添加成功
+         * @brief 更新子项高度
          */
-        virtual bool InsertItem(int index, const std::wstring &item) override;
-
-        /**
-         * @brief 更新指定位置的子项
-         * @param index 要更新子项的位置
-         * @param newValue 子项的新值
-         * @return 操作是否成功
-         */
-        virtual bool UpdateItem(int index, const std::wstring &newValue) override;
-
-        /**
-         * @brief 移除指定索引处的子项
-         * @param index 要移除子项的索引
-         * @return 操作是否成功
-         */
-        virtual bool RemoveItemAt(int index) override;
-
-        /**
-         * @brief 获取指定点处子项的索引
-         * @param point 相对于列表框用户区左上角点的位置
-         */
-        int GetItemIndexFromPoint(const Point &point);
-
-        /**
-         * @brief 多选状态下可通过该函数获取所有选中项的索引
-         * @return 所有选中项的索引
-         */
-        List<int> GetSelectedIndices();
-
-        /**
-         * @brief 多选状态下可通过该函数获取所有选中项的内容
-         * @return 所有选中项的内容
-         */
-        StrList GetSelectedItems();
-
-        /**
-         * @brief 获取指定索引处子项的选中状态
-         * @param index 子项的索引
-         * @return 若子项选中则返回true，否则返回false
-         */
-        bool GetItemSelectionState(int index);
-
-        /**
-         * @brief 多选状态下设置指定索引处子项的选中状态
-         * @param index 子项的索引，输入-1可设置所有子项的选中状态
-         * @param value 要设置的子项状态
-         */
-        void SetItemSelectionState(int index, bool value);
+        void _UpdateItemHeight();
     };
 }
 
@@ -21131,48 +21977,73 @@ namespace sw
      * @brief 列表视图的列信息
      */
     struct ListViewColumn {
-        /**
-         * @brief 列标题
-         */
+        /// @brief 列标题
         std::wstring header;
 
-        /**
-         * @brief 列宽度
-         */
+        /// @brief 列宽度
         double width;
 
-        /**
-         * @brief 对齐方式
-         */
+        /// @brief 对齐方式，默认为左对齐
         ListViewColumnAlignment alignment = ListViewColumnAlignment::Left;
 
-        /**
-         * @brief 构造函数
-         */
-        ListViewColumn(const std::wstring &header);
+        /// @brief 构造函数
+        ListViewColumn(const std::wstring &header, double width = 100);
 
-        /**
-         * @brief 构造函数
-         */
-        ListViewColumn(const std::wstring &header, double width);
-
-        /**
-         * @brief 从LVCOLUMNW构造
-         */
+        /// @brief 从LVCOLUMNW构造
         ListViewColumn(const LVCOLUMNW &lvc);
 
-        /**
-         * @brief 隐式转换LVCOLUMNW
-         */
+        /// @brief 隐式转换LVCOLUMNW
         operator LVCOLUMNW() const;
+    };
+
+    /**
+     * @brief 列表视图的子项信息
+     */
+    struct ListViewItem {
+        /// @brief 子项文本列表，索引0为主项文本
+        List<std::wstring> subItems;
+
+        /// @brief 关联图像在图像列表中的索引，-1表示无图像
+        int imageIndex = -1;
+
+        /// @brief 复选框选中状态
+        bool checked = false;
+
+        /// @brief 默认构造函数
+        ListViewItem() = default;
+
+        /// @brief 默认拷贝构造函数
+        ListViewItem(const ListViewItem &other) = default;
+
+        /// @brief 移动构造函数
+        ListViewItem(ListViewItem &&other) noexcept;
+
+        /// @brief 使用初始化列表构造
+        ListViewItem(std::initializer_list<std::wstring> subItems);
     };
 
     /**
      * @brief 列表视图
      */
-    class ListView : public ItemsControl<StrList>
+    class ListView : public ItemsControl
     {
+    private:
+        /**
+         * @brief 列表项集合
+         */
+        ObservableCollection<ListViewItem> _items;
+
+        /**
+         * @brief 用于给GetDisplayInfo提供显示信息的缓冲对象
+         */
+        ListViewItem _itemDisplayBuffer;
+
     public:
+        /**
+         * @brief 列表项集合，当未设置ItemsSource时使用该集合作为数据源
+         */
+        const ReadOnlyProperty<ObservableCollection<ListViewItem> *> Items;
+
         /**
          * @brief 列数
          */
@@ -21219,158 +22090,10 @@ namespace sw
          */
         ListView();
 
-    protected:
         /**
-         * @brief 获取子项数
+         * @brief 刷新控件以反映数据源的当前状态
          */
-        virtual int GetItemsCount() override;
-
-        /**
-         * @brief 选中项的索引，当无选中项时为-1
-         */
-        virtual int GetSelectedIndex() override;
-
-        /**
-         * @brief 设置选中项索引
-         */
-        virtual void SetSelectedIndex(int index) override;
-
-        /**
-         * @brief 获取选中项
-         */
-        virtual StrList GetSelectedItem() override;
-
-        /**
-         * @brief 设置背景颜色
-         * @param color 要设置的颜色
-         * @param redraw 是否重绘
-         */
-        virtual void SetBackColor(Color color, bool redraw) override;
-
-        /**
-         * @brief 设置文本颜色
-         * @param color 要设置的颜色
-         * @param redraw 是否重绘
-         */
-        virtual void SetTextColor(Color color, bool redraw) override;
-
-        /**
-         * @brief 接收到WM_NOTIFY后调用该函数
-         * @param pNMHDR 包含有关通知消息的信息
-         * @param result 函数返回值为true时将该值作为消息的返回值，默认值为0
-         * @return 若已处理该消息则返回true，否则调用发出通知控件的OnNotified函数，依据其返回值判断是否调用DefaultWndProc
-         */
-        virtual bool OnNotify(NMHDR *pNMHDR, LRESULT &result) override;
-
-        /**
-         * @brief 父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
-         * @param pNMHDR 包含有关通知消息的信息
-         * @param result 函数返回值为true时将该值作为消息的返回值
-         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
-
-        /**
-         * @brief 列表项某些属性发生变化时调用该函数
-         */
-        virtual void OnItemChanged(NMLISTVIEW *pNMLV);
-
-        /**
-         * @brief 复选框选中状态发生改变
-         * @param index 改变项的索引
-         */
-        virtual void OnCheckStateChanged(int index);
-
-        /**
-         * @brief 鼠标左键单击列标题时调用该函数
-         */
-        virtual void OnHeaderItemClicked(NMHEADERW *pNMH);
-
-        /**
-         * @brief 鼠标左键双击列标题时调用该函数
-         */
-        virtual void OnHeaderItemDoubleClicked(NMHEADERW *pNMH);
-
-        /**
-         * @brief 鼠标左键单击某一项时调用该函数
-         */
-        virtual void OnItemClicked(NMITEMACTIVATE *pNMIA);
-
-        /**
-         * @brief 鼠标左键双击某一项调用该函数
-         */
-        virtual void OnItemDoubleClicked(NMITEMACTIVATE *pNMIA);
-
-        /**
-         * @brief 当OnNotified接收到LVN_GETDISPINFOW通知时调用该函数
-         * @param pNMInfo 包含有关通知消息的信息
-         */
-        virtual void OnGetDispInfo(NMLVDISPINFOW *pNMInfo);
-
-        /**
-         * @brief 编辑状态结束后调用该函数
-         * @return 是否应用新文本
-         */
-        virtual bool OnEndEdit(NMLVDISPINFOW *pNMInfo);
-
-    public:
-        /**
-         * @brief 清空所有子项
-         */
-        virtual void Clear() override;
-
-        /**
-         * @brief 获取指定索引处子项的值
-         * @param index 子项的索引
-         */
-        virtual StrList GetItemAt(int index) override;
-
-        /**
-         * @brief 添加新的子项
-         * @param item 要添加的子项
-         * @return 是否添加成功
-         */
-        virtual bool AddItem(const StrList &item) override;
-
-        /**
-         * @brief 添加子项到指定索引
-         * @param index 要插入的位置
-         * @param item 要添加的子项
-         * @return 是否添加成功
-         */
-        virtual bool InsertItem(int index, const StrList &item) override;
-
-        /**
-         * @brief 更新指定位置的子项
-         * @param index 要更新子项的位置
-         * @param newValue 子项的新值
-         * @return 操作是否成功
-         */
-        virtual bool UpdateItem(int index, const StrList &newValue) override;
-
-        /**
-         * @brief 移除指定索引处的子项
-         * @param index 要移除子项的索引
-         * @return 操作是否成功
-         */
-        virtual bool RemoveItemAt(int index) override;
-
-        /**
-         * @brief 获取指定位置处文本
-         * @param row 所在行
-         * @param col 所在列
-         * @return 对应位置的文本，若获取失败则返回空字符串
-         */
-        virtual std::wstring GetItemAt(int row, int col);
-
-        /**
-         * @brief 更新指定位置处文本
-         * @param row 所在行
-         * @param col 所在列
-         * @param newValue 要设置的文本
-         * @return 操作是否成功
-         */
-        virtual bool UpdateItem(int row, int col, const std::wstring &newValue);
+        void Refresh();
 
         /**
          * @brief 添加新的列
@@ -21437,11 +22160,6 @@ namespace sw
         List<int> GetSelectedIndices();
 
         /**
-         * @brief 获取所有复选框选中的项的索引
-         */
-        List<int> GetCheckedIndices();
-
-        /**
          * @brief 获取指定索引项的复选框是否选中
          */
         bool GetItemCheckState(int index);
@@ -21472,14 +22190,6 @@ namespace sw
         HIMAGELIST SetImageList(ListViewImageList imageList, HIMAGELIST value);
 
         /**
-         * @brief 设置指定子项的图像
-         * @param index 子项的索引
-         * @param imgIndex 图像在图像列表中的索引
-         * @return 操作是否成功
-         */
-        bool SetItemImage(int index, int imgIndex);
-
-        /**
          * @brief 进入编辑模式，调用该函数前需要将Editable属性设为true
          * @param index 编辑项的索引
          * @return 操作是否成功
@@ -21491,7 +22201,195 @@ namespace sw
          */
         void CancelEdit();
 
+    protected:
+        /**
+         * @brief 获取默认数据源，当ItemsSource未设置时使用该数据源
+         * @return 默认数据源的IList指针，若无默认数据源则返回nullptr
+         * @note 子类应确保返回的IList在ItemsControl生命周期内始终有效，且保证多次调用返回同一指针
+         */
+        virtual IList *GetDefaultItemsSource() override final;
+
+        /**
+         * @brief 当前数据源改变时调用该函数
+         * @param oldItemsSource 旧的数据源
+         * @param newItemsSource 新的数据源
+         */
+        virtual void OnCurrentItemsSourceChanged(IList *oldItemsSource, IList *newItemsSource) override;
+
+        /**
+         * @brief 当数据源集合发生变更时调用该函数
+         * @param args 包含集合变更信息的事件参数
+         */
+        virtual void OnCurrentItemsSourceCollectionChanged(const NotifyCollectionChangedEventArgs &args) override;
+
+        /**
+         * @brief 选中项的索引，当无选中项时为-1
+         */
+        virtual int GetSelectedIndex() override;
+
+        /**
+         * @brief 设置选中项索引
+         */
+        virtual void SetSelectedIndex(int index) override;
+
+        /**
+         * @brief 设置背景颜色
+         * @param color 要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetBackColor(Color color, bool redraw) override;
+
+        /**
+         * @brief 设置文本颜色
+         * @param color 要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetTextColor(Color color, bool redraw) override;
+
+        /**
+         * @brief 接收到WM_NOTIFY后调用该函数
+         * @param pNMHDR 包含有关通知消息的信息
+         * @param result 函数返回值为true时将该值作为消息的返回值，默认值为0
+         * @return 若已处理该消息则返回true，否则调用发出通知控件的OnNotified函数，依据其返回值判断是否调用DefaultWndProc
+         */
+        virtual bool OnNotify(NMHDR *pNMHDR, LRESULT &result) override;
+
+        /**
+         * @brief 父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
+         * @param pNMHDR 包含有关通知消息的信息
+         * @param result 函数返回值为true时将该值作为消息的返回值
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
+
+        /**
+         * @brief 绘制控件前调用该函数
+         * @param pNMCD 包含有关自定义绘制的信息
+         * @param result 函数返回值为true时将该值作为NM_CUSTOMDRAW消息的返回值
+         * @return 若已完成绘制则返回true，否则返回false以使用默认绘制
+         */
+        virtual bool OnPrePaint(NMCUSTOMDRAW *pNMCD, LRESULT &result) override;
+
+        /**
+         * @brief 绘制子项前调用该函数
+         * @param pNMCD 包含有关自定义绘制的信息
+         * @param subItem 若消息包含CDDS_SUBITEM标志则该值为true，否则为false
+         * @param result 函数返回值为true时将该值作为NM_CUSTOMDRAW消息的返回值
+         * @return 若已完成绘制则返回true，否则返回false以使用默认绘制
+         */
+        virtual bool OnItemPrePaint(NMCUSTOMDRAW *pNMCD, bool subItem, LRESULT &result) override;
+
+        /**
+         * @brief 列表项某些属性发生变化时调用该函数
+         * @param pNMLV 包含有关列表项变化的信息
+         */
+        virtual void OnItemChanged(NMLISTVIEW *pNMLV);
+
+        /**
+         * @brief 复选框选中状态发生改变
+         * @param index 改变项的索引
+         */
+        virtual void OnCheckStateChanged(int index);
+
+        /**
+         * @brief 鼠标左键单击列标题时调用该函数
+         * @note 内部Header控件接收到HDN_ITEMCLICKW通知后会调用该函数
+         */
+        virtual void OnHeaderItemClicked(NMHEADERW *pNMH);
+
+        /**
+         * @brief 鼠标左键双击列标题时调用该函数
+         * @note 内部Header控件接收到HDN_ITEMDBLCLICKW通知后会调用该函数
+         */
+        virtual void OnHeaderItemDoubleClicked(NMHEADERW *pNMH);
+
+        /**
+         * @brief 鼠标左键单击某一项时调用该函数
+         * @note 控件接收到NM_CLICK通知后会调用该函数
+         */
+        virtual void OnItemClicked(NMITEMACTIVATE *pNMIA);
+
+        /**
+         * @brief 鼠标左键双击某一项调用该函数
+         * @note 控件接收到NM_DBLCLK通知后会调用该函数
+         */
+        virtual void OnItemDoubleClicked(NMITEMACTIVATE *pNMIA);
+
+        /**
+         * @brief 复选框被点击时调用该函数
+         * @param index 被点击项的索引
+         */
+        virtual void OnCheckBoxClicked(int index);
+
+        /**
+         * @brief 编辑状态结束后调用该函数
+         * @param args 包含编辑结果的事件参数
+         */
+        virtual void OnEndEdit(ListViewEndEditEventArgs &args);
+
+        /**
+         * @brief 应用编辑结果时调用该函数
+         * @param index 编辑项的索引
+         * @param newText 编辑后的文本
+         */
+        virtual void OnApplyEdit(int index, const std::wstring &newText);
+
+        /**
+         * @brief 当OnNotified接收到LVN_GETDISPINFOW通知时调用该函数
+         * @param pNMInfo 包含有关通知消息的信息
+         */
+        virtual void OnGetDispInfo(NMLVDISPINFOW *pNMInfo);
+
+        /**
+         * @brief 获取指定子项要显示的信息
+         * @param index 子项索引
+         * @param item 包含子项数据的Variant对象
+         * @param pNMInfo 包含有关通知消息的信息，修改该结构体以提供要显示的信息
+         */
+        virtual void GetDisplayInfo(int index, const Variant &item, NMLVDISPINFOW *pNMInfo);
+
+        /**
+         * @brief 获取指定子项要显示的信息，子类可以重写该函数以显示自定义类型的数据
+         * @param index 子项索引
+         * @param item 包含子项数据的Variant对象
+         * @param listViewItem 用于接收要显示信息的ListViewItem结构体，修改该结构体以提供要显示的信息
+         * @return 若已提供显示信息则返回true，否则返回false以使用默认显示信息
+         */
+        virtual bool GetDisplayInfo(int index, const Variant &item, ListViewItem &listViewItem);
+
+        /**
+         * @brief 获取指定索引项的复选框矩形
+         * @param index 项索引
+         * @param rect 用于接收复选框矩形的RECT结构体
+         */
+        virtual void GetCheckBoxRect(int index, RECT &rect);
+
+        /**
+         * @brief 获取指定索引项的复选框是否选中
+         * @param index 项索引
+         * @param checked 用于接收复选框选中状态的布尔变量
+         */
+        virtual void OnGetItemCheckState(int index, bool &checked);
+
+        /**
+         * @brief 设置指定索引项复选框的选中状态
+         * @param index 项索引
+         * @param checked 要设置的选中状态
+         */
+        virtual void OnSetItemCheckState(int index, bool checked);
+
     private:
+        /**
+         * @brief 设置子项数量
+         * @param count 指定列表视图中的新项计数
+         */
+        void _SetCount(int count);
+
+        /**
+         * @brief 更新子项数量以匹配数据源
+         */
+        void _UpdateCount();
+
         /**
          * @brief 获取行数
          */
@@ -21512,6 +22410,13 @@ namespace sw
          * @return 先前的样式
          */
         DWORD _SetExtendedListViewStyle(DWORD style);
+
+        /**
+         * @brief 同步ListViewItem数据到Windows消息结构体
+         * @param item 包含要显示信息的ListViewItem结构体
+         * @param pNMInfo 要同步到的NMLVDISPINFOW结构体指针
+         */
+        void _ApplyDispInfo(const ListViewItem &item, NMLVDISPINFOW *pNMInfo);
     };
 };
 
