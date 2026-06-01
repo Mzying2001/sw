@@ -346,21 +346,16 @@ bool sw::ListView::OnNotified(NMHDR *pNMHDR, LRESULT &result)
             return true;
         }
         case LVN_ENDLABELEDITW: {
-            NMLVDISPINFOW *pNMInfo = reinterpret_cast<NMLVDISPINFOW *>(pNMHDR);
-            if (!OnEndEdit(pNMInfo)) {
+            NMLVDISPINFOW *pNMInfo =
+                reinterpret_cast<NMLVDISPINFOW *>(pNMHDR);
+
+            if (pNMInfo->item.pszText == nullptr) {
                 result = FALSE;
             } else {
-                result = TRUE;
-                if (GetCurrentItemsSource() == GetDefaultItemsSource()) {
-                    int index = pNMInfo->item.iItem;
-                    if (index >= 0 && index < _items.Count()) {
-                        auto &subItems = _items.GetAt(index).subItems;
-                        int subIndex   = pNMInfo->item.iSubItem;
-                        if (subIndex >= 0 && subIndex < subItems.Count()) {
-                            subItems[subIndex] = pNMInfo->item.pszText;
-                        }
-                    }
-                }
+                ListViewEndEditEventArgs args(pNMInfo->item.iItem, pNMInfo->item.pszText);
+                OnEndEdit(args);
+                result = !args.cancel;
+                if (result) OnApplyEdit(args.index, args.newText);
             }
             return true;
         }
@@ -466,17 +461,39 @@ void sw::ListView::OnCheckBoxClicked(int index)
     SetItemCheckState(index, !GetItemCheckState(index));
 }
 
-bool sw::ListView::OnEndEdit(NMLVDISPINFOW *pNMInfo)
+void sw::ListView::OnEndEdit(ListViewEndEditEventArgs &args)
 {
-    if (pNMInfo->item.pszText == nullptr) {
-        return false;
+    RaiseRoutedEvent(args);
+}
+
+void sw::ListView::OnApplyEdit(int index, const std::wstring &newText)
+{
+    IList *source = GetCurrentItemsSource();
+
+    if (source == nullptr || index < 0 || index >= source->Count()) {
+        return;
     }
 
-    ListViewEndEditEventArgs args(pNMInfo->item.iItem, pNMInfo->item.pszText);
-    RaiseRoutedEvent(args);
+    Variant item = source->GetVariantAt(index);
 
-    pNMInfo->item.pszText = args.newText;
-    return !args.cancel;
+    // Windows消息只支持编辑主项，因此只修改索引0处的文本
+
+    if (item.IsType<ListViewItem>()) {
+        // ListViewItem
+        auto &lvItem = item.UnsafeCast<ListViewItem>();
+        if (lvItem.subItems.Count() > 0) {
+            lvItem.subItems[0] = newText;
+        }
+    } else if (item.IsType<std::wstring>()) {
+        // std::wstring
+        item.UnsafeCast<std::wstring>() = newText;
+    } else if (item.IsType<List<std::wstring>>()) {
+        // List<std::wstring>
+        auto &subItems = item.UnsafeCast<List<std::wstring>>();
+        if (subItems.Count() > 0) {
+            subItems[0] = newText;
+        }
+    }
 }
 
 void sw::ListView::OnGetDispInfo(NMLVDISPINFOW *pNMInfo)

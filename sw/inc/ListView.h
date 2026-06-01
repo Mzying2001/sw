@@ -372,9 +372,16 @@ namespace sw
 
         /**
          * @brief 编辑状态结束后调用该函数
-         * @return 是否应用新文本
+         * @param args 包含编辑结果的事件参数
          */
-        virtual bool OnEndEdit(NMLVDISPINFOW *pNMInfo);
+        virtual void OnEndEdit(ListViewEndEditEventArgs &args);
+
+        /**
+         * @brief 应用编辑结果时调用该函数
+         * @param index 编辑项的索引
+         * @param newText 编辑后的文本
+         */
+        virtual void OnApplyEdit(int index, const std::wstring &newText);
 
         /**
          * @brief 当OnNotified接收到LVN_GETDISPINFOW通知时调用该函数
