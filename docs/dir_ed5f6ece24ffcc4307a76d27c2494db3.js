@@ -87,6 +87,7 @@ var dir_ed5f6ece24ffcc4307a76d27c2494db3 =
     [ "RoutedEventArgs.h", "RoutedEventArgs_8h_source.html", null ],
     [ "Screen.h", "Screen_8h_source.html", null ],
     [ "ScrollEnums.h", "ScrollEnums_8h_source.html", null ],
+    [ "SelfBinding.h", "SelfBinding_8h_source.html", null ],
     [ "SimpleWindow.h", "SimpleWindow_8h_source.html", null ],
     [ "Size.h", "Size_8h_source.html", null ],
     [ "Slider.h", "Slider_8h_source.html", null ],

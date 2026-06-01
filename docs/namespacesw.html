@@ -693,6 +693,9 @@ $(document).ready(function(){initNavTree('namespacesw.html',''); initResizable()
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsw_1_1ScrollingEventArgs.html">ScrollingEventArgs</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口/面板滚动条滚动事件参数类型  <a href="structsw_1_1ScrollingEventArgs.html#details">更多...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1SelfBinding.html">SelfBinding</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">自绑定类，用于同一对象内部属性之间的绑定  <a href="classsw_1_1SelfBinding.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsw_1_1ShowContextMenuEventArgs.html">ShowContextMenuEventArgs</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">显示用户自定义上下文菜单的事件参数类型  <a href="structsw_1_1ShowContextMenuEventArgs.html#details">更多...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1929,9 +1932,11 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
 , <a class="el" href="namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210a34753ee4a6647d5930f9eb418d470500">SysLink_Clicked</a>
 , <br />
 &#160;&#160;<a class="el" href="namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210a8c728f05ff0b66d13c1a1fc35c51b9c8">HotKeyControl_ValueChanged</a>
+, <a class="el" href="namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210a203bef3bbb846686f5ada78f14848c6d">TreeView_SelectionChanged</a>
 , <a class="el" href="namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210ad7251f4958069158b3713f34aa600f49">TreeView_ItemExpanding</a>
 , <a class="el" href="namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210a8cf6322afe402bc51d1926b7f218f0b3">TreeView_ItemExpanded</a>
-, <a class="el" href="namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210a76d53ae552218bdd8175d51f7351f487">TreeView_CheckStateChanged</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210a76d53ae552218bdd8175d51f7351f487">TreeView_CheckStateChanged</a>
 <br />
  }</td></tr>
 <tr class="memdesc:ad92fec32ed92b6b581ff7a19a0097210"><td class="mdescLeft">&#160;</td><td class="mdescRight">路由事件类型枚举  <a href="namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210">更多...</a><br /></td></tr>
@@ -4089,6 +4094,8 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
 <tr><td class="fieldname"><a id="ad92fec32ed92b6b581ff7a19a0097210a34753ee4a6647d5930f9eb418d470500" name="ad92fec32ed92b6b581ff7a19a0097210a34753ee4a6647d5930f9eb418d470500"></a>SysLink_Clicked&#160;</td><td class="fielddoc"><p>SysLink控件链接被单击，参数类型为sw::SysLinkClickedEventArgs </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ad92fec32ed92b6b581ff7a19a0097210a8c728f05ff0b66d13c1a1fc35c51b9c8" name="ad92fec32ed92b6b581ff7a19a0097210a8c728f05ff0b66d13c1a1fc35c51b9c8"></a>HotKeyControl_ValueChanged&#160;</td><td class="fielddoc"><p>热键框的值被改变，参数类型为sw::HotKeyValueChangedEventArgs </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ad92fec32ed92b6b581ff7a19a0097210a203bef3bbb846686f5ada78f14848c6d" name="ad92fec32ed92b6b581ff7a19a0097210a203bef3bbb846686f5ada78f14848c6d"></a>TreeView_SelectionChanged&#160;</td><td class="fielddoc"><p>树视图选中的节点发生改变，参数类型为sw::RoutedEventArgs </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ad92fec32ed92b6b581ff7a19a0097210ad7251f4958069158b3713f34aa600f49" name="ad92fec32ed92b6b581ff7a19a0097210ad7251f4958069158b3713f34aa600f49"></a>TreeView_ItemExpanding&#160;</td><td class="fielddoc"><p>树视图节点正在展开或折叠，参数类型为sw::TreeViewItemExpandingEventArgs </p>
 </td></tr>

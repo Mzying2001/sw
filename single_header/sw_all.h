@@ -362,34 +362,38 @@ namespace sw
          * @note 传入对象的生命周期将由CallableList管理
          * @note 异常安全：
          *       - SINGLE→LIST 升级时使用 reserve(2) 避免后续 emplace_back 触发扩容，
-         *         此时唯一的失败路径是 shared_ptr 控制块分配失败，shared_ptr 构造函数
-         *         保证抛异常时自动 delete 传入的裸指针。
+         *         并使用 shared_ptr(unique_ptr&&) 接管所有权，构造失败时原 unique_ptr
+         *         不会释放其管理的对象。
          *       - STATE_LIST 分支先把裸指针转交给本地 shared_ptr，再 emplace_back，
          *         即使 vector 扩容失败，本地 shared_ptr 析构时也会正确释放对象。
          */
         void Add(TCallable *callable)
         {
-            if (callable == nullptr) {
+            TSinglePtr owned(callable);
+
+            if (owned == nullptr) {
                 return;
             }
 
             switch (_state) {
                 case STATE_NONE: {
                     _Reset(STATE_SINGLE);
-                    _GetSingle().reset(callable);
+                    _GetSingle() = std::move(owned);
                     break;
                 }
                 case STATE_SINGLE: {
                     TSharedList list;
                     list.reserve(2);
-                    list.emplace_back(_GetSingle().release());
-                    list.emplace_back(callable);
+                    std::shared_ptr<TCallable> incoming(std::move(owned));
+                    std::shared_ptr<TCallable> current(std::move(_GetSingle()));
+                    list.emplace_back(std::move(current));
+                    list.emplace_back(std::move(incoming));
                     _Reset(STATE_LIST);
                     _GetList() = std::move(list);
                     break;
                 }
                 case STATE_LIST: {
-                    std::shared_ptr<TCallable> sp(callable);
+                    std::shared_ptr<TCallable> sp(std::move(owned));
                     _GetList().emplace_back(std::move(sp));
                     break;
                 }
@@ -806,10 +810,13 @@ namespace sw
             if (this == &other) {
                 return *this;
             }
-            _data.Clear();
+
+            CallableList<TRet(Args...)> copied;
+
             for (size_t i = 0; i < other._data.Count(); ++i) {
-                _data.Add(other._data[i]->Clone());
+                copied.Add(other._data[i]->Clone());
             }
+            _data = std::move(copied);
             return *this;
         }
 
@@ -2558,6 +2565,20 @@ namespace sw
     template <typename TRet, typename... Args>
     class Event<Delegate<TRet(Args...)>> final
     {
+    private:
+        /**
+         * @brief 用于存储任意签名函数指针的通用类型
+         * @note 函数指针类型间通过reinterpret_cast互转再转回原类型不丢失信息（C++标准良定义），
+         *       使用统一的函数指针类型作为存储可避免函数指针与void*之间的conditionally-supported转换。
+         */
+        using TFuncPtr = void (*)();
+
+        /**
+         * @brief 静态偏移量，表示静态事件
+         */
+        static constexpr std::ptrdiff_t _STATICOFFSET =
+            (std::numeric_limits<std::ptrdiff_t>::max)();
+
     public:
         /**
          * @brief 事件的委托类型
@@ -2581,9 +2602,9 @@ namespace sw
             assert(initializer._accessor != nullptr);
 
             SetOwner(initializer._owner);
-            _accessor = reinterpret_cast<void *>(initializer._accessor);
+            _accessor = reinterpret_cast<TFuncPtr>(initializer._accessor);
 
-            _extractor = [](void *owner, void *accessor) -> TDelegate & {
+            _extractor = [](void *owner, TFuncPtr accessor) -> TDelegate & {
                 return reinterpret_cast<TDelegate &(*)(TOwner *)>(accessor)(reinterpret_cast<TOwner *>(owner));
             };
         }
@@ -2597,9 +2618,9 @@ namespace sw
             assert(initializer._accessor != nullptr);
 
             SetOwner(nullptr);
-            _accessor = reinterpret_cast<void *>(initializer._accessor);
+            _accessor = reinterpret_cast<TFuncPtr>(initializer._accessor);
 
-            _extractor = [](void * /*owner*/, void *accessor) -> TDelegate & {
+            _extractor = [](void * /*owner*/, TFuncPtr accessor) -> TDelegate & {
                 return reinterpret_cast<TDelegate &(*)()>(accessor)();
             };
         }
@@ -2646,12 +2667,6 @@ namespace sw
 
     private:
         /**
-         * @brief 静态偏移量，表示静态事件
-         */
-        static constexpr std::ptrdiff_t _STATICOFFSET =
-            (std::numeric_limits<std::ptrdiff_t>::max)();
-
-        /**
          * @brief 事件所有者对象相对于当前事件对象的偏移量
          */
         std::ptrdiff_t _offset;
@@ -2659,12 +2674,12 @@ namespace sw
         /**
          * @brief 委托访问器指针
          */
-        void *_accessor;
+        TFuncPtr _accessor;
 
         /**
          * @brief 类型擦除的委托访问器，用于获取事件的委托引用
          */
-        TDelegate &(*_extractor)(void *owner, void *accessor);
+        TDelegate &(*_extractor)(void *owner, TFuncPtr accessor);
 
         /**
          * @brief 判断事件是否为静态事件
@@ -6255,26 +6270,34 @@ namespace sw
 
         /**
          * @brief 判断与另一DynamicObject是否引用同一对象
-         * @return 引用同一对象时返回true
+         * @return 引用同一对象时返回true，否则返回false
          * @note 若为引用装箱则比较被引用对象的地址
          */
         bool ReferenceEquals(const DynamicObject &other) const noexcept
         {
-            if (IsBoxedObject() && other.IsBoxedObject())
+            if (this == &other) {
+                return true;
+            }
+            if (IsBoxedObject() && other.IsBoxedObject()) {
                 return GetBoxedRawPtr() == other.GetBoxedRawPtr();
-            return this == &other;
+            }
+            return false;
         }
 
         /**
          * @brief 获取对象的类型信息
-         * @return 对象的类型索引
+         * @return 对象的类型索引，若为装箱对象则返回被装箱类型的类型索引
          */
-        std::type_index GetType() const
+        std::type_index GetType() const noexcept
         {
 #if defined(SW_DISABLE_REFLECTION)
             throw std::runtime_error("Reflection is disabled, cannot get type index.");
 #else
-            return typeid(*this);
+            if (IsBoxedObject()) {
+                return GetBoxedType();
+            } else {
+                return typeid(*this);
+            }
 #endif
         }
 
@@ -6685,6 +6708,16 @@ namespace sw
             BoxedObject<T> result{_IsRefParam{true}};
             result._data.refptr = ptr;
             return result;
+        }
+
+        /**
+         * @brief 创建引用类型的装箱对象
+         * @param ref 被引用的外部对象
+         * @return 引用类型的装箱对象
+         */
+        static BoxedObject<T> MakeRef(T &ref) noexcept
+        {
+            return MakeRef(&ref);
         }
 
         /**
@@ -7457,7 +7490,7 @@ namespace sw
                                        decltype(method(std::declval<DynamicObject &>(), std::forward<Args>(args)...))>::type
         {
             assert(method != nullptr);
-            auto boxed = BoxedObject<T>::MakeRef(&obj);
+            auto boxed = BoxedObject<T>::MakeRef(obj);
             return method(boxed, std::forward<Args>(args)...);
         }
 
@@ -7490,7 +7523,7 @@ namespace sw
             -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, TField &>::type
         {
             assert(accessor != nullptr);
-            auto boxed = BoxedObject<T>::MakeRef(&obj);
+            auto boxed = BoxedObject<T>::MakeRef(obj);
             return accessor(boxed);
         }
 
@@ -7523,7 +7556,7 @@ namespace sw
             -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value, TValue>::type
         {
             assert(getter != nullptr);
-            auto boxed = BoxedObject<T>::MakeRef(&obj);
+            auto boxed = BoxedObject<T>::MakeRef(obj);
             return getter(boxed);
         }
 
@@ -7558,7 +7591,7 @@ namespace sw
             -> typename std::enable_if<!std::is_base_of<DynamicObject, T>::value>::type
         {
             assert(setter != nullptr);
-            auto boxed = BoxedObject<T>::MakeRef(&obj);
+            auto boxed = BoxedObject<T>::MakeRef(obj);
             setter(boxed, std::forward<TValue>(value));
         }
     };
@@ -7706,6 +7739,9 @@ namespace sw
 
         /// 热键框的值被改变，参数类型为sw::HotKeyValueChangedEventArgs
         HotKeyControl_ValueChanged,
+
+        /// 树视图选中的节点发生改变，参数类型为sw::RoutedEventArgs
+        TreeView_SelectionChanged,
 
         /// 树视图节点正在展开或折叠，参数类型为sw::TreeViewItemExpandingEventArgs
         TreeView_ItemExpanding,
@@ -10790,7 +10826,7 @@ namespace sw
                 Variant>::type
         {
             Variant v;
-            v._obj.reset(new BoxedObject<T>(BoxedObject<T>::MakeRef(&obj)));
+            v._obj.reset(new BoxedObject<T>(BoxedObject<T>::MakeRef(obj)));
             v.ResetCloner<T>();
             return v;
         }
@@ -10911,10 +10947,17 @@ namespace sw
          */
         Binding() = default;
 
-        Binding(const Binding &)            = delete; // 删除拷贝构造函数
-        Binding(Binding &&)                 = delete; // 删除移动构造函数
-        Binding &operator=(const Binding &) = delete; // 删除拷贝赋值运算符
-        Binding &operator=(Binding &&)      = delete; // 删除移动赋值运算符
+        // 删除拷贝构造函数
+        Binding(const Binding &) = delete;
+
+        // 删除移动构造函数
+        Binding(Binding &&) = delete;
+
+        // 删除拷贝赋值运算符
+        Binding &operator=(const Binding &) = delete;
+
+        // 删除移动赋值运算符
+        Binding &operator=(Binding &&) = delete;
 
     public:
         /**
@@ -11233,7 +11276,8 @@ namespace sw
                     _IsProperty<TSourceProperty>::value &&
                     std::is_base_of<DynamicObject, TTargetObject>::value &&
                     std::is_base_of<DynamicObject, TSourceObject>::value &&
-                    std::is_same<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value,
+                    _IsStaticCastable<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value &&
+                    _IsStaticCastable<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value,
                 Binding *>::type
         {
             using TTargetValue = typename TTargetProperty::TValue;
@@ -11264,7 +11308,7 @@ namespace sw
                 } else {
                     targetSetter(
                         *binding->_targetObject,
-                        sourceGetter(*binding->_sourceObject));
+                        static_cast<TTargetValue>(sourceGetter(*binding->_sourceObject)));
                 }
                 return true;
             };
@@ -11290,7 +11334,7 @@ namespace sw
                 } else {
                     sourceSetter(
                         *binding->_sourceObject,
-                        targetGetter(*binding->_targetObject));
+                        static_cast<TSourceValue>(targetGetter(*binding->_targetObject)));
                 }
                 return true;
             };
@@ -11325,7 +11369,8 @@ namespace sw
                     _IsProperty<TSourceProperty>::value &&
                     std::is_base_of<DynamicObject, TTargetObject>::value &&
                     std::is_base_of<DynamicObject, TSourceObject>::value &&
-                    std::is_same<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value,
+                    _IsStaticCastable<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value &&
+                    _IsStaticCastable<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value,
                 Binding *>::type
         {
             return Create(nullptr, targetProperty, source, sourceProperty, mode, converter);
@@ -11354,7 +11399,8 @@ namespace sw
                     _IsProperty<TSourceProperty>::value &&
                     std::is_base_of<DynamicObject, TTargetObject>::value &&
                     std::is_base_of<DynamicObject, TSourceObject>::value &&
-                    std::is_same<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value,
+                    _IsStaticCastable<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value &&
+                    _IsStaticCastable<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value,
                 Binding *>::type
         {
             return Create(nullptr, targetProperty, nullptr, sourceProperty, mode, converter);
@@ -11385,7 +11431,8 @@ namespace sw
                     _IsProperty<TSourceProperty>::value &&
                     std::is_base_of<DynamicObject, TTargetObject>::value &&
                     std::is_base_of<DynamicObject, TSourceObject>::value &&
-                    !std::is_same<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value,
+                    !(_IsStaticCastable<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value &&
+                      _IsStaticCastable<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value),
                 Binding *>::type
         {
             using TTargetValue = typename TTargetProperty::TValue;
@@ -11467,7 +11514,8 @@ namespace sw
                     _IsProperty<TSourceProperty>::value &&
                     std::is_base_of<DynamicObject, TTargetObject>::value &&
                     std::is_base_of<DynamicObject, TSourceObject>::value &&
-                    !std::is_same<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value,
+                    !(_IsStaticCastable<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value &&
+                      _IsStaticCastable<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value),
                 Binding *>::type
         {
             return Create(nullptr, targetProperty, source, sourceProperty, mode, converter);
@@ -11496,7 +11544,8 @@ namespace sw
                     _IsProperty<TSourceProperty>::value &&
                     std::is_base_of<DynamicObject, TTargetObject>::value &&
                     std::is_base_of<DynamicObject, TSourceObject>::value &&
-                    !std::is_same<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value,
+                    !(_IsStaticCastable<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value &&
+                      _IsStaticCastable<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value),
                 Binding *>::type
         {
             return Create(nullptr, targetProperty, nullptr, sourceProperty, mode, converter);
@@ -12784,182 +12833,6 @@ namespace sw
     };
 }
 
-// FrameworkElement.h
-
-
-namespace sw
-{
-    // 前向声明
-    class DataBinding;
-    class FrameworkElement;
-
-    /**
-     * @brief 数据上下文更改事件参数
-     */
-    struct DataContextChangedEventArgs : EventArgs {
-        /**
-         * @brief 旧的数据上下文值
-         */
-        DynamicObject *oldDataContext;
-    };
-
-    /**
-     * @brief 数据上下文更改事件处理函数类型
-     */
-    using DataContextChangedEventHandler =
-        EventHandler<FrameworkElement, DataContextChangedEventArgs>;
-
-    /**
-     * @brief 框架元素类，提供数据上下文和绑定功能
-     */
-    class FrameworkElement : public ObservableObject,
-                             public ITag<Variant>
-    {
-    private:
-        /**
-         * @brief 属性的绑定信息
-         */
-        std::unordered_map<FieldId, std::unique_ptr<BindingBase>> _bindings{};
-
-        /**
-         * @brief 用户自定义数据标签
-         */
-        Variant _tag = nullptr;
-
-        /**
-         * @brief 数据上下文
-         */
-        Variant _dataContext = nullptr;
-
-        /**
-         * @brief 数据上下文改变事件委托
-         */
-        DataContextChangedEventHandler _dataContextChanged;
-
-    public:
-        /**
-         * @brief 数据上下文改变时触发该事件
-         */
-        const Event<DataContextChangedEventHandler> DataContextChanged;
-
-        /**
-         * @brief 自定义数据标签，可用于存储任意用户数据
-         */
-        const Property<Variant> Tag;
-
-        /**
-         * @brief 数据上下文
-         * @note 若需以引用语义持有外部对象，请使用Variant::MakeRef构造，
-         *       而非传入DynamicObject*裸指针 —— 后者会被Variant按值装箱为
-         *       BoxedObject<DynamicObject*>，导致绑定无法解析到原对象。
-         */
-        const Property<Variant> DataContext;
-
-        /**
-         * @brief 当前元素的有效数据上下文
-         * @note 若当前元素的DataContext不为nullptr则返回该值，否则递归获取父元素的DataContext
-         */
-        const ReadOnlyProperty<DynamicObject *> CurrentDataContext;
-
-    protected:
-        /**
-         * @brief 初始化FrameworkElement
-         */
-        FrameworkElement();
-
-        // 删除拷贝构造函数
-        FrameworkElement(const FrameworkElement &) = delete;
-
-        // 删除移动构造函数
-        FrameworkElement(FrameworkElement &&) = delete;
-
-        // 删除拷贝赋值运算符
-        FrameworkElement &operator=(const FrameworkElement &) = delete;
-
-        // 删除移动赋值运算符
-        FrameworkElement &operator=(FrameworkElement &&) = delete;
-
-    public:
-        /**
-         * @brief 添加绑定对象
-         * @return 若函数成功则返回true，否则返回false
-         * @note 绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
-         * @note 请确保绑定对象的目标属性为当前元素的属性，该函数内部不会对此进行检查
-         * @note 同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
-         */
-        bool AddBinding(BindingBase *binding);
-
-        /**
-         * @brief 添加绑定对象
-         * @return 若函数成功则返回true，否则返回false
-         * @note 绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
-         * @note 该函数会将绑定的目标对象设置为当前元素，若未指定源对象则会将DataContext作为源对象
-         * @note 同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
-         */
-        bool AddBinding(Binding *binding);
-
-        /**
-         * @brief 添加绑定到DataContext的绑定对象
-         * @return 若函数成功则返回true，否则返回false
-         * @note 绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
-         * @note 同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
-         */
-        bool AddBinding(DataBinding *binding);
-
-        /**
-         * @brief 移除指定属性的绑定对象
-         * @return 若函数成功则返回true，否则返回false
-         */
-        bool RemoveBinding(FieldId propertyId);
-
-        /**
-         * @brief 移除指定属性的绑定对象
-         * @return 若函数成功则返回true，否则返回false
-         */
-        template <typename T, typename TProperty>
-        bool RemoveBinding(TProperty T::*prop)
-        { return RemoveBinding(Reflection::GetFieldId(prop)); }
-
-    public:
-        /**
-         * @brief 获取Tag
-         */
-        virtual Variant GetTag() const override final;
-
-        /**
-         * @brief 设置Tag
-         */
-        virtual void SetTag(const Variant &tag) override final;
-
-    protected:
-        /**
-         * @brief 当CurrentDataContext更改时调用此函数
-         * @param oldDataContext 旧的数据上下文值
-         */
-        virtual void OnCurrentDataContextChanged(DynamicObject *oldDataContext);
-
-    public:
-        /**
-         * @brief 获取逻辑树中的父元素
-         * @return 父元素指针，如果没有父元素则返回nullptr
-         */
-        virtual FrameworkElement *GetParent() const = 0;
-
-        /**
-         * @brief 获取逻辑树中的子元素数量
-         * @return 子元素数量
-         */
-        virtual int GetChildCount() const = 0;
-
-        /**
-         * @brief 获取逻辑树中指定索引处的子元素
-         * @param index 子元素索引
-         * @throw std::out_of_range 如果索引超出范围
-         */
-        virtual FrameworkElement &GetChildAt(int index) const = 0;
-    };
-}
-
 // GridLayout.h
 
 
@@ -13225,6 +13098,162 @@ namespace sw
     };
 }
 
+// SelfBinding.h
+
+
+namespace sw
+{
+    /**
+     * @brief 自绑定类，用于同一对象内部属性之间的绑定
+     */
+    class SelfBinding final : public BindingBase
+    {
+    private:
+        /**
+         * @brief 内部绑定对象
+         */
+        std::unique_ptr<Binding> _innerBinding;
+
+    private:
+        /**
+         * @brief 构造函数
+         * @param binding 内部绑定对象
+         */
+        SelfBinding(Binding *binding)
+            : _innerBinding(binding)
+        {
+        }
+
+    public:
+        /**
+         * @brief 更新目标属性的值
+         * @return 如果更新成功则返回true，否则返回false
+         */
+        virtual bool UpdateTarget() override
+        {
+            return _innerBinding->UpdateTarget();
+        }
+
+        /**
+         * @brief 更新源属性的值
+         * @return 如果更新成功则返回true，否则返回false
+         */
+        virtual bool UpdateSource() override
+        {
+            return _innerBinding->UpdateSource();
+        }
+
+        /**
+         * @brief 获取目标属性ID
+         */
+        virtual FieldId GetTargetPropertyId() const override
+        {
+            return _innerBinding->GetTargetPropertyId();
+        }
+
+        /**
+         * @brief 获取源属性ID
+         */
+        virtual FieldId GetSourcePropertyId() const override
+        {
+            return _innerBinding->GetSourcePropertyId();
+        }
+
+        /**
+         * @brief 获取绑定模式
+         */
+        BindingMode GetBindingMode() const
+        {
+            return _innerBinding->GetBindingMode();
+        }
+
+        /**
+         * @brief 设置绑定模式
+         */
+        void SetBindingMode(BindingMode mode)
+        {
+            _innerBinding->SetBindingMode(mode);
+        }
+
+        /**
+         * @brief 获取目标对象
+         */
+        DynamicObject *GetTargetObject() const
+        {
+            return _innerBinding->GetTargetObject();
+        }
+
+        /**
+         * @brief 修改目标对象
+         */
+        void SetTargetObject(DynamicObject *target)
+        {
+            _innerBinding->SetBindingObjects(target, target);
+        }
+
+    public:
+        /**
+         * @brief 创建自绑定对象
+         * @param targetProperty 目标属性成员指针
+         * @param sourceProperty 源属性成员指针
+         * @param mode 绑定模式
+         * @param converter 值转换器指针
+         * @return 绑定对象指针
+         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
+         */
+        template <
+            typename TTargetObject,
+            typename TTargetProperty,
+            typename TSourceObject,
+            typename TSourceProperty>
+        static auto Create(TTargetProperty TTargetObject::*targetProperty,
+                           TSourceProperty TSourceObject::*sourceProperty,
+                           BindingMode mode,
+                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter = nullptr)
+            -> typename std::enable_if<
+                _IsProperty<TTargetProperty>::value &&
+                    _IsProperty<TSourceProperty>::value &&
+                    std::is_base_of<DynamicObject, TTargetObject>::value &&
+                    std::is_base_of<DynamicObject, TSourceObject>::value &&
+                    _IsStaticCastable<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value &&
+                    _IsStaticCastable<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value,
+                SelfBinding *>::type
+        {
+            return new SelfBinding(Binding::Create(targetProperty, sourceProperty, mode, converter));
+        }
+
+        /**
+         * @brief 创建自绑定对象
+         * @param targetProperty 目标属性成员指针
+         * @param sourceProperty 源属性成员指针
+         * @param mode 绑定模式
+         * @param converter 值转换器指针
+         * @return 绑定对象指针
+         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
+         */
+        template <
+            typename TTargetObject,
+            typename TTargetProperty,
+            typename TSourceObject,
+            typename TSourceProperty>
+        static auto Create(TTargetProperty TTargetObject::*targetProperty,
+                           TSourceProperty TSourceObject::*sourceProperty,
+                           BindingMode mode,
+                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter)
+            -> typename std::enable_if<
+                _IsProperty<TTargetProperty>::value &&
+                    _IsProperty<TSourceProperty>::value &&
+                    std::is_base_of<DynamicObject, TTargetObject>::value &&
+                    std::is_base_of<DynamicObject, TSourceObject>::value &&
+                    !(_IsStaticCastable<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value &&
+                      _IsStaticCastable<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value),
+                SelfBinding *>::type
+        {
+            return new SelfBinding(Binding::Create(targetProperty, sourceProperty, mode, converter));
+        }
+    };
+}
+
 // StackLayoutH.h
 
 
@@ -13370,6 +13399,252 @@ namespace sw
     };
 }
 
+// FrameworkElement.h
+
+
+namespace sw
+{
+    // 前向声明
+    class DataBinding;
+    class FrameworkElement;
+
+    /**
+     * @brief 数据上下文更改事件参数
+     */
+    struct DataContextChangedEventArgs : EventArgs {
+        /**
+         * @brief 旧的数据上下文值
+         */
+        DynamicObject *oldDataContext;
+    };
+
+    /**
+     * @brief 数据上下文更改事件处理函数类型
+     */
+    using DataContextChangedEventHandler =
+        EventHandler<FrameworkElement, DataContextChangedEventArgs>;
+
+    /**
+     * @brief 框架元素类，提供数据上下文和绑定功能
+     */
+    class FrameworkElement : public ObservableObject,
+                             public ITag<Variant>
+    {
+    private:
+        /**
+         * @brief 属性的绑定信息
+         */
+        std::unordered_map<FieldId, std::unique_ptr<BindingBase>> _bindings{};
+
+        /**
+         * @brief 用户自定义数据标签
+         */
+        Variant _tag = nullptr;
+
+        /**
+         * @brief 数据上下文
+         */
+        Variant _dataContext = nullptr;
+
+        /**
+         * @brief 数据上下文改变事件委托
+         */
+        DataContextChangedEventHandler _dataContextChanged;
+
+    public:
+        /**
+         * @brief 数据上下文改变时触发该事件
+         */
+        const Event<DataContextChangedEventHandler> DataContextChanged;
+
+        /**
+         * @brief 自定义数据标签，可用于存储任意用户数据
+         */
+        const Property<Variant> Tag;
+
+        /**
+         * @brief 数据上下文
+         * @note 若需以引用语义持有外部对象，请使用Variant::MakeRef构造，
+         *       而非传入DynamicObject*裸指针 —— 后者会被Variant按值装箱为
+         *       BoxedObject<DynamicObject*>，导致绑定无法解析到原对象。
+         */
+        const Property<Variant> DataContext;
+
+        /**
+         * @brief 当前元素的有效数据上下文
+         * @note 若当前元素的DataContext不为nullptr则返回该值，否则递归获取父元素的DataContext
+         */
+        const ReadOnlyProperty<DynamicObject *> CurrentDataContext;
+
+    protected:
+        /**
+         * @brief 初始化FrameworkElement
+         */
+        FrameworkElement();
+
+        // 删除拷贝构造函数
+        FrameworkElement(const FrameworkElement &) = delete;
+
+        // 删除移动构造函数
+        FrameworkElement(FrameworkElement &&) = delete;
+
+        // 删除拷贝赋值运算符
+        FrameworkElement &operator=(const FrameworkElement &) = delete;
+
+        // 删除移动赋值运算符
+        FrameworkElement &operator=(FrameworkElement &&) = delete;
+
+    public:
+        /**
+         * @brief 添加绑定对象
+         * @return 若函数成功则返回true，否则返回false
+         * @note 绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
+         * @note 请确保绑定对象的目标属性为当前元素的属性，该函数内部不会对此进行检查
+         * @note 同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
+         */
+        bool AddBinding(BindingBase *binding);
+
+        /**
+         * @brief 添加绑定对象
+         * @return 若函数成功则返回true，否则返回false
+         * @note 绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
+         * @note 该函数会将绑定的目标对象设置为当前元素，若未指定源对象则会将DataContext作为源对象
+         * @note 同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
+         */
+        bool AddBinding(Binding *binding);
+
+        /**
+         * @brief 添加自绑定对象
+         * @return 若函数成功则返回true，否则返回false
+         * @note 绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
+         * @note 同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
+         */
+        bool AddBinding(SelfBinding *binding);
+
+        /**
+         * @brief 添加绑定到DataContext的绑定对象
+         * @return 若函数成功则返回true，否则返回false
+         * @note 绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
+         * @note 同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
+         */
+        bool AddBinding(DataBinding *binding);
+
+        /**
+         * @brief 移除指定属性的绑定对象
+         * @return 若函数成功则返回true，否则返回false
+         */
+        bool RemoveBinding(FieldId propertyId);
+
+        /**
+         * @brief 移除指定属性的绑定对象
+         * @return 若函数成功则返回true，否则返回false
+         */
+        template <typename T, typename TProperty>
+        bool RemoveBinding(TProperty T::*prop)
+        { return RemoveBinding(Reflection::GetFieldId(prop)); }
+
+    public:
+        /**
+         * @brief 获取Tag
+         */
+        virtual Variant GetTag() const override final;
+
+        /**
+         * @brief 设置Tag
+         */
+        virtual void SetTag(const Variant &tag) override final;
+
+    protected:
+        /**
+         * @brief 当CurrentDataContext更改时调用此函数
+         * @param oldDataContext 旧的数据上下文值
+         */
+        virtual void OnCurrentDataContextChanged(DynamicObject *oldDataContext);
+
+    public:
+        /**
+         * @brief 获取逻辑树中的父元素
+         * @return 父元素指针，如果没有父元素则返回nullptr
+         */
+        virtual FrameworkElement *GetParent() const = 0;
+
+        /**
+         * @brief 获取逻辑树中的子元素数量
+         * @return 子元素数量
+         */
+        virtual int GetChildCount() const = 0;
+
+        /**
+         * @brief 获取逻辑树中指定索引处的子元素
+         * @param index 子元素索引
+         * @throw std::out_of_range 如果索引超出范围
+         */
+        virtual FrameworkElement &GetChildAt(int index) const = 0;
+    };
+}
+
+// StackLayout.h
+
+
+namespace sw
+{
+    /**
+     * @brief 堆叠布局
+     */
+    class StackLayout : public StackLayoutH, public StackLayoutV
+    {
+    public:
+        /**
+         * @brief 排列方式
+         */
+        Orientation orientation = Orientation::Vertical;
+
+        /**
+         * @brief 测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return 返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief 安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+}
+
+// WrapLayout.h
+
+
+namespace sw
+{
+    /**
+     * @brief 自动换行布局
+     */
+    class WrapLayout : public WrapLayoutH, public WrapLayoutV
+    {
+    public:
+        /**
+         * @brief 排列方式
+         */
+        Orientation orientation = Orientation::Horizontal;
+
+        /**
+         * @brief 测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return 返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief 安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+}
+
 // DataBinding.h
 
 
@@ -13448,10 +13723,26 @@ namespace sw
         }
 
         /**
+         * @brief 获取绑定模式
+         */
+        BindingMode GetBindingMode() const
+        {
+            return _innerBinding->GetBindingMode();
+        }
+
+        /**
+         * @brief 设置绑定模式
+         */
+        void SetBindingMode(BindingMode mode)
+        {
+            _innerBinding->SetBindingMode(mode);
+        }
+
+        /**
          * @brief 获取目标元素
          * @return 目标元素指针
          */
-        FrameworkElement *GetTargetElement() const
+        FrameworkElement *GetTargetObject() const
         {
             return _targetElement;
         }
@@ -13460,7 +13751,7 @@ namespace sw
          * @brief 设置目标元素
          * @param element 目标元素指针
          */
-        void SetTargetElement(FrameworkElement *element)
+        void SetTargetObject(FrameworkElement *element)
         {
             if (_targetElement != element) {
                 UnregisterNotifications();
@@ -13520,7 +13811,7 @@ namespace sw
          */
         void OnTargetElementDead(INotifyObjectDead &sender, EventArgs &e)
         {
-            SetTargetElement(nullptr);
+            SetTargetObject(nullptr);
         }
 
         /**
@@ -13568,7 +13859,8 @@ namespace sw
                     _IsProperty<TSourceProperty>::value &&
                     std::is_base_of<DynamicObject, TTargetObject>::value &&
                     std::is_base_of<DynamicObject, TSourceObject>::value &&
-                    std::is_same<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value,
+                    _IsStaticCastable<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value &&
+                    _IsStaticCastable<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value,
                 DataBinding *>::type
         {
             return new DataBinding(nullptr, Binding::Create(targetProperty, sourceProperty, mode, converter));
@@ -13597,42 +13889,12 @@ namespace sw
                     _IsProperty<TSourceProperty>::value &&
                     std::is_base_of<DynamicObject, TTargetObject>::value &&
                     std::is_base_of<DynamicObject, TSourceObject>::value &&
-                    !std::is_same<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value,
+                    !(_IsStaticCastable<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value &&
+                      _IsStaticCastable<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value),
                 DataBinding *>::type
         {
             return new DataBinding(nullptr, Binding::Create(targetProperty, sourceProperty, mode, converter));
         }
-    };
-}
-
-// StackLayout.h
-
-
-namespace sw
-{
-    /**
-     * @brief 堆叠布局
-     */
-    class StackLayout : public StackLayoutH, public StackLayoutV
-    {
-    public:
-        /**
-         * @brief 排列方式
-         */
-        Orientation orientation = Orientation::Vertical;
-
-        /**
-         * @brief 测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return 返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief 安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
     };
 }
 
@@ -14560,37 +14822,6 @@ namespace sw
          * @param wnd 与句柄关联的对象
          */
         static void _SetWndBase(HWND hwnd, WndBase &wnd);
-    };
-}
-
-// WrapLayout.h
-
-
-namespace sw
-{
-    /**
-     * @brief 自动换行布局
-     */
-    class WrapLayout : public WrapLayoutH, public WrapLayoutV
-    {
-    public:
-        /**
-         * @brief 排列方式
-         */
-        Orientation orientation = Orientation::Horizontal;
-
-        /**
-         * @brief 测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return 返回元素需要占用的尺寸
-         */
-        virtual Size MeasureOverride(const Size &availableSize) override;
-
-        /**
-         * @brief 安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
-         */
-        virtual void ArrangeOverride(const Size &finalSize) override;
     };
 }
 
@@ -18794,6 +19025,397 @@ namespace sw
     };
 }
 
+// TreeView.h
+
+namespace sw
+{
+    /**
+     * @brief 树视图的图像列表枚举
+     */
+    enum class TreeViewImageList {
+        Normal = TVSIL_NORMAL, ///< 普通图像列表
+        State  = TVSIL_STATE,  ///< 状态映像列表
+    };
+
+    /**
+     * @brief 树视图项
+     */
+    class TreeViewNode : public IToString<TreeViewNode>,
+                         public IEqualityComparable<TreeViewNode>
+    {
+    private:
+        /**
+         * @brief 树视图控件的窗口句柄
+         */
+        HWND _hwnd;
+
+        /**
+         * @brief 树视图项的句柄
+         */
+        HTREEITEM _hitem;
+
+    public:
+        /**
+         * @brief 默认构造函数
+         */
+        TreeViewNode() = default;
+
+        /**
+         * @brief 创建TreeViewItem
+         */
+        TreeViewNode(HWND hwnd, HTREEITEM hitem);
+
+        /**
+         * @brief 获取所属树视图控件的窗口句柄
+         */
+        HWND GetOwnerHandle() const;
+
+        /**
+         * @brief 获取当前项的句柄
+         */
+        HTREEITEM GetHandle() const;
+
+        /**
+         * @brief 获取当前项的文本
+         */
+        std::wstring ToString() const;
+
+        /**
+         * @brief 判断当前项与另一个项是否相等
+         */
+        bool Equals(const TreeViewNode &other) const;
+
+        /**
+         * @brief 判断当前项是否为空
+         */
+        bool IsNull() const;
+
+        /**
+         * @brief 判断当前项是否有效
+         */
+        explicit operator bool() const;
+
+        /**
+         * @brief 获取当前项的文本
+         */
+        std::wstring GetText() const;
+
+        /**
+         * @brief 设置当前项的文本
+         * @return 操作是否成功
+         */
+        bool SetText(const std::wstring &text);
+
+        /**
+         * @brief 获取父节点
+         * @return 父节点，若无父节点则返回空节点
+         */
+        TreeViewNode GetParent() const;
+
+        /**
+         * @brief 获取下一个节点
+         * @return 下一个节点，若无下一个节点则返回空节点
+         */
+        TreeViewNode GetNextNode() const;
+
+        /**
+         * @brief 获取上一个节点
+         * @return 上一个节点，若无上一个节点则返回空节点
+         */
+        TreeViewNode GetPreviousNode() const;
+
+        /**
+         * @brief 获取第一个子节点
+         * @return 第一个子节点，若无子节点则返回空节点
+         */
+        TreeViewNode GetFirstChildNode() const;
+
+        /**
+         * @brief 在当前节点后插入新节点
+         * @return 新插入的节点
+         */
+        TreeViewNode InsertAfter(const std::wstring &text);
+
+        /**
+         * @brief 添加子节点到当前节点下
+         * @return 新插入的节点
+         */
+        TreeViewNode AddChild(const std::wstring &text);
+
+        /**
+         * @brief 判断当前节点是否被选中
+         * @return 若节点被选中则返回true，否则返回false
+         */
+        bool IsSelected() const;
+
+        /**
+         * @brief 选中当前节点
+         * @return 操作是否成功
+         */
+        bool Select();
+
+        /**
+         * @brief 删除当前节点
+         * @return 操作是否成功
+         */
+        bool Delete();
+
+        /**
+         * @brief 判断当前节点是否展开
+         * @return 若节点已展开则返回true，否则返回false
+         */
+        bool IsExpanded() const;
+
+        /**
+         * @brief 设置当前节点展开或折叠
+         * @return 操作是否成功
+         */
+        bool SetExpand(bool expand);
+
+        /**
+         * @brief 展开当前节点
+         * @return 操作是否成功
+         */
+        bool Expand();
+
+        /**
+         * @brief 折叠当前节点
+         * @return 操作是否成功
+         */
+        bool Collapse();
+
+        /**
+         * @brief 获取与当前节点关联的用户数据
+         */
+        void *GetUserData() const;
+
+        /**
+         * @brief 设置与当前节点关联的用户数据
+         * @return 操作是否成功
+         */
+        bool SetUserData(void *data);
+
+        /**
+         * @brief 判断当前节点是否被选中复选框
+         * @return 若节点被选中则返回true，否则返回false
+         */
+        bool IsChecked() const;
+
+        /**
+         * @brief 设置当前节点的复选框选中状态
+         */
+        void SetCheck(bool check);
+
+        /**
+         * @brief 设置当前节点的图像
+         * @return 操作是否成功
+         */
+        bool SetImages(int imageIndex, int selectedImageIndex);
+
+        /**
+         * @brief 获取当前节点的直接子节点数
+         */
+        int GetChildCount() const;
+
+        /**
+         * @brief 删除当前节点的所有子节点
+         * @return 删除直接子节点的个数
+         */
+        int DeleteAllChildren();
+    };
+
+    // clang-format off
+
+    /**
+     * @brief 树视图节点正在展开或折叠事件参数类型
+     */
+    struct TreeViewItemExpandingEventArgs : TypedRoutedEventArgs<TreeView_ItemExpanding, CancelableEventArgs> {
+        bool action;       // true表示展开，false表示折叠
+        TreeViewNode node; // 正在展开或折叠的节点
+        TreeViewItemExpandingEventArgs(bool action, const TreeViewNode &node): action(action), node(node) {}
+    };
+
+    /**
+     * @brief 树视图节点已展开或折叠事件参数类型
+     */
+    struct TreeViewItemExpandedEventArgs : TypedRoutedEventArgs<TreeView_ItemExpanding> {
+        bool action;       // true表示展开，false表示折叠
+        TreeViewNode node; // 已展开或折叠的节点
+        TreeViewItemExpandedEventArgs(bool action, const TreeViewNode &node): action(action), node(node) {}
+    };
+
+    /**
+     * @brief 树视图节点复选框状态改变事件参数类型
+     */
+    struct TreeViewCheckStateChangedEventArgs : TypedRoutedEventArgs<TreeView_CheckStateChanged> {
+        int checkState;    // 复选框的新状态，0表示未选中，1表示选中，-1表示无复选框
+        TreeViewNode node; // 复选框状态改变的节点
+        TreeViewCheckStateChangedEventArgs(int checkState, const TreeViewNode &node): checkState(checkState), node(node) {}
+    };
+
+    // clang-format on
+
+    /**
+     * @brief 树视图控件
+     */
+    class TreeView : public Control
+    {
+    private:
+        /**
+         * @brief 基类别名，方便调用基类函数实现
+         */
+        using TBase = Control;
+
+    public:
+        /**
+         * @brief 根节点
+         */
+        const ReadOnlyProperty<TreeViewNode> Root;
+
+        /**
+         * @brief 选中的节点，若无选中节点则返回空节点
+         */
+        const ReadOnlyProperty<TreeViewNode> SelectedItem;
+
+        /**
+         * @brief 所有节点数
+         */
+        const ReadOnlyProperty<int> AllItemsCount;
+
+        /**
+         * @brief 是否在第一列显示复选框
+         */
+        const Property<bool> CheckBoxes;
+
+        /**
+         * @brief 线条颜色
+         */
+        const Property<Color> LineColor;
+
+        /**
+         * @brief 缩进宽度
+         */
+        const Property<double> IndentWidth;
+
+    public:
+        /**
+         * @brief 初始化TreeView
+         */
+        TreeView();
+
+    protected:
+        /**
+         * @brief 设置背景颜色
+         * @param color 要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetBackColor(Color color, bool redraw) override;
+
+        /**
+         * @brief 设置文本颜色
+         * @param color 要设置的颜色
+         * @param redraw 是否重绘
+         */
+        virtual void SetTextColor(Color color, bool redraw) override;
+
+        /**
+         * @brief 父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
+         * @param pNMHDR 包含有关通知消息的信息
+         * @param result 函数返回值为true时将该值作为消息的返回值
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
+
+        /**
+         * @brief 选中的节点发生改变时调用该函数
+         */
+        virtual void OnSelectionChanged();
+
+        /**
+         * @brief 控件被单机时调用该函数
+         * @param pNMHDR 包含有关通知消息的信息
+         * @param result 函数返回值为true时将该值作为消息的返回值
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnClicked(NMHDR *pNMHDR, LRESULT &result);
+
+        /**
+         * @brief 控件被双击时调用该函数
+         * @param pNMHDR 包含有关通知消息的信息
+         * @param result 函数返回值为true时将该值作为消息的返回值
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnDoubleClicked(NMHDR *pNMHDR, LRESULT &result);
+
+        /**
+         * @brief 当OnNotified接收到TVN_GETDISPINFO通知时调用该函数
+         * @param pNMInfo 包含有关通知消息的信息
+         */
+        virtual void OnGetDispInfo(NMTVDISPINFOW *pNMInfo);
+
+        /**
+         * @brief 节点展开或折叠前调用该函数
+         * @param pNMTV 包含有关通知消息的信息
+         * @return 若返回true则取消展开或折叠操作，否则继续进行
+         */
+        virtual bool OnItemExpanding(NMTREEVIEWW *pNMTV);
+
+        /**
+         * @brief 节点展开或折叠后调用该函数
+         * @param pNMTV 包含有关通知消息的信息
+         */
+        virtual void OnItemExpanded(NMTREEVIEWW *pNMTV);
+
+        /**
+         * @brief 节点某些属性发生变化时调用该函数
+         * @param pNMInfo 包含有关通知消息的信息
+         */
+        virtual void OnItemChanged(NMTVITEMCHANGE *pNMInfo);
+
+    public:
+        /**
+         * @brief 清空所有节点
+         */
+        void Clear();
+
+        /**
+         * @brief 添加新节点到根节点
+         * @param text 节点文本
+         * @return 新插入的节点
+         */
+        TreeViewNode AddItem(const std::wstring &text);
+
+        /**
+         * @brief 获取指定类型的图像列表
+         * @param imageList 图像列表类型
+         */
+        ImageList GetImageList(TreeViewImageList imageList);
+
+        /**
+         * @brief 设置指定类型的图像列表
+         * @param imageList 图像列表类型
+         * @param value 要设置的图像列表
+         */
+        HIMAGELIST SetImageList(TreeViewImageList imageList, HIMAGELIST value);
+
+    private:
+        /**
+         * @brief 获取根节点
+         */
+        TreeViewNode _GetRoot();
+
+        /**
+         * @brief 获取选中的节点，若无选中节点则返回空节点
+         */
+        TreeViewNode _GetSelectedItem();
+
+        /**
+         * @brief 插入新节点
+         */
+        TreeViewNode _InsertItem(HTREEITEM hParent, HTREEITEM hInsertAfter, const std::wstring &text);
+    };
+}
+
 // Window.h
 
 
@@ -21156,449 +21778,6 @@ namespace sw
          * @brief 初始化编辑框
          */
         TextBox();
-    };
-}
-
-// TreeView.h
-
-namespace sw
-{
-    /**
-     * @brief 树视图的图像列表枚举
-     */
-    enum class TreeViewImageList {
-        Normal = TVSIL_NORMAL, ///< 普通图像列表
-        State  = TVSIL_STATE,  ///< 状态映像列表
-    };
-
-    /**
-     * @brief 树视图项
-     */
-    class TreeViewNode : public IToString<TreeViewNode>,
-                         public IEqualityComparable<TreeViewNode>
-    {
-    private:
-        /**
-         * @brief 树视图控件的窗口句柄
-         */
-        HWND _hwnd;
-
-        /**
-         * @brief 树视图项的句柄
-         */
-        HTREEITEM _hitem;
-
-    public:
-        /**
-         * @brief 默认构造函数
-         */
-        TreeViewNode() = default;
-
-        /**
-         * @brief 创建TreeViewItem
-         */
-        TreeViewNode(HWND hwnd, HTREEITEM hitem);
-
-        /**
-         * @brief 获取所属树视图控件的窗口句柄
-         */
-        HWND GetOwnerHandle() const;
-
-        /**
-         * @brief 获取当前项的句柄
-         */
-        HTREEITEM GetHandle() const;
-
-        /**
-         * @brief 获取当前项的文本
-         */
-        std::wstring ToString() const;
-
-        /**
-         * @brief 判断当前项与另一个项是否相等
-         */
-        bool Equals(const TreeViewNode &other) const;
-
-        /**
-         * @brief 判断当前项是否为空
-         */
-        bool IsNull() const;
-
-        /**
-         * @brief 判断当前项是否有效
-         */
-        explicit operator bool() const;
-
-        /**
-         * @brief 获取当前项的文本
-         */
-        std::wstring GetText() const;
-
-        /**
-         * @brief 设置当前项的文本
-         * @return 操作是否成功
-         */
-        bool SetText(const std::wstring &text);
-
-        /**
-         * @brief 获取父节点
-         * @return 父节点，若无父节点则返回空节点
-         */
-        TreeViewNode GetParent() const;
-
-        /**
-         * @brief 获取下一个节点
-         * @return 下一个节点，若无下一个节点则返回空节点
-         */
-        TreeViewNode GetNextNode() const;
-
-        /**
-         * @brief 获取上一个节点
-         * @return 上一个节点，若无上一个节点则返回空节点
-         */
-        TreeViewNode GetPreviousNode() const;
-
-        /**
-         * @brief 获取第一个子节点
-         * @return 第一个子节点，若无子节点则返回空节点
-         */
-        TreeViewNode GetFirstChildNode() const;
-
-        /**
-         * @brief 在当前节点后插入新节点
-         * @return 新插入的节点
-         */
-        TreeViewNode InsertAfter(const std::wstring &text);
-
-        /**
-         * @brief 添加子节点到当前节点下
-         * @return 新插入的节点
-         */
-        TreeViewNode AddChild(const std::wstring &text);
-
-        /**
-         * @brief 判断当前节点是否被选中
-         * @return 若节点被选中则返回true，否则返回false
-         */
-        bool IsSelected() const;
-
-        /**
-         * @brief 选中当前节点
-         * @return 操作是否成功
-         */
-        bool Select();
-
-        /**
-         * @brief 删除当前节点
-         * @return 操作是否成功
-         */
-        bool Delete();
-
-        /**
-         * @brief 判断当前节点是否展开
-         * @return 若节点已展开则返回true，否则返回false
-         */
-        bool IsExpanded() const;
-
-        /**
-         * @brief 设置当前节点展开或折叠
-         * @return 操作是否成功
-         */
-        bool SetExpand(bool expand);
-
-        /**
-         * @brief 展开当前节点
-         * @return 操作是否成功
-         */
-        bool Expand();
-
-        /**
-         * @brief 折叠当前节点
-         * @return 操作是否成功
-         */
-        bool Collapse();
-
-        /**
-         * @brief 获取与当前节点关联的用户数据
-         */
-        void *GetUserData() const;
-
-        /**
-         * @brief 设置与当前节点关联的用户数据
-         * @return 操作是否成功
-         */
-        bool SetUserData(void *data);
-
-        /**
-         * @brief 判断当前节点是否被选中复选框
-         * @return 若节点被选中则返回true，否则返回false
-         */
-        bool IsChecked() const;
-
-        /**
-         * @brief 设置当前节点的复选框选中状态
-         */
-        void SetCheck(bool check);
-
-        /**
-         * @brief 设置当前节点的图像
-         * @return 操作是否成功
-         */
-        bool SetImages(int imageIndex, int selectedImageIndex);
-
-        /**
-         * @brief 获取当前节点的直接子节点数
-         */
-        int GetChildCount() const;
-
-        /**
-         * @brief 删除当前节点的所有子节点
-         * @return 删除直接子节点的个数
-         */
-        int DeleteAllChildren();
-    };
-
-    // clang-format off
-
-    /**
-     * @brief 树视图节点正在展开或折叠事件参数类型
-     */
-    struct TreeViewItemExpandingEventArgs : TypedRoutedEventArgs<TreeView_ItemExpanding, CancelableEventArgs> {
-        bool action;       // true表示展开，false表示折叠
-        TreeViewNode node; // 正在展开或折叠的节点
-        TreeViewItemExpandingEventArgs(bool action, const TreeViewNode &node): action(action), node(node) {}
-    };
-
-    /**
-     * @brief 树视图节点已展开或折叠事件参数类型
-     */
-    struct TreeViewItemExpandedEventArgs : TypedRoutedEventArgs<TreeView_ItemExpanding> {
-        bool action;       // true表示展开，false表示折叠
-        TreeViewNode node; // 已展开或折叠的节点
-        TreeViewItemExpandedEventArgs(bool action, const TreeViewNode &node): action(action), node(node) {}
-    };
-
-    /**
-     * @brief 树视图节点复选框状态改变事件参数类型
-     */
-    struct TreeViewCheckStateChangedEventArgs : TypedRoutedEventArgs<TreeView_CheckStateChanged> {
-        int checkState;    // 复选框的新状态，0表示未选中，1表示选中，-1表示无复选框
-        TreeViewNode node; // 复选框状态改变的节点
-        TreeViewCheckStateChangedEventArgs(int checkState, const TreeViewNode &node): checkState(checkState), node(node) {}
-    };
-
-    // clang-format on
-
-    /**
-     * @brief 树视图控件
-     */
-    class TreeView : public ItemsControl<TreeViewNode>
-    {
-    private:
-        /**
-         * @brief 基类别名，方便调用基类函数实现
-         */
-        using TBase = ItemsControl<TreeViewNode>;
-
-    public:
-        /**
-         * @brief 根节点
-         */
-        const ReadOnlyProperty<TreeViewNode> Root;
-
-        /**
-         * @brief 所有节点数
-         */
-        const ReadOnlyProperty<int> AllItemsCount;
-
-        /**
-         * @brief 是否在第一列显示复选框
-         */
-        const Property<bool> CheckBoxes;
-
-        /**
-         * @brief 线条颜色
-         */
-        const Property<Color> LineColor;
-
-        /**
-         * @brief 缩进宽度
-         */
-        const Property<double> IndentWidth;
-
-    public:
-        /**
-         * @brief 初始化TreeView
-         */
-        TreeView();
-
-    protected:
-        /**
-         * @brief 获取子项数
-         */
-        virtual int GetItemsCount() override;
-
-        /**
-         * @brief 选中项的索引，当无选中项时为-1
-         */
-        virtual int GetSelectedIndex() override;
-
-        /**
-         * @brief 设置选中项索引
-         */
-        virtual void SetSelectedIndex(int index) override;
-
-        /**
-         * @brief 获取选中项
-         */
-        virtual TreeViewNode GetSelectedItem() override;
-
-        /**
-         * @brief 设置背景颜色
-         * @param color 要设置的颜色
-         * @param redraw 是否重绘
-         */
-        virtual void SetBackColor(Color color, bool redraw) override;
-
-        /**
-         * @brief 设置文本颜色
-         * @param color 要设置的颜色
-         * @param redraw 是否重绘
-         */
-        virtual void SetTextColor(Color color, bool redraw) override;
-
-        /**
-         * @brief 父窗口接收到WM_NOTIFY后且父窗口OnNotify函数返回false时调用发出通知控件的该函数
-         * @param pNMHDR 包含有关通知消息的信息
-         * @param result 函数返回值为true时将该值作为消息的返回值
-         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnNotified(NMHDR *pNMHDR, LRESULT &result) override;
-
-        /**
-         * @brief 控件被单机时调用该函数
-         * @param pNMHDR 包含有关通知消息的信息
-         * @param result 函数返回值为true时将该值作为消息的返回值
-         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnClicked(NMHDR *pNMHDR, LRESULT &result);
-
-        /**
-         * @brief 控件被双击时调用该函数
-         * @param pNMHDR 包含有关通知消息的信息
-         * @param result 函数返回值为true时将该值作为消息的返回值
-         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
-         */
-        virtual bool OnDoubleClicked(NMHDR *pNMHDR, LRESULT &result);
-
-        /**
-         * @brief 当OnNotified接收到TVN_GETDISPINFO通知时调用该函数
-         * @param pNMInfo 包含有关通知消息的信息
-         */
-        virtual void OnGetDispInfo(NMTVDISPINFOW *pNMInfo);
-
-        /**
-         * @brief 节点展开或折叠前调用该函数
-         * @param pNMTV 包含有关通知消息的信息
-         * @return 若返回true则取消展开或折叠操作，否则继续进行
-         */
-        virtual bool OnItemExpanding(NMTREEVIEWW *pNMTV);
-
-        /**
-         * @brief 节点展开或折叠后调用该函数
-         * @param pNMTV 包含有关通知消息的信息
-         */
-        virtual void OnItemExpanded(NMTREEVIEWW *pNMTV);
-
-        /**
-         * @brief 节点某些属性发生变化时调用该函数
-         * @param pNMInfo 包含有关通知消息的信息
-         */
-        virtual void OnItemChanged(NMTVITEMCHANGE *pNMInfo);
-
-    public:
-        /**
-         * @brief 清空所有子项
-         */
-        virtual void Clear() override;
-
-        /**
-         * @brief 获取指定索引处子项的值
-         * @param index 子项的索引
-         */
-        virtual TreeViewNode GetItemAt(int index) override;
-
-        /**
-         * @brief 添加新的子项
-         * @param item 要添加的子项
-         * @return 是否添加成功
-         * @note TreeView不支持该操作，该函数始终返回false
-         */
-        virtual bool AddItem(const TreeViewNode &item) override;
-
-        /**
-         * @brief 添加子项到指定索引
-         * @param index 要插入的位置
-         * @param item 要添加的子项
-         * @return 是否添加成功
-         * @note TreeView不支持该操作，该函数始终返回false
-         */
-        virtual bool InsertItem(int index, const TreeViewNode &item) override;
-
-        /**
-         * @brief 更新指定位置的子项
-         * @param index 要更新子项的位置
-         * @param newValue 子项的新值
-         * @return 操作是否成功
-         * @note TreeView不支持该操作，该函数始终返回false
-         */
-        virtual bool UpdateItem(int index, const TreeViewNode &newValue) override;
-
-        /**
-         * @brief 移除指定索引处的子项
-         * @param index 要移除子项的索引
-         * @return 操作是否成功
-         */
-        virtual bool RemoveItemAt(int index) override;
-
-        /**
-         * @brief 添加新节点到根节点
-         * @param text 节点文本
-         * @return 新插入的节点
-         */
-        TreeViewNode AddItem(const std::wstring &text);
-
-        /**
-         * @brief 在指定索引处插入新节点
-         * @param index 节点索引
-         * @param text 节点文本
-         * @return 新插入的节点
-         */
-        TreeViewNode InsertItem(int index, const std::wstring &text);
-
-        /**
-         * @brief 获取指定类型的图像列表
-         * @param imageList 图像列表类型
-         */
-        ImageList GetImageList(TreeViewImageList imageList);
-
-        /**
-         * @brief 设置指定类型的图像列表
-         * @param imageList 图像列表类型
-         * @param value 要设置的图像列表
-         */
-        HIMAGELIST SetImageList(TreeViewImageList imageList, HIMAGELIST value);
-
-    private:
-        /**
-         * @brief 获取根节点
-         */
-        TreeViewNode _GetRoot();
-
-        /**
-         * @brief 插入新节点
-         */
-        TreeViewNode _InsertItem(HTREEITEM hParent, HTREEITEM hInsertAfter, const std::wstring &text);
     };
 }
 

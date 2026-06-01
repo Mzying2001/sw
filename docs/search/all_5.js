@@ -34,7 +34,7 @@ var searchData=
   ['event_3c_20sw_3a_3adelegate_3c_20msg_20_26_20_3e_20_3e_31',['Event&lt; sw::Delegate&lt; MSG &amp; &gt; &gt;',['../classsw_1_1Event.html',1,'sw']]],
   ['eventargs_32',['EventArgs',['../structsw_1_1EventArgs.html',1,'sw']]],
   ['eventhandler_33',['EventHandler',['../namespacesw.html#a5ff8f1ea4b4a7efc355d5e1eaf84c996',1,'sw']]],
-  ['eventtype_34',['eventtype',['../structsw_1_1TypedRoutedEventArgs.html#ab7edf81b30cc719294d1aad10d1c0d47',1,'sw::TypedRoutedEventArgs::EventType'],['../structsw_1_1RoutedEventArgs.html#a46df8118b89dcc6c494cdbded901b082',1,'sw::RoutedEventArgs::eventType']]],
+  ['eventtype_34',['eventtype',['../structsw_1_1RoutedEventArgs.html#a46df8118b89dcc6c494cdbded901b082',1,'sw::RoutedEventArgs::eventType'],['../structsw_1_1TypedRoutedEventArgs.html#ab7edf81b30cc719294d1aad10d1c0d47',1,'sw::TypedRoutedEventArgs::EventType']]],
   ['execute_35',['Execute',['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a40cd014b7b6251e3a22e6a45a73a64e1',1,'sw']]],
   ['exedirectory_36',['ExeDirectory',['../classsw_1_1App.html#ab1b7352d6527e1ecad51de96e0b8d759',1,'sw::App']]],
   ['exepath_37',['ExePath',['../classsw_1_1App.html#a61a6ac6c879624eb1dff7244e58c7200',1,'sw::App']]],

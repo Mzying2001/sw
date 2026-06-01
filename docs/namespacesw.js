@@ -198,6 +198,7 @@ var namespacesw =
     [ "SaveFileDialog", "classsw_1_1SaveFileDialog.html", "classsw_1_1SaveFileDialog" ],
     [ "Screen", "classsw_1_1Screen.html", null ],
     [ "ScrollingEventArgs", "structsw_1_1ScrollingEventArgs.html", null ],
+    [ "SelfBinding", "classsw_1_1SelfBinding.html", "classsw_1_1SelfBinding" ],
     [ "ShowContextMenuEventArgs", "structsw_1_1ShowContextMenuEventArgs.html", null ],
     [ "Size", "structsw_1_1Size.html", "structsw_1_1Size" ],
     [ "SizeChangedEventArgs", "structsw_1_1SizeChangedEventArgs.html", null ],
@@ -809,6 +810,7 @@ var namespacesw =
       [ "IPAddressControl_AddressChanged", "namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210a8ece65082302c313b3f7a464944a56e9", null ],
       [ "SysLink_Clicked", "namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210a34753ee4a6647d5930f9eb418d470500", null ],
       [ "HotKeyControl_ValueChanged", "namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210a8c728f05ff0b66d13c1a1fc35c51b9c8", null ],
+      [ "TreeView_SelectionChanged", "namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210a203bef3bbb846686f5ada78f14848c6d", null ],
       [ "TreeView_ItemExpanding", "namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210ad7251f4958069158b3713f34aa600f49", null ],
       [ "TreeView_ItemExpanded", "namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210a8cf6322afe402bc51d1926b7f218f0b3", null ],
       [ "TreeView_CheckStateChanged", "namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210a76d53ae552218bdd8175d51f7351f487", null ]

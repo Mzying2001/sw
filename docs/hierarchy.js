@@ -9,7 +9,8 @@ var hierarchy =
     [ "sw::App", "classsw_1_1App.html", null ],
     [ "sw::BindingBase", "classsw_1_1BindingBase.html", [
       [ "sw::Binding", "classsw_1_1Binding.html", null ],
-      [ "sw::DataBinding", "classsw_1_1DataBinding.html", null ]
+      [ "sw::DataBinding", "classsw_1_1DataBinding.html", null ],
+      [ "sw::SelfBinding", "classsw_1_1SelfBinding.html", null ]
     ] ],
     [ "sw::BoolToNumericConverter< TTarget, typename >", "classsw_1_1BoolToNumericConverter.html", null ],
     [ "sw::BoxedObject< T, typename >", "classsw_1_1BoxedObject.html", null ],
@@ -40,9 +41,6 @@ var hierarchy =
               [ "sw::Control", "classsw_1_1Control.html", [
                 [ "sw::ItemsControl< StrList >", "classsw_1_1ItemsControl.html", [
                   [ "sw::ListView", "classsw_1_1ListView.html", null ]
-                ] ],
-                [ "sw::ItemsControl< TreeViewNode >", "classsw_1_1ItemsControl.html", [
-                  [ "sw::TreeView", "classsw_1_1TreeView.html", null ]
                 ] ],
                 [ "sw::Animation", "classsw_1_1Animation.html", null ],
                 [ "sw::ButtonBase", "classsw_1_1ButtonBase.html", [
@@ -82,7 +80,8 @@ var hierarchy =
                   [ "sw::PasswordBox", "classsw_1_1PasswordBox.html", null ],
                   [ "sw::SpinBox", "classsw_1_1SpinBox.html", null ],
                   [ "sw::TextBox", "classsw_1_1TextBox.html", null ]
-                ] ]
+                ] ],
+                [ "sw::TreeView", "classsw_1_1TreeView.html", null ]
               ] ],
               [ "sw::HwndWrapper", "classsw_1_1HwndWrapper.html", null ]
             ] ]
@@ -508,7 +507,6 @@ var hierarchy =
       [ "sw::Property< sw::Rect >", "classsw_1_1Property.html", null ],
       [ "sw::ReadOnlyProperty< int >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< StrList >", "classsw_1_1ReadOnlyProperty.html", null ],
-      [ "sw::ReadOnlyProperty< TreeViewNode >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< bool >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< HINSTANCE >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< std::wstring >", "classsw_1_1ReadOnlyProperty.html", null ],
@@ -592,7 +590,6 @@ var hierarchy =
     [ "sw::PropertyBase< TabAlignment, Property< TabAlignment > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< TItem, ReadOnlyProperty< TItem > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< ToolTipIcon, Property< ToolTipIcon > >", "classsw_1_1PropertyBase.html", null ],
-    [ "sw::PropertyBase< TreeViewNode, ReadOnlyProperty< TreeViewNode > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< uint16_t, Property< uint16_t > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< uint32_t, Property< uint32_t > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< uint64_t, Property< uint64_t > >", "classsw_1_1PropertyBase.html", null ],
