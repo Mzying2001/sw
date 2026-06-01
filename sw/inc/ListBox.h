@@ -1,30 +1,56 @@
 #pragma once
 
 #include "ItemsControl.h"
-#include "List.h"
+#include "ObservableCollection.h"
 
 namespace sw
 {
     /**
      * @brief 列表框
      */
-    class ListBox : public StrItemsControl
+    class ListBox : public ItemsControl
     {
+    private:
+        /**
+         * @brief 列表框的默认数据源
+         */
+        ObservableCollection<std::wstring> _items;
+
+        /**
+         * @brief 选中项的背景颜色
+         */
+        Color _selectedItemBackColor{GetSysColor(COLOR_HIGHLIGHT)};
+
+        /**
+         * @brief 选中项的文本颜色
+         */
+        Color _selectedItemTextColor{GetSysColor(COLOR_HIGHLIGHTTEXT)};
+
     public:
+        /**
+         * @brief 列表框的子项集合，当未设置ItemsSource时使用该集合作为数据源
+         */
+        const ReadOnlyProperty<ObservableCollection<std::wstring> *> Items;
+
+        /**
+         * @brief 列表框子项的高度
+         */
+        const Property<double> ItemHeight;
+
         /**
          * @brief 当前列表框页面第一个子项的索引
          */
         const Property<int> TopIndex;
 
         /**
-         * @brief 是否允许多选，更新该属性会导致已添加的子项被清空
+         * @brief 选中项的背景颜色
          */
-        const Property<bool> MultiSelect;
+        const Property<Color> SelectedItemBackColor;
 
         /**
-         * @brief 多选状态下可通过该属性获取选中项的个数
+         * @brief 选中项的文本颜色
          */
-        const ReadOnlyProperty<int> SelectedCount;
+        const Property<Color> SelectedItemTextColor;
 
     public:
         /**
@@ -32,11 +58,37 @@ namespace sw
          */
         ListBox();
 
+        /**
+         * @brief 刷新控件以反映数据源的当前状态
+         */
+        void Refresh();
+
+        /**
+         * @brief 获取指定点处子项的索引
+         * @param point 相对于列表框用户区左上角点的位置
+         */
+        int GetItemIndexFromPoint(const Point &point);
+
     protected:
         /**
-         * @brief 获取子项数
+         * @brief 获取默认数据源，当ItemsSource未设置时使用该数据源
+         * @return 默认数据源的IList指针，若无默认数据源则返回nullptr
+         * @note 子类应确保返回的IList在ItemsControl生命周期内始终有效，且保证多次调用返回同一指针
          */
-        virtual int GetItemsCount() override;
+        virtual IList *GetDefaultItemsSource() override final;
+
+        /**
+         * @brief 当前数据源改变时调用该函数
+         * @param oldItemsSource 旧的数据源
+         * @param newItemsSource 新的数据源
+         */
+        virtual void OnCurrentItemsSourceChanged(IList *oldItemsSource, IList *newItemsSource) override;
+
+        /**
+         * @brief 当数据源集合发生变更时调用该函数
+         * @param args 包含集合变更信息的事件参数
+         */
+        virtual void OnCurrentItemsSourceCollectionChanged(const NotifyCollectionChangedEventArgs &args) override;
 
         /**
          * @brief 选中项的索引，当无选中项时为-1
@@ -49,9 +101,10 @@ namespace sw
         virtual void SetSelectedIndex(int index) override;
 
         /**
-         * @brief 获取选中项
+         * @brief 当父窗口接收到控件的WM_COMMAND时调用该函数
+         * @param code 通知代码
          */
-        virtual std::wstring GetSelectedItem() override;
+        virtual void OnCommand(int code) override;
 
         /**
          * @brief 接收到WM_CONTEXTMENU后调用目标控件的该函数
@@ -62,83 +115,29 @@ namespace sw
         virtual bool OnContextMenu(bool isKeyboardMsg, const Point &mousePosition) override;
 
         /**
-         * @brief 当父窗口接收到控件的WM_COMMAND时调用该函数
-         * @param code 通知代码
+         * @brief 父窗口接收到WM_DRAWITEM后且父窗口OnDrawItem函数返回false时调用发出通知控件的该函数
+         * @param pDrawItem 包含有关要绘制的项和所需绘图类型的信息的结构体指针
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
          */
-        virtual void OnCommand(int code) override;
-
-    public:
-        /**
-         * @brief 清空所有子项
-         */
-        virtual void Clear() override;
+        virtual bool OnDrawItemSelf(DRAWITEMSTRUCT *pDrawItem) override;
 
         /**
-         * @brief 获取指定索引处子项的值
-         * @param index 子项的索引
+         * @brief 获取子项要显示的文本
+         * @param index 子项索引
+         * @param item 包含子项数据的Variant对象
          */
-        virtual std::wstring GetItemAt(int index) override;
+        virtual std::wstring GetDisplayText(int index, const Variant &item);
+
+    private:
+        /**
+         * @brief 设置子项数量
+         * @param count 指定列表框中的新项计数
+         */
+        void _SetCount(int count);
 
         /**
-         * @brief 添加新的子项
-         * @param item 要添加的子项
-         * @return 是否添加成功
+         * @brief 更新子项数量
          */
-        virtual bool AddItem(const std::wstring &item) override;
-
-        /**
-         * @brief 添加子项到指定索引
-         * @param index 要插入的位置
-         * @param item 要添加的子项
-         * @return 是否添加成功
-         */
-        virtual bool InsertItem(int index, const std::wstring &item) override;
-
-        /**
-         * @brief 更新指定位置的子项
-         * @param index 要更新子项的位置
-         * @param newValue 子项的新值
-         * @return 操作是否成功
-         */
-        virtual bool UpdateItem(int index, const std::wstring &newValue) override;
-
-        /**
-         * @brief 移除指定索引处的子项
-         * @param index 要移除子项的索引
-         * @return 操作是否成功
-         */
-        virtual bool RemoveItemAt(int index) override;
-
-        /**
-         * @brief 获取指定点处子项的索引
-         * @param point 相对于列表框用户区左上角点的位置
-         */
-        int GetItemIndexFromPoint(const Point &point);
-
-        /**
-         * @brief 多选状态下可通过该函数获取所有选中项的索引
-         * @return 所有选中项的索引
-         */
-        List<int> GetSelectedIndices();
-
-        /**
-         * @brief 多选状态下可通过该函数获取所有选中项的内容
-         * @return 所有选中项的内容
-         */
-        StrList GetSelectedItems();
-
-        /**
-         * @brief 获取指定索引处子项的选中状态
-         * @param index 子项的索引
-         * @return 若子项选中则返回true，否则返回false
-         */
-        bool GetItemSelectionState(int index);
-
-        /**
-         * @brief 多选状态下设置指定索引处子项的选中状态
-         * @param index 子项的索引，输入-1可设置所有子项的选中状态
-         * @param value 要设置的子项状态
-         */
-        void SetItemSelectionState(int index, bool value);
+        void _UpdateCount();
     };
 }

@@ -500,14 +500,14 @@ void sw::GridLayout::_UpdateInternalData()
     {
         _RowInfo info;
 
-        if (this->rows.IsEmpty()) {
+        if (this->rows.Count() == 0) {
             info.proportion = 1;
             this->_internalData.rowsInfo.emplace_back(info);
         } else {
             int count  = 0; // 类型为FillRemain的行数
             double sum = 0; // FillRemain行的高度求和
 
-            for (GridRow &row : this->rows) {
+            for (GridRow &row : this->rows.GetStdVector()) {
                 info.row = row;
                 // 防止值小于0
                 if (info.row.height < 0) {
@@ -543,14 +543,14 @@ void sw::GridLayout::_UpdateInternalData()
     {
         _ColInfo info;
 
-        if (this->columns.IsEmpty()) {
+        if (this->columns.Count() == 0) {
             info.proportion = 1;
             this->_internalData.colsInfo.emplace_back(info);
         } else {
             int count  = 0; // 类型为FillRemain的列数
             double sum = 0; // FillRemain列的高度求和
 
-            for (GridColumn &col : this->columns) {
+            for (GridColumn &col : this->columns.GetStdVector()) {
                 info.col = col;
                 // 防止值小于0
                 if (info.col.width < 0) {
