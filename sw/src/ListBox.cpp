@@ -11,11 +11,12 @@ sw::ListBox::ListBox()
       ItemHeight(
           Property<double>::Init(this)
               .Getter([](ListBox *self) -> double {
-                  return Dip::PxToDipY((int)self->SendMessageW(LB_GETITEMHEIGHT, 0, 0));
+                  return self->_itemHeight;
               })
               .Setter([](ListBox *self, double value) {
-                  if (self->ItemHeight != value) {
-                      self->SendMessageW(LB_SETITEMHEIGHT, 0, Dip::DipToPxY(value));
+                  if (self->_itemHeight != value) {
+                      self->_itemHeight = value;
+                      self->_UpdateItemHeight();
                       self->RaisePropertyChanged(&ListBox::ItemHeight);
                   }
               })),
@@ -61,6 +62,8 @@ sw::ListBox::ListBox()
 
     Rect    = sw::Rect(0, 0, 150, 200);
     TabStop = true;
+
+    _UpdateItemHeight();
     UpdateCurrentItemsSource();
 }
 
@@ -99,6 +102,12 @@ void sw::ListBox::OnCurrentItemsSourceCollectionChanged(const NotifyCollectionCh
             break; // 数量未变无需更新
     }
     Redraw();
+}
+
+void sw::ListBox::FontChanged(HFONT hfont)
+{
+    _UpdateItemHeight();
+    TBase::FontChanged(hfont);
 }
 
 int sw::ListBox::GetSelectedIndex()
@@ -190,4 +199,34 @@ void sw::ListBox::_UpdateCount()
 
     RaisePropertyChanged(&ItemsControl::ItemsCount);
     SetSelectedIndex(selectedIndex); // 尝试恢复选中项，若原选中项索引超出范围则会被重置为-1
+}
+
+void sw::ListBox::_UpdateItemHeight()
+{
+    int cyHeight;
+
+    if (_itemHeight >= 0) {
+        cyHeight = Dip::DipToPxY(_itemHeight);
+    } else {
+        HWND hwnd   = Handle;
+        HDC hdc     = GetDC(hwnd);
+        HFONT hFont = (HFONT)SendMessageW(WM_GETFONT, 0, 0);
+
+        if (hFont == NULL) {
+            hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
+        }
+
+        HFONT hFontOld = (HFONT)SelectObject(hdc, hFont);
+
+        TEXTMETRIC tm{};
+        GetTextMetrics(hdc, &tm);
+
+        cyHeight = tm.tmHeight + tm.tmExternalLeading;
+        cyHeight += GetSystemMetrics(SM_CYBORDER) * 2;
+
+        SelectObject(hdc, hFontOld);
+        ReleaseDC(hwnd, hdc);
+    }
+
+    SendMessageW(LB_SETITEMHEIGHT, 0, cyHeight);
 }

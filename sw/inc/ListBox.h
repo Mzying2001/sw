@@ -12,9 +12,19 @@ namespace sw
     {
     private:
         /**
+         * @brief 基类别名，方便调用基类函数
+         */
+        using TBase = ItemsControl;
+
+        /**
          * @brief 列表框的默认数据源
          */
         ObservableCollection<std::wstring> _items;
+
+        /**
+         * @brief 列表框子项的高度，负值表示根据字体自动计算高度
+         */
+        double _itemHeight = -1;
 
         /**
          * @brief 选中项的背景颜色
@@ -33,7 +43,7 @@ namespace sw
         const ReadOnlyProperty<ObservableCollection<std::wstring> *> Items;
 
         /**
-         * @brief 列表框子项的高度
+         * @brief 列表框子项的高度，负值表示根据字体自动计算高度
          */
         const Property<double> ItemHeight;
 
@@ -101,6 +111,12 @@ namespace sw
         virtual void SetSelectedIndex(int index) override;
 
         /**
+         * @brief 字体改变时调用该函数
+         * @param hfont 字体句柄
+         */
+        virtual void FontChanged(HFONT hfont) override;
+
+        /**
          * @brief 当父窗口接收到控件的WM_COMMAND时调用该函数
          * @param code 通知代码
          */
@@ -139,5 +155,10 @@ namespace sw
          * @brief 更新子项数量
          */
         void _UpdateCount();
+
+        /**
+         * @brief 更新子项高度
+         */
+        void _UpdateItemHeight();
     };
 }
