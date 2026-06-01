@@ -9,7 +9,7 @@ sw::Grid::Grid()
 
 void sw::Grid::AddRow(const GridRow &row)
 {
-    this->_gridLayout.rows.Append(row);
+    this->_gridLayout.rows.Add(row);
     this->InvalidateMeasure();
 }
 
@@ -22,7 +22,7 @@ void sw::Grid::SetRows(std::initializer_list<GridRow> rows)
 
 void sw::Grid::AddColumn(const GridColumn &col)
 {
-    this->_gridLayout.columns.Append(col);
+    this->_gridLayout.columns.Add(col);
     this->InvalidateMeasure();
 }
 

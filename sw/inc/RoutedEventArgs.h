@@ -266,8 +266,8 @@ namespace sw
      * @brief 列表视图编辑状态结束事件参数类型
      */
     struct ListViewEndEditEventArgs : ListViewItemEventArgs<ListView_EndEdit, CancelableEventArgs> {
-        wchar_t *newText; // 新的文本
-        ListViewEndEditEventArgs(int index, wchar_t *newText)
+        std::wstring newText; // 新的文本
+        ListViewEndEditEventArgs(int index, const std::wstring &newText)
             : ListViewItemEventArgs<ListView_EndEdit, CancelableEventArgs>(index), newText(newText) {}
     };
 

@@ -120,41 +120,56 @@ bool sw::Control::OnCustomDraw(NMCUSTOMDRAW *pNMCD, LRESULT &result)
 {
     switch (pNMCD->dwDrawStage) {
         case CDDS_PREERASE: {
-            return OnPreErase(pNMCD->hdc, result);
+            return OnPreErase(pNMCD, result);
         }
         case CDDS_POSTERASE: {
-            return OnPostErase(pNMCD->hdc, result);
+            return OnPostErase(pNMCD, result);
         }
         case CDDS_PREPAINT: {
-            return OnPrePaint(pNMCD->hdc, result);
+            return OnPrePaint(pNMCD, result);
         }
         case CDDS_POSTPAINT: {
-            return OnPostPaint(pNMCD->hdc, result);
+            return OnPostPaint(pNMCD, result);
         }
         default: {
+            if ((pNMCD->dwDrawStage & CDDS_ITEMPREPAINT) == CDDS_ITEMPREPAINT) {
+                bool subItem = (pNMCD->dwDrawStage & CDDS_SUBITEM) == CDDS_SUBITEM;
+                return OnItemPrePaint(pNMCD, subItem, result);
+            } else if ((pNMCD->dwDrawStage & CDDS_ITEMPOSTPAINT) == CDDS_ITEMPOSTPAINT) {
+                bool subItem = (pNMCD->dwDrawStage & CDDS_SUBITEM) == CDDS_SUBITEM;
+                return OnItemPostPaint(pNMCD, subItem, result);
+            }
             return false;
         }
     }
 }
 
-bool sw::Control::OnPreErase(HDC hdc, LRESULT &result)
-{
-    result = CDRF_NOTIFYPOSTERASE;
-    return true;
-}
-
-bool sw::Control::OnPostErase(HDC hdc, LRESULT &result)
+bool sw::Control::OnPreErase(NMCUSTOMDRAW *pNMCD, LRESULT &result)
 {
     return false;
 }
 
-bool sw::Control::OnPrePaint(HDC hdc, LRESULT &result)
+bool sw::Control::OnPostErase(NMCUSTOMDRAW *pNMCD, LRESULT &result)
 {
-    result = CDRF_NOTIFYPOSTPAINT;
-    return true;
+    return false;
 }
 
-bool sw::Control::OnPostPaint(HDC hdc, LRESULT &result)
+bool sw::Control::OnPrePaint(NMCUSTOMDRAW *pNMCD, LRESULT &result)
+{
+    return false;
+}
+
+bool sw::Control::OnPostPaint(NMCUSTOMDRAW *pNMCD, LRESULT &result)
+{
+    return false;
+}
+
+bool sw::Control::OnItemPrePaint(NMCUSTOMDRAW *pNMCD, bool subItem, LRESULT &result)
+{
+    return false;
+}
+
+bool sw::Control::OnItemPostPaint(NMCUSTOMDRAW *pNMCD, bool subItem, LRESULT &result)
 {
     return false;
 }
