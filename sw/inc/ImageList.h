@@ -109,38 +109,19 @@ namespace sw
         /**
          * @brief 锁定窗口并在指定窗口内显示拖拽图像，该函数调用ImageList_DragEnter
          * @param hwndLock 要锁定更新的窗口句柄
-         * @param x 拖拽图像相对锁定窗口左上角的水平位置，单位为设备无关像素
-         * @param y 拖拽图像相对锁定窗口左上角的垂直位置，单位为设备无关像素
-         * @return 操作成功返回true，否则返回false
-         * @note hwndLock为NULL时，坐标相对屏幕左上角。
-         */
-        static bool DragEnter(HWND hwndLock, double x, double y) noexcept;
-
-        /**
-         * @brief 锁定窗口并在指定窗口内显示拖拽图像，该函数调用ImageList_DragEnter
-         * @param hwndLock 要锁定更新的窗口句柄
          * @param x 拖拽图像相对锁定窗口左上角的水平位置，单位为像素
          * @param y 拖拽图像相对锁定窗口左上角的垂直位置，单位为像素
          * @return 操作成功返回true，否则返回false
          * @note hwndLock为NULL时，坐标相对屏幕左上角。
          */
-        static bool DragEnterPx(HWND hwndLock, int x, int y) noexcept;
+        static bool DragEnter(HWND hwndLock, int x, int y) noexcept;
 
         /**
          * @brief 解除窗口锁定并隐藏显示的拖拽图像，该函数调用ImageList_DragLeave
-         * @param hwndLock 先前传给DragEnter或DragEnterPx的窗口句柄
+         * @param hwndLock 先前传给DragEnter的窗口句柄
          * @return 操作成功返回true，否则返回false
          */
         static bool DragLeave(HWND hwndLock) noexcept;
-
-        /**
-         * @brief 拖拽移动，一般在WM_MOUSEMOVE函数中调用，该函数调用ImageList_DragMove
-         * @param x 拖拽图像相对锁定窗口左上角的新水平位置，单位为设备无关像素
-         * @param y 拖拽图像相对锁定窗口左上角的新垂直位置，单位为设备无关像素
-         * @return 操作成功返回true，否则返回false
-         * @note 拖拽锁定窗口为NULL时，坐标相对屏幕左上角。
-         */
-        static bool DragMove(double x, double y) noexcept;
 
         /**
          * @brief 拖拽移动，一般在WM_MOUSEMOVE函数中调用，该函数调用ImageList_DragMove
@@ -149,7 +130,7 @@ namespace sw
          * @return 操作成功返回true，否则返回false
          * @note 拖拽锁定窗口为NULL时，坐标相对屏幕左上角。
          */
-        static bool DragMovePx(int x, int y) noexcept;
+        static bool DragMove(int x, int y) noexcept;
 
         /**
          * @brief 拖拽时显示或隐藏图像，该函数调用ImageList_DragShowNolock
@@ -272,41 +253,15 @@ namespace sw
          * @brief 在指定上下文DC下绘制图像，该函数调用ImageList_Draw
          * @param i 要绘制的图像索引
          * @param hdcDst 目标设备上下文句柄
-         * @param x 绘制位置的水平坐标，单位为设备无关像素
-         * @param y 绘制位置的垂直坐标，单位为设备无关像素
-         * @param fStyle 绘制样式标志，与ImageList_Draw的fStyle参数相同
-         * @return 操作成功返回true，否则返回false
-         */
-        bool Draw(int i, HDC hdcDst, double x, double y, UINT fStyle) noexcept;
-
-        /**
-         * @brief 在指定上下文DC下绘制图像，该函数调用ImageList_DrawEx
-         * @param i 要绘制的图像索引
-         * @param hdcDst 目标设备上下文句柄
-         * @param x 绘制位置的水平坐标，单位为设备无关像素
-         * @param y 绘制位置的垂直坐标，单位为设备无关像素
-         * @param dx 绘制宽度，单位为设备无关像素
-         * @param dy 绘制高度，单位为设备无关像素
-         * @param rgbBk 背景颜色，与ImageList_DrawEx的rgbBk参数相同
-         * @param rgbFg 前景颜色，与ImageList_DrawEx的rgbFg参数相同
-         * @param fStyle 绘制样式标志，与ImageList_DrawEx的fStyle参数相同
-         * @return 操作成功返回true，否则返回false
-         */
-        bool Draw(int i, HDC hdcDst, double x, double y, double dx, double dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle) noexcept;
-
-        /**
-         * @brief 以像素为单位，在指定上下文DC下绘制图像，该函数调用ImageList_Draw
-         * @param i 要绘制的图像索引
-         * @param hdcDst 目标设备上下文句柄
          * @param x 绘制位置的水平坐标，单位为像素
          * @param y 绘制位置的垂直坐标，单位为像素
          * @param fStyle 绘制样式标志，与ImageList_Draw的fStyle参数相同
          * @return 操作成功返回true，否则返回false
          */
-        bool DrawPx(int i, HDC hdcDst, int x, int y, UINT fStyle) noexcept;
+        bool Draw(int i, HDC hdcDst, int x, int y, UINT fStyle) noexcept;
 
         /**
-         * @brief 以像素为单位，在指定上下文DC下绘制图像，该函数调用ImageList_DrawEx
+         * @brief 在指定上下文DC下绘制图像，该函数调用ImageList_DrawEx
          * @param i 要绘制的图像索引
          * @param hdcDst 目标设备上下文句柄
          * @param x 绘制位置的水平坐标，单位为像素
@@ -318,7 +273,7 @@ namespace sw
          * @param fStyle 绘制样式标志，与ImageList_DrawEx的fStyle参数相同
          * @return 操作成功返回true，否则返回false
          */
-        bool DrawPx(int i, HDC hdcDst, int x, int y, int dx, int dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle) noexcept;
+        bool Draw(int i, HDC hdcDst, int x, int y, int dx, int dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle) noexcept;
 
         /**
          * @brief 复制当前图像列表，该函数调用ImageList_Duplicate

@@ -1,5 +1,4 @@
 #include "ImageList.h"
-#include "Dip.h"
 
 sw::ImageList::ImageList(HIMAGELIST hImageList, bool isWrap) noexcept
     : _hImageList(hImageList), _isWrap(isWrap)
@@ -83,12 +82,7 @@ bool sw::ImageList::Copy(const ImageList &dst, int iDst, const ImageList &src, i
     return ImageList_Copy(dst._hImageList, iDst, src._hImageList, iSrc, uFlags);
 }
 
-bool sw::ImageList::DragEnter(HWND hwndLock, double x, double y) noexcept
-{
-    return ImageList_DragEnter(hwndLock, Dip::DipToPxX(x), Dip::DipToPxY(y));
-}
-
-bool sw::ImageList::DragEnterPx(HWND hwndLock, int x, int y) noexcept
+bool sw::ImageList::DragEnter(HWND hwndLock, int x, int y) noexcept
 {
     return ImageList_DragEnter(hwndLock, x, y);
 }
@@ -98,12 +92,7 @@ bool sw::ImageList::DragLeave(HWND hwndLock) noexcept
     return ImageList_DragLeave(hwndLock);
 }
 
-bool sw::ImageList::DragMove(double x, double y) noexcept
-{
-    return ImageList_DragMove(Dip::DipToPxX(x), Dip::DipToPxY(y));
-}
-
-bool sw::ImageList::DragMovePx(int x, int y) noexcept
+bool sw::ImageList::DragMove(int x, int y) noexcept
 {
     return ImageList_DragMove(x, y);
 }
@@ -180,22 +169,12 @@ bool sw::ImageList::BeginDrag(int iTrack, int dxHotspot, int dyHotspot) noexcept
     return ImageList_BeginDrag(_hImageList, iTrack, dxHotspot, dyHotspot);
 }
 
-bool sw::ImageList::Draw(int i, HDC hdcDst, double x, double y, UINT fStyle) noexcept
-{
-    return DrawPx(i, hdcDst, Dip::DipToPxX(x), Dip::DipToPxY(y), fStyle);
-}
-
-bool sw::ImageList::Draw(int i, HDC hdcDst, double x, double y, double dx, double dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle) noexcept
-{
-    return DrawPx(i, hdcDst, Dip::DipToPxX(x), Dip::DipToPxY(y), Dip::DipToPxX(dx), Dip::DipToPxY(dy), rgbBk, rgbFg, fStyle);
-}
-
-bool sw::ImageList::DrawPx(int i, HDC hdcDst, int x, int y, UINT fStyle) noexcept
+bool sw::ImageList::Draw(int i, HDC hdcDst, int x, int y, UINT fStyle) noexcept
 {
     return ImageList_Draw(_hImageList, i, hdcDst, x, y, fStyle);
 }
 
-bool sw::ImageList::DrawPx(int i, HDC hdcDst, int x, int y, int dx, int dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle) noexcept
+bool sw::ImageList::Draw(int i, HDC hdcDst, int x, int y, int dx, int dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle) noexcept
 {
     return ImageList_DrawEx(_hImageList, i, hdcDst, x, y, dx, dy, rgbBk, rgbFg, fStyle);
 }
