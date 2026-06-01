@@ -554,14 +554,17 @@ void sw::ListView::GetCheckBoxRect(int index, RECT &rect)
 {
     ListView_GetItemRect(Handle, index, &rect, LVIR_ICON);
 
-    int rowHeight   = rect.bottom - rect.top;
-    int cxMenuCheck = GetSystemMetrics(SM_CXMENUCHECK);
-    int cyMenuCheck = GetSystemMetrics(SM_CYMENUCHECK);
+    int cyItem  = rect.bottom - rect.top;
+    int cxEdge  = GetSystemMetrics(SM_CXEDGE);
+    int cxCheck = GetSystemMetrics(SM_CXMENUCHECK);
+    int cyCheck = GetSystemMetrics(SM_CYMENUCHECK);
 
-    rect.top += (rowHeight - cyMenuCheck) / 2;
-    rect.left -= cxMenuCheck;
-    rect.right  = rect.left + cxMenuCheck;
-    rect.bottom = rect.top + cyMenuCheck;
+    int iconLeft = rect.left;
+
+    rect.top += (cyItem - cyCheck) / 2;
+    rect.left   = cxEdge + (iconLeft - cxEdge - cxCheck) / 2;
+    rect.right  = rect.left + cxCheck;
+    rect.bottom = rect.top + cyCheck;
 }
 
 void sw::ListView::OnGetItemCheckState(int index, bool &checked)
