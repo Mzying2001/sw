@@ -39,5 +39,6 @@ var searchData=
   ['mouseright_36',['mouseright',['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a64be76bfebee9b86f0963be88b3de177',1,'sw::MouseRight'],['../namespacesw.html#a4263585da86870849cd0b61305ddbdd8a64be76bfebee9b86f0963be88b3de177',1,'sw::MouseRight']]],
   ['mousex1_37',['mousex1',['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0aeef6e9d542b2dd4735b86189c56ccf84',1,'sw::MouseX1'],['../namespacesw.html#a4263585da86870849cd0b61305ddbdd8aeef6e9d542b2dd4735b86189c56ccf84',1,'sw::MouseX1']]],
   ['mousex2_38',['mousex2',['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a7edfbda2c07fab3421600b8facc0238b',1,'sw::MouseX2'],['../namespacesw.html#a4263585da86870849cd0b61305ddbdd8a7edfbda2c07fab3421600b8facc0238b',1,'sw::MouseX2']]],
-  ['multipy_39',['Multipy',['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a0a875421eb56cfee146cee17afc45afb',1,'sw']]]
+  ['move_39',['Move',['../namespacesw.html#a49eacf734460b282dc711a5469945cc7a6bc362dbf494c61ea117fe3c71ca48a5',1,'sw']]],
+  ['multipy_40',['Multipy',['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a0a875421eb56cfee146cee17afc45afb',1,'sw']]]
 ];

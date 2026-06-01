@@ -336,6 +336,12 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
   </table>
   </dd>
 </dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::logic_error</td><td>如果other为非引用装箱且T不可拷贝构造 </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -369,6 +375,12 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">other</td><td>另一个装箱对象 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::logic_error</td><td>如果other为非引用装箱且T不可移动构造 </td></tr>
   </table>
   </dd>
 </dl>
@@ -620,6 +632,13 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>当前装箱对象的引用 </dd></dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::logic_error</td><td>如果当前对象为引用装箱且other为非引用装箱，同时T不可移动构造 </td></tr>
+    <tr><td class="paramname">std::logic_error</td><td>如果当前对象为非引用装箱且other为非引用装箱，同时T不可移动赋值 </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -657,6 +676,13 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>当前装箱对象的引用 </dd></dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::logic_error</td><td>如果当前对象为引用装箱且other为非引用装箱，同时T不可拷贝构造 </td></tr>
+    <tr><td class="paramname">std::logic_error</td><td>如果当前对象为非引用装箱且other为非引用装箱，同时T不可拷贝赋值 </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

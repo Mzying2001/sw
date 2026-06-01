@@ -1,0 +1,466 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: ObservableCollection.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ObservableCollection_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ObservableCollection.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;INotifyCollectionChanged.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;List.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;ObservableObject.h&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;initializer_list&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;stdexcept&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesw.html">sw</a></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>{</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen00016" data-start="{" data-end="};">
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html">   16</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1ObservableCollection.html">ObservableCollection</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1ObservableObject.html">ObservableObject</a>,</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>                                 <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1IListT.html">IListT</a>&lt;T&gt;,</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>                                 <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1INotifyCollectionChanged.html">INotifyCollectionChanged</a>,</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>                                 <span class="keyword">public</span> <a class="code hl_class" href="classsw_1_1IToString.html">IToString</a>&lt;ObservableCollection&lt;T&gt;&gt;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <a class="code hl_class" href="classsw_1_1IValueConverter.html">List&lt;T&gt;</a> _items;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <a class="code hl_class" href="classsw_1_1IValueConverter.html">NotifyCollectionChangedEventHandler</a> _collectionChanged;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#afadb8e76aefb9792f032219266c2d453">   36</a></span>        <a class="code hl_function" href="classsw_1_1ObservableCollection.html#afadb8e76aefb9792f032219266c2d453">ObservableCollection</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <span class="comment">// 删除拷贝构造函数</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <a class="code hl_function" href="classsw_1_1ObservableCollection.html#afadb8e76aefb9792f032219266c2d453">ObservableCollection</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1IValueConverter.html">ObservableCollection&lt;T&gt;</a> &amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="comment">// 删除移动构造函数</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <a class="code hl_function" href="classsw_1_1ObservableCollection.html#afadb8e76aefb9792f032219266c2d453">ObservableCollection</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">ObservableCollection&lt;T&gt;</a> &amp;&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="comment">// 删除拷贝赋值运算符</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <a class="code hl_class" href="classsw_1_1IValueConverter.html">ObservableCollection&lt;T&gt;</a> &amp;operator=(<span class="keyword">const</span> <a class="code hl_class" href="classsw_1_1IValueConverter.html">ObservableCollection&lt;T&gt;</a> &amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="comment">// 删除移动赋值运算符</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <a class="code hl_class" href="classsw_1_1IValueConverter.html">ObservableCollection&lt;T&gt;</a> &amp;operator=(<a class="code hl_class" href="classsw_1_1IValueConverter.html">ObservableCollection&lt;T&gt;</a> &amp;&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="foldopen" id="foldopen00054" data-start="{" data-end="}">
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#af71e981d130acb8e2af2814dd0bad32d">   54</a></span>        <a class="code hl_function" href="classsw_1_1ObservableCollection.html#af71e981d130acb8e2af2814dd0bad32d">ObservableCollection</a>(std::initializer_list&lt;T&gt; list)</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            : _items(list)</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        {</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        }</div>
+</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="foldopen" id="foldopen00063" data-start="{" data-end="}">
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#a866155eeda219d6adbd11748d8dabb51">   63</a></span>        <span class="keyword">explicit</span> <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a866155eeda219d6adbd11748d8dabb51">ObservableCollection</a>(<span class="keywordtype">int</span> <a class="code hl_class" href="classsw_1_1IValueConverter.html">capacity</a>)</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            : _items(<a class="code hl_class" href="classsw_1_1IValueConverter.html">capacity</a>)</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        {</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        }</div>
+</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keyword">protected</span>:</div>
+<div class="foldopen" id="foldopen00073" data-start="{" data-end="}">
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#a6bdf09b5f225ea04b8dfe5cd1842c024">   73</a></span>        <span class="keyword">virtual</span> <a class="code hl_class" href="classsw_1_1IValueConverter.html">NotifyCollectionChangedEventHandler</a> &amp;<a class="code hl_function" href="classsw_1_1ObservableCollection.html#a6bdf09b5f225ea04b8dfe5cd1842c024">GetCollectionChangedEventDelegate</a>() <a class="code hl_class" href="classsw_1_1IValueConverter.html">override</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">final</a></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            <span class="keywordflow">return</span> _collectionChanged;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        }</div>
+</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="foldopen" id="foldopen00082" data-start="{" data-end="}">
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#a25155bc07f77e09a0b4f61e3a05958d0">   82</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a25155bc07f77e09a0b4f61e3a05958d0">OnCollectionChanged</a>(<a class="code hl_class" href="classsw_1_1NotifyCollectionChangedEventArgs.html">NotifyCollectionChangedEventArgs</a> &amp;<a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>)</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        {</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>            <span class="keywordflow">if</span> (_collectionChanged) {</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>                _collectionChanged(*<span class="keyword">this</span>, <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>);</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>            }</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        }</div>
+</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00094" data-start="{" data-end="}">
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#a533595dc81b731933d50099d0cfbde6f">   94</a></span>        <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a533595dc81b731933d50099d0cfbde6f">Capacity</a>() <a class="code hl_class" href="classsw_1_1IValueConverter.html">const</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">noexcept</a></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        {</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>            <span class="keywordflow">return</span> _items.Capacity();</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        }</div>
+</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="foldopen" id="foldopen00103" data-start="{" data-end="}">
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#adcbc92aa33b1679ab2da77b22a62c190">  103</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1ObservableCollection.html#adcbc92aa33b1679ab2da77b22a62c190">Reserve</a>(<span class="keywordtype">int</span> <a class="code hl_class" href="classsw_1_1IValueConverter.html">newCapacity</a>)</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        {</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>            _items.Reserve(<a class="code hl_class" href="classsw_1_1IValueConverter.html">newCapacity</a>);</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        }</div>
+</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="foldopen" id="foldopen00111" data-start="{" data-end="}">
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#ad729d150a0ba60cf8c99e6ce93cc51bd">  111</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1ObservableCollection.html#ad729d150a0ba60cf8c99e6ce93cc51bd">Refresh</a>()</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        {</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>            <a class="code hl_class" href="classsw_1_1NotifyCollectionChangedEventArgs.html">NotifyCollectionChangedEventArgs</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>{};</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.action = <a class="code hl_enumvalue" href="namespacesw.html#a49eacf734460b282dc711a5469945cc7a526d688f37a86d3c3f27d0c5016eb71d">NotifyCollectionChangedAction::Reset</a>;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.list   = <span class="keyword">this</span>;</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>            <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a25155bc07f77e09a0b4f61e3a05958d0">OnCollectionChanged</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>);</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        }</div>
+</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
+<div class="foldopen" id="foldopen00122" data-start="{" data-end="}">
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#a2f3f06fc542f2de373f661a8178c0308">  122</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a2f3f06fc542f2de373f661a8178c0308">Clear</a>()</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        {</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>            <span class="keywordflow">if</span> (_items.Count() == 0) {</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>            }</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>            _items.Clear();</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>            <a class="code hl_class" href="classsw_1_1NotifyCollectionChangedEventArgs.html">NotifyCollectionChangedEventArgs</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>{};</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.action = <a class="code hl_enumvalue" href="namespacesw.html#a49eacf734460b282dc711a5469945cc7a526d688f37a86d3c3f27d0c5016eb71d">NotifyCollectionChangedAction::Reset</a>;</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.list   = <span class="keyword">this</span>;</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>            <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a25155bc07f77e09a0b4f61e3a05958d0">OnCollectionChanged</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>);</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        }</div>
+</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
+<div class="foldopen" id="foldopen00140" data-start="{" data-end="}">
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#a370d5855b2be771c6028e80bcb02e7f2">  140</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a370d5855b2be771c6028e80bcb02e7f2">Add</a>(<span class="keyword">const</span> <a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;value)</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        {</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>            <span class="keywordtype">int</span> index = _items.Count();</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>            _items.Add(value);</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span> </div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>            <a class="code hl_class" href="classsw_1_1NotifyCollectionChangedEventArgs.html">NotifyCollectionChangedEventArgs</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>{};</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.action = <a class="code hl_enumvalue" href="namespacesw.html#a49eacf734460b282dc711a5469945cc7aec211f7c20af43e742bf2570c3cb84f9">NotifyCollectionChangedAction::Add</a>;</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.list   = <span class="keyword">this</span>;</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.index  = index;</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>            <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a25155bc07f77e09a0b4f61e3a05958d0">OnCollectionChanged</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>);</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        }</div>
+</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
+<div class="foldopen" id="foldopen00156" data-start="{" data-end="}">
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#aad35e2d905bd77f81eed6772f3ec5de1">  156</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1ObservableCollection.html#aad35e2d905bd77f81eed6772f3ec5de1">Add</a>(<a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;&amp;value)</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>        {</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>            <span class="keywordtype">int</span> index = _items.Count();</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>            _items.Add(std::move(value));</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span> </div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>            <a class="code hl_class" href="classsw_1_1NotifyCollectionChangedEventArgs.html">NotifyCollectionChangedEventArgs</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>{};</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.action = <a class="code hl_enumvalue" href="namespacesw.html#a49eacf734460b282dc711a5469945cc7aec211f7c20af43e742bf2570c3cb84f9">NotifyCollectionChangedAction::Add</a>;</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.list   = <span class="keyword">this</span>;</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.index  = index;</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>            <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a25155bc07f77e09a0b4f61e3a05958d0">OnCollectionChanged</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>);</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        }</div>
+</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span> </div>
+<div class="foldopen" id="foldopen00173" data-start="{" data-end="}">
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#ae285d043f0a96c4feb87ad57ca8330cd">  173</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1ObservableCollection.html#ae285d043f0a96c4feb87ad57ca8330cd">RemoveAt</a>(<span class="keywordtype">int</span> index)</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>        {</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>            _items.RemoveAt(index);</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span> </div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>            <a class="code hl_class" href="classsw_1_1NotifyCollectionChangedEventArgs.html">NotifyCollectionChangedEventArgs</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>{};</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.action = <a class="code hl_enumvalue" href="namespacesw.html#a49eacf734460b282dc711a5469945cc7a1063e38cb53d94d386f21227fcd84717">NotifyCollectionChangedAction::Remove</a>;</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.list   = <span class="keyword">this</span>;</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.index  = index;</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>            <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a25155bc07f77e09a0b4f61e3a05958d0">OnCollectionChanged</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>);</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>        }</div>
+</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span> </div>
+<div class="foldopen" id="foldopen00190" data-start="{" data-end="}">
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#a9f10738f5371ae0ef9b19842a96e3369">  190</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a9f10738f5371ae0ef9b19842a96e3369">Insert</a>(<span class="keywordtype">int</span> index, <span class="keyword">const</span> <a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;value)</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>        {</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>            _items.Insert(index, value);</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span> </div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>            <a class="code hl_class" href="classsw_1_1NotifyCollectionChangedEventArgs.html">NotifyCollectionChangedEventArgs</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>{};</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.action = <a class="code hl_enumvalue" href="namespacesw.html#a49eacf734460b282dc711a5469945cc7aec211f7c20af43e742bf2570c3cb84f9">NotifyCollectionChangedAction::Add</a>;</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.list   = <span class="keyword">this</span>;</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.index  = index;</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>            <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a25155bc07f77e09a0b4f61e3a05958d0">OnCollectionChanged</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>);</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>        }</div>
+</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span> </div>
+<div class="foldopen" id="foldopen00207" data-start="{" data-end="}">
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#a5819b762f8affe69a575b361d18ac716">  207</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a5819b762f8affe69a575b361d18ac716">Insert</a>(<span class="keywordtype">int</span> index, <a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;&amp;value)</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>        {</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>            _items.Insert(index, std::move(value));</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span> </div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>            <a class="code hl_class" href="classsw_1_1NotifyCollectionChangedEventArgs.html">NotifyCollectionChangedEventArgs</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>{};</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.action = <a class="code hl_enumvalue" href="namespacesw.html#a49eacf734460b282dc711a5469945cc7aec211f7c20af43e742bf2570c3cb84f9">NotifyCollectionChangedAction::Add</a>;</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.list   = <span class="keyword">this</span>;</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.index  = index;</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>            <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a25155bc07f77e09a0b4f61e3a05958d0">OnCollectionChanged</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>);</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>        }</div>
+</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span> </div>
+<div class="foldopen" id="foldopen00224" data-start="{" data-end="}">
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#a1ed67ffe2baeea681c6d28a8ee34744c">  224</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a1ed67ffe2baeea681c6d28a8ee34744c">Move</a>(<span class="keywordtype">int</span> oldIndex, <span class="keywordtype">int</span> <a class="code hl_class" href="classsw_1_1IValueConverter.html">newIndex</a>)</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>        {</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>            <span class="keywordtype">int</span> <a class="code hl_class" href="classsw_1_1IValueConverter.html">count</a> = _items.Count();</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>            <span class="keywordflow">if</span> (<a class="code hl_class" href="classsw_1_1IValueConverter.html">oldIndex &lt; 0 || oldIndex &gt;</a>= <a class="code hl_class" href="classsw_1_1IValueConverter.html">count</a> || <a class="code hl_class" href="classsw_1_1IValueConverter.html">newIndex &lt; 0 || newIndex &gt;</a>= <a class="code hl_class" href="classsw_1_1IValueConverter.html">count</a>) {</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>                <span class="keywordflow">throw</span> std::out_of_range(<span class="stringliteral">&quot;Index out of range in ObservableCollection::Move.&quot;</span>);</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>            }</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span> </div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>            <span class="keywordflow">if</span> (oldIndex == <a class="code hl_class" href="classsw_1_1IValueConverter.html">newIndex</a>) {</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>            }</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span> </div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>            <span class="keyword">auto</span> &amp;<a class="code hl_class" href="classsw_1_1IValueConverter.html">items</a> = _items.GetStdVector();</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span> </div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>            <a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> value = std::move(<a class="code hl_class" href="classsw_1_1IValueConverter.html">items</a>[<span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(oldIndex)]);</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">items</a>.erase(<a class="code hl_class" href="classsw_1_1IValueConverter.html">items</a>.begin() + <span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(oldIndex));</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">items</a>.insert(<a class="code hl_class" href="classsw_1_1IValueConverter.html">items</a>.begin() + <span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">newIndex</a>), std::move(value));</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span> </div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>            <a class="code hl_class" href="classsw_1_1NotifyCollectionChangedEventArgs.html">NotifyCollectionChangedEventArgs</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>{};</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.action   = <a class="code hl_enumvalue" href="namespacesw.html#a49eacf734460b282dc711a5469945cc7a6bc362dbf494c61ea117fe3c71ca48a5">NotifyCollectionChangedAction::Move</a>;</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.list     = <span class="keyword">this</span>;</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.index    = <a class="code hl_class" href="classsw_1_1IValueConverter.html">newIndex</a>;</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.oldIndex = oldIndex;</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>            <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a25155bc07f77e09a0b4f61e3a05958d0">OnCollectionChanged</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>);</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>        }</div>
+</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span> </div>
+<div class="foldopen" id="foldopen00254" data-start="{" data-end="}">
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#a181dee8d8be8156fe0c962dab948c1d5">  254</a></span>        <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a181dee8d8be8156fe0c962dab948c1d5">IndexOf</a>(<span class="keyword">const</span> <a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;value)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>            <span class="keywordflow">return</span> _items.IndexOf(value);</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>        }</div>
+</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span> </div>
+<div class="foldopen" id="foldopen00264" data-start="{" data-end="}">
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#a1c05f09f36d35c7467b095a58e7008d3">  264</a></span>        <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a1c05f09f36d35c7467b095a58e7008d3">LastIndexOf</a>(<span class="keyword">const</span> <a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;value)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>            <span class="keywordflow">return</span> _items.LastIndexOf(value);</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>        }</div>
+</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span> </div>
+<div class="foldopen" id="foldopen00274" data-start="{" data-end="}">
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#a154e5b43496204724b37bba0210f36e8">  274</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a154e5b43496204724b37bba0210f36e8">Contains</a>(<span class="keyword">const</span> <a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;value)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>            <span class="keywordflow">return</span> _items.Contains(value);</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>        }</div>
+</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span> </div>
+<div class="foldopen" id="foldopen00284" data-start="{" data-end="}">
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#aab52b5496a2f20ca249c87ac66f27e37">  284</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classsw_1_1ObservableCollection.html#aab52b5496a2f20ca249c87ac66f27e37">Remove</a>(<span class="keyword">const</span> <a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;value)</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>        {</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>            <span class="keywordtype">int</span> index = _items.IndexOf(value);</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>            <span class="keywordflow">if</span> (index == -1) {</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>            }</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span> </div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>            _items.RemoveAt(index);</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span> </div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>            <a class="code hl_class" href="classsw_1_1NotifyCollectionChangedEventArgs.html">NotifyCollectionChangedEventArgs</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>{};</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.action = <a class="code hl_enumvalue" href="namespacesw.html#a49eacf734460b282dc711a5469945cc7a1063e38cb53d94d386f21227fcd84717">NotifyCollectionChangedAction::Remove</a>;</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.list   = <span class="keyword">this</span>;</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.index  = index;</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>            <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a25155bc07f77e09a0b4f61e3a05958d0">OnCollectionChanged</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>);</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span> </div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>        }</div>
+</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span> </div>
+<div class="foldopen" id="foldopen00306" data-start="{" data-end="}">
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#a3adb13bb8deb4c46d649132994790907">  306</a></span>        std::wstring <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a3adb13bb8deb4c46d649132994790907">ToString</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>            <span class="keywordflow">return</span> _items.ToString();</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>        }</div>
+</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span> </div>
+<div class="foldopen" id="foldopen00315" data-start="{" data-end="}">
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#aac69c29665dc3f72df6165e870bf24ba">  315</a></span>        std::vector&lt;T&gt; &amp;<a class="code hl_function" href="classsw_1_1ObservableCollection.html#aac69c29665dc3f72df6165e870bf24ba">GetStdVector</a>() <a class="code hl_class" href="classsw_1_1IValueConverter.html">noexcept</a></div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>        {</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>            <span class="keywordflow">return</span> _items.GetStdVector();</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>        }</div>
+</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span> </div>
+<div class="foldopen" id="foldopen00324" data-start="{" data-end="}">
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#a47f068f051623359d579f040d867d2c0">  324</a></span>        <span class="keyword">const</span> std::vector&lt;T&gt; &amp;<a class="code hl_function" href="classsw_1_1ObservableCollection.html#a47f068f051623359d579f040d867d2c0">GetStdVector</a>() <a class="code hl_class" href="classsw_1_1IValueConverter.html">const</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">noexcept</a></div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>        {</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>            <span class="keywordflow">return</span> _items.GetStdVector();</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>        }</div>
+</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span> </div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>    <span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00334" data-start="{" data-end="}">
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#aca7097e32c4852d48431f934e286d30c">  334</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classsw_1_1ObservableCollection.html#aca7097e32c4852d48431f934e286d30c">Count</a>() <a class="code hl_class" href="classsw_1_1IValueConverter.html">const</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">noexcept</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">override</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">final</a></div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>        {</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>            <span class="keywordflow">return</span> _items.Count();</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>        }</div>
+</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span> </div>
+<div class="foldopen" id="foldopen00345" data-start="{" data-end="}">
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#aabcfaf2e769cd1d58838ddd000d1587d">  345</a></span>        <span class="keyword">virtual</span> <a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;<a class="code hl_function" href="classsw_1_1ObservableCollection.html#aabcfaf2e769cd1d58838ddd000d1587d">GetAt</a>(<span class="keywordtype">int</span> index) <span class="keyword">override</span> <span class="keyword">final</span></div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>        {</div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>            <span class="keywordflow">return</span> _items.GetAt(index);</div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>        }</div>
+</div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span> </div>
+<div class="foldopen" id="foldopen00356" data-start="{" data-end="}">
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#a4bafd91a21d8b1afbc45822ca29620df">  356</a></span>        <span class="keyword">virtual</span> <span class="keyword">const</span> <a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;<a class="code hl_function" href="classsw_1_1ObservableCollection.html#a4bafd91a21d8b1afbc45822ca29620df">GetAt</a>(<span class="keywordtype">int</span> index) <span class="keyword">const</span> <span class="keyword">override</span> <span class="keyword">final</span></div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>        {</div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>            <span class="keywordflow">return</span> _items.GetAt(index);</div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>        }</div>
+</div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span> </div>
+<div class="foldopen" id="foldopen00368" data-start="{" data-end="}">
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#a0deed29e2a18d7821c615711f0900c28">  368</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a0deed29e2a18d7821c615711f0900c28">SetAt</a>(<span class="keywordtype">int</span> index, <span class="keyword">const</span> <a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;value) <span class="keyword">override</span> <span class="keyword">final</span></div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>        {</div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>            _items.SetAt(index, value);</div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span> </div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>            <a class="code hl_class" href="classsw_1_1NotifyCollectionChangedEventArgs.html">NotifyCollectionChangedEventArgs</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>{};</div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.action = <a class="code hl_enumvalue" href="namespacesw.html#a49eacf734460b282dc711a5469945cc7a0ebe6df8a3ac338e0512acc741823fdb">NotifyCollectionChangedAction::Replace</a>;</div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.list   = <span class="keyword">this</span>;</div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.index  = index;</div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>            <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a25155bc07f77e09a0b4f61e3a05958d0">OnCollectionChanged</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>);</div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>        }</div>
+</div>
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span> </div>
+<div class="foldopen" id="foldopen00386" data-start="{" data-end="}">
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno"><a class="line" href="classsw_1_1ObservableCollection.html#a6b4293b4bb5cc2ad2408e305fc45418e">  386</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a6b4293b4bb5cc2ad2408e305fc45418e">SetAt</a>(<span class="keywordtype">int</span> index, <a class="code hl_enumvalue" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;&amp;value) <span class="keyword">override</span> <span class="keyword">final</span></div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>        {</div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>            _items.SetAt(index, std::move(value));</div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span> </div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>            <a class="code hl_class" href="classsw_1_1NotifyCollectionChangedEventArgs.html">NotifyCollectionChangedEventArgs</a> <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>{};</div>
+<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.action = <a class="code hl_enumvalue" href="namespacesw.html#a49eacf734460b282dc711a5469945cc7a0ebe6df8a3ac338e0512acc741823fdb">NotifyCollectionChangedAction::Replace</a>;</div>
+<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.list   = <span class="keyword">this</span>;</div>
+<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>            <a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>.index  = index;</div>
+<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>            <a class="code hl_function" href="classsw_1_1ObservableCollection.html#a25155bc07f77e09a0b4f61e3a05958d0">OnCollectionChanged</a>(<a class="code hl_class" href="classsw_1_1IValueConverter.html">args</a>);</div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>        }</div>
+</div>
+<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>    };</div>
+</div>
+<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>}</div>
+<div class="ttc" id="aclasssw_1_1IListT_html"><div class="ttname"><a href="classsw_1_1IListT.html">sw::IListT</a></div><div class="ttdoc">类型安全的列表接口，继承IList并提供类型化的元素访问</div><div class="ttdef"><b>Definition</b> IList.h:70</div></div>
+<div class="ttc" id="aclasssw_1_1INotifyCollectionChanged_html"><div class="ttname"><a href="classsw_1_1INotifyCollectionChanged.html">sw::INotifyCollectionChanged</a></div><div class="ttdoc">支持集合变更通知的接口</div><div class="ttdef"><b>Definition</b> INotifyCollectionChanged.h:61</div></div>
+<div class="ttc" id="aclasssw_1_1IToString_html"><div class="ttname"><a href="classsw_1_1IToString.html">sw::IToString</a></div><div class="ttdoc">为支持ToString方法的类提供统一接口</div><div class="ttdef"><b>Definition</b> IToString.h:13</div></div>
+<div class="ttc" id="aclasssw_1_1IValueConverter_html"><div class="ttname"><a href="classsw_1_1IValueConverter.html">sw::IValueConverter</a></div><div class="ttdoc">值转换器接口</div><div class="ttdef"><b>Definition</b> IValueConverter.h:14</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyCollectionChangedEventArgs_html"><div class="ttname"><a href="classsw_1_1NotifyCollectionChangedEventArgs.html">sw::NotifyCollectionChangedEventArgs</a></div><div class="ttdoc">集合变更事件参数类型</div><div class="ttdef"><b>Definition</b> INotifyCollectionChanged.h:33</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html"><div class="ttname"><a href="classsw_1_1ObservableCollection.html">sw::ObservableCollection</a></div><div class="ttdoc">支持集合变更通知的泛型集合类</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:20</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_a0deed29e2a18d7821c615711f0900c28"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#a0deed29e2a18d7821c615711f0900c28">sw::ObservableCollection::SetAt</a></div><div class="ttdeci">virtual void SetAt(int index, const T &amp;value) override final</div><div class="ttdoc">设置指定索引处的元素值</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:368</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_a154e5b43496204724b37bba0210f36e8"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#a154e5b43496204724b37bba0210f36e8">sw::ObservableCollection::Contains</a></div><div class="ttdeci">bool Contains(const T &amp;value) const</div><div class="ttdoc">判断集合是否包含指定值</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:274</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_a181dee8d8be8156fe0c962dab948c1d5"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#a181dee8d8be8156fe0c962dab948c1d5">sw::ObservableCollection::IndexOf</a></div><div class="ttdeci">int IndexOf(const T &amp;value) const</div><div class="ttdoc">查找指定值在集合中首次出现的索引</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:254</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_a1c05f09f36d35c7467b095a58e7008d3"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#a1c05f09f36d35c7467b095a58e7008d3">sw::ObservableCollection::LastIndexOf</a></div><div class="ttdeci">int LastIndexOf(const T &amp;value) const</div><div class="ttdoc">查找指定值在集合中最后出现的索引</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:264</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_a1ed67ffe2baeea681c6d28a8ee34744c"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#a1ed67ffe2baeea681c6d28a8ee34744c">sw::ObservableCollection::Move</a></div><div class="ttdeci">void Move(int oldIndex, int newIndex)</div><div class="ttdoc">将元素从一个索引移动到另一个索引，并触发移动通知</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:224</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_a25155bc07f77e09a0b4f61e3a05958d0"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#a25155bc07f77e09a0b4f61e3a05958d0">sw::ObservableCollection::OnCollectionChanged</a></div><div class="ttdeci">virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs &amp;args)</div><div class="ttdoc">触发集合变更事件</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:82</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_a2f3f06fc542f2de373f661a8178c0308"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#a2f3f06fc542f2de373f661a8178c0308">sw::ObservableCollection::Clear</a></div><div class="ttdeci">void Clear()</div><div class="ttdoc">清空集合中的所有元素，并触发集合重置通知</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:122</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_a370d5855b2be771c6028e80bcb02e7f2"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#a370d5855b2be771c6028e80bcb02e7f2">sw::ObservableCollection::Add</a></div><div class="ttdeci">void Add(const T &amp;value)</div><div class="ttdoc">在集合末尾追加元素，并触发添加通知</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:140</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_a3adb13bb8deb4c46d649132994790907"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#a3adb13bb8deb4c46d649132994790907">sw::ObservableCollection::ToString</a></div><div class="ttdeci">std::wstring ToString() const</div><div class="ttdoc">将集合转换为字符串表示</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:306</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_a47f068f051623359d579f040d867d2c0"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#a47f068f051623359d579f040d867d2c0">sw::ObservableCollection::GetStdVector</a></div><div class="ttdeci">const std::vector&lt; T &gt; &amp; GetStdVector() const noexcept</div><div class="ttdoc">获取底层std::vector的const引用</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:324</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_a4bafd91a21d8b1afbc45822ca29620df"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#a4bafd91a21d8b1afbc45822ca29620df">sw::ObservableCollection::GetAt</a></div><div class="ttdeci">virtual const T &amp; GetAt(int index) const override final</div><div class="ttdoc">获取指定索引处的const元素引用</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:356</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_a533595dc81b731933d50099d0cfbde6f"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#a533595dc81b731933d50099d0cfbde6f">sw::ObservableCollection::Capacity</a></div><div class="ttdeci">int Capacity() const noexcept</div><div class="ttdoc">获取当前分配的容量</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:94</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_a5819b762f8affe69a575b361d18ac716"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#a5819b762f8affe69a575b361d18ac716">sw::ObservableCollection::Insert</a></div><div class="ttdeci">void Insert(int index, T &amp;&amp;value)</div><div class="ttdoc">在指定索引处插入元素（移动语义），并触发添加通知</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:207</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_a6b4293b4bb5cc2ad2408e305fc45418e"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#a6b4293b4bb5cc2ad2408e305fc45418e">sw::ObservableCollection::SetAt</a></div><div class="ttdeci">virtual void SetAt(int index, T &amp;&amp;value) override final</div><div class="ttdoc">设置指定索引处的元素值（移动语义）</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:386</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_a6bdf09b5f225ea04b8dfe5cd1842c024"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#a6bdf09b5f225ea04b8dfe5cd1842c024">sw::ObservableCollection::GetCollectionChangedEventDelegate</a></div><div class="ttdeci">virtual NotifyCollectionChangedEventHandler &amp; GetCollectionChangedEventDelegate() override final</div><div class="ttdoc">获取集合变更事件委托的引用</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:73</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_a866155eeda219d6adbd11748d8dabb51"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#a866155eeda219d6adbd11748d8dabb51">sw::ObservableCollection::ObservableCollection</a></div><div class="ttdeci">ObservableCollection(int capacity)</div><div class="ttdoc">指定初始容量构造</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:63</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_a9f10738f5371ae0ef9b19842a96e3369"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#a9f10738f5371ae0ef9b19842a96e3369">sw::ObservableCollection::Insert</a></div><div class="ttdeci">void Insert(int index, const T &amp;value)</div><div class="ttdoc">在指定索引处插入元素，并触发添加通知</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:190</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_aab52b5496a2f20ca249c87ac66f27e37"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#aab52b5496a2f20ca249c87ac66f27e37">sw::ObservableCollection::Remove</a></div><div class="ttdeci">bool Remove(const T &amp;value)</div><div class="ttdoc">移除集合中首次出现的指定值，并在成功移除时触发移除通知</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:284</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_aabcfaf2e769cd1d58838ddd000d1587d"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#aabcfaf2e769cd1d58838ddd000d1587d">sw::ObservableCollection::GetAt</a></div><div class="ttdeci">virtual T &amp; GetAt(int index) override final</div><div class="ttdoc">获取指定索引处的元素引用</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:345</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_aac69c29665dc3f72df6165e870bf24ba"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#aac69c29665dc3f72df6165e870bf24ba">sw::ObservableCollection::GetStdVector</a></div><div class="ttdeci">std::vector&lt; T &gt; &amp; GetStdVector() noexcept</div><div class="ttdoc">获取底层std::vector的引用</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:315</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_aad35e2d905bd77f81eed6772f3ec5de1"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#aad35e2d905bd77f81eed6772f3ec5de1">sw::ObservableCollection::Add</a></div><div class="ttdeci">void Add(T &amp;&amp;value)</div><div class="ttdoc">在集合末尾追加元素（移动语义），并触发添加通知</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:156</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_aca7097e32c4852d48431f934e286d30c"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#aca7097e32c4852d48431f934e286d30c">sw::ObservableCollection::Count</a></div><div class="ttdeci">virtual int Count() const noexcept override final</div><div class="ttdoc">返回列表中的元素数量</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:334</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_ad729d150a0ba60cf8c99e6ce93cc51bd"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#ad729d150a0ba60cf8c99e6ce93cc51bd">sw::ObservableCollection::Refresh</a></div><div class="ttdeci">void Refresh()</div><div class="ttdoc">刷新集合，触发集合重置通知</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:111</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_adcbc92aa33b1679ab2da77b22a62c190"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#adcbc92aa33b1679ab2da77b22a62c190">sw::ObservableCollection::Reserve</a></div><div class="ttdeci">void Reserve(int newCapacity)</div><div class="ttdoc">预留至少指定数量的元素空间</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:103</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_ae285d043f0a96c4feb87ad57ca8330cd"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#ae285d043f0a96c4feb87ad57ca8330cd">sw::ObservableCollection::RemoveAt</a></div><div class="ttdeci">void RemoveAt(int index)</div><div class="ttdoc">移除指定索引处的元素，并触发移除通知</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:173</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_af71e981d130acb8e2af2814dd0bad32d"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#af71e981d130acb8e2af2814dd0bad32d">sw::ObservableCollection::ObservableCollection</a></div><div class="ttdeci">ObservableCollection(std::initializer_list&lt; T &gt; list)</div><div class="ttdoc">使用初始化列表构造</div><div class="ttdef"><b>Definition</b> ObservableCollection.h:54</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableCollection_html_afadb8e76aefb9792f032219266c2d453"><div class="ttname"><a href="classsw_1_1ObservableCollection.html#afadb8e76aefb9792f032219266c2d453">sw::ObservableCollection::ObservableCollection</a></div><div class="ttdeci">ObservableCollection()=default</div><div class="ttdoc">默认构造函数，创建空集合</div></div>
+<div class="ttc" id="aclasssw_1_1ObservableObject_html"><div class="ttname"><a href="classsw_1_1ObservableObject.html">sw::ObservableObject</a></div><div class="ttdoc">可观察对象基类，实现属性更改通知功能</div><div class="ttdef"><b>Definition</b> ObservableObject.h:14</div></div>
+<div class="ttc" id="anamespacesw_html"><div class="ttname"><a href="namespacesw.html">sw</a></div><div class="ttdoc">SimpleWindow框架的顶级命名空间，所有公共类型、控件、枚举和工具函数均定义于此。</div><div class="ttdef"><b>Definition</b> Alignment.h:4</div></div>
+<div class="ttc" id="anamespacesw_html_a49eacf734460b282dc711a5469945cc7a0ebe6df8a3ac338e0512acc741823fdb"><div class="ttname"><a href="namespacesw.html#a49eacf734460b282dc711a5469945cc7a0ebe6df8a3ac338e0512acc741823fdb">sw::NotifyCollectionChangedAction::Replace</a></div><div class="ttdeci">@ Replace</div><div class="ttdoc">替换项</div></div>
+<div class="ttc" id="anamespacesw_html_a49eacf734460b282dc711a5469945cc7a1063e38cb53d94d386f21227fcd84717"><div class="ttname"><a href="namespacesw.html#a49eacf734460b282dc711a5469945cc7a1063e38cb53d94d386f21227fcd84717">sw::NotifyCollectionChangedAction::Remove</a></div><div class="ttdeci">@ Remove</div><div class="ttdoc">移除项</div></div>
+<div class="ttc" id="anamespacesw_html_a49eacf734460b282dc711a5469945cc7a526d688f37a86d3c3f27d0c5016eb71d"><div class="ttname"><a href="namespacesw.html#a49eacf734460b282dc711a5469945cc7a526d688f37a86d3c3f27d0c5016eb71d">sw::NotifyCollectionChangedAction::Reset</a></div><div class="ttdeci">@ Reset</div><div class="ttdoc">重置集合</div></div>
+<div class="ttc" id="anamespacesw_html_a49eacf734460b282dc711a5469945cc7a6bc362dbf494c61ea117fe3c71ca48a5"><div class="ttname"><a href="namespacesw.html#a49eacf734460b282dc711a5469945cc7a6bc362dbf494c61ea117fe3c71ca48a5">sw::NotifyCollectionChangedAction::Move</a></div><div class="ttdeci">@ Move</div><div class="ttdoc">移动项</div></div>
+<div class="ttc" id="anamespacesw_html_a49eacf734460b282dc711a5469945cc7aec211f7c20af43e742bf2570c3cb84f9"><div class="ttname"><a href="namespacesw.html#a49eacf734460b282dc711a5469945cc7aec211f7c20af43e742bf2570c3cb84f9">sw::NotifyCollectionChangedAction::Add</a></div><div class="ttdeci">@ Add</div><div class="ttdoc">添加项</div></div>
+<div class="ttc" id="anamespacesw_html_a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3"><div class="ttname"><a href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">sw::VirtualKey::T</a></div><div class="ttdeci">@ T</div><div class="ttdoc">T key</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_01fcd3835fb4e7d9331b722d86291b65.html">sw</a></li><li class="navelem"><a class="el" href="dir_ed5f6ece24ffcc4307a76d27c2494db3.html">inc</a></li><li class="navelem"><b>ObservableCollection.h</b></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

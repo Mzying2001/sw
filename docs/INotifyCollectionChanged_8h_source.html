@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: INotifyCollectionChanged.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('INotifyCollectionChanged_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">INotifyCollectionChanged.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;Event.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;IList.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesw.html">sw</a></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>{</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    <span class="comment">// 前向声明</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    <span class="keyword">class </span>INotifyCollectionChanged;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="keyword">class </span>NotifyCollectionChangedEventArgs;</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="namespacesw.html#af4eb4507ee06c4a79c581c38f368c249">   15</a></span>    <span class="keyword">using </span><a class="code hl_class" href="classsw_1_1IValueConverter.html">NotifyCollectionChangedEventHandler</a> =</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <a class="code hl_class" href="classsw_1_1IValueConverter.html">EventHandler&lt;INotifyCollectionChanged, NotifyCollectionChangedEventArgs&gt;</a>;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="foldopen" id="foldopen00021" data-start="{" data-end="};">
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="namespacesw.html#a49eacf734460b282dc711a5469945cc7">   21</a></span>    <span class="keyword">enum class</span> <a class="code hl_enumeration" href="namespacesw.html#a49eacf734460b282dc711a5469945cc7">NotifyCollectionChangedAction</a> {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <a class="code hl_enumvalue" href="namespacesw.html#a49eacf734460b282dc711a5469945cc7aec211f7c20af43e742bf2570c3cb84f9">Add</a>,     </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <a class="code hl_enumvalue" href="namespacesw.html#a49eacf734460b282dc711a5469945cc7a1063e38cb53d94d386f21227fcd84717">Remove</a>,  </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <a class="code hl_enumvalue" href="namespacesw.html#a49eacf734460b282dc711a5469945cc7a0ebe6df8a3ac338e0512acc741823fdb">Replace</a>, </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <a class="code hl_enumvalue" href="namespacesw.html#a49eacf734460b282dc711a5469945cc7a6bc362dbf494c61ea117fe3c71ca48a5">Move</a>,    </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <a class="code hl_enumvalue" href="namespacesw.html#a49eacf734460b282dc711a5469945cc7a526d688f37a86d3c3f27d0c5016eb71d">Reset</a>    </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    };</div>
+</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="foldopen" id="foldopen00032" data-start="{" data-end="};">
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyCollectionChangedEventArgs.html">   32</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1NotifyCollectionChangedEventArgs.html">NotifyCollectionChangedEventArgs</a> : <span class="keyword">public</span> <a class="code hl_struct" href="structsw_1_1EventArgs.html">EventArgs</a></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    {</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyCollectionChangedEventArgs.html#ae4f50c76627be3f8c81876fc7d6a204a">   38</a></span>        <a class="code hl_enumeration" href="namespacesw.html#a49eacf734460b282dc711a5469945cc7">NotifyCollectionChangedAction</a> <a class="code hl_variable" href="classsw_1_1NotifyCollectionChangedEventArgs.html#ae4f50c76627be3f8c81876fc7d6a204a">action</a> =</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            <a class="code hl_enumvalue" href="namespacesw.html#a49eacf734460b282dc711a5469945cc7a526d688f37a86d3c3f27d0c5016eb71d">NotifyCollectionChangedAction::Reset</a>;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyCollectionChangedEventArgs.html#afd4559ff5bf3e5062bae2e39289e5bb6">   44</a></span>        <a class="code hl_class" href="classsw_1_1IList.html">IList</a> *<a class="code hl_variable" href="classsw_1_1NotifyCollectionChangedEventArgs.html#afd4559ff5bf3e5062bae2e39289e5bb6">list</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyCollectionChangedEventArgs.html#af1f6eb878468010818a0dd02922ee090">   49</a></span>        <span class="keywordtype">int</span> <a class="code hl_variable" href="classsw_1_1NotifyCollectionChangedEventArgs.html#af1f6eb878468010818a0dd02922ee090">index</a> = -1;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="classsw_1_1NotifyCollectionChangedEventArgs.html#a9f14e491009d1b89f75d85aa44e299cc">   54</a></span>        <span class="keywordtype">int</span> <a class="code hl_variable" href="classsw_1_1NotifyCollectionChangedEventArgs.html#a9f14e491009d1b89f75d85aa44e299cc">oldIndex</a> = -1;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    };</div>
+</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="foldopen" id="foldopen00060" data-start="{" data-end="};">
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="classsw_1_1INotifyCollectionChanged.html">   60</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsw_1_1INotifyCollectionChanged.html">INotifyCollectionChanged</a></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    {</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00066" data-start="{" data-end="};">
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="classsw_1_1INotifyCollectionChanged.html#a582cdd7ca56eb8a249eb1180b7444b5f">   66</a></span>        <a class="code hl_class" href="classsw_1_1IValueConverter.html">Event&lt;NotifyCollectionChangedEventHandler&gt;</a> <a class="code hl_variable" href="classsw_1_1INotifyCollectionChanged.html#a582cdd7ca56eb8a249eb1180b7444b5f">CollectionChanged</a>{</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>            <a class="code hl_class" href="classsw_1_1Event.html">Event&lt;NotifyCollectionChangedEventHandler&gt;::Init</a>(<span class="keyword">this</span>)</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>                .Delegate([](<a class="code hl_class" href="classsw_1_1INotifyCollectionChanged.html">INotifyCollectionChanged</a> *<a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>) -&gt; <a class="code hl_class" href="classsw_1_1IValueConverter.html">NotifyCollectionChangedEventHandler</a> &amp; {</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                    <span class="keywordflow">return</span> <a class="code hl_class" href="classsw_1_1IValueConverter.html">self</a>-&gt;GetCollectionChangedEventDelegate();</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                }) <span class="comment">//</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        };</div>
+</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="classsw_1_1INotifyCollectionChanged.html#ae0ea25565a8fdd908b7f4d7c884e1584">   76</a></span>        <span class="keyword">virtual</span> <a class="code hl_function" href="classsw_1_1INotifyCollectionChanged.html#ae0ea25565a8fdd908b7f4d7c884e1584">~INotifyCollectionChanged</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="classsw_1_1INotifyCollectionChanged.html#abe1b1c396c87eb86a5a68a478d1bba69">   83</a></span>        <span class="keyword">virtual</span> <a class="code hl_class" href="classsw_1_1IValueConverter.html">NotifyCollectionChangedEventHandler</a> &amp;<a class="code hl_function" href="classsw_1_1INotifyCollectionChanged.html#abe1b1c396c87eb86a5a68a478d1bba69">GetCollectionChangedEventDelegate</a>() = 0;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    };</div>
+</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>}</div>
+<div class="ttc" id="aclasssw_1_1Event_html"><div class="ttname"><a href="classsw_1_1Event.html">sw::Event</a></div><div class="ttdef"><b>Definition</b> Event.h:13</div></div>
+<div class="ttc" id="aclasssw_1_1IList_html"><div class="ttname"><a href="classsw_1_1IList.html">sw::IList</a></div><div class="ttdoc">非模板列表接口，提供基于Variant的元素访问</div><div class="ttdef"><b>Definition</b> IList.h:11</div></div>
+<div class="ttc" id="aclasssw_1_1INotifyCollectionChanged_html"><div class="ttname"><a href="classsw_1_1INotifyCollectionChanged.html">sw::INotifyCollectionChanged</a></div><div class="ttdoc">支持集合变更通知的接口</div><div class="ttdef"><b>Definition</b> INotifyCollectionChanged.h:61</div></div>
+<div class="ttc" id="aclasssw_1_1INotifyCollectionChanged_html_a582cdd7ca56eb8a249eb1180b7444b5f"><div class="ttname"><a href="classsw_1_1INotifyCollectionChanged.html#a582cdd7ca56eb8a249eb1180b7444b5f">sw::INotifyCollectionChanged::CollectionChanged</a></div><div class="ttdeci">Event&lt; NotifyCollectionChangedEventHandler &gt; CollectionChanged</div><div class="ttdoc">集合变更事件，当集合发生添加、移除、替换、移动或重置等变更时触发</div><div class="ttdef"><b>Definition</b> INotifyCollectionChanged.h:66</div></div>
+<div class="ttc" id="aclasssw_1_1INotifyCollectionChanged_html_abe1b1c396c87eb86a5a68a478d1bba69"><div class="ttname"><a href="classsw_1_1INotifyCollectionChanged.html#abe1b1c396c87eb86a5a68a478d1bba69">sw::INotifyCollectionChanged::GetCollectionChangedEventDelegate</a></div><div class="ttdeci">virtual NotifyCollectionChangedEventHandler &amp; GetCollectionChangedEventDelegate()=0</div><div class="ttdoc">获取集合变更事件委托的引用</div></div>
+<div class="ttc" id="aclasssw_1_1INotifyCollectionChanged_html_ae0ea25565a8fdd908b7f4d7c884e1584"><div class="ttname"><a href="classsw_1_1INotifyCollectionChanged.html#ae0ea25565a8fdd908b7f4d7c884e1584">sw::INotifyCollectionChanged::~INotifyCollectionChanged</a></div><div class="ttdeci">virtual ~INotifyCollectionChanged()=default</div><div class="ttdoc">虚析构函数</div></div>
+<div class="ttc" id="aclasssw_1_1IValueConverter_html"><div class="ttname"><a href="classsw_1_1IValueConverter.html">sw::IValueConverter</a></div><div class="ttdoc">值转换器接口</div><div class="ttdef"><b>Definition</b> IValueConverter.h:14</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyCollectionChangedEventArgs_html"><div class="ttname"><a href="classsw_1_1NotifyCollectionChangedEventArgs.html">sw::NotifyCollectionChangedEventArgs</a></div><div class="ttdoc">集合变更事件参数类型</div><div class="ttdef"><b>Definition</b> INotifyCollectionChanged.h:33</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyCollectionChangedEventArgs_html_a9f14e491009d1b89f75d85aa44e299cc"><div class="ttname"><a href="classsw_1_1NotifyCollectionChangedEventArgs.html#a9f14e491009d1b89f75d85aa44e299cc">sw::NotifyCollectionChangedEventArgs::oldIndex</a></div><div class="ttdeci">int oldIndex</div><div class="ttdoc">记录移动项的原始索引</div><div class="ttdef"><b>Definition</b> INotifyCollectionChanged.h:54</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyCollectionChangedEventArgs_html_ae4f50c76627be3f8c81876fc7d6a204a"><div class="ttname"><a href="classsw_1_1NotifyCollectionChangedEventArgs.html#ae4f50c76627be3f8c81876fc7d6a204a">sw::NotifyCollectionChangedEventArgs::action</a></div><div class="ttdeci">NotifyCollectionChangedAction action</div><div class="ttdoc">集合变更的原因</div><div class="ttdef"><b>Definition</b> INotifyCollectionChanged.h:38</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyCollectionChangedEventArgs_html_af1f6eb878468010818a0dd02922ee090"><div class="ttname"><a href="classsw_1_1NotifyCollectionChangedEventArgs.html#af1f6eb878468010818a0dd02922ee090">sw::NotifyCollectionChangedEventArgs::index</a></div><div class="ttdeci">int index</div><div class="ttdoc">变更发生的项索引</div><div class="ttdef"><b>Definition</b> INotifyCollectionChanged.h:49</div></div>
+<div class="ttc" id="aclasssw_1_1NotifyCollectionChangedEventArgs_html_afd4559ff5bf3e5062bae2e39289e5bb6"><div class="ttname"><a href="classsw_1_1NotifyCollectionChangedEventArgs.html#afd4559ff5bf3e5062bae2e39289e5bb6">sw::NotifyCollectionChangedEventArgs::list</a></div><div class="ttdeci">IList * list</div><div class="ttdoc">变更发生的集合对象</div><div class="ttdef"><b>Definition</b> INotifyCollectionChanged.h:44</div></div>
+<div class="ttc" id="anamespacesw_html"><div class="ttname"><a href="namespacesw.html">sw</a></div><div class="ttdoc">SimpleWindow框架的顶级命名空间，所有公共类型、控件、枚举和工具函数均定义于此。</div><div class="ttdef"><b>Definition</b> Alignment.h:4</div></div>
+<div class="ttc" id="anamespacesw_html_a49eacf734460b282dc711a5469945cc7"><div class="ttname"><a href="namespacesw.html#a49eacf734460b282dc711a5469945cc7">sw::NotifyCollectionChangedAction</a></div><div class="ttdeci">NotifyCollectionChangedAction</div><div class="ttdoc">描述集合变更的原因</div><div class="ttdef"><b>Definition</b> INotifyCollectionChanged.h:21</div></div>
+<div class="ttc" id="anamespacesw_html_a49eacf734460b282dc711a5469945cc7a0ebe6df8a3ac338e0512acc741823fdb"><div class="ttname"><a href="namespacesw.html#a49eacf734460b282dc711a5469945cc7a0ebe6df8a3ac338e0512acc741823fdb">sw::NotifyCollectionChangedAction::Replace</a></div><div class="ttdeci">@ Replace</div><div class="ttdoc">替换项</div></div>
+<div class="ttc" id="anamespacesw_html_a49eacf734460b282dc711a5469945cc7a1063e38cb53d94d386f21227fcd84717"><div class="ttname"><a href="namespacesw.html#a49eacf734460b282dc711a5469945cc7a1063e38cb53d94d386f21227fcd84717">sw::NotifyCollectionChangedAction::Remove</a></div><div class="ttdeci">@ Remove</div><div class="ttdoc">移除项</div></div>
+<div class="ttc" id="anamespacesw_html_a49eacf734460b282dc711a5469945cc7a526d688f37a86d3c3f27d0c5016eb71d"><div class="ttname"><a href="namespacesw.html#a49eacf734460b282dc711a5469945cc7a526d688f37a86d3c3f27d0c5016eb71d">sw::NotifyCollectionChangedAction::Reset</a></div><div class="ttdeci">@ Reset</div><div class="ttdoc">重置集合</div></div>
+<div class="ttc" id="anamespacesw_html_a49eacf734460b282dc711a5469945cc7a6bc362dbf494c61ea117fe3c71ca48a5"><div class="ttname"><a href="namespacesw.html#a49eacf734460b282dc711a5469945cc7a6bc362dbf494c61ea117fe3c71ca48a5">sw::NotifyCollectionChangedAction::Move</a></div><div class="ttdeci">@ Move</div><div class="ttdoc">移动项</div></div>
+<div class="ttc" id="anamespacesw_html_a49eacf734460b282dc711a5469945cc7aec211f7c20af43e742bf2570c3cb84f9"><div class="ttname"><a href="namespacesw.html#a49eacf734460b282dc711a5469945cc7aec211f7c20af43e742bf2570c3cb84f9">sw::NotifyCollectionChangedAction::Add</a></div><div class="ttdeci">@ Add</div><div class="ttdoc">添加项</div></div>
+<div class="ttc" id="astructsw_1_1EventArgs_html"><div class="ttname"><a href="structsw_1_1EventArgs.html">sw::EventArgs</a></div><div class="ttdoc">事件参数结构体</div><div class="ttdef"><b>Definition</b> Event.h:294</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_01fcd3835fb4e7d9331b722d86291b65.html">sw</a></li><li class="navelem"><a class="el" href="dir_ed5f6ece24ffcc4307a76d27c2494db3.html">inc</a></li><li class="navelem"><b>INotifyCollectionChanged.h</b></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

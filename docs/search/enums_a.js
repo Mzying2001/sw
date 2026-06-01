@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['orientation_0',['Orientation',['../namespacesw.html#af5a946abb233734b3e5503296ce36f19',1,'sw']]]
+  ['notifycollectionchangedaction_0',['NotifyCollectionChangedAction',['../namespacesw.html#a49eacf734460b282dc711a5469945cc7',1,'sw']]]
 ];

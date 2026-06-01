@@ -7,7 +7,7 @@ var searchData=
   ['activeborder_4',['ActiveBorder',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19ae7d013f3e19ed99a0259febfa3934f2d',1,'sw']]],
   ['activecaption_5',['ActiveCaption',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19a221d14a015a1ff28480ae48a2908bf06',1,'sw']]],
   ['activecaptiontext_6',['ActiveCaptionText',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19aa9e3ae9ace1cd803049272db881180fb',1,'sw']]],
-  ['add_7',['Add',['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0aec211f7c20af43e742bf2570c3cb84f9',1,'sw']]],
+  ['add_7',['add',['../namespacesw.html#a49eacf734460b282dc711a5469945cc7aec211f7c20af43e742bf2570c3cb84f9',1,'sw::Add'],['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0aec211f7c20af43e742bf2570c3cb84f9',1,'sw::Add']]],
   ['aliceblue_8',['AliceBlue',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19ab13c1f7b78e22d9601f27340c8a9342d',1,'sw']]],
   ['allowmultiselect_9',['AllowMultiSelect',['../namespacesw.html#ac4dcf0d2a487e02ca4fca93d1bbe33fba5891f861d7cfb9c6094f325feb5c531f',1,'sw']]],
   ['alt_10',['alt',['../namespacesw.html#aff2f009267ebe4714fea2e8f620fdc1faa2e92861b757ab878312dd57993d60cf',1,'sw::Alt'],['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0aa2e92861b757ab878312dd57993d60cf',1,'sw::Alt'],['../namespacesw.html#a9f714b0b461aa8bd94ee5b0d4dcb44d8aa2e92861b757ab878312dd57993d60cf',1,'sw::Alt']]],

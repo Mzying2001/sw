@@ -92,11 +92,11 @@ $(document).ready(function(){initNavTree('classsw_1_1List.html',''); initResizab
   <div class="summary">
 <a href="#pub-methods">Public 成员函数</a> &#124;
 <a href="classsw_1_1List-members.html">所有成员列表</a>  </div>
-  <div class="headertitle"><div class="title">sw::List&lt; T &gt; 模板类 参考</div></div>
+  <div class="headertitle"><div class="title">sw::List&lt; T &gt; 模板类 参考<span class="mlabels"><span class="mlabel">final</span></span></div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>列表类，内部维护了一个指向std::vector的智能指针  
+<p>基于std::vector的泛型列表，实现IListT接口  
  <a href="classsw_1_1List.html#details">更多...</a></p>
 
 <p><code>#include &lt;<a class="el" href="List_8h_source.html">List.h</a>&gt;</code></p>
@@ -106,126 +106,146 @@ $(document).ready(function(){initNavTree('classsw_1_1List.html',''); initResizab
  <div class="center">
   <img src="classsw_1_1List.png" usemap="#sw::List_3C_20T_20_3E_map" alt=""/>
   <map id="sw::List_3C_20T_20_3E_map" name="sw::List_3C_20T_20_3E_map">
-<area href="classsw_1_1IToString.html" alt="sw::IToString&lt; List&lt; T &gt; &gt;" shape="rect" coords="0,0,222,24"/>
-<area href="classsw_1_1IEqualityComparable.html" alt="sw::IEqualityComparable&lt; List&lt; T &gt; &gt;" shape="rect" coords="232,0,454,24"/>
+<area href="classsw_1_1IListT.html" title="类型安全的列表接口，继承IList并提供类型化的元素访问" alt="sw::IListT&lt; T &gt;" shape="rect" coords="0,56,157,80"/>
+<area href="classsw_1_1IToString.html" alt="sw::IToString&lt; List&lt; T &gt; &gt;" shape="rect" coords="167,56,324,80"/>
+<area href="classsw_1_1IList.html" title="非模板列表接口，提供基于Variant的元素访问" alt="sw::IList" shape="rect" coords="0,0,157,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
-<tr class="memitem:ad84dc17e0d073e18e2f44871c27025de" id="r_ad84dc17e0d073e18e2f44871c27025de"><td class="memItemLeft" align="right" valign="top"><a id="ad84dc17e0d073e18e2f44871c27025de" name="ad84dc17e0d073e18e2f44871c27025de"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>List</b> ()</td></tr>
-<tr class="memdesc:ad84dc17e0d073e18e2f44871c27025de"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化列表 <br /></td></tr>
-<tr class="separator:ad84dc17e0d073e18e2f44871c27025de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abfff18bc7387d154bc89481259f847a0" id="r_abfff18bc7387d154bc89481259f847a0"><td class="memItemLeft" align="right" valign="top"><a id="abfff18bc7387d154bc89481259f847a0" name="abfff18bc7387d154bc89481259f847a0"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>List</b> (std::initializer_list&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; <a class="el" href="classsw_1_1IValueConverter.html">list</a>)</td></tr>
-<tr class="memdesc:abfff18bc7387d154bc89481259f847a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">使用初始化列表 <br /></td></tr>
+<tr class="memitem:a5a347c43d26a4d47aa0559900ae03f38" id="r_a5a347c43d26a4d47aa0559900ae03f38"><td class="memItemLeft" align="right" valign="top"><a id="a5a347c43d26a4d47aa0559900ae03f38" name="a5a347c43d26a4d47aa0559900ae03f38"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>List</b> ()=<a class="el" href="classsw_1_1IValueConverter.html">default</a></td></tr>
+<tr class="memdesc:a5a347c43d26a4d47aa0559900ae03f38"><td class="mdescLeft">&#160;</td><td class="mdescRight">默认构造函数，创建空列表 <br /></td></tr>
+<tr class="separator:a5a347c43d26a4d47aa0559900ae03f38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfff18bc7387d154bc89481259f847a0" id="r_abfff18bc7387d154bc89481259f847a0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#abfff18bc7387d154bc89481259f847a0">List</a> (std::initializer_list&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; list)</td></tr>
+<tr class="memdesc:abfff18bc7387d154bc89481259f847a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">使用初始化列表构造  <br /></td></tr>
 <tr class="separator:abfff18bc7387d154bc89481259f847a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e4501c96b9e786d67b420312cafb8cc" id="r_a4e4501c96b9e786d67b420312cafb8cc"><td class="memItemLeft" align="right" valign="top"><a id="a4e4501c96b9e786d67b420312cafb8cc" name="a4e4501c96b9e786d67b420312cafb8cc"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>List</b> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">capacity</a>)</td></tr>
-<tr class="memdesc:a4e4501c96b9e786d67b420312cafb8cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化列表并指定容量 <br /></td></tr>
+<tr class="memitem:a4e4501c96b9e786d67b420312cafb8cc" id="r_a4e4501c96b9e786d67b420312cafb8cc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#a4e4501c96b9e786d67b420312cafb8cc">List</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">capacity</a>)</td></tr>
+<tr class="memdesc:a4e4501c96b9e786d67b420312cafb8cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">指定初始容量构造  <br /></td></tr>
 <tr class="separator:a4e4501c96b9e786d67b420312cafb8cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39b94e22ea344de135667df991fbbe11" id="r_a39b94e22ea344de135667df991fbbe11"><td class="memItemLeft" align="right" valign="top"><a id="a39b94e22ea344de135667df991fbbe11" name="a39b94e22ea344de135667df991fbbe11"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memItemRight" valign="bottom"><b>begin</b> () <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:a39b94e22ea344de135667df991fbbe11"><td class="mdescLeft">&#160;</td><td class="mdescRight">正向迭代器开始 <br /></td></tr>
-<tr class="separator:a39b94e22ea344de135667df991fbbe11"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9630ceee45943beca3b53931b7864095" id="r_a9630ceee45943beca3b53931b7864095"><td class="memItemLeft" align="right" valign="top"><a id="a9630ceee45943beca3b53931b7864095" name="a9630ceee45943beca3b53931b7864095"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memItemRight" valign="bottom"><b>end</b> () <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:a9630ceee45943beca3b53931b7864095"><td class="mdescLeft">&#160;</td><td class="mdescRight">正向迭代器结束 <br /></td></tr>
-<tr class="separator:a9630ceee45943beca3b53931b7864095"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d1e8dcbb8c1b4ba128cb011ee401f3a" id="r_a5d1e8dcbb8c1b4ba128cb011ee401f3a"><td class="memItemLeft" align="right" valign="top"><a id="a5d1e8dcbb8c1b4ba128cb011ee401f3a" name="a5d1e8dcbb8c1b4ba128cb011ee401f3a"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memItemRight" valign="bottom"><b>rbegin</b> () <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:a5d1e8dcbb8c1b4ba128cb011ee401f3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">反向迭代器开始 <br /></td></tr>
-<tr class="separator:a5d1e8dcbb8c1b4ba128cb011ee401f3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a926521f6a537069d6e398306b9f870fb" id="r_a926521f6a537069d6e398306b9f870fb"><td class="memItemLeft" align="right" valign="top"><a id="a926521f6a537069d6e398306b9f870fb" name="a926521f6a537069d6e398306b9f870fb"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memItemRight" valign="bottom"><b>rend</b> () <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:a926521f6a537069d6e398306b9f870fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">反向迭代器结束 <br /></td></tr>
-<tr class="separator:a926521f6a537069d6e398306b9f870fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56e16552c6690d1c808646c4232dd992" id="r_a56e16552c6690d1c808646c4232dd992"><td class="memItemLeft" align="right" valign="top"><a id="a56e16552c6690d1c808646c4232dd992" name="a56e16552c6690d1c808646c4232dd992"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">auto</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> index) <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:a56e16552c6690d1c808646c4232dd992"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取或设置列表中指定位置的值 <br /></td></tr>
-<tr class="separator:a56e16552c6690d1c808646c4232dd992"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a40fbe4fe623d72c595c772177218f912" id="r_a40fbe4fe623d72c595c772177218f912"><td class="memItemLeft" align="right" valign="top"><a id="a40fbe4fe623d72c595c772177218f912" name="a40fbe4fe623d72c595c772177218f912"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Equals</b> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1List.html">List</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">other</a>) <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:a40fbe4fe623d72c595c772177218f912"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断是否为同一个列表 <br /></td></tr>
-<tr class="separator:a40fbe4fe623d72c595c772177218f912"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6998243269a9ad3bc5f4c9bdb6d90f99" id="r_a6998243269a9ad3bc5f4c9bdb6d90f99"><td class="memItemLeft" align="right" valign="top"><a id="a6998243269a9ad3bc5f4c9bdb6d90f99" name="a6998243269a9ad3bc5f4c9bdb6d90f99"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Capacity</b> () <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:a6998243269a9ad3bc5f4c9bdb6d90f99"><td class="mdescLeft">&#160;</td><td class="mdescRight">列表当前的容量 <br /></td></tr>
-<tr class="separator:a6998243269a9ad3bc5f4c9bdb6d90f99"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac06d9081e817d6c808453928dd33525a" id="r_ac06d9081e817d6c808453928dd33525a"><td class="memItemLeft" align="right" valign="top"><a id="ac06d9081e817d6c808453928dd33525a" name="ac06d9081e817d6c808453928dd33525a"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Count</b> () <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:ac06d9081e817d6c808453928dd33525a"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取元素个数 <br /></td></tr>
-<tr class="separator:ac06d9081e817d6c808453928dd33525a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed38231dffce414f40d272aba6e7099c" id="r_aed38231dffce414f40d272aba6e7099c"><td class="memItemLeft" align="right" valign="top"><a id="aed38231dffce414f40d272aba6e7099c" name="aed38231dffce414f40d272aba6e7099c"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>IsEmpty</b> () <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:aed38231dffce414f40d272aba6e7099c"><td class="mdescLeft">&#160;</td><td class="mdescRight">列表是否为空 <br /></td></tr>
-<tr class="separator:aed38231dffce414f40d272aba6e7099c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3d55e6505de2977068fdc4e32e063e4" id="r_ad3d55e6505de2977068fdc4e32e063e4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#ad3d55e6505de2977068fdc4e32e063e4">Append</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;value) <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:ad3d55e6505de2977068fdc4e32e063e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加一个值到列表末尾  <br /></td></tr>
-<tr class="separator:ad3d55e6505de2977068fdc4e32e063e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a40d8c240bd015328383c8bc8d6a3b2d8" id="r_a40d8c240bd015328383c8bc8d6a3b2d8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#a40d8c240bd015328383c8bc8d6a3b2d8">Append</a> (<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;&amp;value) <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:a40d8c240bd015328383c8bc8d6a3b2d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加一个值到列表末尾  <br /></td></tr>
-<tr class="separator:a40d8c240bd015328383c8bc8d6a3b2d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03c0b009c991425948514cd7d462b6f2" id="r_a03c0b009c991425948514cd7d462b6f2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#a03c0b009c991425948514cd7d462b6f2">Insert</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> index, <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;value) <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:a03c0b009c991425948514cd7d462b6f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">在指定位置插入值  <br /></td></tr>
-<tr class="separator:a03c0b009c991425948514cd7d462b6f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad403ed04d959a7d9b44219541895dafa" id="r_ad403ed04d959a7d9b44219541895dafa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">auto</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#ad403ed04d959a7d9b44219541895dafa">Insert</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> index, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;&amp;value) <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:ad403ed04d959a7d9b44219541895dafa"><td class="mdescLeft">&#160;</td><td class="mdescRight">在指定位置插入值  <br /></td></tr>
-<tr class="separator:ad403ed04d959a7d9b44219541895dafa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a459de7b71327cf474c1ac24909b49773" id="r_a459de7b71327cf474c1ac24909b49773"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#a459de7b71327cf474c1ac24909b49773">Contains</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;value) <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:a459de7b71327cf474c1ac24909b49773"><td class="mdescLeft">&#160;</td><td class="mdescRight">列表是否包含某个值  <br /></td></tr>
-<tr class="separator:a459de7b71327cf474c1ac24909b49773"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabdb30bdd58106d8d81ab4fc915787ff" id="r_aabdb30bdd58106d8d81ab4fc915787ff"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#aabdb30bdd58106d8d81ab4fc915787ff">List</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1List.html">List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; &amp;<a class="el" href="classsw_1_1IValueConverter.html">other</a>)</td></tr>
+<tr class="memdesc:aabdb30bdd58106d8d81ab4fc915787ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">拷贝构造函数  <br /></td></tr>
+<tr class="separator:aabdb30bdd58106d8d81ab4fc915787ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59d09c41c57b83cdfa6ab9d5554cf2eb" id="r_a59d09c41c57b83cdfa6ab9d5554cf2eb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#a59d09c41c57b83cdfa6ab9d5554cf2eb">List</a> (<a class="el" href="classsw_1_1List.html">List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; &amp;&amp;<a class="el" href="classsw_1_1IValueConverter.html">other</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a59d09c41c57b83cdfa6ab9d5554cf2eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">移动构造函数  <br /></td></tr>
+<tr class="separator:a59d09c41c57b83cdfa6ab9d5554cf2eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb7b0a000ed35eff4c76657541c226cf" id="r_acb7b0a000ed35eff4c76657541c226cf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1List.html">List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#acb7b0a000ed35eff4c76657541c226cf">operator=</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1List.html">List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; &amp;<a class="el" href="classsw_1_1IValueConverter.html">other</a>)</td></tr>
+<tr class="memdesc:acb7b0a000ed35eff4c76657541c226cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">拷贝赋值运算符  <br /></td></tr>
+<tr class="separator:acb7b0a000ed35eff4c76657541c226cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73367edcb7f41f9fec1830e1af3e6000" id="r_a73367edcb7f41f9fec1830e1af3e6000"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1List.html">List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#a73367edcb7f41f9fec1830e1af3e6000">operator=</a> (<a class="el" href="classsw_1_1List.html">List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; &amp;&amp;<a class="el" href="classsw_1_1IValueConverter.html">other</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a73367edcb7f41f9fec1830e1af3e6000"><td class="mdescLeft">&#160;</td><td class="mdescRight">移动赋值运算符  <br /></td></tr>
+<tr class="separator:a73367edcb7f41f9fec1830e1af3e6000"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a492d0745836eb2696e25a9f233f1dd66" id="r_a492d0745836eb2696e25a9f233f1dd66"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#a492d0745836eb2696e25a9f233f1dd66">operator[]</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> index)</td></tr>
+<tr class="memdesc:a492d0745836eb2696e25a9f233f1dd66"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取指定索引处的元素引用  <br /></td></tr>
+<tr class="separator:a492d0745836eb2696e25a9f233f1dd66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14c8a6ec4face9845e5adfd32c33e1ad" id="r_a14c8a6ec4face9845e5adfd32c33e1ad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#a14c8a6ec4face9845e5adfd32c33e1ad">operator[]</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> index) <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
+<tr class="memdesc:a14c8a6ec4face9845e5adfd32c33e1ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取指定索引处的const元素引用  <br /></td></tr>
+<tr class="separator:a14c8a6ec4face9845e5adfd32c33e1ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add01affe87345f070914e2999879656b" id="r_add01affe87345f070914e2999879656b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#add01affe87345f070914e2999879656b">Capacity</a> () <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:add01affe87345f070914e2999879656b"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前分配的容量  <br /></td></tr>
+<tr class="separator:add01affe87345f070914e2999879656b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a236042e65d368dbbe014e8e98c71e9a5" id="r_a236042e65d368dbbe014e8e98c71e9a5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#a236042e65d368dbbe014e8e98c71e9a5">Reserve</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">newCapacity</a>)</td></tr>
+<tr class="memdesc:a236042e65d368dbbe014e8e98c71e9a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">预留至少指定数量的元素空间  <br /></td></tr>
+<tr class="separator:a236042e65d368dbbe014e8e98c71e9a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affbde3bdc7bf1bf14306aa0b727246be" id="r_affbde3bdc7bf1bf14306aa0b727246be"><td class="memItemLeft" align="right" valign="top"><a id="affbde3bdc7bf1bf14306aa0b727246be" name="affbde3bdc7bf1bf14306aa0b727246be"></a>
+<a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Clear</b> ()</td></tr>
+<tr class="memdesc:affbde3bdc7bf1bf14306aa0b727246be"><td class="mdescLeft">&#160;</td><td class="mdescRight">清空列表中的所有元素 <br /></td></tr>
+<tr class="separator:affbde3bdc7bf1bf14306aa0b727246be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a255bdc9496ff5f807fb680f8bf302454" id="r_a255bdc9496ff5f807fb680f8bf302454"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#a255bdc9496ff5f807fb680f8bf302454">Add</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;value)</td></tr>
+<tr class="memdesc:a255bdc9496ff5f807fb680f8bf302454"><td class="mdescLeft">&#160;</td><td class="mdescRight">在列表末尾追加元素  <br /></td></tr>
+<tr class="separator:a255bdc9496ff5f807fb680f8bf302454"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b2f0abfd6d5def09ffb0f1dfb33827f" id="r_a2b2f0abfd6d5def09ffb0f1dfb33827f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#a2b2f0abfd6d5def09ffb0f1dfb33827f">Add</a> (<a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;&amp;value)</td></tr>
+<tr class="memdesc:a2b2f0abfd6d5def09ffb0f1dfb33827f"><td class="mdescLeft">&#160;</td><td class="mdescRight">在列表末尾追加元素（移动语义）  <br /></td></tr>
+<tr class="separator:a2b2f0abfd6d5def09ffb0f1dfb33827f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a040a88f155e3427f042fb8fb569d9f69" id="r_a040a88f155e3427f042fb8fb569d9f69"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#a040a88f155e3427f042fb8fb569d9f69">RemoveAt</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> index)</td></tr>
+<tr class="memdesc:a040a88f155e3427f042fb8fb569d9f69"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除指定索引处的元素  <br /></td></tr>
+<tr class="separator:a040a88f155e3427f042fb8fb569d9f69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5761f55f6218f56dd3f1a10a40ee9e58" id="r_a5761f55f6218f56dd3f1a10a40ee9e58"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#a5761f55f6218f56dd3f1a10a40ee9e58">Insert</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> index, <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;value)</td></tr>
+<tr class="memdesc:a5761f55f6218f56dd3f1a10a40ee9e58"><td class="mdescLeft">&#160;</td><td class="mdescRight">在指定索引处插入元素  <br /></td></tr>
+<tr class="separator:a5761f55f6218f56dd3f1a10a40ee9e58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae46211fc88d2650f1914d15b3d646b4d" id="r_ae46211fc88d2650f1914d15b3d646b4d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#ae46211fc88d2650f1914d15b3d646b4d">Insert</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> index, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;&amp;value)</td></tr>
+<tr class="memdesc:ae46211fc88d2650f1914d15b3d646b4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">在指定索引处插入元素（移动语义）  <br /></td></tr>
+<tr class="separator:ae46211fc88d2650f1914d15b3d646b4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a53adb5e4e7172f03bf87113443e9d2b5" id="r_a53adb5e4e7172f03bf87113443e9d2b5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#a53adb5e4e7172f03bf87113443e9d2b5">IndexOf</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;value) <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:a53adb5e4e7172f03bf87113443e9d2b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">查找值在列表中的索引  <br /></td></tr>
+<tr class="memdesc:a53adb5e4e7172f03bf87113443e9d2b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">查找指定值在列表中首次出现的索引  <br /></td></tr>
 <tr class="separator:a53adb5e4e7172f03bf87113443e9d2b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0f77fc0d146ee739725da4cc337bbe4" id="r_ae0f77fc0d146ee739725da4cc337bbe4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#ae0f77fc0d146ee739725da4cc337bbe4">Remove</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;value) <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:ae0f77fc0d146ee739725da4cc337bbe4"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除列表中第一个指定的值  <br /></td></tr>
-<tr class="separator:ae0f77fc0d146ee739725da4cc337bbe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a61b8b974966080702d94323ef0e46f85" id="r_a61b8b974966080702d94323ef0e46f85"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#a61b8b974966080702d94323ef0e46f85">RemoveAt</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> index) <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:a61b8b974966080702d94323ef0e46f85"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除指定索引处的值  <br /></td></tr>
-<tr class="separator:a61b8b974966080702d94323ef0e46f85"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9a9a3e947b9591f2a0e7fde6fb2ac9a8" id="r_a9a9a3e947b9591f2a0e7fde6fb2ac9a8"><td class="memItemLeft" align="right" valign="top"><a id="a9a9a3e947b9591f2a0e7fde6fb2ac9a8" name="a9a9a3e947b9591f2a0e7fde6fb2ac9a8"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Clear</b> () <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:a9a9a3e947b9591f2a0e7fde6fb2ac9a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">清空列表 <br /></td></tr>
-<tr class="separator:a9a9a3e947b9591f2a0e7fde6fb2ac9a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a765086d760ea625121500730a2579d28" id="r_a765086d760ea625121500730a2579d28"><td class="memItemLeft" align="right" valign="top"><a id="a765086d760ea625121500730a2579d28" name="a765086d760ea625121500730a2579d28"></a>
-<a class="el" href="classsw_1_1List.html">List</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Copy</b> () <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:a765086d760ea625121500730a2579d28"><td class="mdescLeft">&#160;</td><td class="mdescRight">复制当前列表 <br /></td></tr>
-<tr class="separator:a765086d760ea625121500730a2579d28"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac42490bd0a02fd82fb84650bbb54bba7" id="r_ac42490bd0a02fd82fb84650bbb54bba7"><td class="memItemLeft" align="right" valign="top"><a id="ac42490bd0a02fd82fb84650bbb54bba7" name="ac42490bd0a02fd82fb84650bbb54bba7"></a>
-std::vector&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>GetStdVector</b> () <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:ac42490bd0a02fd82fb84650bbb54bba7"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取列表内部维护的std::vector <br /></td></tr>
-<tr class="separator:ac42490bd0a02fd82fb84650bbb54bba7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90312cc68b94ae231cde185708d5f849" id="r_a90312cc68b94ae231cde185708d5f849"><td class="memItemLeft" align="right" valign="top"><a id="a90312cc68b94ae231cde185708d5f849" name="a90312cc68b94ae231cde185708d5f849"></a>
-std::wstring&#160;</td><td class="memItemRight" valign="bottom"><b>ToString</b> () <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:a90312cc68b94ae231cde185708d5f849"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取描述当前对象的字符串 <br /></td></tr>
+<tr class="memitem:a8ce9ef0518e761011e67cd29978a1cee" id="r_a8ce9ef0518e761011e67cd29978a1cee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#a8ce9ef0518e761011e67cd29978a1cee">LastIndexOf</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;value) <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
+<tr class="memdesc:a8ce9ef0518e761011e67cd29978a1cee"><td class="mdescLeft">&#160;</td><td class="mdescRight">查找指定值在列表中最后出现的索引  <br /></td></tr>
+<tr class="separator:a8ce9ef0518e761011e67cd29978a1cee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a459de7b71327cf474c1ac24909b49773" id="r_a459de7b71327cf474c1ac24909b49773"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#a459de7b71327cf474c1ac24909b49773">Contains</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;value) <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
+<tr class="memdesc:a459de7b71327cf474c1ac24909b49773"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断列表是否包含指定值  <br /></td></tr>
+<tr class="separator:a459de7b71327cf474c1ac24909b49773"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7eabc83900b9a67eef9847ac7c1f3c6" id="r_ab7eabc83900b9a67eef9847ac7c1f3c6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#ab7eabc83900b9a67eef9847ac7c1f3c6">Remove</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;value)</td></tr>
+<tr class="memdesc:ab7eabc83900b9a67eef9847ac7c1f3c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除列表中首次出现的指定值  <br /></td></tr>
+<tr class="separator:ab7eabc83900b9a67eef9847ac7c1f3c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90312cc68b94ae231cde185708d5f849" id="r_a90312cc68b94ae231cde185708d5f849"><td class="memItemLeft" align="right" valign="top">std::wstring&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#a90312cc68b94ae231cde185708d5f849">ToString</a> () <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
+<tr class="memdesc:a90312cc68b94ae231cde185708d5f849"><td class="mdescLeft">&#160;</td><td class="mdescRight">将列表转换为字符串表示  <br /></td></tr>
 <tr class="separator:a90312cc68b94ae231cde185708d5f849"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ed143038fa52aeec4dd17387d05ac3a" id="r_a5ed143038fa52aeec4dd17387d05ac3a"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#a5ed143038fa52aeec4dd17387d05ac3a">GetStdVector</a> () <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a5ed143038fa52aeec4dd17387d05ac3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取底层std::vector的引用  <br /></td></tr>
+<tr class="separator:a5ed143038fa52aeec4dd17387d05ac3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7777727d0f7636c62b20fb81f503e352" id="r_a7777727d0f7636c62b20fb81f503e352"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">const</a> std::vector&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#a7777727d0f7636c62b20fb81f503e352">GetStdVector</a> () <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a7777727d0f7636c62b20fb81f503e352"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取底层std::vector的const引用  <br /></td></tr>
+<tr class="separator:a7777727d0f7636c62b20fb81f503e352"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40977074dd7d44cc7f03b9d7642941cf" id="r_a40977074dd7d44cc7f03b9d7642941cf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#a40977074dd7d44cc7f03b9d7642941cf">Count</a> () <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a> <a class="el" href="classsw_1_1IValueConverter.html">override</a></td></tr>
+<tr class="memdesc:a40977074dd7d44cc7f03b9d7642941cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回列表中的元素数量  <br /></td></tr>
+<tr class="separator:a40977074dd7d44cc7f03b9d7642941cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36bbf5635ee1417b729ffac2e9515b73" id="r_a36bbf5635ee1417b729ffac2e9515b73"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#a36bbf5635ee1417b729ffac2e9515b73">GetAt</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> index) <a class="el" href="classsw_1_1IValueConverter.html">override</a></td></tr>
+<tr class="memdesc:a36bbf5635ee1417b729ffac2e9515b73"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取指定索引处的元素引用  <br /></td></tr>
+<tr class="separator:a36bbf5635ee1417b729ffac2e9515b73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d2a9a79fe1fb86bb94c5dd60c7e04a4" id="r_a5d2a9a79fe1fb86bb94c5dd60c7e04a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#a5d2a9a79fe1fb86bb94c5dd60c7e04a4">GetAt</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> index) <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1IValueConverter.html">override</a></td></tr>
+<tr class="memdesc:a5d2a9a79fe1fb86bb94c5dd60c7e04a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取指定索引处的const元素引用  <br /></td></tr>
+<tr class="separator:a5d2a9a79fe1fb86bb94c5dd60c7e04a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cc4e676e86572a87097937d0ef1ac5f" id="r_a4cc4e676e86572a87097937d0ef1ac5f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#a4cc4e676e86572a87097937d0ef1ac5f">SetAt</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> index, <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;value) <a class="el" href="classsw_1_1IValueConverter.html">override</a></td></tr>
+<tr class="memdesc:a4cc4e676e86572a87097937d0ef1ac5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置指定索引处的元素值  <br /></td></tr>
+<tr class="separator:a4cc4e676e86572a87097937d0ef1ac5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeae9af12691f7f4a9f65a6664f09422a" id="r_aeae9af12691f7f4a9f65a6664f09422a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1List.html#aeae9af12691f7f4a9f65a6664f09422a">SetAt</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> index, <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;&amp;value) <a class="el" href="classsw_1_1IValueConverter.html">override</a></td></tr>
+<tr class="memdesc:aeae9af12691f7f4a9f65a6664f09422a"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置指定索引处的元素值（移动语义）  <br /></td></tr>
+<tr class="separator:aeae9af12691f7f4a9f65a6664f09422a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsw_1_1IListT"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsw_1_1IListT')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsw_1_1IListT.html">sw::IListT&lt; T &gt;</a></td></tr>
+<tr class="memitem:ad1696139710851a1e747d269a613ddab inherit pub_methods_classsw_1_1IListT" id="r_ad1696139710851a1e747d269a613ddab"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classsw_1_1IValueConverter.html">virtual</a>&#160;</td><td class="memItemRight" valign="bottom"><b>~IListT</b> ()=<a class="el" href="classsw_1_1IValueConverter.html">default</a></td></tr>
+<tr class="memdesc:ad1696139710851a1e747d269a613ddab inherit pub_methods_classsw_1_1IListT"><td class="mdescLeft">&#160;</td><td class="mdescRight">虚析构函数 <br /></td></tr>
+<tr class="separator:ad1696139710851a1e747d269a613ddab inherit pub_methods_classsw_1_1IListT"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66ca37888c533c242ba8448ac31cb848 inherit pub_methods_classsw_1_1IListT" id="r_a66ca37888c533c242ba8448ac31cb848"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> std::type_index&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1IListT.html#a66ca37888c533c242ba8448ac31cb848">GetElementType</a> () <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a> <a class="el" href="classsw_1_1IValueConverter.html">override</a> <a class="el" href="classsw_1_1IValueConverter.html">final</a></td></tr>
+<tr class="memdesc:a66ca37888c533c242ba8448ac31cb848 inherit pub_methods_classsw_1_1IListT"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取列表元素的类型信息  <br /></td></tr>
+<tr class="separator:a66ca37888c533c242ba8448ac31cb848 inherit pub_methods_classsw_1_1IListT"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4349978c3a2cbeeb79eb9b9f9d496d56 inherit pub_methods_classsw_1_1IListT" id="r_a4349978c3a2cbeeb79eb9b9f9d496d56"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1Variant.html">Variant</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1IListT.html#a4349978c3a2cbeeb79eb9b9f9d496d56">GetVariantAt</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> index) <a class="el" href="classsw_1_1IValueConverter.html">override</a> <a class="el" href="classsw_1_1IValueConverter.html">final</a></td></tr>
+<tr class="memdesc:a4349978c3a2cbeeb79eb9b9f9d496d56 inherit pub_methods_classsw_1_1IListT"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取指定索引处元素的Variant引用  <br /></td></tr>
+<tr class="separator:a4349978c3a2cbeeb79eb9b9f9d496d56 inherit pub_methods_classsw_1_1IListT"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96ec6690b85bde3bc8c44809af507221 inherit pub_methods_classsw_1_1IListT" id="r_a96ec6690b85bde3bc8c44809af507221"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Variant.html">Variant</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1IListT.html#a96ec6690b85bde3bc8c44809af507221">GetVariantAt</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> index) <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1IValueConverter.html">override</a> <a class="el" href="classsw_1_1IValueConverter.html">final</a></td></tr>
+<tr class="memdesc:a96ec6690b85bde3bc8c44809af507221 inherit pub_methods_classsw_1_1IListT"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取指定索引处元素的const Variant引用  <br /></td></tr>
+<tr class="separator:a96ec6690b85bde3bc8c44809af507221 inherit pub_methods_classsw_1_1IListT"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5c69156145b07c628d78aedc6bf627c inherit pub_methods_classsw_1_1IListT" id="r_aa5c69156145b07c628d78aedc6bf627c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1IListT.html#aa5c69156145b07c628d78aedc6bf627c">SetVariantAt</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> index, <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Variant.html">Variant</a> &amp;value) <a class="el" href="classsw_1_1IValueConverter.html">override</a> <a class="el" href="classsw_1_1IValueConverter.html">final</a></td></tr>
+<tr class="memdesc:aa5c69156145b07c628d78aedc6bf627c inherit pub_methods_classsw_1_1IListT"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置指定索引处的元素值  <br /></td></tr>
+<tr class="separator:aa5c69156145b07c628d78aedc6bf627c inherit pub_methods_classsw_1_1IListT"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9080254706eb3ffb10c836e6e3b2f08 inherit pub_methods_classsw_1_1IListT" id="r_ac9080254706eb3ffb10c836e6e3b2f08"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1IListT.html#ac9080254706eb3ffb10c836e6e3b2f08">MoveVariantAt</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> index, <a class="el" href="classsw_1_1Variant.html">Variant</a> &amp;value) <a class="el" href="classsw_1_1IValueConverter.html">override</a> <a class="el" href="classsw_1_1IValueConverter.html">final</a></td></tr>
+<tr class="memdesc:ac9080254706eb3ffb10c836e6e3b2f08 inherit pub_methods_classsw_1_1IListT"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置指定索引处的元素值（移动语义）  <br /></td></tr>
+<tr class="separator:ac9080254706eb3ffb10c836e6e3b2f08 inherit pub_methods_classsw_1_1IListT"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsw_1_1IList"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsw_1_1IList')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsw_1_1IList.html">sw::IList</a></td></tr>
+<tr class="memitem:a6d0c4ca9d84b1d8cbe599012e5fe96be inherit pub_methods_classsw_1_1IList" id="r_a6d0c4ca9d84b1d8cbe599012e5fe96be"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classsw_1_1IValueConverter.html">virtual</a>&#160;</td><td class="memItemRight" valign="bottom"><b>~IList</b> ()=<a class="el" href="classsw_1_1IValueConverter.html">default</a></td></tr>
+<tr class="memdesc:a6d0c4ca9d84b1d8cbe599012e5fe96be inherit pub_methods_classsw_1_1IList"><td class="mdescLeft">&#160;</td><td class="mdescRight">虚析构函数 <br /></td></tr>
+<tr class="separator:a6d0c4ca9d84b1d8cbe599012e5fe96be inherit pub_methods_classsw_1_1IList"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classsw_1_1IToString"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsw_1_1IToString')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsw_1_1IToString.html">sw::IToString&lt; List&lt; T &gt; &gt;</a></td></tr>
 <tr class="memitem:a45c3e793bc1ea212ac7721224fb174e1 inherit pub_methods_classsw_1_1IToString" id="r_a45c3e793bc1ea212ac7721224fb174e1"><td class="memItemLeft" align="right" valign="top">
 std::wstring&#160;</td><td class="memItemRight" valign="bottom"><b>ToString</b> () <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
 <tr class="memdesc:a45c3e793bc1ea212ac7721224fb174e1 inherit pub_methods_classsw_1_1IToString"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取描述当前对象的字符串 <br /></td></tr>
 <tr class="separator:a45c3e793bc1ea212ac7721224fb174e1 inherit pub_methods_classsw_1_1IToString"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classsw_1_1IEqualityComparable"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsw_1_1IEqualityComparable')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsw_1_1IEqualityComparable.html">sw::IEqualityComparable&lt; List&lt; T &gt; &gt;</a></td></tr>
-<tr class="memitem:ad5594e770d276411d1213942cb49bb43 inherit pub_methods_classsw_1_1IEqualityComparable" id="r_ad5594e770d276411d1213942cb49bb43"><td class="memItemLeft" align="right" valign="top">
-<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Equals</b> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1List.html">List</a>&lt; T &gt; &amp; <a class="el" href="classsw_1_1IValueConverter.html">other</a>) <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:ad5594e770d276411d1213942cb49bb43 inherit pub_methods_classsw_1_1IEqualityComparable"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断当前对象与另一个对象是否相等 <br /></td></tr>
-<tr class="separator:ad5594e770d276411d1213942cb49bb43 inherit pub_methods_classsw_1_1IEqualityComparable"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e8a939486c99051632b21e3eafa94fd inherit pub_methods_classsw_1_1IEqualityComparable" id="r_a6e8a939486c99051632b21e3eafa94fd"><td class="memItemLeft" align="right" valign="top">
-<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1List.html">List</a>&lt; T &gt; &amp; <a class="el" href="classsw_1_1IValueConverter.html">other</a>) <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:a6e8a939486c99051632b21e3eafa94fd inherit pub_methods_classsw_1_1IEqualityComparable"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断当前对象是否与另一个对象相等 <br /></td></tr>
-<tr class="separator:a6e8a939486c99051632b21e3eafa94fd inherit pub_methods_classsw_1_1IEqualityComparable"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab74a5b44827655cda2d573d2d052cccc inherit pub_methods_classsw_1_1IEqualityComparable" id="r_ab74a5b44827655cda2d573d2d052cccc"><td class="memItemLeft" align="right" valign="top">
-<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1List.html">List</a>&lt; T &gt; &amp; <a class="el" href="classsw_1_1IValueConverter.html">other</a>) <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:ab74a5b44827655cda2d573d2d052cccc inherit pub_methods_classsw_1_1IEqualityComparable"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断当前对象是否与另一个对象不相等 <br /></td></tr>
-<tr class="separator:ab74a5b44827655cda2d573d2d052cccc inherit pub_methods_classsw_1_1IEqualityComparable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a>&gt;<br />
-class sw::List&lt; T &gt;</div><p>列表类，内部维护了一个指向std::vector的智能指针 </p>
-</div><h2 class="groupheader">成员函数说明</h2>
-<a id="ad3d55e6505de2977068fdc4e32e063e4" name="ad3d55e6505de2977068fdc4e32e063e4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad3d55e6505de2977068fdc4e32e063e4">&#9670;&#160;</a></span>Append() <span class="overload">[1/2]</span></h2>
+class sw::List&lt; T &gt;</div><p>基于std::vector的泛型列表，实现IListT接口 </p>
+<dl class="tparams"><dt>模板参数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>列表元素类型 </td></tr>
+  </table>
+  </dd>
+</dl>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="abfff18bc7387d154bc89481259f847a0" name="abfff18bc7387d154bc89481259f847a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfff18bc7387d154bc89481259f847a0">&#9670;&#160;</a></span>List() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -236,11 +256,156 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">auto</a> <a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::Append </td>
+          <td class="memname"><a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::List </td>
+          <td>(</td>
+          <td class="paramtype">std::initializer_list&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;&#160;</td>
+          <td class="paramname"><em>list</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>使用初始化列表构造 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">list</td><td>初始化元素列表 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a4e4501c96b9e786d67b420312cafb8cc" name="a4e4501c96b9e786d67b420312cafb8cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e4501c96b9e786d67b420312cafb8cc">&#9670;&#160;</a></span>List() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::List </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>capacity</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>指定初始容量构造 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">capacity</td><td>初始容量 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aabdb30bdd58106d8d81ab4fc915787ff" name="aabdb30bdd58106d8d81ab4fc915787ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabdb30bdd58106d8d81ab4fc915787ff">&#9670;&#160;</a></span>List() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::List </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1List.html">List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>拷贝构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>源列表 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a59d09c41c57b83cdfa6ab9d5554cf2eb" name="a59d09c41c57b83cdfa6ab9d5554cf2eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59d09c41c57b83cdfa6ab9d5554cf2eb">&#9670;&#160;</a></span>List() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::List </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1List.html">List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>移动构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>源列表 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a255bdc9496ff5f807fb680f8bf302454" name="a255bdc9496ff5f807fb680f8bf302454"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a255bdc9496ff5f807fb680f8bf302454">&#9670;&#160;</a></span>Add() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">void</a> <a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::Add </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
   </td>
@@ -250,13 +415,18 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
 </table>
 </div><div class="memdoc">
 
-<p>添加一个值到列表末尾 </p>
-<dl class="section return"><dt>返回</dt><dd>当前列表 </dd></dl>
+<p>在列表末尾追加元素 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>要追加的值 </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
-<a id="a40d8c240bd015328383c8bc8d6a3b2d8" name="a40d8c240bd015328383c8bc8d6a3b2d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a40d8c240bd015328383c8bc8d6a3b2d8">&#9670;&#160;</a></span>Append() <span class="overload">[2/2]</span></h2>
+<a id="a2b2f0abfd6d5def09ffb0f1dfb33827f" name="a2b2f0abfd6d5def09ffb0f1dfb33827f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b2f0abfd6d5def09ffb0f1dfb33827f">&#9670;&#160;</a></span>Add() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -267,11 +437,11 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">auto</a> <a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::Append </td>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">void</a> <a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::Add </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;&amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
   </td>
@@ -281,8 +451,43 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
 </table>
 </div><div class="memdoc">
 
-<p>添加一个值到列表末尾 </p>
-<dl class="section return"><dt>返回</dt><dd>当前列表 </dd></dl>
+<p>在列表末尾追加元素（移动语义） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>要追加的值 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="add01affe87345f070914e2999879656b" name="add01affe87345f070914e2999879656b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add01affe87345f070914e2999879656b">&#9670;&#160;</a></span>Capacity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::Capacity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取当前分配的容量 </p>
+<dl class="section return"><dt>返回</dt><dd>容量大小 </dd></dl>
 
 </div>
 </div>
@@ -312,13 +517,196 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
 </table>
 </div><div class="memdoc">
 
-<p>列表是否包含某个值 </p>
+<p>判断列表是否包含指定值 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">value</td><td>要查找的值 </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>返回</dt><dd>包含返回true，否则返回false </dd></dl>
+
+</div>
+</div>
+<a id="a40977074dd7d44cc7f03b9d7642941cf" name="a40977074dd7d44cc7f03b9d7642941cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40977074dd7d44cc7f03b9d7642941cf">&#9670;&#160;</a></span>Count()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::Count </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>返回列表中的元素数量 </p>
+<dl class="section return"><dt>返回</dt><dd>元素数量 </dd></dl>
+
+<p>实现了 <a class="el" href="classsw_1_1IListT.html#a015e5893fa9cee18f0984b99ad9a91bc">sw::IListT&lt; T &gt;</a>.</p>
+
+</div>
+</div>
+<a id="a5d2a9a79fe1fb86bb94c5dd60c7e04a4" name="a5d2a9a79fe1fb86bb94c5dd60c7e04a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d2a9a79fe1fb86bb94c5dd60c7e04a4">&#9670;&#160;</a></span>GetAt() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp; <a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::GetAt </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取指定索引处的const元素引用 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>元素索引 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>const元素引用 </dd></dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>索引超出范围 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>实现了 <a class="el" href="classsw_1_1IListT.html#a7c908f24aa5b264c5ebca48dc4ec1b89">sw::IListT&lt; T &gt;</a>.</p>
+
+</div>
+</div>
+<a id="a36bbf5635ee1417b729ffac2e9515b73" name="a36bbf5635ee1417b729ffac2e9515b73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36bbf5635ee1417b729ffac2e9515b73">&#9670;&#160;</a></span>GetAt() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp; <a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::GetAt </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取指定索引处的元素引用 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>元素索引 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>元素引用 </dd></dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>索引超出范围 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>实现了 <a class="el" href="classsw_1_1IListT.html#a21ac5c46163107e2d3c25cdd78446f4f">sw::IListT&lt; T &gt;</a>.</p>
+
+</div>
+</div>
+<a id="a7777727d0f7636c62b20fb81f503e352" name="a7777727d0f7636c62b20fb81f503e352"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7777727d0f7636c62b20fb81f503e352">&#9670;&#160;</a></span>GetStdVector() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">const</a> std::vector&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; &amp; <a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::GetStdVector </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取底层std::vector的const引用 </p>
+<dl class="section return"><dt>返回</dt><dd>std::vector的const引用 </dd></dl>
+
+</div>
+</div>
+<a id="a5ed143038fa52aeec4dd17387d05ac3a" name="a5ed143038fa52aeec4dd17387d05ac3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ed143038fa52aeec4dd17387d05ac3a">&#9670;&#160;</a></span>GetStdVector() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; &amp; <a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::GetStdVector </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取底层std::vector的引用 </p>
+<dl class="section return"><dt>返回</dt><dd>std::vector的引用 </dd></dl>
 
 </div>
 </div>
@@ -348,19 +736,19 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
 </table>
 </div><div class="memdoc">
 
-<p>查找值在列表中的索引 </p>
+<p>查找指定值在列表中首次出现的索引 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">value</td><td>要查找的值 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>若列表中包含该值则返回其索引，否则返回-1 </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>首次出现的索引，未找到返回-1 </dd></dl>
 
 </div>
 </div>
-<a id="a03c0b009c991425948514cd7d462b6f2" name="a03c0b009c991425948514cd7d462b6f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a03c0b009c991425948514cd7d462b6f2">&#9670;&#160;</a></span>Insert() <span class="overload">[1/2]</span></h2>
+<a id="a5761f55f6218f56dd3f1a10a40ee9e58" name="a5761f55f6218f56dd3f1a10a40ee9e58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5761f55f6218f56dd3f1a10a40ee9e58">&#9670;&#160;</a></span>Insert() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -371,7 +759,7 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">auto</a> <a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::Insert </td>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">void</a> <a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::Insert </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
           <td class="paramname"><em>index</em>, </td>
@@ -385,7 +773,7 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td> const</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -395,13 +783,25 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
 </table>
 </div><div class="memdoc">
 
-<p>在指定位置插入值 </p>
-<dl class="section return"><dt>返回</dt><dd>当前列表 </dd></dl>
+<p>在指定索引处插入元素 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>插入位置 </td></tr>
+    <tr><td class="paramname">value</td><td>要插入的值 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>索引超出范围 </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
-<a id="ad403ed04d959a7d9b44219541895dafa" name="ad403ed04d959a7d9b44219541895dafa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad403ed04d959a7d9b44219541895dafa">&#9670;&#160;</a></span>Insert() <span class="overload">[2/2]</span></h2>
+<a id="ae46211fc88d2650f1914d15b3d646b4d" name="ae46211fc88d2650f1914d15b3d646b4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae46211fc88d2650f1914d15b3d646b4d">&#9670;&#160;</a></span>Insert() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -412,7 +812,7 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">auto</a> <a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::Insert </td>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">void</a> <a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::Insert </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
           <td class="paramname"><em>index</em>, </td>
@@ -426,7 +826,7 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td> const</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -436,13 +836,222 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
 </table>
 </div><div class="memdoc">
 
-<p>在指定位置插入值 </p>
-<dl class="section return"><dt>返回</dt><dd>当前列表 </dd></dl>
+<p>在指定索引处插入元素（移动语义） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>插入位置 </td></tr>
+    <tr><td class="paramname">value</td><td>要插入的值 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>索引超出范围 </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
-<a id="ae0f77fc0d146ee739725da4cc337bbe4" name="ae0f77fc0d146ee739725da4cc337bbe4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae0f77fc0d146ee739725da4cc337bbe4">&#9670;&#160;</a></span>Remove()</h2>
+<a id="a8ce9ef0518e761011e67cd29978a1cee" name="a8ce9ef0518e761011e67cd29978a1cee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ce9ef0518e761011e67cd29978a1cee">&#9670;&#160;</a></span>LastIndexOf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::LastIndexOf </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>查找指定值在列表中最后出现的索引 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>要查找的值 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>最后出现的索引，未找到返回-1 </dd></dl>
+
+</div>
+</div>
+<a id="acb7b0a000ed35eff4c76657541c226cf" name="acb7b0a000ed35eff4c76657541c226cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb7b0a000ed35eff4c76657541c226cf">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1List.html">List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; &amp; <a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1List.html">List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>拷贝赋值运算符 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>源列表 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>当前列表的引用 </dd></dl>
+
+</div>
+</div>
+<a id="a73367edcb7f41f9fec1830e1af3e6000" name="a73367edcb7f41f9fec1830e1af3e6000"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73367edcb7f41f9fec1830e1af3e6000">&#9670;&#160;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1List.html">List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; &amp; <a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1List.html">List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>移动赋值运算符 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>源列表 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>当前列表的引用 </dd></dl>
+
+</div>
+</div>
+<a id="a492d0745836eb2696e25a9f233f1dd66" name="a492d0745836eb2696e25a9f233f1dd66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a492d0745836eb2696e25a9f233f1dd66">&#9670;&#160;</a></span>operator[]() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp; <a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取指定索引处的元素引用 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>元素索引 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>元素引用 </dd></dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>索引超出范围 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a14c8a6ec4face9845e5adfd32c33e1ad" name="a14c8a6ec4face9845e5adfd32c33e1ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14c8a6ec4face9845e5adfd32c33e1ad">&#9670;&#160;</a></span>operator[]() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp; <a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取指定索引处的const元素引用 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>元素索引 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>const元素引用 </dd></dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>索引超出范围 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ab7eabc83900b9a67eef9847ac7c1f3c6" name="ab7eabc83900b9a67eef9847ac7c1f3c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7eabc83900b9a67eef9847ac7c1f3c6">&#9670;&#160;</a></span>Remove()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -457,7 +1066,7 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
           <td>(</td>
           <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
   </td>
@@ -467,19 +1076,19 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
 </table>
 </div><div class="memdoc">
 
-<p>移除列表中第一个指定的值 </p>
+<p>移除列表中首次出现的指定值 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">value</td><td>要移除的值 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>是否成功移除 </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>成功移除返回true，未找到返回false </dd></dl>
 
 </div>
 </div>
-<a id="a61b8b974966080702d94323ef0e46f85" name="a61b8b974966080702d94323ef0e46f85"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a61b8b974966080702d94323ef0e46f85">&#9670;&#160;</a></span>RemoveAt()</h2>
+<a id="a040a88f155e3427f042fb8fb569d9f69" name="a040a88f155e3427f042fb8fb569d9f69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a040a88f155e3427f042fb8fb569d9f69">&#9670;&#160;</a></span>RemoveAt()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -494,6 +1103,195 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
           <td>(</td>
           <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
           <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>移除指定索引处的元素 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>要移除的元素索引 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>索引超出范围 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a236042e65d368dbbe014e8e98c71e9a5" name="a236042e65d368dbbe014e8e98c71e9a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a236042e65d368dbbe014e8e98c71e9a5">&#9670;&#160;</a></span>Reserve()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">void</a> <a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::Reserve </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>newCapacity</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>预留至少指定数量的元素空间 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newCapacity</td><td>要预留的容量，仅在大于当前容量时生效 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a4cc4e676e86572a87097937d0ef1ac5f" name="a4cc4e676e86572a87097937d0ef1ac5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cc4e676e86572a87097937d0ef1ac5f">&#9670;&#160;</a></span>SetAt() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a> <a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::SetAt </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>设置指定索引处的元素值 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>元素索引 </td></tr>
+    <tr><td class="paramname">value</td><td>要设置的值 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>索引超出范围 </td></tr>
+    <tr><td class="paramname">std::logic_error</td><td>T不可拷贝赋值时 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>实现了 <a class="el" href="classsw_1_1IListT.html#a592438e0f22fd01a7b4a6eb063ba235e">sw::IListT&lt; T &gt;</a>.</p>
+
+</div>
+</div>
+<a id="aeae9af12691f7f4a9f65a6664f09422a" name="aeae9af12691f7f4a9f65a6664f09422a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeae9af12691f7f4a9f65a6664f09422a">&#9670;&#160;</a></span>SetAt() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a> <a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::SetAt </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &amp;&amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>设置指定索引处的元素值（移动语义） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>元素索引 </td></tr>
+    <tr><td class="paramname">value</td><td>要设置的值 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>索引超出范围 </td></tr>
+    <tr><td class="paramname">std::logic_error</td><td>T不可移动赋值时 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>实现了 <a class="el" href="classsw_1_1IListT.html#ad5fa0d00f0fb403692fce014c0ac301b">sw::IListT&lt; T &gt;</a>.</p>
+
+</div>
+</div>
+<a id="a90312cc68b94ae231cde185708d5f849" name="a90312cc68b94ae231cde185708d5f849"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90312cc68b94ae231cde185708d5f849">&#9670;&#160;</a></span>ToString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::wstring <a class="el" href="classsw_1_1List.html">sw::List</a>&lt; <a class="el" href="namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab9ece18c950afbfa6b0fdbfa4ff731d3">T</a> &gt;::ToString </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -504,13 +1302,8 @@ template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> <a
 </table>
 </div><div class="memdoc">
 
-<p>移除指定索引处的值 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">index</td><td>要移除元素的索引 </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>将列表转换为字符串表示 </p>
+<dl class="section return"><dt>返回</dt><dd>列表的字符串表示 </dd></dl>
 
 </div>
 </div>

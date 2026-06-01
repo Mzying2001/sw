@@ -1,0 +1,418 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: sw::IList类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classsw_1_1IList.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="classsw_1_1IList-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sw::IList类 参考<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>非模板列表接口，提供基于Variant的元素访问  
+ <a href="classsw_1_1IList.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="IList_8h_source.html">IList.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sw::IList 继承关系图:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classsw_1_1IList.png" usemap="#sw::IList_map" alt=""/>
+  <map id="sw::IList_map" name="sw::IList_map">
+<area href="classsw_1_1IListT.html" alt="sw::IListT&lt; std::wstring &gt;" shape="rect" coords="0,56,269,80"/>
+<area href="classsw_1_1IListT.html" alt="sw::IListT&lt; sw::GridRow &gt;" shape="rect" coords="279,56,548,80"/>
+<area href="classsw_1_1IListT.html" alt="sw::IListT&lt; sw::GridColumn &gt;" shape="rect" coords="558,56,827,80"/>
+<area href="classsw_1_1IListT.html" alt="sw::IListT&lt; sw::ListViewItem &gt;" shape="rect" coords="837,56,1106,80"/>
+<area href="classsw_1_1IListT.html" title="类型安全的列表接口，继承IList并提供类型化的元素访问" alt="sw::IListT&lt; T &gt;" shape="rect" coords="1116,56,1385,80"/>
+<area href="classsw_1_1List.html" alt="sw::List&lt; std::wstring &gt;" shape="rect" coords="1395,112,1664,136"/>
+<area href="classsw_1_1List.html" alt="sw::List&lt; sw::GridRow &gt;" shape="rect" coords="1395,168,1664,192"/>
+<area href="classsw_1_1List.html" alt="sw::List&lt; sw::GridColumn &gt;" shape="rect" coords="1395,224,1664,248"/>
+<area href="classsw_1_1List.html" alt="sw::List&lt; sw::ListViewItem &gt;" shape="rect" coords="1395,280,1664,304"/>
+<area href="classsw_1_1ObservableCollection.html" alt="sw::ObservableCollection&lt; std::wstring &gt;" shape="rect" coords="1395,336,1664,360"/>
+<area href="classsw_1_1ObservableCollection.html" alt="sw::ObservableCollection&lt; sw::ListViewItem &gt;" shape="rect" coords="1395,392,1664,416"/>
+<area href="classsw_1_1List.html" title="基于std::vector的泛型列表，实现IListT接口" alt="sw::List&lt; T &gt;" shape="rect" coords="1395,448,1664,472"/>
+<area href="classsw_1_1ObservableCollection.html" title="支持集合变更通知的泛型集合类" alt="sw::ObservableCollection&lt; T &gt;" shape="rect" coords="1395,504,1664,528"/>
+  </map>
+</div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a6d0c4ca9d84b1d8cbe599012e5fe96be" id="r_a6d0c4ca9d84b1d8cbe599012e5fe96be"><td class="memItemLeft" align="right" valign="top"><a id="a6d0c4ca9d84b1d8cbe599012e5fe96be" name="a6d0c4ca9d84b1d8cbe599012e5fe96be"></a>
+<a class="el" href="classsw_1_1IValueConverter.html">virtual</a>&#160;</td><td class="memItemRight" valign="bottom"><b>~IList</b> ()=<a class="el" href="classsw_1_1IValueConverter.html">default</a></td></tr>
+<tr class="memdesc:a6d0c4ca9d84b1d8cbe599012e5fe96be"><td class="mdescLeft">&#160;</td><td class="mdescRight">虚析构函数 <br /></td></tr>
+<tr class="separator:a6d0c4ca9d84b1d8cbe599012e5fe96be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef9865129de999945dae26a0a6b4c1c7" id="r_aef9865129de999945dae26a0a6b4c1c7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> std::type_index&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1IList.html#aef9865129de999945dae26a0a6b4c1c7">GetElementType</a> () <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a>=0</td></tr>
+<tr class="memdesc:aef9865129de999945dae26a0a6b4c1c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取列表元素的类型信息  <br /></td></tr>
+<tr class="separator:aef9865129de999945dae26a0a6b4c1c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe507e5736700cebddc6ab35f980f39a" id="r_abe507e5736700cebddc6ab35f980f39a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1IList.html#abe507e5736700cebddc6ab35f980f39a">Count</a> () <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a>=0</td></tr>
+<tr class="memdesc:abe507e5736700cebddc6ab35f980f39a"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回列表中的元素数量  <br /></td></tr>
+<tr class="separator:abe507e5736700cebddc6ab35f980f39a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abddca2f38f9f58fdf8f4f93f658ae1e3" id="r_abddca2f38f9f58fdf8f4f93f658ae1e3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1Variant.html">Variant</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1IList.html#abddca2f38f9f58fdf8f4f93f658ae1e3">GetVariantAt</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> index)=0</td></tr>
+<tr class="memdesc:abddca2f38f9f58fdf8f4f93f658ae1e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取指定索引处元素的Variant引用  <br /></td></tr>
+<tr class="separator:abddca2f38f9f58fdf8f4f93f658ae1e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23130d5970e463ecedf04b1d0fd622a1" id="r_a23130d5970e463ecedf04b1d0fd622a1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Variant.html">Variant</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1IList.html#a23130d5970e463ecedf04b1d0fd622a1">GetVariantAt</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> index) <a class="el" href="classsw_1_1IValueConverter.html">const</a> =0</td></tr>
+<tr class="memdesc:a23130d5970e463ecedf04b1d0fd622a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取指定索引处元素的const Variant引用  <br /></td></tr>
+<tr class="separator:a23130d5970e463ecedf04b1d0fd622a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34b3c2aad003d0b96a344a888f822109" id="r_a34b3c2aad003d0b96a344a888f822109"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1IList.html#a34b3c2aad003d0b96a344a888f822109">SetVariantAt</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> index, <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Variant.html">Variant</a> &amp;value)=0</td></tr>
+<tr class="memdesc:a34b3c2aad003d0b96a344a888f822109"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置指定索引处的元素值  <br /></td></tr>
+<tr class="separator:a34b3c2aad003d0b96a344a888f822109"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a270a923a98ffb22145b3936fbb7f261f" id="r_a270a923a98ffb22145b3936fbb7f261f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1IList.html#a270a923a98ffb22145b3936fbb7f261f">MoveVariantAt</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> index, <a class="el" href="classsw_1_1Variant.html">Variant</a> &amp;value)=0</td></tr>
+<tr class="memdesc:a270a923a98ffb22145b3936fbb7f261f"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置指定索引处的元素值（移动语义）  <br /></td></tr>
+<tr class="separator:a270a923a98ffb22145b3936fbb7f261f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>非模板列表接口，提供基于Variant的元素访问 </p>
+</div><h2 class="groupheader">成员函数说明</h2>
+<a id="abe507e5736700cebddc6ab35f980f39a" name="abe507e5736700cebddc6ab35f980f39a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe507e5736700cebddc6ab35f980f39a">&#9670;&#160;</a></span>Count()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">int</a> sw::IList::Count </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>返回列表中的元素数量 </p>
+<dl class="section return"><dt>返回</dt><dd>元素数量 </dd></dl>
+
+<p>在 <a class="el" href="classsw_1_1List.html#a40977074dd7d44cc7f03b9d7642941cf">sw::List&lt; T &gt;</a>, <a class="el" href="classsw_1_1List.html#a40977074dd7d44cc7f03b9d7642941cf">sw::List&lt; std::wstring &gt;</a>, <a class="el" href="classsw_1_1List.html#a40977074dd7d44cc7f03b9d7642941cf">sw::List&lt; sw::GridColumn &gt;</a>, <a class="el" href="classsw_1_1List.html#a40977074dd7d44cc7f03b9d7642941cf">sw::List&lt; sw::GridRow &gt;</a>, <a class="el" href="classsw_1_1List.html#a40977074dd7d44cc7f03b9d7642941cf">sw::List&lt; sw::ListViewItem &gt;</a>, <a class="el" href="classsw_1_1ObservableCollection.html#aca7097e32c4852d48431f934e286d30c">sw::ObservableCollection&lt; T &gt;</a>, <a class="el" href="classsw_1_1ObservableCollection.html#aca7097e32c4852d48431f934e286d30c">sw::ObservableCollection&lt; std::wstring &gt;</a>, <a class="el" href="classsw_1_1ObservableCollection.html#aca7097e32c4852d48431f934e286d30c">sw::ObservableCollection&lt; sw::ListViewItem &gt;</a>, <a class="el" href="classsw_1_1IListT.html#a015e5893fa9cee18f0984b99ad9a91bc">sw::IListT&lt; T &gt;</a>, <a class="el" href="classsw_1_1IListT.html#a015e5893fa9cee18f0984b99ad9a91bc">sw::IListT&lt; std::wstring &gt;</a>, <a class="el" href="classsw_1_1IListT.html#a015e5893fa9cee18f0984b99ad9a91bc">sw::IListT&lt; sw::GridColumn &gt;</a>, <a class="el" href="classsw_1_1IListT.html#a015e5893fa9cee18f0984b99ad9a91bc">sw::IListT&lt; sw::GridRow &gt;</a> , 以及 <a class="el" href="classsw_1_1IListT.html#a015e5893fa9cee18f0984b99ad9a91bc">sw::IListT&lt; sw::ListViewItem &gt;</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="aef9865129de999945dae26a0a6b4c1c7" name="aef9865129de999945dae26a0a6b4c1c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef9865129de999945dae26a0a6b4c1c7">&#9670;&#160;</a></span>GetElementType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> std::type_index sw::IList::GetElementType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取列表元素的类型信息 </p>
+<dl class="section return"><dt>返回</dt><dd>元素类型的std::type_index </dd></dl>
+
+<p>在 <a class="el" href="classsw_1_1IListT.html#a66ca37888c533c242ba8448ac31cb848">sw::IListT&lt; T &gt;</a>, <a class="el" href="classsw_1_1IListT.html#a66ca37888c533c242ba8448ac31cb848">sw::IListT&lt; std::wstring &gt;</a>, <a class="el" href="classsw_1_1IListT.html#a66ca37888c533c242ba8448ac31cb848">sw::IListT&lt; sw::GridColumn &gt;</a>, <a class="el" href="classsw_1_1IListT.html#a66ca37888c533c242ba8448ac31cb848">sw::IListT&lt; sw::GridRow &gt;</a> , 以及 <a class="el" href="classsw_1_1IListT.html#a66ca37888c533c242ba8448ac31cb848">sw::IListT&lt; sw::ListViewItem &gt;</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="a23130d5970e463ecedf04b1d0fd622a1" name="a23130d5970e463ecedf04b1d0fd622a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23130d5970e463ecedf04b1d0fd622a1">&#9670;&#160;</a></span>GetVariantAt() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Variant.html">Variant</a> sw::IList::GetVariantAt </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取指定索引处元素的const Variant引用 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>元素索引 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>元素的const Variant引用 </dd></dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>索引超出范围 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>在 <a class="el" href="classsw_1_1IListT.html#a96ec6690b85bde3bc8c44809af507221">sw::IListT&lt; T &gt;</a>, <a class="el" href="classsw_1_1IListT.html#a96ec6690b85bde3bc8c44809af507221">sw::IListT&lt; std::wstring &gt;</a>, <a class="el" href="classsw_1_1IListT.html#a96ec6690b85bde3bc8c44809af507221">sw::IListT&lt; sw::GridColumn &gt;</a>, <a class="el" href="classsw_1_1IListT.html#a96ec6690b85bde3bc8c44809af507221">sw::IListT&lt; sw::GridRow &gt;</a> , 以及 <a class="el" href="classsw_1_1IListT.html#a96ec6690b85bde3bc8c44809af507221">sw::IListT&lt; sw::ListViewItem &gt;</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="abddca2f38f9f58fdf8f4f93f658ae1e3" name="abddca2f38f9f58fdf8f4f93f658ae1e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abddca2f38f9f58fdf8f4f93f658ae1e3">&#9670;&#160;</a></span>GetVariantAt() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1Variant.html">Variant</a> sw::IList::GetVariantAt </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取指定索引处元素的Variant引用 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>元素索引 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>元素的Variant引用 </dd></dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>索引超出范围 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>在 <a class="el" href="classsw_1_1IListT.html#a4349978c3a2cbeeb79eb9b9f9d496d56">sw::IListT&lt; T &gt;</a>, <a class="el" href="classsw_1_1IListT.html#a4349978c3a2cbeeb79eb9b9f9d496d56">sw::IListT&lt; std::wstring &gt;</a>, <a class="el" href="classsw_1_1IListT.html#a4349978c3a2cbeeb79eb9b9f9d496d56">sw::IListT&lt; sw::GridColumn &gt;</a>, <a class="el" href="classsw_1_1IListT.html#a4349978c3a2cbeeb79eb9b9f9d496d56">sw::IListT&lt; sw::GridRow &gt;</a> , 以及 <a class="el" href="classsw_1_1IListT.html#a4349978c3a2cbeeb79eb9b9f9d496d56">sw::IListT&lt; sw::ListViewItem &gt;</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="a270a923a98ffb22145b3936fbb7f261f" name="a270a923a98ffb22145b3936fbb7f261f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a270a923a98ffb22145b3936fbb7f261f">&#9670;&#160;</a></span>MoveVariantAt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a> sw::IList::MoveVariantAt </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1Variant.html">Variant</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>设置指定索引处的元素值（移动语义） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>元素索引 </td></tr>
+    <tr><td class="paramname">value</td><td>要设置的值 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>索引超出范围 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>在 <a class="el" href="classsw_1_1IListT.html#ac9080254706eb3ffb10c836e6e3b2f08">sw::IListT&lt; T &gt;</a>, <a class="el" href="classsw_1_1IListT.html#ac9080254706eb3ffb10c836e6e3b2f08">sw::IListT&lt; std::wstring &gt;</a>, <a class="el" href="classsw_1_1IListT.html#ac9080254706eb3ffb10c836e6e3b2f08">sw::IListT&lt; sw::GridColumn &gt;</a>, <a class="el" href="classsw_1_1IListT.html#ac9080254706eb3ffb10c836e6e3b2f08">sw::IListT&lt; sw::GridRow &gt;</a> , 以及 <a class="el" href="classsw_1_1IListT.html#ac9080254706eb3ffb10c836e6e3b2f08">sw::IListT&lt; sw::ListViewItem &gt;</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="a34b3c2aad003d0b96a344a888f822109" name="a34b3c2aad003d0b96a344a888f822109"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34b3c2aad003d0b96a344a888f822109">&#9670;&#160;</a></span>SetVariantAt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a> sw::IList::SetVariantAt </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Variant.html">Variant</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>设置指定索引处的元素值 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>元素索引 </td></tr>
+    <tr><td class="paramname">value</td><td>要设置的值 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>索引超出范围 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>在 <a class="el" href="classsw_1_1IListT.html#aa5c69156145b07c628d78aedc6bf627c">sw::IListT&lt; T &gt;</a>, <a class="el" href="classsw_1_1IListT.html#aa5c69156145b07c628d78aedc6bf627c">sw::IListT&lt; std::wstring &gt;</a>, <a class="el" href="classsw_1_1IListT.html#aa5c69156145b07c628d78aedc6bf627c">sw::IListT&lt; sw::GridColumn &gt;</a>, <a class="el" href="classsw_1_1IListT.html#aa5c69156145b07c628d78aedc6bf627c">sw::IListT&lt; sw::GridRow &gt;</a> , 以及 <a class="el" href="classsw_1_1IListT.html#aa5c69156145b07c628d78aedc6bf627c">sw::IListT&lt; sw::ListViewItem &gt;</a> 内被实现.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="IList_8h_source.html">IList.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacesw.html">sw</a></li><li class="navelem"><a class="el" href="classsw_1_1IList.html">IList</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

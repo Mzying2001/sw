@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['progressbarstate_0',['ProgressBarState',['../namespacesw.html#a7885d32024432abaaaed0bd6f023783f',1,'sw']]]
+  ['orientation_0',['Orientation',['../namespacesw.html#af5a946abb233734b3e5503296ce36f19',1,'sw']]]
 ];

@@ -1,17 +1,18 @@
 var classsw_1_1ItemsControl =
 [
-    [ "AddItem", "classsw_1_1ItemsControl.html#a5fab112663e10fe37cf901fc6288bcff", null ],
-    [ "Clear", "classsw_1_1ItemsControl.html#a36312564b15eb327474696bf407b7864", null ],
-    [ "GetItemAt", "classsw_1_1ItemsControl.html#a34a19d40a81adc967b14e84689e8a7e4", null ],
-    [ "GetItemsCount", "classsw_1_1ItemsControl.html#a22321dbf927a5b508a3614e2565c76c2", null ],
-    [ "GetSelectedIndex", "classsw_1_1ItemsControl.html#ac8b269a4d6bd5b46f6f7026d5470b2c5", null ],
-    [ "GetSelectedItem", "classsw_1_1ItemsControl.html#a8cbd0b52306bcf3cec2d96be0c6dd0ba", null ],
-    [ "InsertItem", "classsw_1_1ItemsControl.html#ab4f053e3c099caf009fab48f7370ad96", null ],
-    [ "OnSelectionChanged", "classsw_1_1ItemsControl.html#aaf5eb0f69c26b57da81fe8a22f962ec6", null ],
-    [ "RemoveItemAt", "classsw_1_1ItemsControl.html#a8ee8ced8a1134133fa7066ee4e29b7eb", null ],
-    [ "SetSelectedIndex", "classsw_1_1ItemsControl.html#aa23a550b08ca55e7d1c412f462124527", null ],
-    [ "UpdateItem", "classsw_1_1ItemsControl.html#af169d6e1cce32846f8d0043a69ab69b1", null ],
-    [ "ItemsCount", "classsw_1_1ItemsControl.html#a765b2e51cb5f439c464abbe031b0db09", null ],
-    [ "SelectedIndex", "classsw_1_1ItemsControl.html#ae78a074093f7746f18c1ece3654fdcf6", null ],
-    [ "SelectedItem", "classsw_1_1ItemsControl.html#a81efc45fe838c47908e37e241614c672", null ]
+    [ "ItemsControl", "classsw_1_1ItemsControl.html#ad5b7d22bb61974e7022aad219651be32", null ],
+    [ "GetCurrentItemsSource", "classsw_1_1ItemsControl.html#a22a90606dacdaf7e92cd3a90bdf0fc10", null ],
+    [ "GetDefaultItemsSource", "classsw_1_1ItemsControl.html#a8ef6bfbaefc190243c3be609ef852716", null ],
+    [ "GetSelectedIndex", "classsw_1_1ItemsControl.html#a29ffea0d42e3ae6ce4f914a9165e2c31", null ],
+    [ "OnCurrentItemsSourceChanged", "classsw_1_1ItemsControl.html#af021c5641cdf19426e6a8d93c6a2295c", null ],
+    [ "OnCurrentItemsSourceCollectionChanged", "classsw_1_1ItemsControl.html#ae6de1ae042e3bc799805f28cdc5a85bb", null ],
+    [ "OnSelectionChanged", "classsw_1_1ItemsControl.html#ac171462c2fdb4bc201aaa7fa1b77e01d", null ],
+    [ "SetSelectedIndex", "classsw_1_1ItemsControl.html#a21d9c6db199a47800d4db6487c1e810b", null ],
+    [ "UpdateCurrentItemsSource", "classsw_1_1ItemsControl.html#a11eb3024657605f23b69b769ffbd832c", null ],
+    [ "ItemsCount", "classsw_1_1ItemsControl.html#ad09bab1e5b3a3f51c3b106951c519a98", null ],
+    [ "itemsSource", "classsw_1_1ItemsControl.html#a5811744c76c8366217a308f48573539e", null ],
+    [ "ItemsSource", "classsw_1_1ItemsControl.html#ad805f59deddd47e396b3ac3ad79ba8d9", null ],
+    [ "notifyCollectionChanged", "classsw_1_1ItemsControl.html#acdbf6a5ac183782c7f37355a7be85e05", null ],
+    [ "SelectedIndex", "classsw_1_1ItemsControl.html#a7704313e75eb31176a70ea37d8315a10", null ],
+    [ "SelectedItem", "classsw_1_1ItemsControl.html#aa0f7c5c72ca0ee78f31425f11cf18a17", null ]
 ];
