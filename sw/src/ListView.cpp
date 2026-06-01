@@ -515,22 +515,26 @@ void sw::ListView::GetDisplayInfo(int index, const Variant &item, NMLVDISPINFOW 
 {
     std::type_index itemType = item.GetType();
 
+    _itemDisplayBuffer.subItems.Clear();
+    _itemDisplayBuffer.imageIndex = -1;
+    _itemDisplayBuffer.checked    = false;
+
+    if (GetDisplayInfo(index, item, _itemDisplayBuffer)) {
+        _ApplyDispInfo(_itemDisplayBuffer, pNMInfo);
+        return;
+    }
+
     if (itemType == typeid(ListViewItem)) {
+        // ListViewItem
         auto &lvItem = item.UnsafeCast<ListViewItem>();
-        if (pNMInfo->item.mask & LVIF_TEXT) {
-            int subIndex = pNMInfo->item.iSubItem;
-            if (subIndex >= 0 && subIndex < lvItem.subItems.Count()) {
-                pNMInfo->item.pszText = const_cast<LPWSTR>(lvItem.subItems[subIndex].c_str());
-            }
-        }
-        if (pNMInfo->item.mask & LVIF_IMAGE) {
-            pNMInfo->item.iImage = lvItem.imageIndex;
-        }
+        _ApplyDispInfo(lvItem, pNMInfo);
     } else if (itemType == typeid(std::wstring)) {
+        // std::wstring
         if (pNMInfo->item.mask & LVIF_TEXT && pNMInfo->item.iSubItem == 0) {
             pNMInfo->item.pszText = const_cast<LPWSTR>(item.UnsafeCast<std::wstring>().c_str());
         }
     } else if (itemType == typeid(List<std::wstring>)) {
+        // List<std::wstring>
         auto &subItems = item.UnsafeCast<List<std::wstring>>();
         if (pNMInfo->item.mask & LVIF_TEXT) {
             int subIndex = pNMInfo->item.iSubItem;
@@ -539,6 +543,11 @@ void sw::ListView::GetDisplayInfo(int index, const Variant &item, NMLVDISPINFOW 
             }
         }
     }
+}
+
+bool sw::ListView::GetDisplayInfo(int index, const Variant &item, ListViewItem &listViewItem)
+{
+    return false;
 }
 
 void sw::ListView::GetCheckBoxRect(int index, RECT &rect)
@@ -557,30 +566,37 @@ void sw::ListView::GetCheckBoxRect(int index, RECT &rect)
 
 void sw::ListView::OnGetItemCheckState(int index, bool &checked)
 {
-    if (GetCurrentItemsSource() != GetDefaultItemsSource()) {
+    IList *itemsSource = GetCurrentItemsSource();
+
+    if (itemsSource == nullptr || index < 0 || index >= itemsSource->Count()) {
+        checked = false;
         return;
     }
 
-    if (index < 0 || index >= _items.Count()) {
-        checked = false;
+    ListViewItem lvItem{};
+    Variant item = itemsSource->GetVariantAt(index);
+
+    if (GetDisplayInfo(index, item, lvItem)) {
+        checked = lvItem.checked;
     } else {
-        checked = _items.GetAt(index).checked;
+        ListViewItem *pItem;
+        checked = item.IsType(&pItem) && pItem->checked;
     }
 }
 
 void sw::ListView::OnSetItemCheckState(int index, bool checked)
 {
-    if (GetCurrentItemsSource() != GetDefaultItemsSource()) {
-        return;
-    }
-    if (index < 0 || index >= _items.Count()) {
+    IList *itemsSource = GetCurrentItemsSource();
+
+    if (itemsSource == nullptr || index < 0 || index >= itemsSource->Count()) {
         return;
     }
 
-    auto &item = _items.GetAt(index);
+    Variant item = itemsSource->GetVariantAt(index);
+    ListViewItem *pItem;
 
-    if (item.checked != checked) {
-        item.checked = checked;
+    if (item.IsType(&pItem) && pItem->checked != checked) {
+        pItem->checked = checked;
         Redraw();
         OnCheckStateChanged(index);
     }
@@ -621,4 +637,17 @@ DWORD sw::ListView::_GetExtendedListViewStyle()
 DWORD sw::ListView::_SetExtendedListViewStyle(DWORD style)
 {
     return (DWORD)SendMessageW(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, (LPARAM)style);
+}
+
+void sw::ListView::_ApplyDispInfo(const ListViewItem &item, NMLVDISPINFOW *pNMInfo)
+{
+    if (pNMInfo->item.mask & LVIF_TEXT) {
+        int subIndex = pNMInfo->item.iSubItem;
+        if (subIndex >= 0 && subIndex < item.subItems.Count()) {
+            pNMInfo->item.pszText = const_cast<LPWSTR>(item.subItems[subIndex].c_str());
+        }
+    }
+    if (pNMInfo->item.mask & LVIF_IMAGE) {
+        pNMInfo->item.iImage = item.imageIndex;
+    }
 }

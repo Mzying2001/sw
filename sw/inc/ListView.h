@@ -87,6 +87,11 @@ namespace sw
          */
         ObservableCollection<ListViewItem> _items;
 
+        /**
+         * @brief 用于给GetDisplayInfo提供显示信息的缓冲对象
+         */
+        ListViewItem _itemDisplayBuffer;
+
     public:
         /**
          * @brief 列表项集合，当未设置ItemsSource时使用该集合作为数据源
@@ -398,6 +403,15 @@ namespace sw
         virtual void GetDisplayInfo(int index, const Variant &item, NMLVDISPINFOW *pNMInfo);
 
         /**
+         * @brief 获取指定子项要显示的信息，子类可以重写该函数以显示自定义类型的数据
+         * @param index 子项索引
+         * @param item 包含子项数据的Variant对象
+         * @param listViewItem 用于接收要显示信息的ListViewItem结构体，修改该结构体以提供要显示的信息
+         * @return 若已提供显示信息则返回true，否则返回false以使用默认显示信息
+         */
+        virtual bool GetDisplayInfo(int index, const Variant &item, ListViewItem &listViewItem);
+
+        /**
          * @brief 获取指定索引项的复选框矩形
          * @param index 项索引
          * @param rect 用于接收复选框矩形的RECT结构体
@@ -450,5 +464,12 @@ namespace sw
          * @return 先前的样式
          */
         DWORD _SetExtendedListViewStyle(DWORD style);
+
+        /**
+         * @brief 同步ListViewItem数据到Windows消息结构体
+         * @param item 包含要显示信息的ListViewItem结构体
+         * @param pNMInfo 要同步到的NMLVDISPINFOW结构体指针
+         */
+        void _ApplyDispInfo(const ListViewItem &item, NMLVDISPINFOW *pNMInfo);
     };
 };
