@@ -1,288 +1,288 @@
 #include "ImageList.h"
 #include "Dip.h"
 
-sw::ImageList::ImageList(HIMAGELIST hImageList, bool isWrap)
+sw::ImageList::ImageList(HIMAGELIST hImageList, bool isWrap) noexcept
     : _hImageList(hImageList), _isWrap(isWrap)
 {
 }
 
-sw::ImageList::ImageList(int cx, int cy, UINT flags, int cInitial, int cGrow)
+sw::ImageList::ImageList(int cx, int cy, UINT flags, int cInitial, int cGrow) noexcept
     : ImageList(ImageList_Create(cx, cy, flags, cInitial, cGrow), false)
 {
 }
 
-sw::ImageList::ImageList(const ImageList &other)
+sw::ImageList::ImageList(const ImageList &other) noexcept
 {
     if (other._isWrap) {
-        this->_isWrap     = true;
-        this->_hImageList = other._hImageList;
+        _isWrap     = true;
+        _hImageList = other._hImageList;
     } else {
-        this->_isWrap     = false;
-        this->_hImageList = ImageList_Duplicate(other._hImageList);
+        _isWrap     = false;
+        _hImageList = ImageList_Duplicate(other._hImageList);
     }
 }
 
-sw::ImageList::ImageList(ImageList &&other)
+sw::ImageList::ImageList(ImageList &&other) noexcept
 {
-    this->_isWrap     = other._isWrap;
-    this->_hImageList = other._hImageList;
+    _isWrap           = other._isWrap;
+    _hImageList       = other._hImageList;
     other._hImageList = NULL;
 }
 
-sw::ImageList::~ImageList()
+sw::ImageList::~ImageList() noexcept
 {
-    this->_DestroyIfNotWrap();
+    _DestroyIfNotWrap();
 }
 
-sw::ImageList &sw::ImageList::operator=(const ImageList &other)
+sw::ImageList &sw::ImageList::operator=(const ImageList &other) noexcept
 {
     if (this == &other) {
         return *this;
     }
 
-    this->_DestroyIfNotWrap();
+    _DestroyIfNotWrap();
 
     if (other._isWrap) {
-        this->_isWrap     = true;
-        this->_hImageList = other._hImageList;
+        _isWrap     = true;
+        _hImageList = other._hImageList;
     } else {
-        this->_isWrap     = false;
-        this->_hImageList = ImageList_Duplicate(other._hImageList);
+        _isWrap     = false;
+        _hImageList = ImageList_Duplicate(other._hImageList);
     }
 
     return *this;
 }
 
-sw::ImageList &sw::ImageList::operator=(ImageList &&other)
+sw::ImageList &sw::ImageList::operator=(ImageList &&other) noexcept
 {
     if (this == &other) {
         return *this;
     }
 
-    this->_DestroyIfNotWrap();
+    _DestroyIfNotWrap();
 
-    this->_isWrap     = other._isWrap;
-    this->_hImageList = other._hImageList;
+    _isWrap           = other._isWrap;
+    _hImageList       = other._hImageList;
     other._hImageList = NULL;
 
     return *this;
 }
 
-sw::ImageList sw::ImageList::Create(int cx, int cy, UINT flags, int cInitial, int cGrow)
+sw::ImageList sw::ImageList::Create(int cx, int cy, UINT flags, int cInitial, int cGrow) noexcept
 {
     return ImageList{cx, cy, flags, cInitial, cGrow};
 }
 
-sw::ImageList sw::ImageList::Wrap(HIMAGELIST hImageList)
+sw::ImageList sw::ImageList::Wrap(HIMAGELIST hImageList) noexcept
 {
     return ImageList{hImageList, true};
 }
 
-bool sw::ImageList::Copy(const ImageList &dst, int iDst, const ImageList &src, int iSrc, UINT uFlags)
+bool sw::ImageList::Copy(const ImageList &dst, int iDst, const ImageList &src, int iSrc, UINT uFlags) noexcept
 {
     return ImageList_Copy(dst._hImageList, iDst, src._hImageList, iSrc, uFlags);
 }
 
-bool sw::ImageList::DragEnter(HWND hwndLock, double x, double y)
+bool sw::ImageList::DragEnter(HWND hwndLock, double x, double y) noexcept
 {
     return ImageList_DragEnter(hwndLock, Dip::DipToPxX(x), Dip::DipToPxY(y));
 }
 
-bool sw::ImageList::DragEnterPx(HWND hwndLock, int x, int y)
+bool sw::ImageList::DragEnterPx(HWND hwndLock, int x, int y) noexcept
 {
     return ImageList_DragEnter(hwndLock, x, y);
 }
 
-bool sw::ImageList::DragLeave(HWND hwndLock)
+bool sw::ImageList::DragLeave(HWND hwndLock) noexcept
 {
     return ImageList_DragLeave(hwndLock);
 }
 
-bool sw::ImageList::DragMove(double x, double y)
+bool sw::ImageList::DragMove(double x, double y) noexcept
 {
     return ImageList_DragMove(Dip::DipToPxX(x), Dip::DipToPxY(y));
 }
 
-bool sw::ImageList::DragMovePx(int x, int y)
+bool sw::ImageList::DragMovePx(int x, int y) noexcept
 {
     return ImageList_DragMove(x, y);
 }
 
-bool sw::ImageList::DragShowNolock(bool fShow)
+bool sw::ImageList::DragShowNolock(bool fShow) noexcept
 {
     return ImageList_DragShowNolock(fShow);
 }
 
-void sw::ImageList::EndDrag()
+void sw::ImageList::EndDrag() noexcept
 {
     ImageList_EndDrag();
 }
 
-sw::ImageList sw::ImageList::GetDragImage(POINT *ppt, POINT *pptHotspot)
+sw::ImageList sw::ImageList::GetDragImage(POINT *ppt, POINT *pptHotspot) noexcept
 {
-    return ImageList{ImageList_GetDragImage(ppt, pptHotspot), false};
+    return ImageList::Wrap(ImageList_GetDragImage(ppt, pptHotspot));
 }
 
-sw::ImageList sw::ImageList::LoadImageA(HINSTANCE hi, LPCSTR lpbmp, int cx, int cGrow, COLORREF crMask, UINT uType, UINT uFlags)
+sw::ImageList sw::ImageList::LoadImageA(HINSTANCE hi, LPCSTR lpbmp, int cx, int cGrow, COLORREF crMask, UINT uType, UINT uFlags) noexcept
 {
     return ImageList{ImageList_LoadImageA(hi, lpbmp, cx, cGrow, crMask, uType, uFlags), false};
 }
 
-sw::ImageList sw::ImageList::LoadImageW(HINSTANCE hi, LPCWSTR lpbmp, int cx, int cGrow, COLORREF crMask, UINT uType, UINT uFlags)
+sw::ImageList sw::ImageList::LoadImageW(HINSTANCE hi, LPCWSTR lpbmp, int cx, int cGrow, COLORREF crMask, UINT uType, UINT uFlags) noexcept
 {
     return ImageList{ImageList_LoadImageW(hi, lpbmp, cx, cGrow, crMask, uType, uFlags), false};
 }
 
-sw::ImageList sw::ImageList::Merge(const ImageList &iml1, int i1, const ImageList &iml2, int i2, int dx, int dy)
+sw::ImageList sw::ImageList::Merge(const ImageList &iml1, int i1, const ImageList &iml2, int i2, int dx, int dy) noexcept
 {
     return ImageList{ImageList_Merge(iml1._hImageList, i1, iml2._hImageList, i2, dx, dy), false};
 }
 
-sw::ImageList sw::ImageList::Read(IStream *pstm)
+sw::ImageList sw::ImageList::Read(IStream *pstm) noexcept
 {
     return ImageList{ImageList_Read(pstm), false};
 }
 
-HIMAGELIST sw::ImageList::GetHandle() const
+HIMAGELIST sw::ImageList::GetHandle() const noexcept
 {
-    return this->_hImageList;
+    return _hImageList;
 }
 
-bool sw::ImageList::IsWrap() const
+bool sw::ImageList::IsWrap() const noexcept
 {
-    return this->_isWrap;
+    return _isWrap;
 }
 
-HIMAGELIST sw::ImageList::ReleaseHandle()
+HIMAGELIST sw::ImageList::ReleaseHandle() noexcept
 {
-    HIMAGELIST result = this->_hImageList;
-    this->_hImageList = NULL;
+    HIMAGELIST result = _hImageList;
+    _hImageList       = NULL;
     return result;
 }
 
-int sw::ImageList::Add(HBITMAP hbmImage, HBITMAP hbmMask)
+int sw::ImageList::Add(HBITMAP hbmImage, HBITMAP hbmMask) noexcept
 {
-    return ImageList_Add(this->_hImageList, hbmImage, hbmMask);
+    return ImageList_Add(_hImageList, hbmImage, hbmMask);
 }
 
-int sw::ImageList::AddIcon(HICON hIcon)
+int sw::ImageList::AddIcon(HICON hIcon) noexcept
 {
-    return ImageList_AddIcon(this->_hImageList, hIcon);
+    return ImageList_AddIcon(_hImageList, hIcon);
 }
 
-int sw::ImageList::AddMasked(HBITMAP hbmImage, COLORREF crMask)
+int sw::ImageList::AddMasked(HBITMAP hbmImage, COLORREF crMask) noexcept
 {
-    return ImageList_AddMasked(this->_hImageList, hbmImage, crMask);
+    return ImageList_AddMasked(_hImageList, hbmImage, crMask);
 }
 
-bool sw::ImageList::BeginDrag(int iTrack, int dxHotspot, int dyHotspot)
+bool sw::ImageList::BeginDrag(int iTrack, int dxHotspot, int dyHotspot) noexcept
 {
-    return ImageList_BeginDrag(this->_hImageList, iTrack, dxHotspot, dyHotspot);
+    return ImageList_BeginDrag(_hImageList, iTrack, dxHotspot, dyHotspot);
 }
 
-bool sw::ImageList::Draw(int i, HDC hdcDst, double x, double y, UINT fStyle)
+bool sw::ImageList::Draw(int i, HDC hdcDst, double x, double y, UINT fStyle) noexcept
 {
-    return this->DrawPx(i, hdcDst, Dip::DipToPxX(x), Dip::DipToPxY(y), fStyle);
+    return DrawPx(i, hdcDst, Dip::DipToPxX(x), Dip::DipToPxY(y), fStyle);
 }
 
-bool sw::ImageList::Draw(int i, HDC hdcDst, double x, double y, double dx, double dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle)
+bool sw::ImageList::Draw(int i, HDC hdcDst, double x, double y, double dx, double dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle) noexcept
 {
-    return this->DrawPx(i, hdcDst, Dip::DipToPxX(x), Dip::DipToPxY(y), Dip::DipToPxX(dx), Dip::DipToPxY(dy), rgbBk, rgbFg, fStyle);
+    return DrawPx(i, hdcDst, Dip::DipToPxX(x), Dip::DipToPxY(y), Dip::DipToPxX(dx), Dip::DipToPxY(dy), rgbBk, rgbFg, fStyle);
 }
 
-bool sw::ImageList::DrawPx(int i, HDC hdcDst, int x, int y, UINT fStyle)
+bool sw::ImageList::DrawPx(int i, HDC hdcDst, int x, int y, UINT fStyle) noexcept
 {
-    return ImageList_Draw(this->_hImageList, i, hdcDst, x, y, fStyle);
+    return ImageList_Draw(_hImageList, i, hdcDst, x, y, fStyle);
 }
 
-bool sw::ImageList::DrawPx(int i, HDC hdcDst, int x, int y, int dx, int dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle)
+bool sw::ImageList::DrawPx(int i, HDC hdcDst, int x, int y, int dx, int dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle) noexcept
 {
-    return ImageList_DrawEx(this->_hImageList, i, hdcDst, x, y, dx, dy, rgbBk, rgbFg, fStyle);
+    return ImageList_DrawEx(_hImageList, i, hdcDst, x, y, dx, dy, rgbBk, rgbFg, fStyle);
 }
 
-sw::ImageList sw::ImageList::Duplicate()
+sw::ImageList sw::ImageList::Duplicate() noexcept
 {
-    return ImageList{ImageList_Duplicate(this->_hImageList), false};
+    return ImageList{ImageList_Duplicate(_hImageList), false};
 }
 
-COLORREF sw::ImageList::GetBkColor()
+COLORREF sw::ImageList::GetBkColor() noexcept
 {
-    return ImageList_GetBkColor(this->_hImageList);
+    return ImageList_GetBkColor(_hImageList);
 }
 
-HICON sw::ImageList::GetIcon(int i, UINT flags)
+HICON sw::ImageList::GetIcon(int i, UINT flags) noexcept
 {
-    return ImageList_GetIcon(this->_hImageList, i, flags);
+    return ImageList_GetIcon(_hImageList, i, flags);
 }
 
-bool sw::ImageList::GetIconSize(int &cx, int &cy)
+bool sw::ImageList::GetIconSize(int &cx, int &cy) noexcept
 {
-    return ImageList_GetIconSize(this->_hImageList, &cx, &cy);
+    return ImageList_GetIconSize(_hImageList, &cx, &cy);
 }
 
-int sw::ImageList::GetImageCount()
+int sw::ImageList::GetImageCount() noexcept
 {
-    return ImageList_GetImageCount(this->_hImageList);
+    return ImageList_GetImageCount(_hImageList);
 }
 
-bool sw::ImageList::GetImageInfo(int i, IMAGEINFO *pImageInfo)
+bool sw::ImageList::GetImageInfo(int i, IMAGEINFO *pImageInfo) noexcept
 {
-    return ImageList_GetImageInfo(this->_hImageList, i, pImageInfo);
+    return ImageList_GetImageInfo(_hImageList, i, pImageInfo);
 }
 
-bool sw::ImageList::Remove(int i)
+bool sw::ImageList::Remove(int i) noexcept
 {
-    return ImageList_Remove(this->_hImageList, i);
+    return ImageList_Remove(_hImageList, i);
 }
 
-bool sw::ImageList::RemoveAll()
+bool sw::ImageList::RemoveAll() noexcept
 {
-    return this->Remove(-1);
+    return Remove(-1);
 }
 
-bool sw::ImageList::Replace(int i, HBITMAP hbmImage, HBITMAP hbmMask)
+bool sw::ImageList::Replace(int i, HBITMAP hbmImage, HBITMAP hbmMask) noexcept
 {
-    return ImageList_Replace(this->_hImageList, i, hbmImage, hbmMask);
+    return ImageList_Replace(_hImageList, i, hbmImage, hbmMask);
 }
 
-int sw::ImageList::ReplaceIcon(int i, HICON hicon)
+int sw::ImageList::ReplaceIcon(int i, HICON hicon) noexcept
 {
-    return ImageList_ReplaceIcon(this->_hImageList, i, hicon);
+    return ImageList_ReplaceIcon(_hImageList, i, hicon);
 }
 
-COLORREF sw::ImageList::SetBkColor(COLORREF clrBk)
+COLORREF sw::ImageList::SetBkColor(COLORREF clrBk) noexcept
 {
-    return ImageList_SetBkColor(this->_hImageList, clrBk);
+    return ImageList_SetBkColor(_hImageList, clrBk);
 }
 
-bool sw::ImageList::SetDragCursorImage(int iDrag, int dxHotspot, int dyHotspot)
+bool sw::ImageList::SetDragCursorImage(int iDrag, int dxHotspot, int dyHotspot) noexcept
 {
-    return ImageList_SetDragCursorImage(this->_hImageList, iDrag, dxHotspot, dyHotspot);
+    return ImageList_SetDragCursorImage(_hImageList, iDrag, dxHotspot, dyHotspot);
 }
 
-bool sw::ImageList::SetIconSize(int cx, int cy)
+bool sw::ImageList::SetIconSize(int cx, int cy) noexcept
 {
-    return ImageList_SetIconSize(this->_hImageList, cx, cy);
+    return ImageList_SetIconSize(_hImageList, cx, cy);
 }
 
-bool sw::ImageList::SetImageCount(UINT uNewCount)
+bool sw::ImageList::SetImageCount(UINT uNewCount) noexcept
 {
-    return ImageList_SetImageCount(this->_hImageList, uNewCount);
+    return ImageList_SetImageCount(_hImageList, uNewCount);
 }
 
-bool sw::ImageList::SetOverlayImage(int iImage, int iOverlay)
+bool sw::ImageList::SetOverlayImage(int iImage, int iOverlay) noexcept
 {
-    return ImageList_SetOverlayImage(this->_hImageList, iImage, iOverlay);
+    return ImageList_SetOverlayImage(_hImageList, iImage, iOverlay);
 }
 
-bool sw::ImageList::Write(IStream *pstm)
+bool sw::ImageList::Write(IStream *pstm) noexcept
 {
-    return ImageList_Write(this->_hImageList, pstm);
+    return ImageList_Write(_hImageList, pstm);
 }
 
-void sw::ImageList::_DestroyIfNotWrap()
+void sw::ImageList::_DestroyIfNotWrap() noexcept
 {
-    if (this->_hImageList != NULL && !this->_isWrap) {
-        ImageList_Destroy(this->_hImageList);
+    if (_hImageList != NULL && !_isWrap) {
+        ImageList_Destroy(_hImageList);
     }
 }
