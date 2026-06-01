@@ -203,10 +203,10 @@ void sw::ListBox::_UpdateCount()
 
 void sw::ListBox::_UpdateItemHeight()
 {
-    int cyHeight;
+    int cyItem;
 
     if (_itemHeight >= 0) {
-        cyHeight = Dip::DipToPxY(_itemHeight);
+        cyItem = Dip::DipToPxY(_itemHeight);
     } else {
         HWND hwnd   = Handle;
         HDC hdc     = GetDC(hwnd);
@@ -221,12 +221,12 @@ void sw::ListBox::_UpdateItemHeight()
         TEXTMETRIC tm{};
         GetTextMetrics(hdc, &tm);
 
-        cyHeight = tm.tmHeight + tm.tmExternalLeading;
-        cyHeight += GetSystemMetrics(SM_CYBORDER) * 2;
+        cyItem = tm.tmHeight + tm.tmExternalLeading;
+        cyItem += GetSystemMetrics(SM_CYBORDER) * 2;
 
         SelectObject(hdc, hFontOld);
         ReleaseDC(hwnd, hdc);
     }
 
-    SendMessageW(LB_SETITEMHEIGHT, 0, cyHeight);
+    SendMessageW(LB_SETITEMHEIGHT, 0, cyItem);
 }
