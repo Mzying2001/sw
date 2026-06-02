@@ -67,6 +67,6 @@ namespace sw
         /**
          * @brief 获取默认布局对象
          */
-        virtual LayoutHost *GetDefaultLayout() override;
+        virtual LayoutHost *GetDefaultLayout() override final;
     };
 }
