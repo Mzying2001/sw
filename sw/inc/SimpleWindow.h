@@ -10,6 +10,7 @@
 #include "Animation.h"
 #include "App.h"
 #include "Binding.h"
+#include "BindingCastHelper.h"
 #include "BmpBox.h"
 #include "Button.h"
 #include "ButtonBase.h"
