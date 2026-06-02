@@ -14,7 +14,7 @@ namespace sw
         /**
          * @brief 默认布局对象
          */
-        WrapLayout _wrapLayout = WrapLayout();
+        WrapLayout _wrapLayout{};
 
     public:
         /**

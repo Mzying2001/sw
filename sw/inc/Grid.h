@@ -15,7 +15,7 @@ namespace sw
         /**
          * @brief 默认布局对象
          */
-        GridLayout _gridLayout = GridLayout();
+        GridLayout _gridLayout{};
 
     public:
         /**

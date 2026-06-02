@@ -14,7 +14,7 @@ namespace sw
         /**
          * @brief 默认布局对象
          */
-        DockLayout _dockLayout = DockLayout();
+        DockLayout _dockLayout{};
 
     public:
         /**

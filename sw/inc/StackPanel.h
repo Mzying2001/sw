@@ -14,7 +14,7 @@ namespace sw
         /**
          * @brief 默认布局对象
          */
-        StackLayout _stackLayout = StackLayout();
+        StackLayout _stackLayout{};
 
     public:
         /**
