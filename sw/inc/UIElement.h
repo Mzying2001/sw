@@ -613,6 +613,11 @@ namespace sw
         virtual uint64_t GetLayoutTag() const override;
 
         /**
+         * @brief 获取当前元素所需尺寸
+         */
+        virtual Size GetDesireSize() const override;
+
+        /**
          * @brief 获取参与布局的子元素数量
          * @note 参与布局的子元素：即非collapsed状态的元素
          */
@@ -624,11 +629,6 @@ namespace sw
          * @note 参与布局的子元素：即非collapsed状态的元素
          */
         virtual ILayout &GetChildLayoutAt(int index) const override final;
-
-        /**
-         * @brief 获取当前元素所需尺寸
-         */
-        virtual Size GetDesireSize() const override;
 
         /**
          * @brief 测量元素所需尺寸
