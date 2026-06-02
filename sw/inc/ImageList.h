@@ -2,7 +2,7 @@
 
 #include <windows.h>
 
-// comctrl需要在windows.h之后包含
+// commctrl.h需要在windows.h之后包含
 #include <commctrl.h>
 
 namespace sw
