@@ -103,9 +103,7 @@ namespace sw
         template <typename T>
         static constexpr auto Max(T a, T b) noexcept
             -> typename std::enable_if<std::is_scalar<T>::value, T>::type
-        {
-            return a > b ? a : b;
-        }
+        { return a > b ? a : b; }
 
         /**
          * @brief 取两值中的较大值
@@ -114,9 +112,7 @@ namespace sw
         template <typename T>
         static auto Max(const T &a, const T &b)
             -> typename std::enable_if<!std::is_scalar<T>::value, T>::type
-        {
-            return a > b ? a : b;
-        }
+        { return a > b ? a : b; }
 
         /**
          * @brief 取两值中的较小值
@@ -125,9 +121,7 @@ namespace sw
         template <typename T>
         static constexpr auto Min(T a, T b) noexcept
             -> typename std::enable_if<std::is_scalar<T>::value, T>::type
-        {
-            return a < b ? a : b;
-        }
+        { return a < b ? a : b; }
 
         /**
          * @brief 取两值中的较小值
@@ -136,9 +130,7 @@ namespace sw
         template <typename T>
         static auto Min(const T &a, const T &b)
             -> typename std::enable_if<!std::is_scalar<T>::value, T>::type
-        {
-            return a < b ? a : b;
-        }
+        { return a < b ? a : b; }
 
         /**
          * @brief 拼接字符串，也可使用此函数将其他类型转为wstring
@@ -158,9 +150,7 @@ namespace sw
         template <typename T>
         static auto _BuildStr(std::wostream &wos, const T &arg)
             -> typename std::enable_if<!_IsProperty<T>::value && !_HasToString<T>::value>::type
-        {
-            wos << arg;
-        }
+        { wos << arg; }
 
         /**
          * @brief 让BuildStr函数支持自定义类型
@@ -168,9 +158,7 @@ namespace sw
         template <typename T>
         static auto _BuildStr(std::wostream &wos, const T &arg)
             -> typename std::enable_if<!_IsProperty<T>::value && _HasToString<T>::value>::type
-        {
-            _BuildStr(wos, arg.ToString());
-        }
+        { _BuildStr(wos, arg.ToString()); }
 
         /**
          * @brief 让BuildStr函数支持属性
@@ -178,33 +166,25 @@ namespace sw
         template <typename T>
         static auto _BuildStr(std::wostream &wos, const T &prop)
             -> typename std::enable_if<_IsProperty<T>::value>::type
-        {
-            _BuildStr(wos, prop.Get());
-        }
+        { _BuildStr(wos, prop.Get()); }
 
         /**
          * @brief 让BuildStr函数将bool类型转化为"true"或"false"而不是数字1或0
          */
         static void _BuildStr(std::wostream &wos, bool b)
-        {
-            wos << (b ? L"true" : L"false");
-        }
+        { wos << (b ? L"true" : L"false"); }
 
         /**
          * @brief 让BuildStr函数支持窄字符串
          */
         static void _BuildStr(std::wostream &wos, const char *str)
-        {
-            wos << ToWideStr(str);
-        }
+        { wos << ToWideStr(str); }
 
         /**
          * @brief 让BuildStr函数支持窄字符串
          */
         static void _BuildStr(std::wostream &wos, const std::string &str)
-        {
-            wos << ToWideStr(str);
-        }
+        { wos << ToWideStr(str); }
 
         /**
          * @brief 让BuildStr函数支持std::vector
