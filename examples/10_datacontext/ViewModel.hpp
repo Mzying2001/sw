@@ -15,6 +15,18 @@ public:
             .Setter<&MyViewModel::SetValue>()
     };
 
+    // 只读属性，标签显示文本
+    sw::ReadOnlyProperty<std::wstring> DisplayText{
+        sw::Property<std::wstring>::Init(this)
+            .Getter([](MyViewModel *self) -> std::wstring {
+                return L"Current Value: " + std::to_wstring(self->_value);
+            })
+    };
+
+private:
+    // 存储Value属性的私有成员变量
+    int _value = 0;
+
     // Value属性的getter方法
     int GetValue() const
     {
@@ -30,16 +42,4 @@ public:
             RaisePropertyChanged(&MyViewModel::DisplayText);
         }
     }
-
-    // 只读属性，标签显示文本
-    sw::ReadOnlyProperty<std::wstring> DisplayText{
-        sw::Property<std::wstring>::Init(this)
-            .Getter([](MyViewModel *self) -> std::wstring {
-                return L"Current Value: " + std::to_wstring(self->_value);
-            })
-    };
-
-private:
-    // 存储Value属性的私有成员变量
-    int _value = 0;
 };
