@@ -8,6 +8,15 @@ This file provides guidance to AI coding agents when working with code in this r
 
 All code is in `namespace sw`. Source files are UTF-8 encoded. Wide-character strings (`L"..."`) are used throughout (UNICODE defined).
 
+## Directory Layout
+
+- `sw/inc/` — Header files (public API)
+- `sw/src/` — Implementation files
+- `examples/` — Example apps demonstrating features
+- `single_header/` — Auto-generated single-file distribution
+- `vs/` — Visual Studio project files
+- `docs/` — Doxygen HTML output
+
 ## Build Commands
 
 ### Build the library (CMake)
@@ -30,46 +39,11 @@ cmake --build examples/build
 python single_header/build.py
 ```
 
+GitHub Action regenerates `single_header/` automatically; unless explicitly requested, **do not** run this script or edit generated files manually.
+
 ### Visual Studio
 
 The `vs/sw.vcxproj` project has 8 configurations: Debug/Release × MT/default × Win32/x64 (toolset v143).
-
-## Architecture
-
-### Class Hierarchy
-
-```
-ObservableObject
-  └─ FrameworkElement          — DataContext, data binding, element tree (GetParent/GetChildCount/GetChildAt)
-      └─ WndBase               — Win32 HWND wrapper (+ IToString, IEqualityComparable)
-          └─ UIElement          — Base UI class (layout, routed events, visual properties) (+ ILayout, ITag)
-              ├─ Control        — Abstract base for 30+ standard controls (Button, TextBox, ComboBox, etc.)
-              │   └─ Layer<Control>
-              │       └─ Panel  — Container base (Grid, StackPanel, DockPanel, Canvas, WrapPanel)
-              └─ Layer<UIElement>
-                  └─ Window     — Top-level window (+ IDialog)
-```
-
-`Layer<TBase>` is a class template (TBase must derive from UIElement) providing scrollable container and layout management.
-
-### Core Systems
-
-- **Property System** (`Property.h`): SFINAE-based C#-like properties
-- **Delegates** (`Delegate.h`): C#-style multicast delegates
-- **Reflection** (`Reflection.h`): Runtime type information, `Variant` type, dynamic objects
-- **Observable Objects** (`ObservableObject.h`): Base class for property change notifications
-- **Data Binding** (`FrameworkElement.h`, `Binding.h`, `DataBinding.h`): DataContext and two-way property binding with value converters (`Converters.h`), defined at `FrameworkElement` level
-- **Layouts** (`ILayout.h`): GridLayout, StackLayout, DockLayout, CanvasLayout, WrapLayout, UniformGridLayout, FillLayout
-- **Routed Events** (`Event.h`): WPF-style event bubbling through the control hierarchy
-
-### Directory Layout
-
-- `sw/inc/` — Header files (public API). `SimpleWindow.h` is the master include.
-- `sw/src/` — Implementation files
-- `examples/` — Example apps demonstrating features
-- `single_header/` — Auto-generated `sw_all.h` + `sw_all.cpp` (via `build.py` topological sort). **Do not edit these files manually** when modifying code; they are regenerated from `sw/inc/` and `sw/src/` by `build.py`.
-- `vs/` — Visual Studio project files
-- `docs/` — Doxygen HTML output
 
 ## Code Conventions
 
@@ -84,10 +58,3 @@ ObservableObject
 - Use an optional scope for the affected class or file, such as `Button`, `CMakeLists.txt`, or no scope
 - Write concise Chinese summaries, matching the existing commit history
 - For non-trivial changes, include a Chinese body explaining the reason and implementation/fix approach
-
-## Compiler Notes
-
-- MSVC: `/utf-8` or `/source-charset:utf-8` required
-- GCC/Clang: `-finput-charset=UTF-8` required
-- CMake minimum: 3.10
-- Targets Windows Vista+, SDK 10.0
