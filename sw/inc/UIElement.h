@@ -628,7 +628,7 @@ namespace sw
          * @throw std::out_of_range 如果索引超出范围
          * @note 参与布局的子元素：即非collapsed状态的元素
          */
-        virtual ILayout &GetChildLayoutAt(int index) const override final;
+        virtual UIElement &GetChildLayoutAt(int index) const override final;
 
         /**
          * @brief 测量元素所需尺寸

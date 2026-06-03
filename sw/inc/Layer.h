@@ -725,7 +725,7 @@ namespace sw
 
             for (int i = 0; i < childCount; ++i) {
                 // measure
-                UIElement &item = static_cast<UIElement &>(this->GetChildLayoutAt(i));
+                UIElement &item = this->GetChildLayoutAt(i);
                 item.Measure(Size{INFINITY, INFINITY});
                 // arrange
                 Size desireSize      = item.GetDesireSize();
