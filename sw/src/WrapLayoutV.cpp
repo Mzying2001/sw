@@ -44,7 +44,7 @@ sw::Size sw::WrapLayoutV::MeasureOverride(const Size &availableSize)
 
         for (int i = 0; i < count; ++i) {
             ILayout &item = this->GetChildLayoutAt(i);
-            item.Measure(Size{INFINITY, availableSize.height - colHeight});
+            item.Measure(Size{INFINITY, availableSize.height});
 
             Size itemDesireSize = item.GetDesireSize();
             if (colHeight + itemDesireSize.height <= availableSize.height) {
