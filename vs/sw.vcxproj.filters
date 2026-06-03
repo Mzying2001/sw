@@ -18,6 +18,12 @@
     <ClInclude Include="..\sw\inc\App.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\Binding.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\BindingCastHelper.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\BmpBox.h">
       <Filter>inc</Filter>
     </ClInclude>
@@ -42,7 +48,13 @@
     <ClInclude Include="..\sw\inc\Color.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\ColorDialog.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\ComboBox.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\CommandLink.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\ContextMenu.h">
@@ -51,10 +63,19 @@
     <ClInclude Include="..\sw\inc\Control.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\Converters.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\Cursor.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\DataBinding.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\DateTimePicker.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\Delegate.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\Dip.h">
@@ -66,10 +87,34 @@
     <ClInclude Include="..\sw\inc\DockPanel.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\DockSplitter.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\EnumBit.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\Event.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\EventHandlerWrapper.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\FileDialog.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\FillLayout.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\FolderDialog.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\Font.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\FontDialog.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\FrameworkElement.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\Grid.h">
@@ -90,16 +135,40 @@
     <ClInclude Include="..\sw\inc\HwndHost.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\HwndWrapper.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\IComparable.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\Icon.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\IconBox.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\IDialog.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\ILayout.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\IList.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\ImageList.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\INotifyCollectionChanged.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\INotifyObjectDead.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\INotifyPropertyChanged.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\Internal.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\IPAddressControl.h">
@@ -109,6 +178,12 @@
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\ItemsControl.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\IToString.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\IValueConverter.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\Keys.h">
@@ -135,6 +210,9 @@
     <ClInclude Include="..\sw\inc\ListView.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\Macros.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\Menu.h">
       <Filter>inc</Filter>
     </ClInclude>
@@ -148,6 +226,15 @@
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\MsgBox.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\NotifyIcon.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\ObservableCollection.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\ObservableObject.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\Panel.h">
@@ -177,6 +264,9 @@
     <ClInclude Include="..\sw\inc\Rect.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\Reflection.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\RoutedEvent.h">
       <Filter>inc</Filter>
     </ClInclude>
@@ -189,6 +279,9 @@
     <ClInclude Include="..\sw\inc\ScrollEnums.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\SelfBinding.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\SimpleWindow.h">
       <Filter>inc</Filter>
     </ClInclude>
@@ -198,16 +291,16 @@
     <ClInclude Include="..\sw\inc\Slider.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\SpinBox.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\SplitButton.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\Splitter.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\StackLayout.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\StackLayoutH.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\StackLayoutV.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\StackPanel.h">
@@ -240,6 +333,9 @@
     <ClInclude Include="..\sw\inc\ToolTip.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\sw\inc\TreeView.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="..\sw\inc\UIElement.h">
       <Filter>inc</Filter>
     </ClInclude>
@@ -250,6 +346,9 @@
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\Utils.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sw\inc\Variant.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\Window.h">
@@ -264,121 +363,7 @@
     <ClInclude Include="..\sw\inc\WrapLayout.h">
       <Filter>inc</Filter>
     </ClInclude>
-    <ClInclude Include="..\sw\inc\WrapLayoutH.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\WrapLayoutV.h">
-      <Filter>inc</Filter>
-    </ClInclude>
     <ClInclude Include="..\sw\inc\WrapPanel.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\EnumBit.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\FileDialog.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\FolderDialog.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\HwndWrapper.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\Delegate.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\EventHandlerWrapper.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\CommandLink.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\ColorDialog.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\IDialog.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\FontDialog.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\DockSplitter.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\SplitButton.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\SpinBox.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\IComparable.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\IToString.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\TreeView.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\NotifyIcon.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\Reflection.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\NotificationObject.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\Binding.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\BindingCastHelper.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\IValueConverter.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\INotifyPropertyChanged.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\ObservableObject.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\ObservableCollection.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\INotifyCollectionChanged.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\INotifyObjectDead.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\Converters.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\DataBinding.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\Macros.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\Variant.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\Internal.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\Event.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\FrameworkElement.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\SelfBinding.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\IList.h">
       <Filter>inc</Filter>
     </ClInclude>
   </ItemGroup>
@@ -413,7 +398,13 @@
     <ClCompile Include="..\sw\src\Color.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\sw\src\ColorDialog.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\sw\src\ComboBox.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\CommandLink.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\ContextMenu.cpp">
@@ -437,10 +428,25 @@
     <ClCompile Include="..\sw\src\DockPanel.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\sw\src\DockSplitter.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\FileDialog.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\sw\src\FillLayout.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\sw\src\FolderDialog.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\sw\src\Font.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\FontDialog.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\FrameworkElement.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\Grid.cpp">
@@ -458,6 +464,9 @@
     <ClCompile Include="..\sw\src\HwndHost.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\sw\src\HwndWrapper.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\sw\src\Icon.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -468,6 +477,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\IPAddressControl.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\ItemsControl.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\Label.cpp">
@@ -500,6 +512,9 @@
     <ClCompile Include="..\sw\src\MsgBox.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\sw\src\NotifyIcon.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\sw\src\Panel.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -513,6 +528,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\ProgressBar.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\Property.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\RadioButton.cpp">
@@ -530,16 +548,16 @@
     <ClCompile Include="..\sw\src\Slider.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\sw\src\SpinBox.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sw\src\SplitButton.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\sw\src\Splitter.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\StackLayout.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\StackLayoutH.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\StackLayoutV.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\StackPanel.cpp">
@@ -572,6 +590,9 @@
     <ClCompile Include="..\sw\src\ToolTip.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\sw\src\TreeView.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\sw\src\UIElement.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -593,55 +614,7 @@
     <ClCompile Include="..\sw\src\WrapLayout.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\sw\src\WrapLayoutH.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\WrapLayoutV.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\sw\src\WrapPanel.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\FileDialog.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\FolderDialog.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\HwndWrapper.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\CommandLink.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\ColorDialog.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\FontDialog.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\Property.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\DockSplitter.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\SplitButton.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\SpinBox.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\TreeView.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\NotifyIcon.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\FrameworkElement.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\ItemsControl.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

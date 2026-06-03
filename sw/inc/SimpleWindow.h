@@ -102,8 +102,6 @@
 #include "SplitButton.h"
 #include "Splitter.h"
 #include "StackLayout.h"
-#include "StackLayoutH.h"
-#include "StackLayoutV.h"
 #include "StackPanel.h"
 #include "StaticControl.h"
 #include "StatusBar.h"
@@ -124,8 +122,6 @@
 #include "WndBase.h"
 #include "WndMsg.h"
 #include "WrapLayout.h"
-#include "WrapLayoutH.h"
-#include "WrapLayoutV.h"
 #include "WrapPanel.h"
 
 #pragma comment(linker, "\"/manifestdependency:type='win32' \
