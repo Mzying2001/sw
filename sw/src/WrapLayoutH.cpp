@@ -1,6 +1,27 @@
 #include "WrapLayoutH.h"
 #include "Utils.h"
 #include <cmath>
+#include <tuple>
+#include <vector>
+
+namespace
+{
+    /**
+     * @brief 按行高统一安排一行中的所有子元素，使行内元素占用相同的垂直布局空间
+     */
+    void _ArrangeRow(double top, double height,
+                     const std::vector<std::tuple<sw::ILayout *, sw::Size>> &row)
+    {
+        double left = 0;
+
+        for (auto &tuple : row) {
+            sw::ILayout *item = std::get<0>(tuple);
+            sw::Size itemSize = std::get<1>(tuple);
+            item->Arrange(sw::Rect{left, top, itemSize.width, height});
+            left += itemSize.width;
+        }
+    }
+}
 
 sw::Size sw::WrapLayoutH::MeasureOverride(const Size &availableSize)
 {
@@ -10,7 +31,7 @@ sw::Size sw::WrapLayoutH::MeasureOverride(const Size &availableSize)
     if (std::isinf(availableSize.width)) {
         for (int i = 0; i < count; ++i) {
             ILayout &item = this->GetChildLayoutAt(i);
-            item.Measure(Size(INFINITY, INFINITY));
+            item.Measure(Size{INFINITY, INFINITY});
 
             Size itemDesireSize = item.GetDesireSize();
             size.width += itemDesireSize.width;
@@ -23,7 +44,7 @@ sw::Size sw::WrapLayoutH::MeasureOverride(const Size &availableSize)
 
         for (int i = 0; i < count; ++i) {
             ILayout &item = this->GetChildLayoutAt(i);
-            item.Measure(Size(availableSize.width - rowWidth, INFINITY));
+            item.Measure(Size{availableSize.width - rowWidth, INFINITY});
 
             Size itemDesireSize = item.GetDesireSize();
             if (rowWidth + itemDesireSize.width <= availableSize.width) {
@@ -49,19 +70,31 @@ void sw::WrapLayoutH::ArrangeOverride(const Size &finalSize)
     double rowHeight = 0;
 
     int count = this->GetChildLayoutCount();
-    for (int i = 0; i < count; ++i) {
-        ILayout &item = this->GetChildLayoutAt(i);
 
+    std::vector<std::tuple<ILayout *, Size>> row;
+    row.reserve(count);
+
+    for (int i = 0; i < count; ++i) {
+        ILayout &item       = this->GetChildLayoutAt(i);
         Size itemDesireSize = item.GetDesireSize();
+
         if (rowWidth + itemDesireSize.width <= finalSize.width) {
-            item.Arrange(Rect(rowWidth, top, itemDesireSize.width, itemDesireSize.height));
+            row.emplace_back(&item, itemDesireSize);
             rowWidth += itemDesireSize.width;
             rowHeight = Utils::Max(rowHeight, itemDesireSize.height);
         } else {
+            if (!row.empty()) {
+                _ArrangeRow(top, rowHeight, row);
+            }
+            row.clear();
+            row.emplace_back(&item, itemDesireSize);
             top += rowHeight;
-            item.Arrange(Rect(0, top, itemDesireSize.width, itemDesireSize.height));
             rowWidth  = itemDesireSize.width;
             rowHeight = itemDesireSize.height;
         }
+    }
+
+    if (!row.empty()) {
+        _ArrangeRow(top, rowHeight, row);
     }
 }

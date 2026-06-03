@@ -1,6 +1,27 @@
 #include "WrapLayoutV.h"
 #include "Utils.h"
 #include <cmath>
+#include <tuple>
+#include <vector>
+
+namespace
+{
+    /**
+     * @brief 按列宽统一安排一列中的所有子元素，使列内元素占用相同的水平布局空间
+     */
+    void _ArrangeCol(double left, double width,
+                     const std::vector<std::tuple<sw::ILayout *, sw::Size>> &col)
+    {
+        double top = 0;
+
+        for (auto &tuple : col) {
+            sw::ILayout *item = std::get<0>(tuple);
+            sw::Size itemSize = std::get<1>(tuple);
+            item->Arrange(sw::Rect{left, top, width, itemSize.height});
+            top += itemSize.height;
+        }
+    }
+}
 
 sw::Size sw::WrapLayoutV::MeasureOverride(const Size &availableSize)
 {
@@ -10,7 +31,7 @@ sw::Size sw::WrapLayoutV::MeasureOverride(const Size &availableSize)
     if (std::isinf(availableSize.height)) {
         for (int i = 0; i < count; ++i) {
             ILayout &item = this->GetChildLayoutAt(i);
-            item.Measure(Size(INFINITY, INFINITY));
+            item.Measure(Size{INFINITY, INFINITY});
 
             Size itemDesireSize = item.GetDesireSize();
             size.height += itemDesireSize.height;
@@ -23,7 +44,7 @@ sw::Size sw::WrapLayoutV::MeasureOverride(const Size &availableSize)
 
         for (int i = 0; i < count; ++i) {
             ILayout &item = this->GetChildLayoutAt(i);
-            item.Measure(Size(INFINITY, availableSize.height - colHeight));
+            item.Measure(Size{INFINITY, availableSize.height - colHeight});
 
             Size itemDesireSize = item.GetDesireSize();
             if (colHeight + itemDesireSize.height <= availableSize.height) {
@@ -49,19 +70,31 @@ void sw::WrapLayoutV::ArrangeOverride(const Size &finalSize)
     double colWidth  = 0;
 
     int count = this->GetChildLayoutCount();
-    for (int i = 0; i < count; ++i) {
-        ILayout &item = this->GetChildLayoutAt(i);
 
+    std::vector<std::tuple<ILayout *, Size>> col;
+    col.reserve(count);
+
+    for (int i = 0; i < count; ++i) {
+        ILayout &item       = this->GetChildLayoutAt(i);
         Size itemDesireSize = item.GetDesireSize();
+
         if (colHeight + itemDesireSize.height <= finalSize.height) {
-            item.Arrange(Rect(left, colHeight, itemDesireSize.width, itemDesireSize.height));
+            col.emplace_back(&item, itemDesireSize);
             colHeight += itemDesireSize.height;
             colWidth = Utils::Max(colWidth, itemDesireSize.width);
         } else {
+            if (!col.empty()) {
+                _ArrangeCol(left, colWidth, col);
+            }
+            col.clear();
+            col.emplace_back(&item, itemDesireSize);
             left += colWidth;
-            item.Arrange(Rect(left, 0, itemDesireSize.width, itemDesireSize.height));
             colHeight = itemDesireSize.height;
             colWidth  = itemDesireSize.width;
         }
+    }
+
+    if (!col.empty()) {
+        _ArrangeCol(left, colWidth, col);
     }
 }
