@@ -24,6 +24,11 @@ namespace sw
         virtual uint64_t GetLayoutTag() const = 0;
 
         /**
+         * @brief 获取控件所需尺寸
+         */
+        virtual Size GetDesireSize() const = 0;
+
+        /**
          * @brief 获取子控件的数量
          */
         virtual int GetChildLayoutCount() const = 0;
@@ -33,11 +38,6 @@ namespace sw
          * @throw std::out_of_range 如果索引超出范围
          */
         virtual ILayout &GetChildLayoutAt(int index) const = 0;
-
-        /**
-         * @brief 获取控件所需尺寸
-         */
-        virtual Size GetDesireSize() const = 0;
 
         /**
          * @brief 测量控件所需尺寸

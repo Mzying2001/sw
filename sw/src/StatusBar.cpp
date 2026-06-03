@@ -50,6 +50,7 @@ bool sw::StatusBar::SetParts(std::initializer_list<double> parts)
     vec.reserve(count);
 
     int right = 0;
+
     for (double item : parts) {
         if (item == -1) {
             vec.push_back(-1);
@@ -57,7 +58,7 @@ bool sw::StatusBar::SetParts(std::initializer_list<double> parts)
         } else {
             right += Utils::Max(0, Dip::DipToPxX(item));
             vec.push_back(right);
-            right += 2; // 分隔条
+            right += GetSystemMetrics(SM_CXEDGE); // 分隔条
         }
     }
 

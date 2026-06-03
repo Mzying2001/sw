@@ -14,7 +14,7 @@ namespace sw
         /**
          * @brief 默认布局对象
          */
-        DockLayout _dockLayout = DockLayout();
+        DockLayout _dockLayout{};
 
     public:
         /**
@@ -42,6 +42,6 @@ namespace sw
         /**
          * @brief 获取默认布局对象
          */
-        virtual LayoutHost *GetDefaultLayout() override;
+        virtual LayoutHost *GetDefaultLayout() override final;
     };
 }

@@ -5,11 +5,11 @@
  * @brief SimpleWindow框架的顶级命名空间，所有公共类型、控件、枚举和工具函数均定义于此。
  */
 
-// 包含SimpleWindow所有头文件
 #include "Alignment.h"
 #include "Animation.h"
 #include "App.h"
 #include "Binding.h"
+#include "BindingCastHelper.h"
 #include "BmpBox.h"
 #include "Button.h"
 #include "ButtonBase.h"
@@ -102,8 +102,6 @@
 #include "SplitButton.h"
 #include "Splitter.h"
 #include "StackLayout.h"
-#include "StackLayoutH.h"
-#include "StackLayoutV.h"
 #include "StackPanel.h"
 #include "StaticControl.h"
 #include "StatusBar.h"
@@ -124,14 +122,10 @@
 #include "WndBase.h"
 #include "WndMsg.h"
 #include "WrapLayout.h"
-#include "WrapLayoutH.h"
-#include "WrapLayoutV.h"
 #include "WrapPanel.h"
 
-// 启用视觉样式
 #pragma comment(linker, "\"/manifestdependency:type='win32' \
 name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
 processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
-// Comctl32
 #pragma comment(lib, "comctl32.lib")

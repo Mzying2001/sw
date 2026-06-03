@@ -768,19 +768,19 @@ uint64_t sw::UIElement::GetLayoutTag() const
     return this->_layoutTag;
 }
 
+sw::Size sw::UIElement::GetDesireSize() const
+{
+    return this->_desireSize;
+}
+
 int sw::UIElement::GetChildLayoutCount() const
 {
     return static_cast<int>(this->_layoutVisibleChildren.size());
 }
 
-sw::ILayout &sw::UIElement::GetChildLayoutAt(int index) const
+sw::UIElement &sw::UIElement::GetChildLayoutAt(int index) const
 {
     return *this->_layoutVisibleChildren.at(index);
-}
-
-sw::Size sw::UIElement::GetDesireSize() const
-{
-    return this->_desireSize;
 }
 
 void sw::UIElement::Measure(const Size &availableSize)

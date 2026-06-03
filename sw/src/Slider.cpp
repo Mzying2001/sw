@@ -73,14 +73,14 @@ sw::Slider::Slider()
 bool sw::Slider::OnVerticalScroll(int event, int pos)
 {
     switch (event) {
-        case TB_BOTTOM:
-        case TB_LINEDOWN:
         case TB_LINEUP:
-        case TB_PAGEDOWN:
+        case TB_LINEDOWN:
         case TB_PAGEUP:
+        case TB_PAGEDOWN:
         case TB_THUMBPOSITION:
         case TB_THUMBTRACK:
-        case TB_TOP: {
+        case TB_TOP:
+        case TB_BOTTOM: {
             this->OnValueChanged();
             break;
         }
@@ -95,13 +95,14 @@ bool sw::Slider::OnVerticalScroll(int event, int pos)
 bool sw::Slider::OnHorizontalScroll(int event, int pos)
 {
     switch (event) {
-        case TB_BOTTOM:
-        case TB_LINEDOWN:
         case TB_LINEUP:
-        case TB_PAGEDOWN:
+        case TB_LINEDOWN:
         case TB_PAGEUP:
+        case TB_PAGEDOWN:
+        case TB_THUMBPOSITION:
         case TB_THUMBTRACK:
-        case TB_TOP: {
+        case TB_TOP:
+        case TB_BOTTOM: {
             this->OnValueChanged();
             break;
         }

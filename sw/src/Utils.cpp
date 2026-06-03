@@ -9,6 +9,11 @@ namespace
      * @brief 指示是否使用UTF-8编码进行字符串转换
      */
     bool _usesUtf8 = true;
+
+    /**
+     * @brief 用于裁剪字符串的空白字符集合
+     */
+    constexpr wchar_t _WhitespaceChars[] = L" \t\n\r\f\v";
 }
 
 void sw::Utils::UseUtf8Encoding(bool useUtf8)
@@ -48,30 +53,36 @@ std::string sw::Utils::ToMultiByteStr(const std::wstring &wstr, bool utf8)
 
 std::wstring sw::Utils::Trim(const std::wstring &str)
 {
-    size_t firstNonSpace = str.find_first_not_of(L" \t\n\r\f\v");
+    size_t firstNonSpace = str.find_first_not_of(_WhitespaceChars);
+
     if (firstNonSpace == std::wstring::npos) {
-        return L"";
+        return std::wstring{};
+    } else {
+        size_t lastNonSpace = str.find_last_not_of(_WhitespaceChars);
+        return str.substr(firstNonSpace, lastNonSpace - firstNonSpace + 1);
     }
-    size_t lastNonSpace = str.find_last_not_of(L" \t\n\r\f\v");
-    return str.substr(firstNonSpace, lastNonSpace - firstNonSpace + 1);
 }
 
 std::wstring sw::Utils::TrimStart(const std::wstring &str)
 {
-    size_t firstNonSpace = str.find_first_not_of(L" \t\n\r\f\v");
+    size_t firstNonSpace = str.find_first_not_of(_WhitespaceChars);
+
     if (firstNonSpace == std::wstring::npos) {
-        return L"";
+        return std::wstring{};
+    } else {
+        return str.substr(firstNonSpace);
     }
-    return str.substr(firstNonSpace);
 }
 
 std::wstring sw::Utils::TrimEnd(const std::wstring &str)
 {
-    size_t lastNonSpace = str.find_last_not_of(L" \t\n\r\f\v");
+    size_t lastNonSpace = str.find_last_not_of(_WhitespaceChars);
+
     if (lastNonSpace == std::wstring::npos) {
-        return L"";
+        return std::wstring{};
+    } else {
+        return str.substr(0, lastNonSpace + 1);
     }
-    return str.substr(0, lastNonSpace + 1);
 }
 
 std::vector<std::wstring> sw::Utils::Split(const std::wstring &str, const std::wstring &delimiter)
@@ -95,7 +106,6 @@ std::vector<std::wstring> sw::Utils::Split(const std::wstring &str, const std::w
     }
 
     result.emplace_back(str, start);
-
     return result;
 }
 
