@@ -199,36 +199,68 @@ namespace sw
         int DeleteAllChildren();
     };
 
-    // clang-format off
-
     /**
      * @brief 树视图节点正在展开或折叠事件参数类型
      */
-    struct TreeViewItemExpandingEventArgs : TypedRoutedEventArgs<TreeView_ItemExpanding, CancelableEventArgs> {
-        bool action;       // true表示展开，false表示折叠
-        TreeViewNode node; // 正在展开或折叠的节点
-        TreeViewItemExpandingEventArgs(bool action, const TreeViewNode &node): action(action), node(node) {}
+    class TreeViewItemExpandingEventArgs : public TypedRoutedEventArgs<TreeView_ItemExpanding, CancelableEventArgs>
+    {
+    public:
+        /// @brief true表示展开，false表示折叠
+        bool action;
+
+        /// @brief 正在展开或折叠的节点
+        TreeViewNode node;
+
+        /// @brief 构造函数
+        /// @param action true表示展开，false表示折叠
+        /// @param node 正在展开或折叠的节点
+        TreeViewItemExpandingEventArgs(bool action, const TreeViewNode &node)
+            : action(action), node(node)
+        {
+        }
     };
 
     /**
      * @brief 树视图节点已展开或折叠事件参数类型
      */
-    struct TreeViewItemExpandedEventArgs : TypedRoutedEventArgs<TreeView_ItemExpanding> {
-        bool action;       // true表示展开，false表示折叠
-        TreeViewNode node; // 已展开或折叠的节点
-        TreeViewItemExpandedEventArgs(bool action, const TreeViewNode &node): action(action), node(node) {}
+    class TreeViewItemExpandedEventArgs : public TypedRoutedEventArgs<TreeView_ItemExpanding>
+    {
+    public:
+        /// @brief true表示展开，false表示折叠
+        bool action;
+
+        /// @brief 已展开或折叠的节点
+        TreeViewNode node;
+
+        /// @brief 构造函数
+        /// @param action true表示展开，false表示折叠
+        /// @param node 已展开或折叠的节点
+        TreeViewItemExpandedEventArgs(bool action, const TreeViewNode &node)
+            : action(action), node(node)
+        {
+        }
     };
 
     /**
      * @brief 树视图节点复选框状态改变事件参数类型
      */
-    struct TreeViewCheckStateChangedEventArgs : TypedRoutedEventArgs<TreeView_CheckStateChanged> {
-        int checkState;    // 复选框的新状态，0表示未选中，1表示选中，-1表示无复选框
-        TreeViewNode node; // 复选框状态改变的节点
-        TreeViewCheckStateChangedEventArgs(int checkState, const TreeViewNode &node): checkState(checkState), node(node) {}
-    };
+    class TreeViewCheckStateChangedEventArgs : public TypedRoutedEventArgs<TreeView_CheckStateChanged>
+    {
+    public:
+        /// @brief 复选框的新状态，0表示未选中，1表示选中，-1表示无复选框
+        int checkState;
 
-    // clang-format on
+        /// @brief 复选框状态改变的节点
+        TreeViewNode node;
+
+        /// @brief 构造函数
+        /// @param checkState 复选框的新状态，0表示未选中，1表示选中，-1表示无复选框
+        /// @param node 复选框状态改变的节点
+        TreeViewCheckStateChangedEventArgs(int checkState, const TreeViewNode &node)
+            : checkState(checkState), node(node)
+        {
+        }
+    };
 
     /**
      * @brief 树视图控件
