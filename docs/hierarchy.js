@@ -102,105 +102,106 @@ var hierarchy =
       [ "sw::NotifyIconMouseEventArgs", "structsw_1_1NotifyIconMouseEventArgs.html", null ],
       [ "sw::PropertyChangedEventArgs", "structsw_1_1PropertyChangedEventArgs.html", null ],
       [ "sw::RoutedEventArgs", "structsw_1_1RoutedEventArgs.html", [
-        [ "sw::TypedRoutedEventArgs< UIElement_DropFiles >", "structsw_1_1TypedRoutedEventArgs.html", [
-          [ "sw::DropFilesEventArgs", "structsw_1_1DropFilesEventArgs.html", null ]
+        [ "sw::TypedRoutedEventArgs< UIElement_DropFiles >", "classsw_1_1TypedRoutedEventArgs.html", [
+          [ "sw::DropFilesEventArgs", "classsw_1_1DropFilesEventArgs.html", null ]
         ] ],
-        [ "sw::TypedRoutedEventArgs< UIElement_GotChar >", "structsw_1_1TypedRoutedEventArgs.html", [
-          [ "sw::GotCharEventArgs", "structsw_1_1GotCharEventArgs.html", null ]
+        [ "sw::TypedRoutedEventArgs< UIElement_GotChar >", "classsw_1_1TypedRoutedEventArgs.html", [
+          [ "sw::GotCharEventArgs", "classsw_1_1GotCharEventArgs.html", null ]
         ] ],
-        [ "sw::TypedRoutedEventArgs< HotKeyControl_ValueChanged >", "structsw_1_1TypedRoutedEventArgs.html", [
-          [ "sw::HotKeyValueChangedEventArgs", "structsw_1_1HotKeyValueChangedEventArgs.html", null ]
+        [ "sw::TypedRoutedEventArgs< HotKeyControl_ValueChanged >", "classsw_1_1TypedRoutedEventArgs.html", [
+          [ "sw::HotKeyValueChangedEventArgs", "classsw_1_1HotKeyValueChangedEventArgs.html", null ]
         ] ],
-        [ "sw::TypedRoutedEventArgs< Type, RoutedEventArgs >", "structsw_1_1TypedRoutedEventArgs.html", null ],
-        [ "sw::TypedRoutedEventArgs< UIElement_PositionChanged >", "structsw_1_1TypedRoutedEventArgs.html", [
-          [ "sw::PositionChangedEventArgs", "structsw_1_1PositionChangedEventArgs.html", null ]
+        [ "sw::TypedRoutedEventArgs< Type, RoutedEventArgs >", "classsw_1_1TypedRoutedEventArgs.html", null ],
+        [ "sw::TypedRoutedEventArgs< UIElement_PositionChanged >", "classsw_1_1TypedRoutedEventArgs.html", [
+          [ "sw::PositionChangedEventArgs", "classsw_1_1PositionChangedEventArgs.html", null ]
         ] ],
-        [ "sw::TypedRoutedEventArgs< UIElement_SizeChanged >", "structsw_1_1TypedRoutedEventArgs.html", [
-          [ "sw::SizeChangedEventArgs", "structsw_1_1SizeChangedEventArgs.html", null ]
+        [ "sw::TypedRoutedEventArgs< UIElement_SizeChanged >", "classsw_1_1TypedRoutedEventArgs.html", [
+          [ "sw::SizeChangedEventArgs", "classsw_1_1SizeChangedEventArgs.html", null ]
         ] ],
-        [ "sw::TypedRoutedEventArgs< SysLink_Clicked >", "structsw_1_1TypedRoutedEventArgs.html", [
-          [ "sw::SysLinkClickedEventArgs", "structsw_1_1SysLinkClickedEventArgs.html", null ]
+        [ "sw::TypedRoutedEventArgs< SysLink_Clicked >", "classsw_1_1TypedRoutedEventArgs.html", [
+          [ "sw::SysLinkClickedEventArgs", "classsw_1_1SysLinkClickedEventArgs.html", null ]
         ] ],
-        [ "sw::TypedRoutedEventArgs< TreeView_CheckStateChanged >", "structsw_1_1TypedRoutedEventArgs.html", [
-          [ "sw::TreeViewCheckStateChangedEventArgs", "structsw_1_1TreeViewCheckStateChangedEventArgs.html", null ]
+        [ "sw::TypedRoutedEventArgs< TreeView_CheckStateChanged >", "classsw_1_1TypedRoutedEventArgs.html", [
+          [ "sw::TreeViewCheckStateChangedEventArgs", "classsw_1_1TreeViewCheckStateChangedEventArgs.html", null ]
         ] ],
-        [ "sw::TypedRoutedEventArgs< TreeView_ItemExpanding >", "structsw_1_1TypedRoutedEventArgs.html", [
-          [ "sw::TreeViewItemExpandedEventArgs", "structsw_1_1TreeViewItemExpandedEventArgs.html", null ]
+        [ "sw::TypedRoutedEventArgs< TreeView_ItemExpanding >", "classsw_1_1TypedRoutedEventArgs.html", [
+          [ "sw::TreeViewItemExpandedEventArgs", "classsw_1_1TreeViewItemExpandedEventArgs.html", null ]
         ] ],
-        [ "sw::CancelableEventArgs", "structsw_1_1CancelableEventArgs.html", [
-          [ "sw::TypedRoutedEventArgs< Type, CancelableEventArgs >", "structsw_1_1TypedRoutedEventArgs.html", null ],
-          [ "sw::TypedRoutedEventArgs< Layer_Scrolling, CancelableEventArgs >", "structsw_1_1TypedRoutedEventArgs.html", [
-            [ "sw::ScrollingEventArgs", "structsw_1_1ScrollingEventArgs.html", null ]
+        [ "sw::CancelableEventArgs", "classsw_1_1CancelableEventArgs.html", [
+          [ "sw::TypedRoutedEventArgs< Type, CancelableEventArgs >", "classsw_1_1TypedRoutedEventArgs.html", null ],
+          [ "sw::TypedRoutedEventArgs< Layer_Scrolling, CancelableEventArgs >", "classsw_1_1TypedRoutedEventArgs.html", [
+            [ "sw::ScrollingEventArgs", "classsw_1_1ScrollingEventArgs.html", null ]
           ] ],
-          [ "sw::TypedRoutedEventArgs< UIElement_ShowContextMenu, CancelableEventArgs >", "structsw_1_1TypedRoutedEventArgs.html", [
-            [ "sw::ShowContextMenuEventArgs", "structsw_1_1ShowContextMenuEventArgs.html", null ]
+          [ "sw::TypedRoutedEventArgs< UIElement_ShowContextMenu, CancelableEventArgs >", "classsw_1_1TypedRoutedEventArgs.html", [
+            [ "sw::ShowContextMenuEventArgs", "classsw_1_1ShowContextMenuEventArgs.html", null ]
           ] ],
-          [ "sw::TypedRoutedEventArgs< SplitButton_DropDown, CancelableEventArgs >", "structsw_1_1TypedRoutedEventArgs.html", [
-            [ "sw::SplitButtonDropDownEventArgs", "structsw_1_1SplitButtonDropDownEventArgs.html", null ]
+          [ "sw::TypedRoutedEventArgs< SplitButton_DropDown, CancelableEventArgs >", "classsw_1_1TypedRoutedEventArgs.html", [
+            [ "sw::SplitButtonDropDownEventArgs", "classsw_1_1SplitButtonDropDownEventArgs.html", null ]
           ] ],
-          [ "sw::TypedRoutedEventArgs< TreeView_ItemExpanding, CancelableEventArgs >", "structsw_1_1TypedRoutedEventArgs.html", [
-            [ "sw::TreeViewItemExpandingEventArgs", "structsw_1_1TreeViewItemExpandingEventArgs.html", null ]
+          [ "sw::TypedRoutedEventArgs< TreeView_ItemExpanding, CancelableEventArgs >", "classsw_1_1TypedRoutedEventArgs.html", [
+            [ "sw::TreeViewItemExpandingEventArgs", "classsw_1_1TreeViewItemExpandingEventArgs.html", null ]
           ] ],
-          [ "sw::TypedRoutedEventArgs< Window_Closing, CancelableEventArgs >", "structsw_1_1TypedRoutedEventArgs.html", [
-            [ "sw::WindowClosingEventArgs", "structsw_1_1WindowClosingEventArgs.html", null ]
+          [ "sw::TypedRoutedEventArgs< Window_Closing, CancelableEventArgs >", "classsw_1_1TypedRoutedEventArgs.html", [
+            [ "sw::WindowClosingEventArgs", "classsw_1_1WindowClosingEventArgs.html", null ]
           ] ]
         ] ],
-        [ "sw::TypedRoutedEventArgs< Type, TBase >", "structsw_1_1TypedRoutedEventArgs.html", [
-          [ "sw::KeyEventArgs< UIElement_KeyDown >", "structsw_1_1KeyEventArgs.html", [
-            [ "sw::KeyDownEventArgs", "structsw_1_1KeyDownEventArgs.html", null ]
+        [ "sw::TypedRoutedEventArgs< Type, TBase >", "classsw_1_1TypedRoutedEventArgs.html", [
+          [ "sw::KeyEventArgs< UIElement_KeyDown >", "classsw_1_1KeyEventArgs.html", [
+            [ "sw::KeyDownEventArgs", "classsw_1_1KeyDownEventArgs.html", null ]
           ] ],
-          [ "sw::KeyEventArgs< UIElement_KeyUp >", "structsw_1_1KeyEventArgs.html", [
-            [ "sw::KeyUpEventArgs", "structsw_1_1KeyUpEventArgs.html", null ]
+          [ "sw::KeyEventArgs< UIElement_KeyUp >", "classsw_1_1KeyEventArgs.html", [
+            [ "sw::KeyUpEventArgs", "classsw_1_1KeyUpEventArgs.html", null ]
           ] ],
-          [ "sw::ListViewItemEventArgs< ListView_CheckStateChanged >", "structsw_1_1ListViewItemEventArgs.html", [
-            [ "sw::ListViewCheckStateChangedEventArgs", "structsw_1_1ListViewCheckStateChangedEventArgs.html", null ]
+          [ "sw::ListViewItemEventArgs< ListView_CheckStateChanged >", "classsw_1_1ListViewItemEventArgs.html", [
+            [ "sw::ListViewCheckStateChangedEventArgs", "classsw_1_1ListViewCheckStateChangedEventArgs.html", null ]
           ] ],
-          [ "sw::ListViewItemEventArgs< ListView_EndEdit, CancelableEventArgs >", "structsw_1_1ListViewItemEventArgs.html", [
-            [ "sw::ListViewEndEditEventArgs", "structsw_1_1ListViewEndEditEventArgs.html", null ]
+          [ "sw::ListViewItemEventArgs< ListView_EndEdit, CancelableEventArgs >", "classsw_1_1ListViewItemEventArgs.html", [
+            [ "sw::ListViewEndEditEventArgs", "classsw_1_1ListViewEndEditEventArgs.html", null ]
           ] ],
-          [ "sw::ListViewItemEventArgs< ListView_HeaderClicked >", "structsw_1_1ListViewItemEventArgs.html", [
-            [ "sw::ListViewHeaderClickedEventArgs", "structsw_1_1ListViewHeaderClickedEventArgs.html", null ]
+          [ "sw::ListViewItemEventArgs< ListView_HeaderClicked >", "classsw_1_1ListViewItemEventArgs.html", [
+            [ "sw::ListViewHeaderClickedEventArgs", "classsw_1_1ListViewHeaderClickedEventArgs.html", null ]
           ] ],
-          [ "sw::ListViewItemEventArgs< ListView_HeaderDoubleClicked >", "structsw_1_1ListViewItemEventArgs.html", [
-            [ "sw::ListViewHeaderDoubleClickedEventArgs", "structsw_1_1ListViewHeaderDoubleClickedEventArgs.html", null ]
+          [ "sw::ListViewItemEventArgs< ListView_HeaderDoubleClicked >", "classsw_1_1ListViewItemEventArgs.html", [
+            [ "sw::ListViewHeaderDoubleClickedEventArgs", "classsw_1_1ListViewHeaderDoubleClickedEventArgs.html", null ]
           ] ],
-          [ "sw::ListViewItemEventArgs< Type, RoutedEventArgs >", "structsw_1_1ListViewItemEventArgs.html", null ],
-          [ "sw::MouseEventArgs< UIElement_MouseMove >", "structsw_1_1MouseEventArgs.html", [
-            [ "sw::MouseMoveEventArgs", "structsw_1_1MouseMoveEventArgs.html", null ]
+          [ "sw::ListViewItemEventArgs< Type, RoutedEventArgs >", "classsw_1_1ListViewItemEventArgs.html", null ],
+          [ "sw::MouseEventArgs< UIElement_MouseMove >", "classsw_1_1MouseEventArgs.html", [
+            [ "sw::MouseMoveEventArgs", "classsw_1_1MouseMoveEventArgs.html", null ]
           ] ],
-          [ "sw::MouseEventArgs< UIElement_MouseWheel >", "structsw_1_1MouseEventArgs.html", [
-            [ "sw::MouseWheelEventArgs", "structsw_1_1MouseWheelEventArgs.html", null ]
+          [ "sw::MouseEventArgs< UIElement_MouseWheel >", "classsw_1_1MouseEventArgs.html", [
+            [ "sw::MouseWheelEventArgs", "classsw_1_1MouseWheelEventArgs.html", null ]
           ] ],
-          [ "sw::TimeChangedEventArgs< DateTimePicker_TimeChanged >", "structsw_1_1TimeChangedEventArgs.html", [
-            [ "sw::DateTimePickerTimeChangedEventArgs", "structsw_1_1DateTimePickerTimeChangedEventArgs.html", null ]
+          [ "sw::TimeChangedEventArgs< DateTimePicker_TimeChanged >", "classsw_1_1TimeChangedEventArgs.html", [
+            [ "sw::DateTimePickerTimeChangedEventArgs", "classsw_1_1DateTimePickerTimeChangedEventArgs.html", null ]
           ] ],
-          [ "sw::TimeChangedEventArgs< MonthCalendar_TimeChanged >", "structsw_1_1TimeChangedEventArgs.html", [
-            [ "sw::MonthCalendarTimeChangedEventArgs", "structsw_1_1MonthCalendarTimeChangedEventArgs.html", null ]
+          [ "sw::TimeChangedEventArgs< MonthCalendar_TimeChanged >", "classsw_1_1TimeChangedEventArgs.html", [
+            [ "sw::MonthCalendarTimeChangedEventArgs", "classsw_1_1MonthCalendarTimeChangedEventArgs.html", null ]
           ] ],
-          [ "sw::KeyEventArgs< Type >", "structsw_1_1KeyEventArgs.html", null ],
-          [ "sw::ListViewItemEventArgs< Type, TBase >", "structsw_1_1ListViewItemEventArgs.html", [
-            [ "sw::ListViewSubItemEventArgs< ListView_ItemClicked >", "structsw_1_1ListViewSubItemEventArgs.html", [
-              [ "sw::ListViewItemClickedEventArgs", "structsw_1_1ListViewItemClickedEventArgs.html", null ]
+          [ "sw::KeyEventArgs< Type >", "classsw_1_1KeyEventArgs.html", null ],
+          [ "sw::ListViewItemEventArgs< Type, TBase >", "classsw_1_1ListViewItemEventArgs.html", [
+            [ "sw::ListViewSubItemEventArgs< ListView_ItemClicked >", "classsw_1_1ListViewSubItemEventArgs.html", [
+              [ "sw::ListViewItemClickedEventArgs", "classsw_1_1ListViewItemClickedEventArgs.html", null ]
             ] ],
-            [ "sw::ListViewSubItemEventArgs< ListView_ItemDoubleClicked >", "structsw_1_1ListViewSubItemEventArgs.html", [
-              [ "sw::ListViewItemDoubleClickedEventArgs", "structsw_1_1ListViewItemDoubleClickedEventArgs.html", null ]
+            [ "sw::ListViewSubItemEventArgs< ListView_ItemDoubleClicked >", "classsw_1_1ListViewSubItemEventArgs.html", [
+              [ "sw::ListViewItemDoubleClickedEventArgs", "classsw_1_1ListViewItemDoubleClickedEventArgs.html", null ]
             ] ],
-            [ "sw::ListViewSubItemEventArgs< Type, TBase >", "structsw_1_1ListViewSubItemEventArgs.html", null ]
+            [ "sw::ListViewSubItemEventArgs< Type, TBase >", "classsw_1_1ListViewSubItemEventArgs.html", null ]
           ] ],
-          [ "sw::MouseEventArgs< Type >", "structsw_1_1MouseEventArgs.html", [
-            [ "sw::MouseButtonEventArgs< UIElement_MouseButtonDown >", "structsw_1_1MouseButtonEventArgs.html", [
-              [ "sw::MouseButtonDownEventArgs", "structsw_1_1MouseButtonDownEventArgs.html", null ]
+          [ "sw::MouseEventArgs< Type >", "classsw_1_1MouseEventArgs.html", [
+            [ "sw::MouseButtonEventArgs< UIElement_MouseButtonDown >", "classsw_1_1MouseButtonEventArgs.html", [
+              [ "sw::MouseButtonDownEventArgs", "classsw_1_1MouseButtonDownEventArgs.html", null ]
             ] ],
-            [ "sw::MouseButtonEventArgs< UIElement_MouseButtonUp >", "structsw_1_1MouseButtonEventArgs.html", [
-              [ "sw::MouseButtonUpEventArgs", "structsw_1_1MouseButtonUpEventArgs.html", null ]
+            [ "sw::MouseButtonEventArgs< UIElement_MouseButtonUp >", "classsw_1_1MouseButtonEventArgs.html", [
+              [ "sw::MouseButtonUpEventArgs", "classsw_1_1MouseButtonUpEventArgs.html", null ]
             ] ],
-            [ "sw::MouseButtonEventArgs< Type >", "structsw_1_1MouseButtonEventArgs.html", null ]
+            [ "sw::MouseButtonEventArgs< Type >", "classsw_1_1MouseButtonEventArgs.html", null ]
           ] ],
-          [ "sw::TimeChangedEventArgs< Type >", "structsw_1_1TimeChangedEventArgs.html", null ]
+          [ "sw::TimeChangedEventArgs< Type >", "classsw_1_1TimeChangedEventArgs.html", null ]
         ] ]
       ] ]
     ] ],
     [ "std::false_type", null, [
+      [ "sw::BindingCastHelper< TSource, TTarget, typename >", "structsw_1_1BindingCastHelper.html", null ],
       [ "sw::_BracketOperationHelper< T, U, typename >", "structsw_1_1__BracketOperationHelper.html", null ],
       [ "sw::_DelegateCanAddSubtract< TDelegate, TFunc, typename >", "structsw_1_1__DelegateCanAddSubtract.html", null ],
       [ "sw::_EnumSupportBitOperations< T >", "structsw_1_1__EnumSupportBitOperations.html", null ],
@@ -633,6 +634,10 @@ var hierarchy =
       [ "sw::Layer< TBase, typename std::enable_if< std::is_base_of< UIElement, TBase >::value >::type >", "classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html", null ]
     ] ],
     [ "std::true_type", null, [
+      [ "sw::BindingCastHelper< TSource, TTarget, typename std::enable_if< !std::is_same< TSource, TTarget >::value &&_IsStaticCastable< TSource, TTarget >::value &&_IsStaticCastable< TTarget, TSource >::value >::type >", "structsw_1_1BindingCastHelper_3_01TSource_00_01TTarget_00_01typename_01std_1_1enable__if_3_01_9sf3adb8db9d1ee28a614eff58c9f082a5.html", null ],
+      [ "sw::BindingCastHelper< TSource, TTarget, typename std::enable_if< std::is_same< TSource, TTarget >::value >::type >", "structsw_1_1BindingCastHelper_3_01TSource_00_01TTarget_00_01typename_01std_1_1enable__if_3_01stddbf684af0b5567e756222bf9f22307b2.html", null ],
+      [ "sw::BindingCastHelper< TSource, Variant, typename std::enable_if<!std::is_same< TSource, Variant >::value >::type >", "structsw_1_1BindingCastHelper_3_01TSource_00_01Variant_00_01typename_01std_1_1enable__if_3_9std_8de399a697f3c60e4c72ecd13f65ec7a.html", null ],
+      [ "sw::BindingCastHelper< Variant, TTarget, typename std::enable_if<!std::is_same< TTarget, Variant >::value >::type >", "structsw_1_1BindingCastHelper_3_01Variant_00_01TTarget_00_01typename_01std_1_1enable__if_3_9std_499416b2070ff9e196884ba7424ce055.html", null ],
       [ "sw::UIElement::_CanAddChild< T, decltype(void(std::declval< UIElement >().AddChild(std::declval< T >())))>", "structsw_1_1UIElement_1_1__CanAddChild_3_01T_00_01decltype_07void_07std_1_1declval_3_01UIElementc4e59a28561b2f6c76501e41deec6964.html", null ],
       [ "sw::_BracketOperationHelper< T, U, decltype(void(std::declval< T >()[std::declval< U >()]))>", "structsw_1_1__BracketOperationHelper_3_01T_00_01U_00_01decltype_07void_07std_1_1declval_3_01T_015d7340010b451efba17696e1bdb8739b.html", null ],
       [ "sw::_DelegateCanAddSubtract< TDelegate, TFunc, decltype(void(std::declval< TDelegate >()+=std::declval< TFunc >()), void(std::declval< TDelegate >() -=std::declval< TFunc >()))>", "structsw_1_1__DelegateCanAddSubtract_3_01TDelegate_00_01TFunc_00_01decltype_07void_07std_1_1decl76c347957b8aa844ee0f92fe7aa13d17.html", null ],

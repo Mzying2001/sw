@@ -1,0 +1,297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SimpleWindow: sw::BindingCastHelper&lt; TSource, TTarget, typename std::enable_if&lt; !std::is_same&lt; TSource, TTarget &gt;::value &amp;&amp;_IsStaticCastable&lt; TSource, TTarget &gt;::value &amp;&amp;_IsStaticCastable&lt; TTarget, TSource &gt;::value &gt;::type &gt; 模板结构体 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SimpleWindow
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('structsw_1_1BindingCastHelper_3_01TSource_00_01TTarget_00_01typename_01std_1_1enable__if_3_01_9sf3adb8db9d1ee28a614eff58c9f082a5.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="structsw_1_1BindingCastHelper_3_01TSource_00_01TTarget_00_01typename_01std_1_1enable__if_3_01_9se6094b79330a15bc08a2fb45928e9a2d.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sw::BindingCastHelper&lt; TSource, TTarget, typename std::enable_if&lt; !std::is_same&lt; TSource, TTarget &gt;::value &amp;&amp;_IsStaticCastable&lt; TSource, TTarget &gt;::value &amp;&amp;_IsStaticCastable&lt; TTarget, TSource &gt;::value &gt;::type &gt; 模板结构体 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>可双向static_cast的类型之间的默认转换  
+ <a href="structsw_1_1BindingCastHelper_3_01TSource_00_01TTarget_00_01typename_01std_1_1enable__if_3_01_9sf3adb8db9d1ee28a614eff58c9f082a5.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="BindingCastHelper_8h_source.html">BindingCastHelper.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sw::BindingCastHelper&lt; TSource, TTarget, typename std::enable_if&lt; !std::is_same&lt; TSource, TTarget &gt;::value &amp;&amp;_IsStaticCastable&lt; TSource, TTarget &gt;::value &amp;&amp;_IsStaticCastable&lt; TTarget, TSource &gt;::value &gt;::type &gt; 继承关系图:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="structsw_1_1BindingCastHelper_3_01TSource_00_01TTarget_00_01typename_01std_1_1enable__if_3_01_9sf3adb8db9d1ee28a614eff58c9f082a5.png" alt=""/>
+ </div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:aed4a69db6c33dbdb5bfae6982e5c22d3" id="r_aed4a69db6c33dbdb5bfae6982e5c22d3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> TTarget&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsw_1_1BindingCastHelper_3_01TSource_00_01TTarget_00_01typename_01std_1_1enable__if_3_01_9sf3adb8db9d1ee28a614eff58c9f082a5.html#aed4a69db6c33dbdb5bfae6982e5c22d3">Convert</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> TSource &amp;value)</td></tr>
+<tr class="memdesc:aed4a69db6c33dbdb5bfae6982e5c22d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过static_cast将源属性值转换为目标属性值  <br /></td></tr>
+<tr class="separator:aed4a69db6c33dbdb5bfae6982e5c22d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abab9cd6dee2385cd8c6e85ce7bd53edb" id="r_abab9cd6dee2385cd8c6e85ce7bd53edb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> TTarget&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsw_1_1BindingCastHelper_3_01TSource_00_01TTarget_00_01typename_01std_1_1enable__if_3_01_9sf3adb8db9d1ee28a614eff58c9f082a5.html#abab9cd6dee2385cd8c6e85ce7bd53edb">Convert</a> (TSource &amp;&amp;value)</td></tr>
+<tr class="memdesc:abab9cd6dee2385cd8c6e85ce7bd53edb"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过static_cast将源属性值移动转换为目标属性值  <br /></td></tr>
+<tr class="separator:abab9cd6dee2385cd8c6e85ce7bd53edb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53e82160a6f7796ab1d3db4dabac3e46" id="r_a53e82160a6f7796ab1d3db4dabac3e46"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> TSource&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsw_1_1BindingCastHelper_3_01TSource_00_01TTarget_00_01typename_01std_1_1enable__if_3_01_9sf3adb8db9d1ee28a614eff58c9f082a5.html#a53e82160a6f7796ab1d3db4dabac3e46">ConvertBack</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> TTarget &amp;value)</td></tr>
+<tr class="memdesc:a53e82160a6f7796ab1d3db4dabac3e46"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过static_cast将目标属性值转换回源属性值  <br /></td></tr>
+<tr class="separator:a53e82160a6f7796ab1d3db4dabac3e46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1a68c30911acc2c5a881c7368d7cbe5" id="r_aa1a68c30911acc2c5a881c7368d7cbe5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> TSource&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsw_1_1BindingCastHelper_3_01TSource_00_01TTarget_00_01typename_01std_1_1enable__if_3_01_9sf3adb8db9d1ee28a614eff58c9f082a5.html#aa1a68c30911acc2c5a881c7368d7cbe5">ConvertBack</a> (TTarget &amp;&amp;value)</td></tr>
+<tr class="memdesc:aa1a68c30911acc2c5a881c7368d7cbe5"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过static_cast将目标属性值移动转换回源属性值  <br /></td></tr>
+<tr class="separator:aa1a68c30911acc2c5a881c7368d7cbe5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TSource, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> TTarget&gt;<br />
+struct sw::BindingCastHelper&lt; TSource, TTarget, typename std::enable_if&lt; !std::is_same&lt; TSource, TTarget &gt;::value &amp;&amp;_IsStaticCastable&lt; TSource, TTarget &gt;::value &amp;&amp;_IsStaticCastable&lt; TTarget, TSource &gt;::value &gt;::type &gt;</div><p>可双向static_cast的类型之间的默认转换 </p>
+<dl class="tparams"><dt>模板参数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TSource</td><td>源属性值类型 </td></tr>
+    <tr><td class="paramname">TTarget</td><td>目标属性值类型 </td></tr>
+  </table>
+  </dd>
+</dl>
+</div><h2 class="groupheader">成员函数说明</h2>
+<a id="aed4a69db6c33dbdb5bfae6982e5c22d3" name="aed4a69db6c33dbdb5bfae6982e5c22d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed4a69db6c33dbdb5bfae6982e5c22d3">&#9670;&#160;</a></span>Convert() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TSource , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> TTarget &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">static</a> TTarget <a class="el" href="structsw_1_1BindingCastHelper.html">sw::BindingCastHelper</a>&lt; TSource, TTarget, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; !std::is_same&lt; TSource, TTarget &gt;::value &amp;&amp;<a class="el" href="namespacesw.html#abb53f1281f10eddcbef2cd0d6f1d0763">_IsStaticCastable</a>&lt; TSource, TTarget &gt;::value &amp;&amp;<a class="el" href="namespacesw.html#abb53f1281f10eddcbef2cd0d6f1d0763">_IsStaticCastable</a>&lt; TTarget, TSource &gt;::value &gt;::type &gt;::Convert </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> TSource &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>通过static_cast将源属性值转换为目标属性值 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>源属性值 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>目标属性值 </dd></dl>
+
+</div>
+</div>
+<a id="abab9cd6dee2385cd8c6e85ce7bd53edb" name="abab9cd6dee2385cd8c6e85ce7bd53edb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abab9cd6dee2385cd8c6e85ce7bd53edb">&#9670;&#160;</a></span>Convert() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TSource , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> TTarget &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">static</a> TTarget <a class="el" href="structsw_1_1BindingCastHelper.html">sw::BindingCastHelper</a>&lt; TSource, TTarget, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; !std::is_same&lt; TSource, TTarget &gt;::value &amp;&amp;<a class="el" href="namespacesw.html#abb53f1281f10eddcbef2cd0d6f1d0763">_IsStaticCastable</a>&lt; TSource, TTarget &gt;::value &amp;&amp;<a class="el" href="namespacesw.html#abb53f1281f10eddcbef2cd0d6f1d0763">_IsStaticCastable</a>&lt; TTarget, TSource &gt;::value &gt;::type &gt;::Convert </td>
+          <td>(</td>
+          <td class="paramtype">TSource &amp;&amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>通过static_cast将源属性值移动转换为目标属性值 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>源属性值 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>目标属性值 </dd></dl>
+
+</div>
+</div>
+<a id="a53e82160a6f7796ab1d3db4dabac3e46" name="a53e82160a6f7796ab1d3db4dabac3e46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53e82160a6f7796ab1d3db4dabac3e46">&#9670;&#160;</a></span>ConvertBack() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TSource , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> TTarget &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">static</a> TSource <a class="el" href="structsw_1_1BindingCastHelper.html">sw::BindingCastHelper</a>&lt; TSource, TTarget, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; !std::is_same&lt; TSource, TTarget &gt;::value &amp;&amp;<a class="el" href="namespacesw.html#abb53f1281f10eddcbef2cd0d6f1d0763">_IsStaticCastable</a>&lt; TSource, TTarget &gt;::value &amp;&amp;<a class="el" href="namespacesw.html#abb53f1281f10eddcbef2cd0d6f1d0763">_IsStaticCastable</a>&lt; TTarget, TSource &gt;::value &gt;::type &gt;::ConvertBack </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> TTarget &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>通过static_cast将目标属性值转换回源属性值 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>目标属性值 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>源属性值 </dd></dl>
+
+</div>
+</div>
+<a id="aa1a68c30911acc2c5a881c7368d7cbe5" name="aa1a68c30911acc2c5a881c7368d7cbe5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1a68c30911acc2c5a881c7368d7cbe5">&#9670;&#160;</a></span>ConvertBack() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classsw_1_1IValueConverter.html">typename</a> TSource , <a class="el" href="classsw_1_1IValueConverter.html">typename</a> TTarget &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">static</a> TSource <a class="el" href="structsw_1_1BindingCastHelper.html">sw::BindingCastHelper</a>&lt; TSource, TTarget, <a class="el" href="classsw_1_1IValueConverter.html">typename</a> std::enable_if&lt; !std::is_same&lt; TSource, TTarget &gt;::value &amp;&amp;<a class="el" href="namespacesw.html#abb53f1281f10eddcbef2cd0d6f1d0763">_IsStaticCastable</a>&lt; TSource, TTarget &gt;::value &amp;&amp;<a class="el" href="namespacesw.html#abb53f1281f10eddcbef2cd0d6f1d0763">_IsStaticCastable</a>&lt; TTarget, TSource &gt;::value &gt;::type &gt;::ConvertBack </td>
+          <td>(</td>
+          <td class="paramtype">TTarget &amp;&amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>通过static_cast将目标属性值移动转换回源属性值 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>目标属性值 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>源属性值 </dd></dl>
+
+</div>
+</div>
+<hr/>该结构体的文档由以下文件生成:<ul>
+<li><a class="el" href="BindingCastHelper_8h_source.html">BindingCastHelper.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacesw.html">sw</a></li><li class="navelem"><a class="el" href="structsw_1_1BindingCastHelper_3_01TSource_00_01TTarget_00_01typename_01std_1_1enable__if_3_01_9sf3adb8db9d1ee28a614eff58c9f082a5.html">BindingCastHelper&lt; TSource, TTarget, typename std::enable_if&lt; !std::is_same&lt; TSource, TTarget &gt;::value &amp;&amp;_IsStaticCastable&lt; TSource, TTarget &gt;::value &amp;&amp;_IsStaticCastable&lt; TTarget, TSource &gt;::value &gt;::type &gt;</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

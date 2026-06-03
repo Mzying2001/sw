@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['gotchareventargs_0',['GotCharEventArgs',['../structsw_1_1GotCharEventArgs.html',1,'sw']]],
+  ['gotchareventargs_0',['GotCharEventArgs',['../classsw_1_1GotCharEventArgs.html',1,'sw']]],
   ['grid_1',['Grid',['../classsw_1_1Grid.html',1,'sw']]],
   ['gridcolumn_2',['GridColumn',['../structsw_1_1GridColumn.html',1,'sw']]],
   ['gridlayout_3',['GridLayout',['../classsw_1_1GridLayout.html',1,'sw']]],

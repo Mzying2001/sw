@@ -1,5 +1,12 @@
 var searchData=
 [
-  ['quality_0',['quality',['../classsw_1_1Font.html#a7098cf91f8c7867df123ef6625fa5831',1,'sw::Font']]],
-  ['quitmode_1',['QuitMode',['../classsw_1_1App.html#a0d6cfc05e0a24835e3143c777301059f',1,'sw::App']]]
+  ['padding_0',['Padding',['../classsw_1_1Panel.html#a62b05c105d57ff40bed6e6ba4a0a8f48',1,'sw::Panel']]],
+  ['partscount_1',['PartsCount',['../classsw_1_1StatusBar.html#a9680d7b905fcc4f06c3ae544a1bf3170',1,'sw::StatusBar']]],
+  ['passwordchar_2',['PasswordChar',['../classsw_1_1PasswordBox.html#acb858c64ba690363567d5c73cc49ad7e',1,'sw::PasswordBox']]],
+  ['pitch_3',['pitch',['../classsw_1_1Font.html#ae48df531042cb4d94440eadbe61d532b',1,'sw::Font']]],
+  ['pos_4',['pos',['../classsw_1_1ScrollingEventArgs.html#a8106ce2b3ca943940390c3d39fb2ad48',1,'sw::ScrollingEventArgs']]],
+  ['previouskeystate_5',['previousKeyState',['../structsw_1_1KeyFlags.html#aa0f0719d6fc16f9590950bcbe0b2ff5a',1,'sw::KeyFlags']]],
+  ['propertychanged_6',['PropertyChanged',['../classsw_1_1INotifyPropertyChanged.html#a08086f8d015d3187fc976e608bde2c25',1,'sw::INotifyPropertyChanged']]],
+  ['propertyid_7',['propertyId',['../structsw_1_1PropertyChangedEventArgs.html#add0ea8f9424c8b888fb6efe66cb0cc1f',1,'sw::PropertyChangedEventArgs']]],
+  ['ptr_8',['ptr',['../structsw_1_1ObjectRef.html#adddaccb61186a64c6bd14da4836990e5',1,'sw::ObjectRef']]]
 ];

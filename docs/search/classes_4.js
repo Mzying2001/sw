@@ -3,7 +3,7 @@ var searchData=
   ['databinding_0',['DataBinding',['../classsw_1_1DataBinding.html',1,'sw']]],
   ['datacontextchangedeventargs_1',['DataContextChangedEventArgs',['../structsw_1_1DataContextChangedEventArgs.html',1,'sw']]],
   ['datetimepicker_2',['DateTimePicker',['../classsw_1_1DateTimePicker.html',1,'sw']]],
-  ['datetimepickertimechangedeventargs_3',['DateTimePickerTimeChangedEventArgs',['../structsw_1_1DateTimePickerTimeChangedEventArgs.html',1,'sw']]],
+  ['datetimepickertimechangedeventargs_3',['DateTimePickerTimeChangedEventArgs',['../classsw_1_1DateTimePickerTimeChangedEventArgs.html',1,'sw']]],
   ['delegate_4',['Delegate',['../classsw_1_1Delegate.html',1,'sw']]],
   ['delegate_3c_20frameworkelement_2c_20datacontextchangedeventargs_20_3e_5',['Delegate&lt; FrameworkElement, DataContextChangedEventArgs &gt;',['../classsw_1_1Delegate.html',1,'sw']]],
   ['delegate_3c_20inotifycollectionchanged_2c_20notifycollectionchangedeventargs_20_3e_6',['Delegate&lt; INotifyCollectionChanged, NotifyCollectionChangedEventArgs &gt;',['../classsw_1_1Delegate.html',1,'sw']]],
@@ -21,6 +21,6 @@ var searchData=
   ['docksplitter_18',['DockSplitter',['../classsw_1_1DockSplitter.html',1,'sw']]],
   ['doubletoansistringconverter_19',['DoubleToAnsiStringConverter',['../classsw_1_1DoubleToAnsiStringConverter.html',1,'sw']]],
   ['doubletostringconverter_20',['DoubleToStringConverter',['../classsw_1_1DoubleToStringConverter.html',1,'sw']]],
-  ['dropfileseventargs_21',['DropFilesEventArgs',['../structsw_1_1DropFilesEventArgs.html',1,'sw']]],
+  ['dropfileseventargs_21',['DropFilesEventArgs',['../classsw_1_1DropFilesEventArgs.html',1,'sw']]],
   ['dynamicobject_22',['DynamicObject',['../classsw_1_1DynamicObject.html',1,'sw']]]
 ];

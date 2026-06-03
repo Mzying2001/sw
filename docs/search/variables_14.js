@@ -1,14 +1,7 @@
 var searchData=
 [
-  ['value_0',['value',['../classsw_1_1ProgressBar.html#a6dd5e209fbc7f35a89309f4056ae3d1f',1,'sw::ProgressBar::Value'],['../classsw_1_1Slider.html#ac4595d8d74e4759310cb0fc07fb7308a',1,'sw::Slider::Value'],['../classsw_1_1SpinBox.html#a7ecf6ef6e586189d6f0d58007d50c7cf',1,'sw::SpinBox::Value'],['../structsw_1_1FieldsAccessor.html#a9947db986bc3d127736c0d93eb4bad72',1,'sw::FieldsAccessor::value'],['../structsw_1_1FieldId.html#aa9081855df511b60c76170a13c1fb740',1,'sw::FieldId::value'],['../classsw_1_1HotKeyControl.html#ac935ffe86b400b6ad8685cafe1a93f28',1,'sw::HotKeyControl::Value']]],
-  ['valuetooltips_1',['ValueTooltips',['../classsw_1_1Slider.html#a85276ebc466a4dbe6923f033bfe2b1cf',1,'sw::Slider']]],
-  ['vertical_2',['vertical',['../classsw_1_1ProgressBar.html#a3a211f4e0318c79bcc4a64720b6f8651',1,'sw::ProgressBar::Vertical'],['../classsw_1_1Slider.html#a3f0efcf4b566cec56fed536786556a00',1,'sw::Slider::Vertical']]],
-  ['verticalalignment_3',['VerticalAlignment',['../classsw_1_1UIElement.html#ad9f49244beb6b854b436e8bbd18f4e21',1,'sw::UIElement']]],
-  ['verticalcontentalignment_4',['VerticalContentAlignment',['../classsw_1_1Label.html#ab127ad68d85e658bb2e8cb271df5cedc',1,'sw::Label']]],
-  ['verticalscrollbar_5',['verticalscrollbar',['../classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#ad0c9a1952307358ac597b2f59a44f025',1,'sw::Layer&lt; TBase, typename std::enable_if&lt; std::is_base_of&lt; UIElement, TBase &gt;::value &gt;::type &gt;::VerticalScrollBar'],['../classsw_1_1TextBox.html#a8fa3d053d6386f3aac435133dbe3a05a',1,'sw::TextBox::VerticalScrollBar']]],
-  ['verticalscrolllimit_6',['VerticalScrollLimit',['../classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#a46b8836f3dd361382bac1343511ac6e0',1,'sw::Layer&lt; TBase, typename std::enable_if&lt; std::is_base_of&lt; UIElement, TBase &gt;::value &gt;::type &gt;']]],
-  ['verticalscrollpos_7',['VerticalScrollPos',['../classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#a6f54100ebe5d1e36c40070c6971037dc',1,'sw::Layer&lt; TBase, typename std::enable_if&lt; std::is_base_of&lt; UIElement, TBase &gt;::value &gt;::type &gt;']]],
-  ['virtualorigin_8',['VirtualOrigin',['../classsw_1_1Screen.html#afc0e2eb5ff6f921c066106ed165906a1',1,'sw::Screen']]],
-  ['virtualsize_9',['VirtualSize',['../classsw_1_1Screen.html#aa64e3b9d08e7191b771afb5821bdbb9e',1,'sw::Screen']]],
-  ['visible_10',['visible',['../classsw_1_1NotifyIcon.html#a0fd49668122e9cda5d98916050ff701b',1,'sw::NotifyIcon::Visible'],['../classsw_1_1WndBase.html#a808f5d6fd407e3b65cff88f1873bd754',1,'sw::WndBase::Visible']]]
+  ['umsg_0',['uMsg',['../structsw_1_1ProcMsg.html#a63d6c8d6ebe3bc0621ac4596a487c418',1,'sw::ProcMsg']]],
+  ['underline_1',['underline',['../classsw_1_1Font.html#a516d900b06bcd74900eccd55b59bdcba',1,'sw::Font']]],
+  ['url_2',['url',['../classsw_1_1SysLinkClickedEventArgs.html#afbb6e3ad48d1d0ed4bec5aea34eb3ba8',1,'sw::SysLinkClickedEventArgs']]],
+  ['useunicode_3',['UseUnicode',['../classsw_1_1StatusBar.html#a0a97d4bff90e41bcbd6260ee9f9fa66a',1,'sw::StatusBar']]]
 ];

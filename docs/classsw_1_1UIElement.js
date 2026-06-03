@@ -24,7 +24,7 @@ var classsw_1_1UIElement =
     [ "GetChildAt", "classsw_1_1UIElement.html#a3ece2d5776f109c7641f9c03d35aee3d", null ],
     [ "GetChildBottommost", "classsw_1_1UIElement.html#a7bda5652549fe9909e3b6b1383754b30", null ],
     [ "GetChildCount", "classsw_1_1UIElement.html#ad0c7e87bec8fec0d8222b3526ef3f4f8", null ],
-    [ "GetChildLayoutAt", "classsw_1_1UIElement.html#a9300cb1e5f4c32854304563dcfe1dc7e", null ],
+    [ "GetChildLayoutAt", "classsw_1_1UIElement.html#ad3d0b2f0b93699c4b0327c0b5314e3f1", null ],
     [ "GetChildLayoutCount", "classsw_1_1UIElement.html#a62b1f8e1d69b723c224586b82311db6f", null ],
     [ "GetChildRightmost", "classsw_1_1UIElement.html#a1f0bde7d9646b68dfe7251eba908cc08", null ],
     [ "GetDesireSize", "classsw_1_1UIElement.html#a55968daf78ca80665ef03f284c72b7ac", null ],

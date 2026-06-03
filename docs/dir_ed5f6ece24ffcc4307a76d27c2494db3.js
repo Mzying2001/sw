@@ -4,6 +4,7 @@ var dir_ed5f6ece24ffcc4307a76d27c2494db3 =
     [ "Animation.h", "Animation_8h_source.html", null ],
     [ "App.h", "App_8h_source.html", null ],
     [ "Binding.h", "Binding_8h_source.html", null ],
+    [ "BindingCastHelper.h", "BindingCastHelper_8h_source.html", null ],
     [ "BmpBox.h", "BmpBox_8h_source.html", null ],
     [ "Button.h", "Button_8h_source.html", null ],
     [ "ButtonBase.h", "ButtonBase_8h_source.html", null ],
@@ -97,8 +98,6 @@ var dir_ed5f6ece24ffcc4307a76d27c2494db3 =
     [ "SplitButton.h", "SplitButton_8h_source.html", null ],
     [ "Splitter.h", "Splitter_8h_source.html", null ],
     [ "StackLayout.h", "StackLayout_8h_source.html", null ],
-    [ "StackLayoutH.h", "StackLayoutH_8h_source.html", null ],
-    [ "StackLayoutV.h", "StackLayoutV_8h_source.html", null ],
     [ "StackPanel.h", "StackPanel_8h_source.html", null ],
     [ "StaticControl.h", "StaticControl_8h_source.html", null ],
     [ "StatusBar.h", "StatusBar_8h_source.html", null ],
@@ -119,7 +118,5 @@ var dir_ed5f6ece24ffcc4307a76d27c2494db3 =
     [ "WndBase.h", "WndBase_8h_source.html", null ],
     [ "WndMsg.h", "WndMsg_8h_source.html", null ],
     [ "WrapLayout.h", "WrapLayout_8h_source.html", null ],
-    [ "WrapLayoutH.h", "WrapLayoutH_8h_source.html", null ],
-    [ "WrapLayoutV.h", "WrapLayoutV_8h_source.html", null ],
     [ "WrapPanel.h", "WrapPanel_8h_source.html", null ]
 ];

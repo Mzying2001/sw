@@ -4,7 +4,7 @@ var searchData=
   ['passwordbox_1',['PasswordBox',['../classsw_1_1PasswordBox.html',1,'sw']]],
   ['path_2',['Path',['../classsw_1_1Path.html',1,'sw']]],
   ['point_3',['Point',['../structsw_1_1Point.html',1,'sw']]],
-  ['positionchangedeventargs_4',['PositionChangedEventArgs',['../structsw_1_1PositionChangedEventArgs.html',1,'sw']]],
+  ['positionchangedeventargs_4',['PositionChangedEventArgs',['../classsw_1_1PositionChangedEventArgs.html',1,'sw']]],
   ['procmsg_5',['ProcMsg',['../structsw_1_1ProcMsg.html',1,'sw']]],
   ['progressbar_6',['ProgressBar',['../classsw_1_1ProgressBar.html',1,'sw']]],
   ['property_7',['Property',['../classsw_1_1Property.html',1,'sw']]],

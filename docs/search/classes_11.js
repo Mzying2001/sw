@@ -2,15 +2,15 @@ var searchData=
 [
   ['savefiledialog_0',['SaveFileDialog',['../classsw_1_1SaveFileDialog.html',1,'sw']]],
   ['screen_1',['Screen',['../classsw_1_1Screen.html',1,'sw']]],
-  ['scrollingeventargs_2',['ScrollingEventArgs',['../structsw_1_1ScrollingEventArgs.html',1,'sw']]],
+  ['scrollingeventargs_2',['ScrollingEventArgs',['../classsw_1_1ScrollingEventArgs.html',1,'sw']]],
   ['selfbinding_3',['SelfBinding',['../classsw_1_1SelfBinding.html',1,'sw']]],
-  ['showcontextmenueventargs_4',['ShowContextMenuEventArgs',['../structsw_1_1ShowContextMenuEventArgs.html',1,'sw']]],
+  ['showcontextmenueventargs_4',['ShowContextMenuEventArgs',['../classsw_1_1ShowContextMenuEventArgs.html',1,'sw']]],
   ['size_5',['Size',['../structsw_1_1Size.html',1,'sw']]],
-  ['sizechangedeventargs_6',['SizeChangedEventArgs',['../structsw_1_1SizeChangedEventArgs.html',1,'sw']]],
+  ['sizechangedeventargs_6',['SizeChangedEventArgs',['../classsw_1_1SizeChangedEventArgs.html',1,'sw']]],
   ['slider_7',['Slider',['../classsw_1_1Slider.html',1,'sw']]],
   ['spinbox_8',['SpinBox',['../classsw_1_1SpinBox.html',1,'sw']]],
   ['splitbutton_9',['SplitButton',['../classsw_1_1SplitButton.html',1,'sw']]],
-  ['splitbuttondropdowneventargs_10',['SplitButtonDropDownEventArgs',['../structsw_1_1SplitButtonDropDownEventArgs.html',1,'sw']]],
+  ['splitbuttondropdowneventargs_10',['SplitButtonDropDownEventArgs',['../classsw_1_1SplitButtonDropDownEventArgs.html',1,'sw']]],
   ['splitter_11',['Splitter',['../classsw_1_1Splitter.html',1,'sw']]],
   ['stacklayout_12',['StackLayout',['../classsw_1_1StackLayout.html',1,'sw']]],
   ['stacklayouth_13',['StackLayoutH',['../classsw_1_1StackLayoutH.html',1,'sw']]],
@@ -26,5 +26,5 @@ var searchData=
   ['stringtointconverter_23',['StringToIntConverter',['../classsw_1_1StringToIntConverter.html',1,'sw']]],
   ['stringtoutf8stringconverter_24',['StringToUtf8StringConverter',['../classsw_1_1StringToUtf8StringConverter.html',1,'sw']]],
   ['syslink_25',['SysLink',['../classsw_1_1SysLink.html',1,'sw']]],
-  ['syslinkclickedeventargs_26',['SysLinkClickedEventArgs',['../structsw_1_1SysLinkClickedEventArgs.html',1,'sw']]]
+  ['syslinkclickedeventargs_26',['SysLinkClickedEventArgs',['../classsw_1_1SysLinkClickedEventArgs.html',1,'sw']]]
 ];
