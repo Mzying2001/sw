@@ -4,50 +4,14 @@
 #include <cmath>
 #include <memory>
 
-sw::ListViewColumn::ListViewColumn(const std::wstring &header, double width)
+sw::ListViewColumn::ListViewColumn(const wchar_t *header, double width)
     : header(header), width(width)
 {
 }
 
-sw::ListViewColumn::ListViewColumn(const LVCOLUMNW &lvc)
+sw::ListViewColumn::ListViewColumn(const std::wstring &header, double width)
+    : header(header), width(width)
 {
-    double scaleX = Dip::ScaleX;
-
-    if (lvc.mask & LVCF_TEXT) {
-        header = lvc.pszText;
-    } else {
-        header = L"";
-    }
-
-    if (lvc.mask & LVCF_WIDTH) {
-        width = lvc.cx * scaleX;
-    } else {
-        width = 0;
-    }
-
-    if (lvc.mask & LVCF_FMT) {
-        if (lvc.fmt & LVCFMT_RIGHT) {
-            alignment = ListViewColumnAlignment::Right;
-        } else if (lvc.fmt & LVCFMT_CENTER) {
-            alignment = ListViewColumnAlignment::Center;
-        } /*else { alignment = ListViewColumnAlignment::Left; }*/
-    }
-}
-
-sw::ListViewColumn::operator LVCOLUMNW() const
-{
-    double scaleX = Dip::ScaleX;
-
-    LVCOLUMNW lvc{};
-    lvc.mask    = LVCF_TEXT | LVCF_FMT;
-    lvc.pszText = const_cast<LPWSTR>(header.c_str());
-    lvc.fmt     = (int)alignment;
-
-    if (width >= 0) {
-        lvc.mask |= LVCF_WIDTH;
-        lvc.cx = std::lround(width / scaleX);
-    }
-    return lvc;
 }
 
 sw::ListViewItem::ListViewItem(ListViewItem &&other) noexcept
@@ -69,10 +33,10 @@ sw::ListView::ListView()
                   return &self->_items;
               })),
 
-      ColumnsCount(
-          Property<int>::Init(this)
-              .Getter([](ListView *self) -> int {
-                  return self->_GetColCount();
+      Columns(
+          Property<ObservableCollection<ListViewColumn> *>::Init(this)
+              .Getter([](ListView *self) -> ObservableCollection<ListViewColumn> * {
+                  return &self->_columns;
               })),
 
       GridLines(
@@ -147,62 +111,17 @@ sw::ListView::ListView()
     Rect    = sw::Rect(0, 0, 200, 200);
     TabStop = true;
     UpdateCurrentItemsSource();
+
+    _columns.CollectionChanged +=
+        NotifyCollectionChangedEventHandler(*this, &ListView::_ColumnsCollectionChangedHandler);
 }
 
-void sw::ListView::Refresh()
+void sw::ListView::Refresh(bool refreshColumns)
 {
+    if (refreshColumns)
+        _UpdateColumns();
     _UpdateCount();
     Redraw();
-}
-
-bool sw::ListView::AddColumn(const ListViewColumn &column)
-{
-    return InsertColumn(_GetColCount(), column);
-}
-
-bool sw::ListView::AddColumn(const std::wstring &header)
-{
-    ListViewColumn column(header);
-    return InsertColumn(_GetColCount(), column);
-}
-
-bool sw::ListView::InsertColumn(int index, const ListViewColumn &column)
-{
-    LVCOLUMNW lvc = column;
-    return SendMessageW(LVM_INSERTCOLUMNW, index, reinterpret_cast<LPARAM>(&lvc)) != -1;
-}
-
-bool sw::ListView::InsertColumn(int index, const std::wstring &header)
-{
-    ListViewColumn column(header);
-    return InsertColumn(index, column);
-}
-
-bool sw::ListView::SetColumnHeader(int index, const std::wstring &header)
-{
-    LVCOLUMNW lvc;
-    lvc.mask    = LVCF_TEXT;
-    lvc.pszText = const_cast<LPWSTR>(header.c_str());
-    return SendMessageW(LVM_SETCOLUMNW, index, reinterpret_cast<LPARAM>(&lvc));
-}
-
-double sw::ListView::GetColumnWidth(int index)
-{
-    if (index < 0 || index >= _GetColCount()) {
-        return -1;
-    } else {
-        return SendMessageW(LVM_GETCOLUMNWIDTH, index, 0) * Dip::ScaleX;
-    }
-}
-
-bool sw::ListView::SetColumnWidth(int index, double width)
-{
-    return SendMessageW(LVM_SETCOLUMNWIDTH, index, std::lround(width / Dip::ScaleX));
-}
-
-bool sw::ListView::RemoveColumnAt(int index)
-{
-    return SendMessageW(LVM_DELETECOLUMN, index, 0);
 }
 
 sw::List<int> sw::ListView::GetSelectedIndices()
@@ -262,7 +181,7 @@ sw::IList *sw::ListView::GetDefaultItemsSource()
 
 void sw::ListView::OnCurrentItemsSourceChanged(IList *oldItemsSource, IList *newItemsSource)
 {
-    Refresh();
+    Refresh(false);
 }
 
 void sw::ListView::OnCurrentItemsSourceCollectionChanged(const NotifyCollectionChangedEventArgs &args)
@@ -314,6 +233,14 @@ void sw::ListView::SetTextColor(Color color, bool redraw)
 bool sw::ListView::OnNotify(NMHDR *pNMHDR, LRESULT &result)
 {
     switch (pNMHDR->code) {
+        case HDN_ITEMCHANGINGW: {
+            OnHeaderItemChanging(reinterpret_cast<NMHEADERW *>(pNMHDR));
+            break;
+        }
+        case HDN_ITEMCHANGEDW: {
+            OnHeaderItemChanged(reinterpret_cast<NMHEADERW *>(pNMHDR));
+            break;
+        }
         case HDN_ITEMCLICKW: {
             OnHeaderItemClicked(reinterpret_cast<NMHEADERW *>(pNMHDR));
             break;
@@ -417,6 +344,21 @@ void sw::ListView::OnCheckStateChanged(int index)
 {
     ListViewCheckStateChangedEventArgs args(index);
     RaiseRoutedEvent(args);
+}
+
+void sw::ListView::OnHeaderItemChanging(NMHEADERW *pNMH)
+{
+}
+
+void sw::ListView::OnHeaderItemChanged(NMHEADERW *pNMH)
+{
+    if (pNMH->pitem->mask & HDI_WIDTH) {
+        int index = pNMH->iItem;
+        if (index >= 0 && index < _columns.Count()) {
+            auto &column = _columns.GetAt(index);
+            column.width = Dip::PxToDipX(pNMH->pitem->cxy);
+        }
+    }
 }
 
 void sw::ListView::OnHeaderItemClicked(NMHEADERW *pNMH)
@@ -652,5 +594,76 @@ void sw::ListView::_ApplyDispInfo(const ListViewItem &item, NMLVDISPINFOW *pNMIn
     }
     if (pNMInfo->item.mask & LVIF_IMAGE) {
         pNMInfo->item.iImage = item.imageIndex;
+    }
+}
+
+bool sw::ListView::_InsertColumn(int index, const ListViewColumn &column)
+{
+    LVCOLUMNW lvc{};
+    lvc.mask     = LVCF_WIDTH | LVCF_TEXT;
+    lvc.iSubItem = index;
+    lvc.cx       = Dip::DipToPxX(column.width);
+    lvc.pszText  = const_cast<LPWSTR>(column.header.c_str());
+
+    return SendMessageW(LVM_INSERTCOLUMNW, index, reinterpret_cast<LPARAM>(&lvc)) != -1;
+}
+
+bool sw::ListView::_DeleteColumn(int index)
+{
+    return SendMessageW(LVM_DELETECOLUMN, index, 0);
+}
+
+bool sw::ListView::_SetColumn(int index, const ListViewColumn &column)
+{
+    LVCOLUMNW lvc{};
+    lvc.mask     = LVCF_WIDTH | LVCF_TEXT;
+    lvc.iSubItem = index;
+    lvc.cx       = Dip::DipToPxX(column.width);
+    lvc.pszText  = const_cast<LPWSTR>(column.header.c_str());
+
+    return SendMessageW(LVM_SETCOLUMNW, index, reinterpret_cast<LPARAM>(&lvc));
+}
+
+void sw::ListView::_UpdateColumns()
+{
+    int colCount    = _GetColCount();
+    int newColCount = _columns.Count();
+    int maxCount    = Utils::Max(colCount, newColCount);
+
+    for (int i = 0; i < maxCount; i++) {
+        if (i >= colCount) {
+            _InsertColumn(i, _columns.GetAt(i));
+        } else if (i >= newColCount) {
+            _DeleteColumn(i);
+        } else {
+            _SetColumn(i, _columns.GetAt(i));
+        }
+    }
+}
+
+void sw::ListView::_ColumnsCollectionChangedHandler(
+    INotifyCollectionChanged &sender, NotifyCollectionChangedEventArgs &args)
+{
+    switch (args.action) {
+        case NotifyCollectionChangedAction::Add:
+            _InsertColumn(args.index, _columns.GetAt(args.index));
+            break;
+
+        case NotifyCollectionChangedAction::Remove:
+            _DeleteColumn(args.index);
+            break;
+
+        case NotifyCollectionChangedAction::Replace:
+            _SetColumn(args.index, _columns.GetAt(args.index));
+            break;
+
+        case NotifyCollectionChangedAction::Move:
+            _SetColumn(args.index, _columns.GetAt(args.index));
+            _SetColumn(args.oldIndex, _columns.GetAt(args.oldIndex));
+            break;
+
+        case NotifyCollectionChangedAction::Reset:
+            _UpdateColumns();
+            break;
     }
 }

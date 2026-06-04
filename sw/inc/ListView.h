@@ -19,15 +19,6 @@ namespace sw
     };
 
     /**
-     * @brief 列表视图的列对齐方式
-     */
-    enum class ListViewColumnAlignment {
-        Left   = LVCFMT_LEFT,   ///< 左对齐
-        Right  = LVCFMT_RIGHT,  ///< 右对齐
-        Center = LVCFMT_CENTER, ///< 居中
-    };
-
-    /**
      * @brief 列表视图的列信息
      */
     struct ListViewColumn {
@@ -37,17 +28,11 @@ namespace sw
         /// @brief 列宽度
         double width;
 
-        /// @brief 对齐方式，默认为左对齐
-        ListViewColumnAlignment alignment = ListViewColumnAlignment::Left;
+        /// @brief 构造函数，默认宽度为100
+        ListViewColumn(const wchar_t *header, double width = 100);
 
-        /// @brief 构造函数
+        /// @brief 构造函数，默认宽度为100
         ListViewColumn(const std::wstring &header, double width = 100);
-
-        /// @brief 从LVCOLUMNW构造
-        ListViewColumn(const LVCOLUMNW &lvc);
-
-        /// @brief 隐式转换LVCOLUMNW
-        operator LVCOLUMNW() const;
     };
 
     /**
@@ -88,6 +73,11 @@ namespace sw
         ObservableCollection<ListViewItem> _items;
 
         /**
+         * @brief 列集合
+         */
+        ObservableCollection<ListViewColumn> _columns;
+
+        /**
          * @brief 用于给GetDisplayInfo提供显示信息的缓冲对象
          */
         ListViewItem _itemDisplayBuffer;
@@ -99,9 +89,9 @@ namespace sw
         const ReadOnlyProperty<ObservableCollection<ListViewItem> *> Items;
 
         /**
-         * @brief 列数
+         * @brief 列集合
          */
-        const ReadOnlyProperty<int> ColumnsCount;
+        const ReadOnlyProperty<ObservableCollection<ListViewColumn> *> Columns;
 
         /**
          * @brief 是否显示网格线
@@ -146,67 +136,9 @@ namespace sw
 
         /**
          * @brief 刷新控件以反映数据源的当前状态
+         * @param refreshColumns 是否刷新列信息
          */
-        void Refresh();
-
-        /**
-         * @brief 添加新的列
-         * @param column 要添加的列信息
-         * @return 操作是否成功
-         */
-        bool AddColumn(const ListViewColumn &column);
-
-        /**
-         * @brief 添加新的列
-         * @param header 要添加列的标题
-         * @return 操作是否成功
-         */
-        bool AddColumn(const std::wstring &header);
-
-        /**
-         * @brief 添加新的列到指定索引
-         * @param index 要插入的位置
-         * @param column 要添加的列信息
-         * @return 操作是否成功
-         */
-        bool InsertColumn(int index, const ListViewColumn &column);
-
-        /**
-         * @brief 添加新的列到指定索引
-         * @param index 要插入的位置
-         * @param header 要添加列的标题
-         * @return 操作是否成功
-         */
-        bool InsertColumn(int index, const std::wstring &header);
-
-        /**
-         * @brief 设置指定列的标题
-         * @param index 列的索引
-         * @return 操作是否成功
-         */
-        bool SetColumnHeader(int index, const std::wstring &header);
-
-        /**
-         * @brief 获取指定列的宽度
-         * @param index 列的索引
-         * @return 列的宽度，若列不存在则返回-1
-         */
-        double GetColumnWidth(int index);
-
-        /**
-         * @brief 设置指定列的宽度
-         * @param index 列的索引
-         * @param width 要设置的宽度
-         * @return 操作是否成功
-         */
-        bool SetColumnWidth(int index, double width);
-
-        /**
-         * @brief 移除指定列
-         * @param index 列的索引
-         * @return 操作是否成功
-         */
-        bool RemoveColumnAt(int index);
+        void Refresh(bool refreshColumns = true);
 
         /**
          * @brief 获取所有选中项的索引
@@ -346,6 +278,18 @@ namespace sw
         virtual void OnCheckStateChanged(int index);
 
         /**
+         * @brief 接收到内部Header控件发送的HDN_ITEMCHANGINGW通知时调用该函数
+         * @param pNMH 包含有关列标题变化的信息
+         */
+        virtual void OnHeaderItemChanging(NMHEADERW *pNMH);
+
+        /**
+         * @brief 接收到内部Header控件发送的HDN_ITEMCHANGEDW通知时调用该函数
+         * @param pNMH 包含有关列标题变化的信息
+         */
+        virtual void OnHeaderItemChanged(NMHEADERW *pNMH);
+
+        /**
          * @brief 鼠标左键单击列标题时调用该函数
          * @note 内部Header控件接收到HDN_ITEMCLICKW通知后会调用该函数
          */
@@ -471,5 +415,38 @@ namespace sw
          * @param pNMInfo 要同步到的NMLVDISPINFOW结构体指针
          */
         void _ApplyDispInfo(const ListViewItem &item, NMLVDISPINFOW *pNMInfo);
+
+        /**
+         * @brief 插入列
+         * @param index 列索引
+         * @param column 列信息
+         */
+        bool _InsertColumn(int index, const ListViewColumn &column);
+
+        /**
+         * @brief 移除列
+         * @param index 列索引
+         */
+        bool _DeleteColumn(int index);
+
+        /**
+         * @brief 设置列信息
+         * @param index 列索引
+         * @param column 列信息
+         */
+        bool _SetColumn(int index, const ListViewColumn &column);
+
+        /**
+         * @brief 更新列以匹配数据源
+         */
+        void _UpdateColumns();
+
+        /**
+         * @brief 列集合变更处理函数
+         * @param sender 事件发送者，即数据源对象
+         * @param args 集合变更事件参数
+         */
+        void _ColumnsCollectionChangedHandler(
+            INotifyCollectionChanged &sender, NotifyCollectionChangedEventArgs &args);
     };
 };
