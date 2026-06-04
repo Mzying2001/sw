@@ -1,11 +1,13 @@
 var searchData=
 [
-  ['objectdead_0',['ObjectDead',['../classsw_1_1INotifyObjectDead.html#a1fc7f2d5ecbba9397b05e05bbccb3f70',1,'sw::INotifyObjectDead']]],
-  ['olddatacontext_1',['oldDataContext',['../structsw_1_1DataContextChangedEventArgs.html#a4521b58153c01c85021f1275fc663a25',1,'sw::DataContextChangedEventArgs']]],
-  ['oldindex_2',['oldIndex',['../classsw_1_1NotifyCollectionChangedEventArgs.html#a9f14e491009d1b89f75d85aa44e299cc',1,'sw::NotifyCollectionChangedEventArgs']]],
-  ['opacity_3',['Opacity',['../classsw_1_1Window.html#a789346009936daa99303cf88f9f5bb34',1,'sw::Window']]],
-  ['orientation_4',['orientation',['../classsw_1_1Splitter.html#a9c922b8e13fa139978a664c1e8fab4d6',1,'sw::Splitter::Orientation'],['../classsw_1_1StackPanel.html#affb5896d0e3e3b615bcbb285c8e03bf4',1,'sw::StackPanel::Orientation'],['../classsw_1_1WrapPanel.html#a2b718024b1dd81f08906afd3fa18a3f7',1,'sw::WrapPanel::Orientation'],['../classsw_1_1Font.html#af31ac58928f6e0d9d9c90a95f54fd7de',1,'sw::Font::orientation'],['../classsw_1_1StackLayout.html#aa425ef22052ca56ed1e0358374db00a5',1,'sw::StackLayout::orientation'],['../classsw_1_1WrapLayout.html#a1ce0e6707fe1463b857889755df7ee09',1,'sw::WrapLayout::orientation']]],
-  ['originalsource_5',['originalSource',['../structsw_1_1RoutedEventArgs.html#a57576085d942ca3748d48482b08d8d44',1,'sw::RoutedEventArgs']]],
-  ['outprecision_6',['outPrecision',['../classsw_1_1Font.html#aa223c3578a59a96149bd4ef989825e08',1,'sw::Font']]],
-  ['owner_7',['Owner',['../classsw_1_1Window.html#afd4c2d3d94e2a134cb9d82deb2007a58',1,'sw::Window']]]
+  ['name_0',['name',['../structsw_1_1FileFilterItem.html#a351e74be2d3ecfd2f6bbff15f71d59e5',1,'sw::FileFilterItem::name'],['../classsw_1_1Font.html#a169e7893a4b799bcb3424c5df0d5f54d',1,'sw::Font::name']]],
+  ['newclientposition_1',['newClientPosition',['../classsw_1_1PositionChangedEventArgs.html#a9e18f233f6de27cc2a2831312556fc26',1,'sw::PositionChangedEventArgs']]],
+  ['newclientsize_2',['newClientSize',['../classsw_1_1SizeChangedEventArgs.html#af6c54714cb8a4866fda0a8c65923fb47',1,'sw::SizeChangedEventArgs']]],
+  ['newfolderbutton_3',['NewFolderButton',['../classsw_1_1FolderBrowserDialog.html#a1146b36190727f370f2071b7cd7c25a7',1,'sw::FolderBrowserDialog']]],
+  ['newtext_4',['newText',['../classsw_1_1ListViewEndEditEventArgs.html#a37e41553a5c889822ad98792475fd53c',1,'sw::ListViewEndEditEventArgs']]],
+  ['node_5',['node',['../classsw_1_1TreeViewItemExpandingEventArgs.html#a8304a1fa3a4791e09ad22cc4194d9ead',1,'sw::TreeViewItemExpandingEventArgs::node'],['../classsw_1_1TreeViewItemExpandedEventArgs.html#a1e1c52d562e9a1175e47940f392ddf30',1,'sw::TreeViewItemExpandedEventArgs::node'],['../classsw_1_1TreeViewCheckStateChangedEventArgs.html#a54667b423943126df7a4c3583e6c46fd',1,'sw::TreeViewCheckStateChangedEventArgs::node']]],
+  ['notetext_6',['NoteText',['../classsw_1_1CommandLink.html#a87b5542fa235d2cd3fb9873d23492082',1,'sw::CommandLink']]],
+  ['notify_7',['Notify',['../classsw_1_1StaticControl.html#a1aa16699f8b60dd9fb6cd3c6b6c129e4',1,'sw::StaticControl']]],
+  ['notifycollectionchanged_8',['notifyCollectionChanged',['../classsw_1_1ItemsControl.html#acdbf6a5ac183782c7f37355a7be85e05',1,'sw::ItemsControl']]],
+  ['nullhwndmsghandler_9',['NullHwndMsgHandler',['../classsw_1_1App.html#ad0c804dc798cbbd24b4521264a67611e',1,'sw::App']]]
 ];

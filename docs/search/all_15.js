@@ -20,7 +20,7 @@ var searchData=
   ['ultrabold_17',['UltraBold',['../namespacesw.html#aa339b1447a18854cd65020a0f25543faaed9a6e9edc22262c3a986a77ce9c7237',1,'sw']]],
   ['ultralight_18',['UltraLight',['../namespacesw.html#aa339b1447a18854cd65020a0f25543faa076f18af3899aa85725250ed87f5edd5',1,'sw']]],
   ['umsg_19',['uMsg',['../structsw_1_1ProcMsg.html#a63d6c8d6ebe3bc0621ac4596a487c418',1,'sw::ProcMsg']]],
-  ['unbox_20',['unbox',['../classsw_1_1BoxedObject_3_01T_00_01typename_01std_1_1enable__if_3_9std_1_1is__base__of_3_01Dynami0b7f9f3c76f32dfd4a67d3da638a9e5e.html#ada691c9d225062b43d5b5ad3390a0600',1,'sw::BoxedObject&lt; T, typename std::enable_if&lt;!std::is_base_of&lt; DynamicObject, T &gt;::value &gt;::type &gt;::Unbox() const noexcept'],['../classsw_1_1BoxedObject_3_01T_00_01typename_01std_1_1enable__if_3_9std_1_1is__base__of_3_01Dynami0b7f9f3c76f32dfd4a67d3da638a9e5e.html#a284c3ceaeecb198609cf0d48b95f5f9c',1,'sw::BoxedObject&lt; T, typename std::enable_if&lt;!std::is_base_of&lt; DynamicObject, T &gt;::value &gt;::type &gt;::Unbox() noexcept']]],
+  ['unbox_20',['unbox',['../classsw_1_1BoxedObject_3_01T_00_01typename_01std_1_1enable__if_3_9std_1_1is__base__of_3_01Dynami0b7f9f3c76f32dfd4a67d3da638a9e5e.html#a284c3ceaeecb198609cf0d48b95f5f9c',1,'sw::BoxedObject&lt; T, typename std::enable_if&lt;!std::is_base_of&lt; DynamicObject, T &gt;::value &gt;::type &gt;::Unbox() noexcept'],['../classsw_1_1BoxedObject_3_01T_00_01typename_01std_1_1enable__if_3_9std_1_1is__base__of_3_01Dynami0b7f9f3c76f32dfd4a67d3da638a9e5e.html#ada691c9d225062b43d5b5ad3390a0600',1,'sw::BoxedObject&lt; T, typename std::enable_if&lt;!std::is_base_of&lt; DynamicObject, T &gt;::value &gt;::type &gt;::Unbox() const noexcept']]],
   ['unchecked_21',['Unchecked',['../namespacesw.html#a0c271c55532adb17832314d7a5e83951a881b3634f18ee4f2c2315bd19b75e0ae',1,'sw']]],
   ['underline_22',['underline',['../classsw_1_1Font.html#a516d900b06bcd74900eccd55b59bdcba',1,'sw::Font']]],
   ['undo_23',['Undo',['../classsw_1_1TextBoxBase.html#a7c7ccda9b5161642d002a88cab7da1c3',1,'sw::TextBoxBase']]],
@@ -45,11 +45,12 @@ var searchData=
   ['updatetab_42',['UpdateTab',['../classsw_1_1TabControl.html#acbde185af6197161f7b22485ebff02b2',1,'sw::TabControl']]],
   ['updatetabtext_43',['UpdateTabText',['../classsw_1_1TabControl.html#ab14ce7faf0e6feb71ba66e7a1029673c',1,'sw::TabControl']]],
   ['updatetarget_44',['updatetarget',['../classsw_1_1SelfBinding.html#a7ed759da28f6a6593811a43eb0ece4fb',1,'sw::SelfBinding::UpdateTarget()'],['../classsw_1_1DataBinding.html#afa089b7f40160cc7ca8547f0ed05ddbe',1,'sw::DataBinding::UpdateTarget()'],['../classsw_1_1Binding.html#a5cc189cdf84757218d47907015021aba',1,'sw::Binding::UpdateTarget()'],['../classsw_1_1BindingBase.html#afd8689b6e1a355a942964b2beab8169e',1,'sw::BindingBase::UpdateTarget()']]],
-  ['usagehint_45',['UsageHint',['../namespacesw.html#ae701cae891e27ca058472a7c58e77f2ba1197dd3ec88e9a3a04e5e747be02ef8b',1,'sw']]],
-  ['usenewui_46',['UseNewUI',['../namespacesw.html#ae701cae891e27ca058472a7c58e77f2ba4ab36834997659bdfed91b501aa7b8c2',1,'sw']]],
-  ['usestyle_47',['UseStyle',['../namespacesw.html#a3a041d852b47daa81ce6c2e266d333f3ad64e1806d2d817ef68f3716992829c86',1,'sw']]],
-  ['useunicode_48',['UseUnicode',['../classsw_1_1StatusBar.html#a0a97d4bff90e41bcbd6260ee9f9fa66a',1,'sw::StatusBar']]],
-  ['useutf8encoding_49',['UseUtf8Encoding',['../classsw_1_1Utils.html#a189d75b95be6a7cb12c2d903a66365a0',1,'sw::Utils']]],
-  ['utf8stringtostringconverter_50',['Utf8StringToStringConverter',['../classsw_1_1Utf8StringToStringConverter.html',1,'sw']]],
-  ['utils_51',['Utils',['../classsw_1_1Utils.html',1,'sw']]]
+  ['url_45',['url',['../classsw_1_1SysLinkClickedEventArgs.html#afbb6e3ad48d1d0ed4bec5aea34eb3ba8',1,'sw::SysLinkClickedEventArgs']]],
+  ['usagehint_46',['UsageHint',['../namespacesw.html#ae701cae891e27ca058472a7c58e77f2ba1197dd3ec88e9a3a04e5e747be02ef8b',1,'sw']]],
+  ['usenewui_47',['UseNewUI',['../namespacesw.html#ae701cae891e27ca058472a7c58e77f2ba4ab36834997659bdfed91b501aa7b8c2',1,'sw']]],
+  ['usestyle_48',['UseStyle',['../namespacesw.html#a3a041d852b47daa81ce6c2e266d333f3ad64e1806d2d817ef68f3716992829c86',1,'sw']]],
+  ['useunicode_49',['UseUnicode',['../classsw_1_1StatusBar.html#a0a97d4bff90e41bcbd6260ee9f9fa66a',1,'sw::StatusBar']]],
+  ['useutf8encoding_50',['UseUtf8Encoding',['../classsw_1_1Utils.html#a189d75b95be6a7cb12c2d903a66365a0',1,'sw::Utils']]],
+  ['utf8stringtostringconverter_51',['Utf8StringToStringConverter',['../classsw_1_1Utf8StringToStringConverter.html',1,'sw']]],
+  ['utils_52',['Utils',['../classsw_1_1Utils.html',1,'sw']]]
 ];

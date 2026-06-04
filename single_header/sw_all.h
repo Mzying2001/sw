@@ -1306,6 +1306,11 @@ namespace sw
 // EnumBit.h
 
 
+/**
+ * @brief 为指定枚举类型启用按位运算符
+ * @param T 需要启用按位运算的枚举类型
+ * @note 该宏应在sw命名空间内、枚举类型声明之后使用。
+ */
 #define _SW_ENUM_ENABLE_BIT_OPERATIONS(T)                  \
     template <>                                            \
     struct _EnumSupportBitOperations<T> : std::true_type { \
@@ -1315,6 +1320,8 @@ namespace sw
 {
     /**
      * @brief 用于标记枚举是否支持位运算
+     * @tparam T 要检测的类型
+     * @note 默认不支持位运算；通过_SW_ENUM_ENABLE_BIT_OPERATIONS特化后才会启用相关运算符。
      */
     template <typename T>
     struct _EnumSupportBitOperations : std::false_type {
@@ -1322,9 +1329,13 @@ namespace sw
 
     /**
      * @brief 为标记_EnumSupportBitOperations的枚举类型提供按位或运算
+     * @tparam T 已启用位运算的枚举类型
+     * @param a 左操作数
+     * @param b 右操作数
+     * @return 按位或后的枚举值
      */
     template <typename T>
-    inline constexpr auto operator|(T a, T b)
+    constexpr auto operator|(T a, T b)
         -> typename std::enable_if<std::is_enum<T>::value && _EnumSupportBitOperations<T>::value, T>::type
     {
         using TUnderlying = typename std::underlying_type<T>::type;
@@ -1333,9 +1344,13 @@ namespace sw
 
     /**
      * @brief 为标记_EnumSupportBitOperations的枚举类型提供按位或赋值运算
+     * @tparam T 已启用位运算的枚举类型
+     * @param a 左操作数引用，运算结果会写回该值
+     * @param b 右操作数
+     * @return 写回后的左操作数引用
      */
     template <typename T>
-    inline constexpr auto operator|=(T &a, T b)
+    constexpr auto operator|=(T &a, T b)
         -> typename std::enable_if<std::is_enum<T>::value && _EnumSupportBitOperations<T>::value, T &>::type
     {
         return a = a | b;
@@ -1343,9 +1358,13 @@ namespace sw
 
     /**
      * @brief 为标记_EnumSupportBitOperations的枚举类型提供按位与运算
+     * @tparam T 已启用位运算的枚举类型
+     * @param a 左操作数
+     * @param b 右操作数
+     * @return 按位与后的枚举值
      */
     template <typename T>
-    inline constexpr auto operator&(T a, T b)
+    constexpr auto operator&(T a, T b)
         -> typename std::enable_if<std::is_enum<T>::value && _EnumSupportBitOperations<T>::value, T>::type
     {
         using TUnderlying = typename std::underlying_type<T>::type;
@@ -1354,9 +1373,13 @@ namespace sw
 
     /**
      * @brief 为标记_EnumSupportBitOperations的枚举类型提供按位与赋值运算
+     * @tparam T 已启用位运算的枚举类型
+     * @param a 左操作数引用，运算结果会写回该值
+     * @param b 右操作数
+     * @return 写回后的左操作数引用
      */
     template <typename T>
-    inline constexpr auto operator&=(T &a, T b)
+    constexpr auto operator&=(T &a, T b)
         -> typename std::enable_if<std::is_enum<T>::value && _EnumSupportBitOperations<T>::value, T &>::type
     {
         return a = a & b;
@@ -1364,9 +1387,13 @@ namespace sw
 
     /**
      * @brief 为标记_EnumSupportBitOperations的枚举类型提供按位异或运算
+     * @tparam T 已启用位运算的枚举类型
+     * @param a 左操作数
+     * @param b 右操作数
+     * @return 按位异或后的枚举值
      */
     template <typename T>
-    inline constexpr auto operator^(T a, T b)
+    constexpr auto operator^(T a, T b)
         -> typename std::enable_if<std::is_enum<T>::value && _EnumSupportBitOperations<T>::value, T>::type
     {
         using TUnderlying = typename std::underlying_type<T>::type;
@@ -1375,9 +1402,13 @@ namespace sw
 
     /**
      * @brief 为标记_EnumSupportBitOperations的枚举类型提供按位异或赋值运算
+     * @tparam T 已启用位运算的枚举类型
+     * @param a 左操作数引用，运算结果会写回该值
+     * @param b 右操作数
+     * @return 写回后的左操作数引用
      */
     template <typename T>
-    inline constexpr auto operator^=(T &a, T b)
+    constexpr auto operator^=(T &a, T b)
         -> typename std::enable_if<std::is_enum<T>::value && _EnumSupportBitOperations<T>::value, T &>::type
     {
         return a = a ^ b;
@@ -1385,9 +1416,12 @@ namespace sw
 
     /**
      * @brief 为标记_EnumSupportBitOperations的枚举类型提供按位取反运算
+     * @tparam T 已启用位运算的枚举类型
+     * @param a 操作数
+     * @return 按位取反后的枚举值
      */
     template <typename T>
-    inline constexpr auto operator~(T a)
+    constexpr auto operator~(T a)
         -> typename std::enable_if<std::is_enum<T>::value && _EnumSupportBitOperations<T>::value, T>::type
     {
         using TUnderlying = typename std::underlying_type<T>::type;
@@ -1916,6 +1950,407 @@ namespace sw
          * @return 成功则返回图标句柄，否则返回NULL
          */
         static HICON GetIconHandle(const std::wstring &fileName);
+    };
+}
+
+// ImageList.h
+
+
+// commctrl.h需要在windows.h之后包含
+
+namespace sw
+{
+    /**
+     * @brief Win32图像列表句柄的RAII包装
+     * @note 非包装对象在析构时会调用ImageList_Destroy；通过Wrap创建的包装对象不负责销毁句柄。
+     */
+    class ImageList
+    {
+    private:
+        /**
+         * @brief 图像列表的句柄
+         */
+        HIMAGELIST _hImageList;
+
+        /**
+         * @brief 记录是否为包装对象
+         */
+        bool _isWrap;
+
+    protected:
+        /**
+         * @brief 使用已有句柄初始化图像列表对象
+         * @param hImageList 图像列表句柄
+         * @param isWrap 是否仅包装句柄，若为true则析构时不销毁句柄
+         */
+        ImageList(HIMAGELIST hImageList, bool isWrap) noexcept;
+
+    public:
+        /**
+         * @brief 创建图像列表，该函数调用ImageList_Create
+         * @param cx 每个图像的宽度，单位为像素
+         * @param cy 每个图像的高度，单位为像素
+         * @param flags 创建标志，与ImageList_Create的flags参数相同
+         * @param cInitial 图像列表的初始容量
+         * @param cGrow 容量不足时每次增长的图像数量
+         */
+        ImageList(int cx, int cy, UINT flags, int cInitial, int cGrow) noexcept;
+
+        /**
+         * @brief 拷贝构造图像列表对象
+         * @param other 要拷贝的对象
+         * @note 包装对象会共享原句柄；非包装对象会调用ImageList_Duplicate复制句柄。
+         */
+        ImageList(const ImageList &other) noexcept;
+
+        /**
+         * @brief 移动构造图像列表对象
+         * @param other 要移动的对象，移动后其句柄被置空
+         */
+        ImageList(ImageList &&other) noexcept;
+
+        /**
+         * @brief 析构图像列表对象
+         * @note 若当前对象不是包装对象且句柄有效，则调用ImageList_Destroy销毁句柄。
+         */
+        ~ImageList() noexcept;
+
+        /**
+         * @brief 拷贝赋值图像列表对象
+         * @param other 要拷贝的对象
+         * @return 当前对象
+         * @note 原有非包装句柄会先被销毁；包装对象会共享原句柄，非包装对象会复制句柄。
+         */
+        ImageList &operator=(const ImageList &other) noexcept;
+
+        /**
+         * @brief 移动赋值图像列表对象
+         * @param other 要移动的对象，移动后其句柄被置空
+         * @return 当前对象
+         */
+        ImageList &operator=(ImageList &&other) noexcept;
+
+        /**
+         * @brief 创建图像列表，该函数调用ImageList_Create
+         * @param cx 每个图像的宽度，单位为像素
+         * @param cy 每个图像的高度，单位为像素
+         * @param flags 创建标志，与ImageList_Create的flags参数相同
+         * @param cInitial 图像列表的初始容量
+         * @param cGrow 容量不足时每次增长的图像数量
+         * @return 拥有新图像列表句柄的对象，创建失败时句柄为NULL
+         */
+        static ImageList Create(int cx, int cy, UINT flags, int cInitial, int cGrow) noexcept;
+
+        /**
+         * @brief 将已有图像列表句柄包装为ImageList对象
+         * @param hImageList 要包装的图像列表句柄
+         * @return 包装原有句柄的对象，该对象析构时不会销毁句柄
+         */
+        static ImageList Wrap(HIMAGELIST hImageList) noexcept;
+
+        /**
+         * @brief 复制图像，该函数调用ImageList_Copy
+         * @param dst 目标图像列表
+         * @param iDst 目标图像索引
+         * @param src 源图像列表
+         * @param iSrc 源图像索引
+         * @param uFlags 复制方式标志，与ImageList_Copy的uFlags参数相同
+         * @return 操作成功返回true，否则返回false
+         */
+        static bool Copy(const ImageList &dst, int iDst, const ImageList &src, int iSrc, UINT uFlags) noexcept;
+
+        /**
+         * @brief 锁定窗口并在指定窗口内显示拖拽图像，该函数调用ImageList_DragEnter
+         * @param hwndLock 要锁定更新的窗口句柄
+         * @param x 拖拽图像相对锁定窗口左上角的水平位置，单位为像素
+         * @param y 拖拽图像相对锁定窗口左上角的垂直位置，单位为像素
+         * @return 操作成功返回true，否则返回false
+         * @note hwndLock为NULL时，坐标相对屏幕左上角。
+         */
+        static bool DragEnter(HWND hwndLock, int x, int y) noexcept;
+
+        /**
+         * @brief 解除窗口锁定并隐藏显示的拖拽图像，该函数调用ImageList_DragLeave
+         * @param hwndLock 先前传给DragEnter的窗口句柄
+         * @return 操作成功返回true，否则返回false
+         */
+        static bool DragLeave(HWND hwndLock) noexcept;
+
+        /**
+         * @brief 拖拽移动，一般在WM_MOUSEMOVE函数中调用，该函数调用ImageList_DragMove
+         * @param x 拖拽图像相对锁定窗口左上角的新水平位置，单位为像素
+         * @param y 拖拽图像相对锁定窗口左上角的新垂直位置，单位为像素
+         * @return 操作成功返回true，否则返回false
+         * @note 拖拽锁定窗口为NULL时，坐标相对屏幕左上角。
+         */
+        static bool DragMove(int x, int y) noexcept;
+
+        /**
+         * @brief 拖拽时显示或隐藏图像，该函数调用ImageList_DragShowNolock
+         * @param fShow 为true时显示拖拽图像，为false时隐藏拖拽图像
+         * @return 操作成功返回true，否则返回false
+         */
+        static bool DragShowNolock(bool fShow) noexcept;
+
+        /**
+         * @brief 结束拖拽操作并销毁临时拖拽图像列表，该函数调用ImageList_EndDrag
+         */
+        static void EndDrag() noexcept;
+
+        /**
+         * @brief 获取拖拽中的临时图像列表，该函数调用ImageList_GetDragImage
+         * @param ppt 接收当前拖拽位置，可为NULL
+         * @param pptHotspot 接收拖拽图像热点相对拖拽位置的偏移，可为NULL
+         * @return 包装临时图像列表句柄的对象；该句柄由拖拽过程管理，EndDrag后失效
+         */
+        static ImageList GetDragImage(POINT *ppt, POINT *pptHotspot) noexcept;
+
+        /**
+         * @brief 加载图像列表，该函数调用ImageList_LoadImageA
+         * @param hi 包含资源的模块实例句柄
+         * @param lpbmp 位图资源名、资源ID或文件路径
+         * @param cx 每个图像的宽度，单位为像素
+         * @param cGrow 容量不足时每次增长的图像数量
+         * @param crMask 用作透明掩码的颜色
+         * @param uType 图像类型，与LoadImage的uType参数相同
+         * @param uFlags 加载标志，与LoadImage的fuLoad参数相同
+         * @return 拥有新图像列表句柄的对象，加载失败时句柄为NULL
+         */
+        static ImageList LoadImageA(HINSTANCE hi, LPCSTR lpbmp, int cx, int cGrow, COLORREF crMask, UINT uType, UINT uFlags) noexcept;
+
+        /**
+         * @brief 加载图像列表，该函数调用ImageList_LoadImageW
+         * @param hi 包含资源的模块实例句柄
+         * @param lpbmp 位图资源名、资源ID或文件路径
+         * @param cx 每个图像的宽度，单位为像素
+         * @param cGrow 容量不足时每次增长的图像数量
+         * @param crMask 用作透明掩码的颜色
+         * @param uType 图像类型，与LoadImage的uType参数相同
+         * @param uFlags 加载标志，与LoadImage的fuLoad参数相同
+         * @return 拥有新图像列表句柄的对象，加载失败时句柄为NULL
+         */
+        static ImageList LoadImageW(HINSTANCE hi, LPCWSTR lpbmp, int cx, int cGrow, COLORREF crMask, UINT uType, UINT uFlags) noexcept;
+
+        /**
+         * @brief 合并两个图像列表，该函数调用ImageList_Merge
+         * @param iml1 第一个图像列表
+         * @param i1 第一个图像列表中的图像索引
+         * @param iml2 第二个图像列表
+         * @param i2 第二个图像列表中的图像索引
+         * @param dx 第二个图像相对第一个图像的水平偏移，单位为像素
+         * @param dy 第二个图像相对第一个图像的垂直偏移，单位为像素
+         * @return 拥有合并结果句柄的对象，合并失败时句柄为NULL
+         */
+        static ImageList Merge(const ImageList &iml1, int i1, const ImageList &iml2, int i2, int dx, int dy) noexcept;
+
+        /**
+         * @brief 读取图像列表，该函数调用ImageList_Read
+         * @param pstm 要读取的流对象
+         * @return 拥有读取结果句柄的对象，读取失败时句柄为NULL
+         */
+        static ImageList Read(IStream *pstm) noexcept;
+
+    public:
+        /**
+         * @brief 获取图像列表句柄
+         * @return 当前对象持有的HIMAGELIST句柄，所有权不转移
+         */
+        HIMAGELIST GetHandle() const noexcept;
+
+        /**
+         * @brief 判断当前对象是否为包装对象
+         * @return 当前对象仅包装句柄且析构时不销毁句柄则返回true，否则返回false
+         */
+        bool IsWrap() const noexcept;
+
+        /**
+         * @brief 获取图像列表句柄并取消对句柄的托管
+         * @return 原图像列表句柄，调用方负责在需要时销毁该句柄
+         * @note 调用后当前对象的句柄被置空，析构时不会销毁原句柄。
+         */
+        HIMAGELIST ReleaseHandle() noexcept;
+
+        /**
+         * @brief 添加图像，该函数调用ImageList_Add
+         * @param hbmImage 包含一个或多个图像的位图句柄
+         * @param hbmMask 包含掩码的位图句柄，可为NULL
+         * @return 新增图像中第一个图像的索引，失败返回-1
+         */
+        int Add(HBITMAP hbmImage, HBITMAP hbmMask) noexcept;
+
+        /**
+         * @brief 添加图标，该函数调用ImageList_AddIcon
+         * @param hIcon 要添加的图标句柄
+         * @return 新增图标的索引，失败返回-1
+         */
+        int AddIcon(HICON hIcon) noexcept;
+
+        /**
+         * @brief 添加图像，指定颜色为mask，该函数调用ImageList_AddMasked
+         * @param hbmImage 包含一个或多个图像的位图句柄
+         * @param crMask 用作透明掩码的颜色
+         * @return 新增图像中第一个图像的索引，失败返回-1
+         */
+        int AddMasked(HBITMAP hbmImage, COLORREF crMask) noexcept;
+
+        /**
+         * @brief 开始拖拽图像，该函数调用ImageList_BeginDrag
+         * @param iTrack 要拖拽的图像索引
+         * @param dxHotspot 拖拽热点相对图像左上角的水平偏移，单位为像素
+         * @param dyHotspot 拖拽热点相对图像左上角的垂直偏移，单位为像素
+         * @return 操作成功返回true，否则返回false
+         */
+        bool BeginDrag(int iTrack, int dxHotspot, int dyHotspot) noexcept;
+
+        /**
+         * @brief 在指定上下文DC下绘制图像，该函数调用ImageList_Draw
+         * @param i 要绘制的图像索引
+         * @param hdcDst 目标设备上下文句柄
+         * @param x 绘制位置的水平坐标，单位为像素
+         * @param y 绘制位置的垂直坐标，单位为像素
+         * @param fStyle 绘制样式标志，与ImageList_Draw的fStyle参数相同
+         * @return 操作成功返回true，否则返回false
+         */
+        bool Draw(int i, HDC hdcDst, int x, int y, UINT fStyle) noexcept;
+
+        /**
+         * @brief 在指定上下文DC下绘制图像，该函数调用ImageList_DrawEx
+         * @param i 要绘制的图像索引
+         * @param hdcDst 目标设备上下文句柄
+         * @param x 绘制位置的水平坐标，单位为像素
+         * @param y 绘制位置的垂直坐标，单位为像素
+         * @param dx 绘制宽度，单位为像素
+         * @param dy 绘制高度，单位为像素
+         * @param rgbBk 背景颜色，与ImageList_DrawEx的rgbBk参数相同
+         * @param rgbFg 前景颜色，与ImageList_DrawEx的rgbFg参数相同
+         * @param fStyle 绘制样式标志，与ImageList_DrawEx的fStyle参数相同
+         * @return 操作成功返回true，否则返回false
+         */
+        bool Draw(int i, HDC hdcDst, int x, int y, int dx, int dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle) noexcept;
+
+        /**
+         * @brief 复制当前图像列表，该函数调用ImageList_Duplicate
+         * @return 拥有复制结果句柄的对象，复制失败时句柄为NULL
+         */
+        ImageList Duplicate() noexcept;
+
+        /**
+         * @brief 获取背景颜色，该函数调用ImageList_GetBkColor
+         * @return 当前背景颜色，返回值语义与ImageList_GetBkColor相同
+         */
+        COLORREF GetBkColor() noexcept;
+
+        /**
+         * @brief 通过指定位置的图像创建图标句柄，该函数调用ImageList_GetIcon
+         * @param i 图像索引
+         * @param flags 绘制样式标志，与ImageList_GetIcon的flags参数相同
+         * @return 新创建的图标句柄，失败返回NULL；调用方负责在不再使用时销毁该图标
+         */
+        HICON GetIcon(int i, UINT flags) noexcept;
+
+        /**
+         * @brief 获取图标大小，该函数调用ImageList_GetIconSize
+         * @param cx 接收图像宽度，单位为像素
+         * @param cy 接收图像高度，单位为像素
+         * @return 操作成功返回true，否则返回false
+         */
+        bool GetIconSize(int &cx, int &cy) noexcept;
+
+        /**
+         * @brief 获取图像个数，该函数调用ImageList_GetImageCount
+         * @return 图像列表中的图像数量
+         */
+        int GetImageCount() noexcept;
+
+        /**
+         * @brief 获取图像信息，该函数调用ImageList_GetImageInfo
+         * @param i 图像索引
+         * @param pImageInfo 接收图像信息的IMAGEINFO结构指针
+         * @return 操作成功返回true，否则返回false
+         */
+        bool GetImageInfo(int i, IMAGEINFO *pImageInfo) noexcept;
+
+        /**
+         * @brief 移除指定图像，该函数调用ImageList_Remove
+         * @param i 要移除的图像索引，传入-1时移除所有图像
+         * @return 操作成功返回true，否则返回false
+         */
+        bool Remove(int i) noexcept;
+
+        /**
+         * @brief 移除所有图像，该函数调用ImageList_Remove
+         * @return 操作成功返回true，否则返回false
+         */
+        bool RemoveAll() noexcept;
+
+        /**
+         * @brief 更换指定位置的图像，该函数调用ImageList_Replace
+         * @param i 要更换的图像索引
+         * @param hbmImage 新图像位图句柄
+         * @param hbmMask 新掩码位图句柄，可为NULL
+         * @return 操作成功返回true，否则返回false
+         */
+        bool Replace(int i, HBITMAP hbmImage, HBITMAP hbmMask) noexcept;
+
+        /**
+         * @brief 更换图标，该函数调用ImageList_ReplaceIcon
+         * @param i 要更换的图像索引，传入-1时追加图标
+         * @param hicon 新图标句柄
+         * @return 被更换或追加图标的索引，失败返回-1
+         */
+        int ReplaceIcon(int i, HICON hicon) noexcept;
+
+        /**
+         * @brief 设置背景颜色，该函数调用ImageList_SetBkColor
+         * @param clrBk 新背景颜色
+         * @return 先前的背景颜色，返回值语义与ImageList_SetBkColor相同
+         */
+        COLORREF SetBkColor(COLORREF clrBk) noexcept;
+
+        /**
+         * @brief 设置拖拽图标为指定图标与当前拖拽图标的结合，该函数调用ImageList_SetDragCursorImage
+         * @param iDrag 当前图像列表中要组合到拖拽图像上的图像索引
+         * @param dxHotspot 新图像相对拖拽热点的水平偏移，单位为像素
+         * @param dyHotspot 新图像相对拖拽热点的垂直偏移，单位为像素
+         * @return 操作成功返回true，否则返回false
+         */
+        bool SetDragCursorImage(int iDrag, int dxHotspot, int dyHotspot) noexcept;
+
+        /**
+         * @brief 设置图像大小并移除所有图像，该函数调用ImageList_SetIconSize
+         * @param cx 新图像宽度，单位为像素
+         * @param cy 新图像高度，单位为像素
+         * @return 操作成功返回true，否则返回false
+         */
+        bool SetIconSize(int cx, int cy) noexcept;
+
+        /**
+         * @brief 设置图像个数，该函数调用ImageList_SetImageCount
+         * @param uNewCount 新图像数量
+         * @return 操作成功返回true，否则返回false
+         */
+        bool SetImageCount(UINT uNewCount) noexcept;
+
+        /**
+         * @brief 将指定的图像添加到要用作覆盖遮罩的图像列表中，该函数调用ImageList_SetOverlayImage
+         * @param iImage 要用作覆盖图像的图像索引
+         * @param iOverlay 覆盖图像编号，用于INDEXTOOVERLAYMASK
+         * @return 操作成功返回true，否则返回false
+         */
+        bool SetOverlayImage(int iImage, int iOverlay) noexcept;
+
+        /**
+         * @brief 写图像列表，该函数调用ImageList_Write
+         * @param pstm 要写入的流对象
+         * @return 操作成功返回true，否则返回false
+         */
+        bool Write(IStream *pstm) noexcept;
+
+    private:
+        /**
+         * @brief 在当前对象拥有句柄时调用ImageList_Destroy
+         */
+        void _DestroyIfNotWrap() noexcept;
     };
 }
 
@@ -8069,9 +8504,7 @@ namespace sw
         template <typename T>
         static constexpr auto Max(T a, T b) noexcept
             -> typename std::enable_if<std::is_scalar<T>::value, T>::type
-        {
-            return a > b ? a : b;
-        }
+        { return a > b ? a : b; }
 
         /**
          * @brief 取两值中的较大值
@@ -8080,9 +8513,7 @@ namespace sw
         template <typename T>
         static auto Max(const T &a, const T &b)
             -> typename std::enable_if<!std::is_scalar<T>::value, T>::type
-        {
-            return a > b ? a : b;
-        }
+        { return a > b ? a : b; }
 
         /**
          * @brief 取两值中的较小值
@@ -8091,9 +8522,7 @@ namespace sw
         template <typename T>
         static constexpr auto Min(T a, T b) noexcept
             -> typename std::enable_if<std::is_scalar<T>::value, T>::type
-        {
-            return a < b ? a : b;
-        }
+        { return a < b ? a : b; }
 
         /**
          * @brief 取两值中的较小值
@@ -8102,9 +8531,7 @@ namespace sw
         template <typename T>
         static auto Min(const T &a, const T &b)
             -> typename std::enable_if<!std::is_scalar<T>::value, T>::type
-        {
-            return a < b ? a : b;
-        }
+        { return a < b ? a : b; }
 
         /**
          * @brief 拼接字符串，也可使用此函数将其他类型转为wstring
@@ -8124,9 +8551,7 @@ namespace sw
         template <typename T>
         static auto _BuildStr(std::wostream &wos, const T &arg)
             -> typename std::enable_if<!_IsProperty<T>::value && !_HasToString<T>::value>::type
-        {
-            wos << arg;
-        }
+        { wos << arg; }
 
         /**
          * @brief 让BuildStr函数支持自定义类型
@@ -8134,9 +8559,7 @@ namespace sw
         template <typename T>
         static auto _BuildStr(std::wostream &wos, const T &arg)
             -> typename std::enable_if<!_IsProperty<T>::value && _HasToString<T>::value>::type
-        {
-            _BuildStr(wos, arg.ToString());
-        }
+        { _BuildStr(wos, arg.ToString()); }
 
         /**
          * @brief 让BuildStr函数支持属性
@@ -8144,33 +8567,25 @@ namespace sw
         template <typename T>
         static auto _BuildStr(std::wostream &wos, const T &prop)
             -> typename std::enable_if<_IsProperty<T>::value>::type
-        {
-            _BuildStr(wos, prop.Get());
-        }
+        { _BuildStr(wos, prop.Get()); }
 
         /**
          * @brief 让BuildStr函数将bool类型转化为"true"或"false"而不是数字1或0
          */
         static void _BuildStr(std::wostream &wos, bool b)
-        {
-            wos << (b ? L"true" : L"false");
-        }
+        { wos << (b ? L"true" : L"false"); }
 
         /**
          * @brief 让BuildStr函数支持窄字符串
          */
         static void _BuildStr(std::wostream &wos, const char *str)
-        {
-            wos << ToWideStr(str);
-        }
+        { wos << ToWideStr(str); }
 
         /**
          * @brief 让BuildStr函数支持窄字符串
          */
         static void _BuildStr(std::wostream &wos, const std::string &str)
-        {
-            wos << ToWideStr(str);
-        }
+        { wos << ToWideStr(str); }
 
         /**
          * @brief 让BuildStr函数支持std::vector
@@ -8991,6 +9406,11 @@ namespace sw
         virtual uint64_t GetLayoutTag() const = 0;
 
         /**
+         * @brief 获取控件所需尺寸
+         */
+        virtual Size GetDesireSize() const = 0;
+
+        /**
          * @brief 获取子控件的数量
          */
         virtual int GetChildLayoutCount() const = 0;
@@ -9000,11 +9420,6 @@ namespace sw
          * @throw std::out_of_range 如果索引超出范围
          */
         virtual ILayout &GetChildLayoutAt(int index) const = 0;
-
-        /**
-         * @brief 获取控件所需尺寸
-         */
-        virtual Size GetDesireSize() const = 0;
 
         /**
          * @brief 测量控件所需尺寸
@@ -9070,291 +9485,6 @@ namespace sw
          * @note PropertyChanged事件使用该函数返回的委托来保存事件处理程序
          */
         virtual PropertyChangedEventHandler &GetPropertyChangedEventDelegate() = 0;
-    };
-}
-
-// ImageList.h
-
-
-namespace sw
-{
-    /**
-     * @brief 图像列表
-     */
-    class ImageList
-    {
-    private:
-        /**
-         * @brief 图像列表的句柄
-         */
-        HIMAGELIST _hImageList;
-
-        /**
-         * @brief 记录是否为包装对象
-         */
-        bool _isWrap;
-
-    protected:
-        /**
-         * @brief 初始化图像列表
-         * @param hImageList 图像列表的句柄
-         * @param isWrap 是否为包装对象
-         */
-        ImageList(HIMAGELIST hImageList, bool isWrap);
-
-    public:
-        /**
-         * @brief 创建图像列表，参数与ImageList_Create相同
-         */
-        ImageList(int cx, int cy, UINT flags, int cInitial, int cGrow);
-
-        /**
-         * @brief 拷贝构造
-         */
-        ImageList(const ImageList &other);
-
-        /**
-         * @brief 移动构造
-         */
-        ImageList(ImageList &&other);
-
-        /**
-         * @brief 析构函数
-         */
-        virtual ~ImageList();
-
-        /**
-         * @brief 拷贝赋值
-         */
-        ImageList &operator=(const ImageList &other);
-
-        /**
-         * @brief 移动赋值
-         */
-        ImageList &operator=(ImageList &&other);
-
-        /**
-         * @brief 创建一个图像列表，该函数调用ImageList_Create
-         * @return 图像列表对象
-         */
-        static ImageList Create(int cx, int cy, UINT flags, int cInitial, int cGrow);
-
-        /**
-         * @brief 包装一个图像列表句柄为ImageList对象，通过该函数创建的对象析构时不会销毁句柄
-         * @param hImageList 要包装的句柄
-         * @return 包装原有句柄的对象
-         */
-        static ImageList Wrap(HIMAGELIST hImageList);
-
-        /**
-         * @brief 复制图像，该函数调用ImageList_Copy
-         */
-        static bool Copy(const ImageList &dst, int iDst, const ImageList &src, int iSrc, UINT uFlags);
-
-        /**
-         * @brief 锁定窗口并在指定窗口内显示拖拽图像，该函数调用ImageList_DragEnter
-         */
-        static bool DragEnter(HWND hwndLock, double x, double y);
-
-        /**
-         * @brief 锁定窗口并在指定窗口内显示拖拽图像，该函数调用ImageList_DragEnter
-         * @note 该函数参数以像素为单位
-         */
-        static bool DragEnterPx(HWND hwndLock, int x, int y);
-
-        /**
-         * @brief 解除窗口锁定并隐藏显示的拖拽图像，该函数调用ImageList_DragLeave
-         */
-        static bool DragLeave(HWND hwndLock);
-
-        /**
-         * @brief 拖拽移动，一般在WM_MOUSEMOVE函数中调用，该函数调用ImageList_DragMove
-         */
-        static bool DragMove(double x, double y);
-
-        /**
-         * @brief 拖拽移动，一般在WM_MOUSEMOVE函数中调用，该函数调用ImageList_DragMove
-         * @note 该函数参数以像素为单位
-         */
-        static bool DragMovePx(int x, int y);
-
-        /**
-         * @brief 拖拽时显示或隐藏图像，该函数调用ImageList_DragShowNolock
-         */
-        static bool DragShowNolock(bool fShow);
-
-        /**
-         * @brief 结束拖拽，该函数调用ImageList_EndDrag
-         */
-        static void EndDrag();
-
-        /**
-         * @brief 获取拖拽中图像的列表，该函数调用ImageList_GetDragImage
-         */
-        static ImageList GetDragImage(POINT *ppt, POINT *pptHotspot);
-
-        /**
-         * @brief 加载图像列表，该函数调用ImageList_LoadImageA
-         */
-        static ImageList LoadImageA(HINSTANCE hi, LPCSTR lpbmp, int cx, int cGrow, COLORREF crMask, UINT uType, UINT uFlags);
-
-        /**
-         * @brief 加载图像列表，该函数调用ImageList_LoadImageW
-         */
-        static ImageList LoadImageW(HINSTANCE hi, LPCWSTR lpbmp, int cx, int cGrow, COLORREF crMask, UINT uType, UINT uFlags);
-
-        /**
-         * @brief 合并两个图像列表，该函数调用ImageList_Merge
-         */
-        static ImageList Merge(const ImageList &iml1, int i1, const ImageList &iml2, int i2, int dx, int dy);
-
-        /**
-         * @brief 读取图像列表，该函数调用ImageList_Read
-         */
-        static ImageList Read(IStream *pstm);
-
-    public:
-        /**
-         * @brief 获取图像列表的句柄
-         */
-        HIMAGELIST GetHandle() const;
-
-        /**
-         * @brief 判断当前对象是否为包装对象
-         */
-        bool IsWrap() const;
-
-        /**
-         * @brief 获取图像列表句柄并取消对句柄的托管，调用该函数后当前对象将不可用，析构时也不会销毁句柄
-         * @return 当前对象的图像列表句柄
-         */
-        HIMAGELIST ReleaseHandle();
-
-        /**
-         * @brief 添加图像，该函数调用ImageList_Add
-         */
-        int Add(HBITMAP hbmImage, HBITMAP hbmMask);
-
-        /**
-         * @brief 添加图标，该函数调用ImageList_AddIcon
-         */
-        int AddIcon(HICON hIcon);
-
-        /**
-         * @brief 添加图像，指定颜色为mask，该函数调用ImageList_AddMasked
-         */
-        int AddMasked(HBITMAP hbmImage, COLORREF crMask);
-
-        /**
-         * @brief 开始拖拽图像，该函数调用ImageList_BeginDrag
-         */
-        bool BeginDrag(int iTrack, int dxHotspot, int dyHotspot);
-
-        /**
-         * @brief 在指定上下文DC下绘制图像，该函数调用ImageList_Draw
-         */
-        bool Draw(int i, HDC hdcDst, double x, double y, UINT fStyle);
-
-        /**
-         * @brief 在指定上下文DC下绘制图像，该函数调用ImageList_DrawEx
-         */
-        bool Draw(int i, HDC hdcDst, double x, double y, double dx, double dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle);
-
-        /**
-         * @brief 以像素为单位，在指定上下文DC下绘制图像，该函数调用ImageList_Draw
-         */
-        bool DrawPx(int i, HDC hdcDst, int x, int y, UINT fStyle);
-
-        /**
-         * @brief 以像素为单位，在指定上下文DC下绘制图像，该函数调用ImageList_DrawEx
-         */
-        bool DrawPx(int i, HDC hdcDst, int x, int y, int dx, int dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle);
-
-        /**
-         * @brief 复制当前图像列表，该函数调用ImageList_Duplicate
-         */
-        ImageList Duplicate();
-
-        /**
-         * @brief 获取背景颜色，该函数调用ImageList_GetBkColor
-         */
-        COLORREF GetBkColor();
-
-        /**
-         * @brief 通过指定位置的图像创建图标句柄，该函数调用ImageList_GetIcon
-         */
-        HICON GetIcon(int i, UINT flags);
-
-        /**
-         * @brief 获取图标大小，该函数调用ImageList_GetIconSize
-         */
-        bool GetIconSize(int &cx, int &cy);
-
-        /**
-         * @brief 获取图像个数，该函数调用ImageList_GetImageCount
-         */
-        int GetImageCount();
-
-        /**
-         * @brief 获取图像信息，该函数调用ImageList_GetImageInfo
-         */
-        bool GetImageInfo(int i, IMAGEINFO *pImageInfo);
-
-        /**
-         * @brief 移除指定图像，该函数调用ImageList_Remove
-         */
-        bool Remove(int i);
-
-        /**
-         * @brief 移除所有图像，该函数调用ImageList_Remove
-         */
-        bool RemoveAll();
-
-        /**
-         * @brief 更换指定位置的图像，该函数调用ImageList_Replace
-         */
-        bool Replace(int i, HBITMAP hbmImage, HBITMAP hbmMask);
-
-        /**
-         * @brief 更换图标，该函数调用ImageList_ReplaceIcon
-         */
-        int ReplaceIcon(int i, HICON hicon);
-
-        /**
-         * @brief 设置背景颜色，该函数调用ImageList_SetBkColor
-         */
-        COLORREF SetBkColor(COLORREF clrBk);
-
-        /**
-         * @brief 设置拖拽图标为指定图标与当前拖拽图标的结合，该函数调用ImageList_SetDragCursorImage
-         */
-        bool SetDragCursorImage(int iDrag, int dxHotspot, int dyHotspot);
-
-        /**
-         * @brief 设置图像大小并移除所有图像，该函数调用ImageList_SetIconSize
-         */
-        bool SetIconSize(int cx, int cy);
-
-        /**
-         * @brief 设置图像个数，该函数调用ImageList_SetImageCount
-         */
-        bool SetImageCount(UINT uNewCount);
-
-        /**
-         * @brief 将指定的图像添加到要用作覆盖遮罩的图像列表中，该函数调用ImageList_SetOverlayImage
-         */
-        bool SetOverlayImage(int iImage, int iOverlay);
-
-        /**
-         * @brief 写图像列表，该函数调用ImageList_Write
-         */
-        bool Write(IStream *pstm);
-
-    private:
-        /**
-         * @brief 若_isWrap为false时调用ImageList_Destroy
-         */
-        void _DestroyIfNotWrap();
     };
 }
 
@@ -9623,30 +9753,26 @@ namespace sw
 
 namespace sw
 {
-    // clang-format off
-
     /**
      * @brief 表示特定类型路由事件的事件参数类型，继承自该类的类型可以直接作为AddHandler函数的模板参数
      * @tparam Type 路由事件类型，必须为RoutedEventType枚举中的值
      * @tparam TBase 事件参数类型的基类，默认为RoutedEventArgs
      */
     template <RoutedEventType Type, typename TBase = RoutedEventArgs>
-    struct TypedRoutedEventArgs : TBase
+    class TypedRoutedEventArgs : public TBase
     {
         // TBase必须派生自RoutedEventArgs
         static_assert(
             std::is_base_of<RoutedEventArgs, TBase>::value,
             "TBase must be derived from RoutedEventArgs.");
 
-        /**
-         * @brief 路由事件的类型，AddHandler模板函数使用此字段注册事件
-         */
+    public:
+        /// @brief 路由事件的类型，AddHandler模板函数使用此字段注册事件
         static constexpr RoutedEventType EventType = Type;
 
-        /**
-         * @brief 构造函数，初始化事件类型为EventType
-         */
-        TypedRoutedEventArgs() { this->eventType = EventType; }
+        /// @brief 构造函数，初始化事件类型为EventType
+        TypedRoutedEventArgs()
+        { this->eventType = EventType; }
     };
 
     /*================================================================================*/
@@ -9677,26 +9803,53 @@ namespace sw
     /**
      * @brief 尺寸改变事件参数类型
      */
-    struct SizeChangedEventArgs : TypedRoutedEventArgs<UIElement_SizeChanged> {
-        Size newClientSize; // 用户区的新尺寸
-        SizeChangedEventArgs(Size newClientSize) : newClientSize(newClientSize) {}
+    class SizeChangedEventArgs : public TypedRoutedEventArgs<UIElement_SizeChanged>
+    {
+    public:
+        /// @brief 用户区的新尺寸
+        Size newClientSize;
+
+        /// @brief 构造函数
+        /// @param newClientSize 用户区的新尺寸
+        SizeChangedEventArgs(Size newClientSize) : newClientSize(newClientSize)
+        {
+        }
     };
 
     /**
      * @brief 位置改变事件参数类型
      */
-    struct PositionChangedEventArgs : TypedRoutedEventArgs<UIElement_PositionChanged> {
-        Point newClientPosition; // 移动后用户区左上角的位置
-        PositionChangedEventArgs(Point newClientPosition) : newClientPosition(newClientPosition) {}
+    class PositionChangedEventArgs : public TypedRoutedEventArgs<UIElement_PositionChanged>
+    {
+    public:
+        /// @brief 移动后用户区左上角的位置
+        Point newClientPosition;
+
+        /// @brief 构造函数
+        /// @param newClientPosition 移动后用户区左上角的位置
+        PositionChangedEventArgs(Point newClientPosition) : newClientPosition(newClientPosition)
+        {
+        }
     };
 
     /**
      * @brief 输入字符事件类型参数
      */
-    struct GotCharEventArgs : TypedRoutedEventArgs<UIElement_GotChar> {
-        wchar_t ch;     // 输入的字符
-        KeyFlags flags; // 附加信息
-        GotCharEventArgs(wchar_t ch, KeyFlags flags) : ch(ch), flags(flags) {}
+    class GotCharEventArgs : public TypedRoutedEventArgs<UIElement_GotChar>
+    {
+    public:
+        /// @brief 输入的字符
+        wchar_t ch;
+
+        /// @brief 附加信息
+        KeyFlags flags;
+
+        /// @brief 构造函数
+        /// @param ch 输入的字符
+        /// @param flags 附加信息
+        GotCharEventArgs(wchar_t ch, KeyFlags flags) : ch(ch), flags(flags)
+        {
+        }
     };
 
     /**
@@ -9704,23 +9857,40 @@ namespace sw
      * @tparam Type 路由事件类型，必须为RoutedEventType枚举中的值
      */
     template <RoutedEventType Type>
-    struct KeyEventArgs : TypedRoutedEventArgs<Type> {
-        VirtualKey key; // 虚拟按键
-        KeyFlags flags; // 附加信息
-        KeyEventArgs(VirtualKey key, KeyFlags flags) : key(key), flags(flags) {}
+    class KeyEventArgs : public TypedRoutedEventArgs<Type>
+    {
+    public:
+        /// @brief 虚拟按键
+        VirtualKey key;
+
+        /// @brief 附加信息
+        KeyFlags flags;
+
+        /// @brief 构造函数
+        /// @param key 虚拟按键
+        /// @param flags 附加信息
+        KeyEventArgs(VirtualKey key, KeyFlags flags) : key(key), flags(flags)
+        {
+        }
     };
 
     /**
      * @brief 键盘按键按下事件参数类型
      */
-    struct KeyDownEventArgs : KeyEventArgs<UIElement_KeyDown> {
+    class KeyDownEventArgs : public KeyEventArgs<UIElement_KeyDown>
+    {
+    public:
+        /// @brief 继承基类构造函数
         using KeyEventArgs<UIElement_KeyDown>::KeyEventArgs;
     };
 
     /**
      * @brief 键盘按键抬起事件参数类型
      */
-    struct KeyUpEventArgs : KeyEventArgs<UIElement_KeyUp> {
+    class KeyUpEventArgs : public KeyEventArgs<UIElement_KeyUp>
+    {
+    public:
+        /// @brief 继承基类构造函数
         using KeyEventArgs<UIElement_KeyUp>::KeyEventArgs;
     };
 
@@ -9729,26 +9899,51 @@ namespace sw
      * @tparam Type 路由事件类型，必须为RoutedEventType枚举中的值
      */
     template <RoutedEventType Type>
-    struct MouseEventArgs : TypedRoutedEventArgs<Type> {
-        Point mousePosition; // 鼠标位置
-        MouseKey keyState;   // 按键状态
-        MouseEventArgs(Point mousePosition, MouseKey keyState) : mousePosition(mousePosition), keyState(keyState) {}
+    class MouseEventArgs : public TypedRoutedEventArgs<Type>
+    {
+    public:
+        /// @brief 鼠标位置
+        Point mousePosition;
+
+        /// @brief 按键状态
+        MouseKey keyState;
+
+        /// @brief 构造函数
+        /// @param mousePosition 鼠标位置
+        /// @param keyState 按键状态
+        MouseEventArgs(Point mousePosition, MouseKey keyState)
+            : mousePosition(mousePosition), keyState(keyState)
+        {
+        }
     };
 
     /**
      * @brief 鼠标移动事件参数类型
      */
-    struct MouseMoveEventArgs : MouseEventArgs<UIElement_MouseMove> {
+    class MouseMoveEventArgs : public MouseEventArgs<UIElement_MouseMove>
+    {
+    public:
+        /// @brief 继承基类构造函数
         using MouseEventArgs<UIElement_MouseMove>::MouseEventArgs;
     };
 
     /**
      * @brief 鼠标滚轮滚动事件参数类型
      */
-    struct MouseWheelEventArgs : MouseEventArgs<UIElement_MouseWheel> {
-        int wheelDelta; // 滚轮滚动的距离，为120的倍数
+    class MouseWheelEventArgs : public MouseEventArgs<UIElement_MouseWheel>
+    {
+    public:
+        /// @brief 滚轮滚动的距离，为120的倍数
+        int wheelDelta;
+
+        /// @brief 构造函数
+        /// @param wheelDelta 滚轮滚动的距离，为120的倍数
+        /// @param mousePosition 鼠标位置
+        /// @param keyState 按键状态
         MouseWheelEventArgs(int wheelDelta, Point mousePosition, MouseKey keyState)
-            : MouseEventArgs<UIElement_MouseWheel>(mousePosition, keyState), wheelDelta(wheelDelta) {}
+            : MouseEventArgs<UIElement_MouseWheel>(mousePosition, keyState), wheelDelta(wheelDelta)
+        {
+        }
     };
 
     /**
@@ -9756,66 +9951,119 @@ namespace sw
      * @tparam Type 路由事件类型，必须为RoutedEventType枚举中的值
      */
     template <RoutedEventType Type>
-    struct MouseButtonEventArgs : MouseEventArgs<Type> {
-        MouseKey key; // 按下/抬起的按键（左键、中间、右键）
+    class MouseButtonEventArgs : public MouseEventArgs<Type>
+    {
+    public:
+        /// @brief 按下/抬起的按键（左键、中间、右键）
+        MouseKey key;
+
+        /// @brief 构造函数
+        /// @param key 按下/抬起的按键（左键、中间、右键）
+        /// @param mousePosition 鼠标位置
+        /// @param keyState 按键状态
         MouseButtonEventArgs(MouseKey key, Point mousePosition, MouseKey keyState)
-            : MouseEventArgs<Type>(mousePosition, keyState), key(key) {}
+            : MouseEventArgs<Type>(mousePosition, keyState), key(key)
+        {
+        }
     };
 
     /**
      * @brief 鼠标按键按下事件参数类型
      */
-    struct MouseButtonDownEventArgs : MouseButtonEventArgs<UIElement_MouseButtonDown> {
+    class MouseButtonDownEventArgs : public MouseButtonEventArgs<UIElement_MouseButtonDown>
+    {
+    public:
+        /// @brief 继承基类构造函数
         using MouseButtonEventArgs<UIElement_MouseButtonDown>::MouseButtonEventArgs;
     };
 
     /**
      * @brief 鼠标按键抬起事件参数类型
      */
-    struct MouseButtonUpEventArgs : MouseButtonEventArgs<UIElement_MouseButtonUp> {
+    class MouseButtonUpEventArgs : public MouseButtonEventArgs<UIElement_MouseButtonUp>
+    {
+    public:
+        /// @brief 继承基类构造函数
         using MouseButtonEventArgs<UIElement_MouseButtonUp>::MouseButtonEventArgs;
     };
 
     /**
      * @brief 可取消事件参数类型，包含一个cancel字段用于指示是否取消事件
      */
-    struct CancelableEventArgs : RoutedEventArgs {
-        bool cancel = false; // 是否取消事件，默认为false
+    class CancelableEventArgs : public RoutedEventArgs
+    {
+    public:
+        /// @brief 是否取消事件，默认为false
+        bool cancel = false;
     };
 
     /**
      * @brief 显示用户自定义上下文菜单的事件参数类型
      */
-    struct ShowContextMenuEventArgs : TypedRoutedEventArgs<UIElement_ShowContextMenu, CancelableEventArgs> {
-        bool isKeyboardMsg;  // 消息是否由按下快捷键（Shift+F10、VK_APPS）产生
-        Point mousePosition; // 鼠标在屏幕中的位置
+    class ShowContextMenuEventArgs : public TypedRoutedEventArgs<UIElement_ShowContextMenu, CancelableEventArgs>
+    {
+    public:
+        /// @brief 消息是否由按下快捷键（Shift+F10、VK_APPS）产生
+        bool isKeyboardMsg;
+
+        /// @brief 鼠标在屏幕中的位置
+        Point mousePosition;
+
+        /// @brief 构造函数
+        /// @param isKeyboardMsg 消息是否由按下快捷键（Shift+F10、VK_APPS）产生
+        /// @param mousePosition 鼠标在屏幕中的位置
         ShowContextMenuEventArgs(bool isKeyboardMsg, Point mousePosition)
-            : isKeyboardMsg(isKeyboardMsg), mousePosition(mousePosition) {}
+            : isKeyboardMsg(isKeyboardMsg), mousePosition(mousePosition)
+        {
+        }
     };
 
     /**
      * @brief 文件拖放事件参数类型
      */
-    struct DropFilesEventArgs : TypedRoutedEventArgs<UIElement_DropFiles> {
-        HDROP hDrop; // 描述拖入文件的句柄
-        DropFilesEventArgs(HDROP hDrop) : hDrop(hDrop) {}
+    class DropFilesEventArgs : public TypedRoutedEventArgs<UIElement_DropFiles>
+    {
+    public:
+        /// @brief 描述拖入文件的句柄
+        HDROP hDrop;
+
+        /// @brief 构造函数
+        /// @param hDrop 描述拖入文件的句柄
+        DropFilesEventArgs(HDROP hDrop) : hDrop(hDrop)
+        {
+        }
     };
 
     /**
      * @brief 窗口正在关闭事件参数类型
      */
-    struct WindowClosingEventArgs : TypedRoutedEventArgs<Window_Closing, CancelableEventArgs> {
+    class WindowClosingEventArgs : public TypedRoutedEventArgs<Window_Closing, CancelableEventArgs>
+    {
     };
 
     /**
      * @brief 窗口/面板滚动条滚动事件参数类型
      */
-    struct ScrollingEventArgs : TypedRoutedEventArgs<Layer_Scrolling, CancelableEventArgs> {
-        ScrollOrientation scrollbar; // 滚动条类型
-        ScrollEvent event; // 滚动条事件
-        double pos;        // 当event为ThumbPosition或ThubmTrack时表示当前滚动条位置，其他情况固定为0
+    class ScrollingEventArgs : public TypedRoutedEventArgs<Layer_Scrolling, CancelableEventArgs>
+    {
+    public:
+        /// @brief 滚动条类型
+        ScrollOrientation scrollbar;
+
+        /// @brief 滚动条事件
+        ScrollEvent event;
+
+        /// @brief 当event为ThumbPosition或ThubmTrack时表示当前滚动条位置，其他情况固定为0
+        double pos;
+
+        /// @brief 构造函数
+        /// @param scrollbar 滚动条类型
+        /// @param event 滚动条事件
+        /// @param pos 当event为ThumbPosition或ThubmTrack时表示当前滚动条位置，其他情况固定为0
         ScrollingEventArgs(ScrollOrientation scrollbar, ScrollEvent event, double pos)
-            : scrollbar(scrollbar), event(event), pos(pos) {}
+            : scrollbar(scrollbar), event(event), pos(pos)
+        {
+        }
     };
 
     /**
@@ -9824,65 +10072,106 @@ namespace sw
      * @tparam TBase 事件参数类型的基类，默认为RoutedEventArgs
      */
     template <RoutedEventType Type, typename TBase = RoutedEventArgs>
-    struct ListViewItemEventArgs : TypedRoutedEventArgs<Type, TBase> {
-        int index; // 发生事件的项的索引
-        ListViewItemEventArgs(int index) : index(index) {}
+    class ListViewItemEventArgs : public TypedRoutedEventArgs<Type, TBase>
+    {
+    public:
+        /// @brief 发生事件的项的索引
+        int index;
+
+        /// @brief 构造函数
+        /// @param index 发生事件的项的索引
+        ListViewItemEventArgs(int index) : index(index)
+        {
+        }
     };
 
     /**
-    * @brief 列表视图某个子项事件参数类型模板，适用于单击、双击等事件
-    * @tparam Type 路由事件类型，必须为RoutedEventType枚举中的值
-    * @tparam TBase 事件参数类型的基类，默认为RoutedEventArgs
-    */
+     * @brief 列表视图某个子项事件参数类型模板，适用于单击、双击等事件
+     * @tparam Type 路由事件类型，必须为RoutedEventType枚举中的值
+     * @tparam TBase 事件参数类型的基类，默认为RoutedEventArgs
+     */
     template <RoutedEventType Type, typename TBase = RoutedEventArgs>
-    struct ListViewSubItemEventArgs : ListViewItemEventArgs<Type, TBase> {
-        int subIndex; // 发生事件的子项的索引
+    class ListViewSubItemEventArgs : public ListViewItemEventArgs<Type, TBase>
+    {
+    public:
+        /// @brief 发生事件的子项的索引
+        int subIndex;
+
+        /// @brief 构造函数
+        /// @param index 发生事件的项的索引
+        /// @param subIndex 发生事件的子项的索引
         ListViewSubItemEventArgs(int index, int subIndex)
-            : ListViewItemEventArgs<Type, TBase>(index), subIndex(subIndex) {}
+            : ListViewItemEventArgs<Type, TBase>(index), subIndex(subIndex)
+        {
+        }
     };
 
     /**
      * @brief 列表视图某个复选框选中状态改变的事件参数类型
      */
-    struct ListViewCheckStateChangedEventArgs : ListViewItemEventArgs<ListView_CheckStateChanged> {
+    class ListViewCheckStateChangedEventArgs : public ListViewItemEventArgs<ListView_CheckStateChanged>
+    {
+    public:
+        /// @brief 继承基类构造函数
         using ListViewItemEventArgs<ListView_CheckStateChanged>::ListViewItemEventArgs;
     };
 
     /**
      * @brief 列表视图的列标题单击事件参数类型
      */
-    struct ListViewHeaderClickedEventArgs : ListViewItemEventArgs<ListView_HeaderClicked> {
+    class ListViewHeaderClickedEventArgs : public ListViewItemEventArgs<ListView_HeaderClicked>
+    {
+    public:
+        /// @brief 继承基类构造函数
         using ListViewItemEventArgs<ListView_HeaderClicked>::ListViewItemEventArgs;
     };
 
     /**
      * @brief 列表视图的列标题双击事件参数类型
      */
-    struct ListViewHeaderDoubleClickedEventArgs : ListViewItemEventArgs<ListView_HeaderDoubleClicked> {
+    class ListViewHeaderDoubleClickedEventArgs : public ListViewItemEventArgs<ListView_HeaderDoubleClicked>
+    {
+    public:
+        /// @brief 继承基类构造函数
         using ListViewItemEventArgs<ListView_HeaderDoubleClicked>::ListViewItemEventArgs;
     };
 
     /**
      * @brief 列表视图项单击事件参数类型
      */
-    struct ListViewItemClickedEventArgs : ListViewSubItemEventArgs<ListView_ItemClicked> {
+    class ListViewItemClickedEventArgs : public ListViewSubItemEventArgs<ListView_ItemClicked>
+    {
+    public:
+        /// @brief 继承基类构造函数
         using ListViewSubItemEventArgs<ListView_ItemClicked>::ListViewSubItemEventArgs;
     };
 
     /**
      * @brief 列表视图项双击事件参数类型
      */
-    struct ListViewItemDoubleClickedEventArgs : ListViewSubItemEventArgs<ListView_ItemDoubleClicked> {
+    class ListViewItemDoubleClickedEventArgs : public ListViewSubItemEventArgs<ListView_ItemDoubleClicked>
+    {
+    public:
+        /// @brief 继承基类构造函数
         using ListViewSubItemEventArgs<ListView_ItemDoubleClicked>::ListViewSubItemEventArgs;
     };
 
     /**
      * @brief 列表视图编辑状态结束事件参数类型
      */
-    struct ListViewEndEditEventArgs : ListViewItemEventArgs<ListView_EndEdit, CancelableEventArgs> {
-        std::wstring newText; // 新的文本
+    class ListViewEndEditEventArgs : public ListViewItemEventArgs<ListView_EndEdit, CancelableEventArgs>
+    {
+    public:
+        /// @brief 新的文本
+        std::wstring newText;
+
+        /// @brief 构造函数
+        /// @param index 发生事件的项的索引
+        /// @param newText 新的文本
         ListViewEndEditEventArgs(int index, const std::wstring &newText)
-            : ListViewItemEventArgs<ListView_EndEdit, CancelableEventArgs>(index), newText(newText) {}
+            : ListViewItemEventArgs<ListView_EndEdit, CancelableEventArgs>(index), newText(newText)
+        {
+        }
     };
 
     /**
@@ -9890,50 +10179,85 @@ namespace sw
      * @tparam Type 路由事件类型，必须为RoutedEventType枚举中的值
      */
     template <RoutedEventType Type>
-    struct TimeChangedEventArgs : TypedRoutedEventArgs<Type> {
-        SYSTEMTIME time; // 时间的新值
-        TimeChangedEventArgs(const SYSTEMTIME &time) : time(time) {}
+    class TimeChangedEventArgs : public TypedRoutedEventArgs<Type>
+    {
+    public:
+        /// @brief 时间的新值
+        SYSTEMTIME time;
+
+        /// @brief 构造函数
+        /// @param time 时间的新值
+        TimeChangedEventArgs(const SYSTEMTIME &time) : time(time)
+        {
+        }
     };
 
     /**
      * @brief DateTimePicker控件时间改变事件参数类型
      */
-    struct DateTimePickerTimeChangedEventArgs : TimeChangedEventArgs<DateTimePicker_TimeChanged> {
+    class DateTimePickerTimeChangedEventArgs : public TimeChangedEventArgs<DateTimePicker_TimeChanged>
+    {
+    public:
+        /// @brief 继承基类构造函数
         using TimeChangedEventArgs<DateTimePicker_TimeChanged>::TimeChangedEventArgs;
     };
 
     /**
      * @brief 月历控件时间改变事件参数类型
      */
-    struct MonthCalendarTimeChangedEventArgs : TimeChangedEventArgs<MonthCalendar_TimeChanged> {
+    class MonthCalendarTimeChangedEventArgs : public TimeChangedEventArgs<MonthCalendar_TimeChanged>
+    {
+    public:
+        /// @brief 继承基类构造函数
         using TimeChangedEventArgs<MonthCalendar_TimeChanged>::TimeChangedEventArgs;
     };
 
     /**
      * @brief SysLink控件链接被单击事件参数类型
      */
-    struct SysLinkClickedEventArgs : TypedRoutedEventArgs<SysLink_Clicked> {
-        wchar_t *id;  // 被单击链接的id
-        wchar_t *url; // 被单击链接的url（即href）
-        SysLinkClickedEventArgs(wchar_t *id, wchar_t *url) : id(id), url(url) {}
+    class SysLinkClickedEventArgs : public TypedRoutedEventArgs<SysLink_Clicked>
+    {
+    public:
+        /// @brief 被单击链接的id
+        wchar_t *id;
+
+        /// @brief 被单击链接的url（即href）
+        wchar_t *url;
+
+        /// @brief 构造函数
+        /// @param id 被单击链接的id
+        /// @param url 被单击链接的url（即href）
+        SysLinkClickedEventArgs(wchar_t *id, wchar_t *url) : id(id), url(url)
+        {
+        }
     };
 
     /**
      * @brief 热键框值改变事件参数类型
      */
-    struct HotKeyValueChangedEventArgs : TypedRoutedEventArgs<HotKeyControl_ValueChanged> {
-        VirtualKey key;          // 按键
-        HotKeyModifier modifier; // 辅助按键
-        HotKeyValueChangedEventArgs(VirtualKey key, HotKeyModifier modifier) : key(key), modifier(modifier) {}
+    class HotKeyValueChangedEventArgs : public TypedRoutedEventArgs<HotKeyControl_ValueChanged>
+    {
+    public:
+        /// @brief 按键
+        VirtualKey key;
+
+        /// @brief 辅助按键
+        HotKeyModifier modifier;
+
+        /// @brief 构造函数
+        /// @param key 按键
+        /// @param modifier 辅助按键
+        HotKeyValueChangedEventArgs(VirtualKey key, HotKeyModifier modifier) : key(key), modifier(modifier)
+        {
+        }
     };
 
     /**
      * @brief 分割按钮的下拉箭头单击事件参数类型
      */
-    struct SplitButtonDropDownEventArgs : TypedRoutedEventArgs<SplitButton_DropDown, CancelableEventArgs> {
+    class SplitButtonDropDownEventArgs : public TypedRoutedEventArgs<SplitButton_DropDown, CancelableEventArgs>
+    {
     };
-
-    // clang-format on
 }
 
 // Variant.h
@@ -10520,722 +10844,214 @@ namespace sw
     };
 }
 
-// Binding.h
+// BindingCastHelper.h
 
 
 namespace sw
 {
     /**
-     * @brief 绑定模式枚举
+     * @brief Binding默认转换辅助模板
+     * @tparam TSource 源属性值类型
+     * @tparam TTarget 目标属性值类型
+     * @note 当Binding未显式指定IValueConverter时，会使用该模板判断是否存在默认转换：
+     *       - 若BindingCastHelper<TSource, TTarget>::value为true，则必须提供Convert和ConvertBack函数；
+     *       - Convert用于将源属性值转换为目标属性值；
+     *       - ConvertBack用于将目标属性值转换回源属性值；
+     *       - 若value为false，则对应Binding必须显式提供IValueConverter。
+     * @note 可在namespace sw中为自定义类型特化该模板，并继承std::true_type、实现Convert和ConvertBack，
+     *       从而扩展Binding的默认转换能力。
      */
-    enum class BindingMode {
-        /// 一次性绑定，在绑定创建时更新目标属性值
-        OneTime,
-
-        /// 单向，从源到目标
-        OneWay,
-
-        /// 单向，从目标到源
-        OneWayToSource,
-
-        /// 双向，源和目标相互更新
-        TwoWay,
+    template <typename TSource, typename TTarget, typename = void>
+    struct BindingCastHelper : std::false_type {
     };
 
     /**
-     * @brief 数据绑定基类
+     * @brief 相同类型之间的默认转换
+     * @tparam TSource 源属性值类型
+     * @tparam TTarget 目标属性值类型
      */
-    class BindingBase
+    template <typename TSource, typename TTarget>
+    struct BindingCastHelper<
+        TSource, TTarget,
+        typename std::enable_if<
+            std::is_same<TSource, TTarget>::value>::type>
+        : std::true_type //
     {
-    public:
         /**
-         * @brief 默认析构函数
+         * @brief 将源属性值转换为目标属性值
+         * @param value 源属性值
+         * @return 目标属性值
          */
-        virtual ~BindingBase() = default;
-
-    public:
-        /**
-         * @brief 更新目标属性的值
-         * @return 如果更新成功则返回true，否则返回false
-         */
-        virtual bool UpdateTarget() = 0;
+        static TTarget Convert(const TSource &value)
+        {
+            return value;
+        }
 
         /**
-         * @brief 更新源属性的值
-         * @return 如果更新成功则返回true，否则返回false
+         * @brief 将源属性值移动转换为目标属性值
+         * @param value 源属性值
+         * @return 目标属性值
          */
-        virtual bool UpdateSource() = 0;
+        static TTarget Convert(TSource &&value)
+        {
+            return std::move(value);
+        }
 
         /**
-         * @brief 获取目标属性ID
+         * @brief 将目标属性值转换回源属性值
+         * @param value 目标属性值
+         * @return 源属性值
          */
-        virtual FieldId GetTargetPropertyId() const = 0;
+        static TSource ConvertBack(const TTarget &value)
+        {
+            return value;
+        }
 
         /**
-         * @brief 获取源属性ID
+         * @brief 将目标属性值移动转换回源属性值
+         * @param value 目标属性值
+         * @return 源属性值
          */
-        virtual FieldId GetSourcePropertyId() const = 0;
+        static TSource ConvertBack(TTarget &&value)
+        {
+            return std::move(value);
+        }
     };
 
     /**
-     * @brief 数据绑定类
+     * @brief 可双向static_cast的类型之间的默认转换
+     * @tparam TSource 源属性值类型
+     * @tparam TTarget 目标属性值类型
      */
-    class Binding final : public BindingBase
+    template <typename TSource, typename TTarget>
+    struct BindingCastHelper<
+        TSource, TTarget,
+        typename std::enable_if<
+            !std::is_same<TSource, TTarget>::value &&
+            _IsStaticCastable<TSource, TTarget>::value &&
+            _IsStaticCastable<TTarget, TSource>::value>::type>
+        : std::true_type //
     {
-    private:
         /**
-         * @brief 绑定模式
+         * @brief 通过static_cast将源属性值转换为目标属性值
+         * @param value 源属性值
+         * @return 目标属性值
          */
-        BindingMode _mode;
-
-        /**
-         * @brief 目标对象
-         */
-        DynamicObject *_targetObject;
-
-        /**
-         * @brief 源对象
-         */
-        DynamicObject *_sourceObject;
-
-        /**
-         * @brief 目标属性ID
-         */
-        FieldId _targetPropertyId;
-
-        /**
-         * @brief 源属性ID
-         */
-        FieldId _sourcePropertyId;
-
-        /**
-         * @brief 值转换器
-         */
-        void *_converter;
-
-        /**
-         * @brief 值转换器删除函数
-         */
-        void (*_converterDeleter)(void *);
-
-        /**
-         * @brief 更新目标属性值委托
-         */
-        Func<Binding *, bool> _updateTargetFunc;
-
-        /**
-         * @brief 更新源属性值委托
-         */
-        Func<Binding *, bool> _updateSourceFunc;
-
-    private:
-        /**
-         * @brief 默认构造函数
-         */
-        Binding() = default;
-
-        // 删除拷贝构造函数
-        Binding(const Binding &) = delete;
-
-        // 删除移动构造函数
-        Binding(Binding &&) = delete;
-
-        // 删除拷贝赋值运算符
-        Binding &operator=(const Binding &) = delete;
-
-        // 删除移动赋值运算符
-        Binding &operator=(Binding &&) = delete;
-
-    public:
-        /**
-         * @brief 析构函数
-         */
-        virtual ~Binding()
+        static TTarget Convert(const TSource &value)
         {
-            UnregisterNotifications();
-
-            if (_converterDeleter && _converter) {
-                _converterDeleter(_converter);
-            }
+            return static_cast<TTarget>(value);
         }
 
         /**
-         * @brief 更新目标属性的值
-         * @return 如果更新成功则返回true，否则返回false
+         * @brief 通过static_cast将源属性值移动转换为目标属性值
+         * @param value 源属性值
+         * @return 目标属性值
          */
-        virtual bool UpdateTarget() override
+        static TTarget Convert(TSource &&value)
         {
-            bool result = false;
-
-            if (_updateTargetFunc) {
-                result = _updateTargetFunc(this);
-            }
-            return result;
+            return static_cast<TTarget>(std::move(value));
         }
 
         /**
-         * @brief 更新源属性的值
-         * @return 如果更新成功则返回true，否则返回false
+         * @brief 通过static_cast将目标属性值转换回源属性值
+         * @param value 目标属性值
+         * @return 源属性值
          */
-        virtual bool UpdateSource() override
+        static TSource ConvertBack(const TTarget &value)
         {
-            bool result = false;
-
-            if (_updateSourceFunc) {
-                result = _updateSourceFunc(this);
-            }
-            return result;
+            return static_cast<TSource>(value);
         }
 
         /**
-         * @brief 获取目标属性ID
+         * @brief 通过static_cast将目标属性值移动转换回源属性值
+         * @param value 目标属性值
+         * @return 源属性值
          */
-        virtual FieldId GetTargetPropertyId() const override
+        static TSource ConvertBack(TTarget &&value)
         {
-            return _targetPropertyId;
+            return static_cast<TSource>(std::move(value));
+        }
+    };
+
+    /**
+     * @brief 任意非Variant源类型到Variant目标类型的默认转换
+     * @tparam TSource 源属性值类型
+     */
+    template <typename TSource>
+    struct BindingCastHelper<
+        TSource, Variant,
+        typename std::enable_if<!std::is_same<TSource, Variant>::value>::type> : std::true_type //
+    {
+        /**
+         * @brief 将源属性值装箱为Variant
+         * @param value 源属性值
+         * @return 保存源属性值副本的Variant
+         */
+        static Variant Convert(const TSource &value)
+        {
+            return Variant{value};
         }
 
         /**
-         * @brief 获取源属性ID
+         * @brief 将源属性值移动装箱为Variant
+         * @param value 源属性值
+         * @return 保存源属性值的Variant
          */
-        virtual FieldId GetSourcePropertyId() const override
+        static Variant Convert(TSource &&value)
         {
-            return _sourcePropertyId;
+            return Variant{std::move(value)};
         }
 
         /**
-         * @brief 获取绑定模式
+         * @brief 从Variant中动态转换回源属性值类型
+         * @param value Variant属性值
+         * @return 源属性值
+         * @throws std::bad_cast 当Variant为空或内部对象无法转换为TSource时抛出
          */
-        BindingMode GetBindingMode() const
+        static TSource ConvertBack(const Variant &value)
         {
-            return _mode;
+            return value.DynamicCast<TSource>();
+        }
+    };
+
+    /**
+     * @brief Variant源类型到任意非Variant目标类型的默认转换
+     * @tparam TTarget 目标属性值类型
+     */
+    template <typename TTarget>
+    struct BindingCastHelper<
+        Variant, TTarget,
+        typename std::enable_if<!std::is_same<TTarget, Variant>::value>::type> : std::true_type //
+    {
+        /**
+         * @brief 从Variant中动态转换为目标属性值类型
+         * @param value Variant属性值
+         * @return 目标属性值
+         * @throws std::bad_cast 当Variant为空或内部对象无法转换为TTarget时抛出
+         */
+        static TTarget Convert(const Variant &value)
+        {
+            return value.DynamicCast<TTarget>();
         }
 
         /**
-         * @brief 获取目标对象
+         * @brief 将目标属性值转换回Variant
+         * @param value 目标属性值
+         * @return 保存目标属性值副本的Variant
          */
-        DynamicObject *GetTargetObject() const
+        static Variant ConvertBack(const TTarget &value)
         {
-            return _targetObject;
+            return Variant{value};
         }
 
         /**
-         * @brief 获取源对象
+         * @brief 将目标属性值移动转换回Variant
+         * @param value 目标属性值
+         * @return 保存目标属性值的Variant
          */
-        DynamicObject *GetSourceObject() const
+        static Variant ConvertBack(TTarget &&value)
         {
-            return _sourceObject;
-        }
-
-        /**
-         * @brief 修改绑定模式
-         */
-        void SetBindingMode(BindingMode mode)
-        {
-            if (_mode != mode) {
-                _mode = mode;
-                OnBindingChanged();
-            }
-        }
-
-        /**
-         * @brief 修改目标对象
-         */
-        void SetTargetObject(DynamicObject *target)
-        {
-            if (_targetObject != target) {
-                UnregisterNotifications();
-                _targetObject = target;
-                RegisterNotifications();
-                OnBindingChanged();
-            }
-        }
-
-        /**
-         * @brief 修改源对象
-         */
-        void SetSourceObject(DynamicObject *source)
-        {
-            if (_sourceObject != source) {
-                UnregisterNotifications();
-                _sourceObject = source;
-                RegisterNotifications();
-                OnBindingChanged();
-            }
-        }
-
-        /**
-         * @brief 修改目标对象和源对象
-         */
-        void SetBindingObjects(DynamicObject *target, DynamicObject *source)
-        {
-            if (_targetObject != target ||
-                _sourceObject != source) //
-            {
-                UnregisterNotifications();
-                _targetObject = target;
-                _sourceObject = source;
-                RegisterNotifications();
-                OnBindingChanged();
-            }
-        }
-
-    private:
-        /**
-         * @brief 注册属性更改通知
-         */
-        void RegisterNotifications()
-        {
-            INotifyPropertyChanged *targetNotifObj = nullptr;
-            INotifyPropertyChanged *sourceNotifObj = nullptr;
-
-            if (_targetObject != nullptr && _targetObject->IsType(&targetNotifObj)) {
-                targetNotifObj->PropertyChanged +=
-                    PropertyChangedEventHandler(*this, &Binding::OnTargetPropertyChanged);
-            }
-            if (_sourceObject != nullptr && _sourceObject->IsType(&sourceNotifObj)) {
-                sourceNotifObj->PropertyChanged +=
-                    PropertyChangedEventHandler(*this, &Binding::OnSourcePropertyChanged);
-            }
-
-            INotifyObjectDead *targetNotifObjDead = nullptr;
-            INotifyObjectDead *sourceNotifObjDead = nullptr;
-
-            if (_targetObject != nullptr && _targetObject->IsType(&targetNotifObjDead)) {
-                targetNotifObjDead->ObjectDead +=
-                    ObjectDeadEventHandler(*this, &Binding::OnTargetObjectDead);
-            }
-            if (_sourceObject != nullptr && _sourceObject->IsType(&sourceNotifObjDead)) {
-                sourceNotifObjDead->ObjectDead +=
-                    ObjectDeadEventHandler(*this, &Binding::OnSourceObjectDead);
-            }
-        }
-
-        /**
-         * @brief 注销属性更改通知
-         */
-        void UnregisterNotifications()
-        {
-            INotifyPropertyChanged *targetNotifObj = nullptr;
-            INotifyPropertyChanged *sourceNotifObj = nullptr;
-
-            if (_targetObject != nullptr && _targetObject->IsType(&targetNotifObj)) {
-                targetNotifObj->PropertyChanged -=
-                    PropertyChangedEventHandler(*this, &Binding::OnTargetPropertyChanged);
-            }
-            if (_sourceObject != nullptr && _sourceObject->IsType(&sourceNotifObj)) {
-                sourceNotifObj->PropertyChanged -=
-                    PropertyChangedEventHandler(*this, &Binding::OnSourcePropertyChanged);
-            }
-
-            INotifyObjectDead *targetNotifObjDead = nullptr;
-            INotifyObjectDead *sourceNotifObjDead = nullptr;
-
-            if (_targetObject != nullptr && _targetObject->IsType(&targetNotifObjDead)) {
-                targetNotifObjDead->ObjectDead -=
-                    ObjectDeadEventHandler(*this, &Binding::OnTargetObjectDead);
-            }
-            if (_sourceObject != nullptr && _sourceObject->IsType(&sourceNotifObjDead)) {
-                sourceNotifObjDead->ObjectDead -=
-                    ObjectDeadEventHandler(*this, &Binding::OnSourceObjectDead);
-            }
-        }
-
-        /**
-         * @brief 目标属性更改处理函数
-         */
-        void OnTargetPropertyChanged(INotifyPropertyChanged &sender, PropertyChangedEventArgs &e)
-        {
-            if (e.propertyId != _targetPropertyId) {
-                return;
-            }
-
-            if (_mode == BindingMode::TwoWay ||
-                _mode == BindingMode::OneWayToSource) {
-                UpdateSource();
-            }
-        }
-
-        /**
-         * @brief 源属性更改处理函数
-         */
-        void OnSourcePropertyChanged(INotifyPropertyChanged &sender, PropertyChangedEventArgs &e)
-        {
-            if (e.propertyId != _sourcePropertyId) {
-                return;
-            }
-
-            if (_mode == BindingMode::TwoWay ||
-                _mode == BindingMode::OneWay) {
-                UpdateTarget();
-            }
-        }
-
-        /**
-         * @brief 目标对象销毁处理函数
-         */
-        void OnTargetObjectDead(INotifyObjectDead &sender, EventArgs &e)
-        {
-            SetTargetObject(nullptr);
-        }
-
-        /**
-         * @brief 源对象销毁处理函数
-         */
-        void OnSourceObjectDead(INotifyObjectDead &sender, EventArgs &e)
-        {
-            SetSourceObject(nullptr);
-        }
-
-        /**
-         * @brief 绑定创建和发生更改时调用
-         */
-        void OnBindingChanged()
-        {
-            switch (_mode) {
-                case BindingMode::OneTime:
-                case BindingMode::OneWay:
-                case BindingMode::TwoWay: {
-                    UpdateTarget();
-                    break;
-                }
-                case BindingMode::OneWayToSource: {
-                    UpdateSource();
-                    break;
-                }
-            }
-        }
-
-        /**
-         * @brief 内部创建绑定对象函数
-         * @param target 目标对象指针
-         * @param targetPropertyId 目标属性ID
-         * @param source 源对象指针
-         * @param sourcePropertyId 源属性ID
-         * @param mode 绑定模式
-         * @param converter 值转换器指针
-         * @return 绑定对象指针
-         */
-        template <typename TTargetValue, typename TSourceValue>
-        static Binding *Create(DynamicObject *target, FieldId targetPropertyId,
-                               DynamicObject *source, FieldId sourcePropertyId,
-                               BindingMode mode, IValueConverter<TSourceValue, TTargetValue> *converter)
-        {
-            auto binding = new Binding;
-
-            binding->_targetObject     = target;
-            binding->_sourceObject     = source;
-            binding->_targetPropertyId = targetPropertyId;
-            binding->_sourcePropertyId = sourcePropertyId;
-
-            binding->_mode      = mode;
-            binding->_converter = converter;
-
-            binding->_converterDeleter = [](void *ptr) {
-                delete reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(ptr);
-            };
-            return binding;
-        }
-
-    public:
-        /**
-         * @brief 创建绑定对象
-         * @param target 目标对象指针
-         * @param targetProperty 目标属性成员指针
-         * @param source 源对象指针
-         * @param sourceProperty 源属性成员指针
-         * @param mode 绑定模式
-         * @param converter 值转换器指针
-         * @return 绑定对象指针
-         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
-         */
-        template <
-            typename TTargetObject,
-            typename TTargetProperty,
-            typename TSourceObject,
-            typename TSourceProperty>
-        static auto Create(DynamicObject *target, TTargetProperty TTargetObject::*targetProperty,
-                           DynamicObject *source, TSourceProperty TSourceObject::*sourceProperty,
-                           BindingMode mode,
-                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter = nullptr)
-            -> typename std::enable_if<
-                _IsProperty<TTargetProperty>::value &&
-                    _IsProperty<TSourceProperty>::value &&
-                    std::is_base_of<DynamicObject, TTargetObject>::value &&
-                    std::is_base_of<DynamicObject, TSourceObject>::value &&
-                    _IsStaticCastable<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value &&
-                    _IsStaticCastable<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value,
-                Binding *>::type
-        {
-            using TTargetValue = typename TTargetProperty::TValue;
-            using TSourceValue = typename TSourceProperty::TValue;
-
-            auto binding = Create(
-                target, Reflection::GetFieldId(targetProperty),
-                source, Reflection::GetFieldId(sourceProperty), mode, converter);
-
-            // update target action
-            binding->_updateTargetFunc = [targetSetter = Reflection::GetPropertySetter(targetProperty),
-                                          sourceGetter = Reflection::GetPropertyGetter(sourceProperty)](Binding *binding) -> bool //
-            {
-                IValueConverter<TSourceValue, TTargetValue> *converter =
-                    reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(binding->_converter);
-
-                if (targetSetter == nullptr ||
-                    sourceGetter == nullptr ||
-                    binding->_targetObject == nullptr ||
-                    binding->_sourceObject == nullptr) {
-                    return false;
-                }
-
-                if (converter) {
-                    targetSetter(
-                        *binding->_targetObject,
-                        converter->Convert(sourceGetter(*binding->_sourceObject)));
-                } else {
-                    targetSetter(
-                        *binding->_targetObject,
-                        static_cast<TTargetValue>(sourceGetter(*binding->_sourceObject)));
-                }
-                return true;
-            };
-
-            // update source action
-            binding->_updateSourceFunc = [targetGetter = Reflection::GetPropertyGetter(targetProperty),
-                                          sourceSetter = Reflection::GetPropertySetter(sourceProperty)](Binding *binding) -> bool //
-            {
-                IValueConverter<TSourceValue, TTargetValue> *converter =
-                    reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(binding->_converter);
-
-                if (targetGetter == nullptr ||
-                    sourceSetter == nullptr ||
-                    binding->_targetObject == nullptr ||
-                    binding->_sourceObject == nullptr) {
-                    return false;
-                }
-
-                if (converter) {
-                    sourceSetter(
-                        *binding->_sourceObject,
-                        converter->ConvertBack(targetGetter(*binding->_targetObject)));
-                } else {
-                    sourceSetter(
-                        *binding->_sourceObject,
-                        static_cast<TSourceValue>(targetGetter(*binding->_targetObject)));
-                }
-                return true;
-            };
-
-            binding->RegisterNotifications();
-            binding->OnBindingChanged();
-            return binding;
-        }
-
-        /**
-         * @brief 创建延迟绑定对象
-         * @param targetProperty 目标属性成员指针
-         * @param source 源对象指针
-         * @param sourceProperty 源属性成员指针
-         * @param mode 绑定模式
-         * @param converter 值转换器指针
-         * @return 绑定对象指针
-         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
-         */
-        template <
-            typename TTargetObject,
-            typename TTargetProperty,
-            typename TSourceObject,
-            typename TSourceProperty>
-        static auto Create(TTargetProperty TTargetObject::*targetProperty,
-                           DynamicObject *source,
-                           TSourceProperty TSourceObject::*sourceProperty,
-                           BindingMode mode,
-                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter = nullptr)
-            -> typename std::enable_if<
-                _IsProperty<TTargetProperty>::value &&
-                    _IsProperty<TSourceProperty>::value &&
-                    std::is_base_of<DynamicObject, TTargetObject>::value &&
-                    std::is_base_of<DynamicObject, TSourceObject>::value &&
-                    _IsStaticCastable<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value &&
-                    _IsStaticCastable<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value,
-                Binding *>::type
-        {
-            return Create(nullptr, targetProperty, source, sourceProperty, mode, converter);
-        }
-
-        /**
-         * @brief 创建延迟绑定对象
-         * @param targetProperty 目标属性成员指针
-         * @param sourceProperty 源属性成员指针
-         * @param mode 绑定模式
-         * @param converter 值转换器指针
-         * @return 绑定对象指针
-         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
-         */
-        template <
-            typename TTargetObject,
-            typename TTargetProperty,
-            typename TSourceObject,
-            typename TSourceProperty>
-        static auto Create(TTargetProperty TTargetObject::*targetProperty,
-                           TSourceProperty TSourceObject::*sourceProperty,
-                           BindingMode mode,
-                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter = nullptr)
-            -> typename std::enable_if<
-                _IsProperty<TTargetProperty>::value &&
-                    _IsProperty<TSourceProperty>::value &&
-                    std::is_base_of<DynamicObject, TTargetObject>::value &&
-                    std::is_base_of<DynamicObject, TSourceObject>::value &&
-                    _IsStaticCastable<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value &&
-                    _IsStaticCastable<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value,
-                Binding *>::type
-        {
-            return Create(nullptr, targetProperty, nullptr, sourceProperty, mode, converter);
-        }
-
-        /**
-         * @brief 创建绑定对象
-         * @param target 目标对象指针
-         * @param targetProperty 目标属性成员指针
-         * @param source 源对象指针
-         * @param sourceProperty 源属性成员指针
-         * @param mode 绑定模式
-         * @param converter 值转换器指针
-         * @return 绑定对象指针
-         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
-         */
-        template <
-            typename TTargetObject,
-            typename TTargetProperty,
-            typename TSourceObject,
-            typename TSourceProperty>
-        static auto Create(DynamicObject *target, TTargetProperty TTargetObject::*targetProperty,
-                           DynamicObject *source, TSourceProperty TSourceObject::*sourceProperty,
-                           BindingMode mode,
-                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter)
-            -> typename std::enable_if<
-                _IsProperty<TTargetProperty>::value &&
-                    _IsProperty<TSourceProperty>::value &&
-                    std::is_base_of<DynamicObject, TTargetObject>::value &&
-                    std::is_base_of<DynamicObject, TSourceObject>::value &&
-                    !(_IsStaticCastable<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value &&
-                      _IsStaticCastable<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value),
-                Binding *>::type
-        {
-            using TTargetValue = typename TTargetProperty::TValue;
-            using TSourceValue = typename TSourceProperty::TValue;
-
-            auto binding = Create(
-                target, Reflection::GetFieldId(targetProperty),
-                source, Reflection::GetFieldId(sourceProperty), mode, converter);
-
-            // update target action
-            binding->_updateTargetFunc = [targetSetter = Reflection::GetPropertySetter(targetProperty),
-                                          sourceGetter = Reflection::GetPropertyGetter(sourceProperty)](Binding *binding) -> bool //
-            {
-                IValueConverter<TSourceValue, TTargetValue> *converter =
-                    reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(binding->_converter);
-
-                if (targetSetter == nullptr ||
-                    sourceGetter == nullptr ||
-                    converter == nullptr ||
-                    binding->_targetObject == nullptr ||
-                    binding->_sourceObject == nullptr) {
-                    return false;
-                }
-
-                targetSetter(
-                    *binding->_targetObject,
-                    converter->Convert(sourceGetter(*binding->_sourceObject)));
-                return true;
-            };
-
-            // update source action
-            binding->_updateSourceFunc = [targetGetter = Reflection::GetPropertyGetter(targetProperty),
-                                          sourceSetter = Reflection::GetPropertySetter(sourceProperty)](Binding *binding) -> bool //
-            {
-                IValueConverter<TSourceValue, TTargetValue> *converter =
-                    reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(binding->_converter);
-
-                if (targetGetter == nullptr ||
-                    sourceSetter == nullptr ||
-                    converter == nullptr ||
-                    binding->_targetObject == nullptr ||
-                    binding->_sourceObject == nullptr) {
-                    return false;
-                }
-
-                sourceSetter(
-                    *binding->_sourceObject,
-                    converter->ConvertBack(targetGetter(*binding->_targetObject)));
-                return true;
-            };
-
-            binding->RegisterNotifications();
-            binding->OnBindingChanged();
-            return binding;
-        }
-
-        /**
-         * @brief 创建延迟绑定对象
-         * @param targetProperty 目标属性成员指针
-         * @param source 源对象指针
-         * @param sourceProperty 源属性成员指针
-         * @param mode 绑定模式
-         * @param converter 值转换器指针
-         * @return 绑定对象指针
-         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
-         */
-        template <
-            typename TTargetObject,
-            typename TTargetProperty,
-            typename TSourceObject,
-            typename TSourceProperty>
-        static auto Create(TTargetProperty TTargetObject::*targetProperty,
-                           DynamicObject *source,
-                           TSourceProperty TSourceObject::*sourceProperty,
-                           BindingMode mode,
-                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter)
-            -> typename std::enable_if<
-                _IsProperty<TTargetProperty>::value &&
-                    _IsProperty<TSourceProperty>::value &&
-                    std::is_base_of<DynamicObject, TTargetObject>::value &&
-                    std::is_base_of<DynamicObject, TSourceObject>::value &&
-                    !(_IsStaticCastable<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value &&
-                      _IsStaticCastable<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value),
-                Binding *>::type
-        {
-            return Create(nullptr, targetProperty, source, sourceProperty, mode, converter);
-        }
-
-        /**
-         * @brief 创建延迟绑定对象
-         * @param targetProperty 目标属性成员指针
-         * @param sourceProperty 源属性成员指针
-         * @param mode 绑定模式
-         * @param converter 值转换器指针
-         * @return 绑定对象指针
-         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
-         */
-        template <
-            typename TTargetObject,
-            typename TTargetProperty,
-            typename TSourceObject,
-            typename TSourceProperty>
-        static auto Create(TTargetProperty TTargetObject::*targetProperty,
-                           TSourceProperty TSourceObject::*sourceProperty,
-                           BindingMode mode,
-                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter)
-            -> typename std::enable_if<
-                _IsProperty<TTargetProperty>::value &&
-                    _IsProperty<TSourceProperty>::value &&
-                    std::is_base_of<DynamicObject, TTargetObject>::value &&
-                    std::is_base_of<DynamicObject, TSourceObject>::value &&
-                    !(_IsStaticCastable<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value &&
-                      _IsStaticCastable<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value),
-                Binding *>::type
-        {
-            return Create(nullptr, targetProperty, nullptr, sourceProperty, mode, converter);
+            return Variant{std::move(value)};
         }
     };
 }
@@ -12150,6 +11966,721 @@ namespace sw
     };
 }
 
+// Binding.h
+
+
+namespace sw
+{
+    /**
+     * @brief 绑定模式枚举
+     */
+    enum class BindingMode {
+        /// 一次性绑定，在绑定创建时更新目标属性值
+        OneTime,
+
+        /// 单向，从源到目标
+        OneWay,
+
+        /// 单向，从目标到源
+        OneWayToSource,
+
+        /// 双向，源和目标相互更新
+        TwoWay,
+    };
+
+    /**
+     * @brief 数据绑定基类
+     */
+    class BindingBase
+    {
+    public:
+        /**
+         * @brief 默认析构函数
+         */
+        virtual ~BindingBase() = default;
+
+    public:
+        /**
+         * @brief 更新目标属性的值
+         * @return 如果更新成功则返回true，否则返回false
+         */
+        virtual bool UpdateTarget() = 0;
+
+        /**
+         * @brief 更新源属性的值
+         * @return 如果更新成功则返回true，否则返回false
+         */
+        virtual bool UpdateSource() = 0;
+
+        /**
+         * @brief 获取目标属性ID
+         */
+        virtual FieldId GetTargetPropertyId() const = 0;
+
+        /**
+         * @brief 获取源属性ID
+         */
+        virtual FieldId GetSourcePropertyId() const = 0;
+    };
+
+    /**
+     * @brief 数据绑定类
+     */
+    class Binding final : public BindingBase
+    {
+    private:
+        /**
+         * @brief 绑定模式
+         */
+        BindingMode _mode;
+
+        /**
+         * @brief 目标对象
+         */
+        DynamicObject *_targetObject;
+
+        /**
+         * @brief 源对象
+         */
+        DynamicObject *_sourceObject;
+
+        /**
+         * @brief 目标属性ID
+         */
+        FieldId _targetPropertyId;
+
+        /**
+         * @brief 源属性ID
+         */
+        FieldId _sourcePropertyId;
+
+        /**
+         * @brief 值转换器
+         */
+        void *_converter;
+
+        /**
+         * @brief 值转换器删除函数
+         */
+        void (*_converterDeleter)(void *);
+
+        /**
+         * @brief 更新目标属性值委托
+         */
+        Func<Binding *, bool> _updateTargetFunc;
+
+        /**
+         * @brief 更新源属性值委托
+         */
+        Func<Binding *, bool> _updateSourceFunc;
+
+    private:
+        /**
+         * @brief 默认构造函数
+         */
+        Binding() = default;
+
+        // 删除拷贝构造函数
+        Binding(const Binding &) = delete;
+
+        // 删除移动构造函数
+        Binding(Binding &&) = delete;
+
+        // 删除拷贝赋值运算符
+        Binding &operator=(const Binding &) = delete;
+
+        // 删除移动赋值运算符
+        Binding &operator=(Binding &&) = delete;
+
+    public:
+        /**
+         * @brief 析构函数
+         */
+        virtual ~Binding()
+        {
+            UnregisterNotifications();
+
+            if (_converterDeleter && _converter) {
+                _converterDeleter(_converter);
+            }
+        }
+
+        /**
+         * @brief 更新目标属性的值
+         * @return 如果更新成功则返回true，否则返回false
+         */
+        virtual bool UpdateTarget() override
+        {
+            bool result = false;
+
+            if (_updateTargetFunc) {
+                result = _updateTargetFunc(this);
+            }
+            return result;
+        }
+
+        /**
+         * @brief 更新源属性的值
+         * @return 如果更新成功则返回true，否则返回false
+         */
+        virtual bool UpdateSource() override
+        {
+            bool result = false;
+
+            if (_updateSourceFunc) {
+                result = _updateSourceFunc(this);
+            }
+            return result;
+        }
+
+        /**
+         * @brief 获取目标属性ID
+         */
+        virtual FieldId GetTargetPropertyId() const override
+        {
+            return _targetPropertyId;
+        }
+
+        /**
+         * @brief 获取源属性ID
+         */
+        virtual FieldId GetSourcePropertyId() const override
+        {
+            return _sourcePropertyId;
+        }
+
+        /**
+         * @brief 获取绑定模式
+         */
+        BindingMode GetBindingMode() const
+        {
+            return _mode;
+        }
+
+        /**
+         * @brief 获取目标对象
+         */
+        DynamicObject *GetTargetObject() const
+        {
+            return _targetObject;
+        }
+
+        /**
+         * @brief 获取源对象
+         */
+        DynamicObject *GetSourceObject() const
+        {
+            return _sourceObject;
+        }
+
+        /**
+         * @brief 修改绑定模式
+         */
+        void SetBindingMode(BindingMode mode)
+        {
+            if (_mode != mode) {
+                _mode = mode;
+                OnBindingChanged();
+            }
+        }
+
+        /**
+         * @brief 修改目标对象
+         */
+        void SetTargetObject(DynamicObject *target)
+        {
+            if (_targetObject != target) {
+                UnregisterNotifications();
+                _targetObject = target;
+                RegisterNotifications();
+                OnBindingChanged();
+            }
+        }
+
+        /**
+         * @brief 修改源对象
+         */
+        void SetSourceObject(DynamicObject *source)
+        {
+            if (_sourceObject != source) {
+                UnregisterNotifications();
+                _sourceObject = source;
+                RegisterNotifications();
+                OnBindingChanged();
+            }
+        }
+
+        /**
+         * @brief 修改目标对象和源对象
+         */
+        void SetBindingObjects(DynamicObject *target, DynamicObject *source)
+        {
+            if (_targetObject != target ||
+                _sourceObject != source) //
+            {
+                UnregisterNotifications();
+                _targetObject = target;
+                _sourceObject = source;
+                RegisterNotifications();
+                OnBindingChanged();
+            }
+        }
+
+    private:
+        /**
+         * @brief 注册属性更改通知
+         */
+        void RegisterNotifications()
+        {
+            INotifyPropertyChanged *targetNotifObj = nullptr;
+            INotifyPropertyChanged *sourceNotifObj = nullptr;
+
+            if (_targetObject != nullptr && _targetObject->IsType(&targetNotifObj)) {
+                targetNotifObj->PropertyChanged +=
+                    PropertyChangedEventHandler(*this, &Binding::OnTargetPropertyChanged);
+            }
+            if (_sourceObject != nullptr && _sourceObject->IsType(&sourceNotifObj)) {
+                sourceNotifObj->PropertyChanged +=
+                    PropertyChangedEventHandler(*this, &Binding::OnSourcePropertyChanged);
+            }
+
+            INotifyObjectDead *targetNotifObjDead = nullptr;
+            INotifyObjectDead *sourceNotifObjDead = nullptr;
+
+            if (_targetObject != nullptr && _targetObject->IsType(&targetNotifObjDead)) {
+                targetNotifObjDead->ObjectDead +=
+                    ObjectDeadEventHandler(*this, &Binding::OnTargetObjectDead);
+            }
+            if (_sourceObject != nullptr && _sourceObject->IsType(&sourceNotifObjDead)) {
+                sourceNotifObjDead->ObjectDead +=
+                    ObjectDeadEventHandler(*this, &Binding::OnSourceObjectDead);
+            }
+        }
+
+        /**
+         * @brief 注销属性更改通知
+         */
+        void UnregisterNotifications()
+        {
+            INotifyPropertyChanged *targetNotifObj = nullptr;
+            INotifyPropertyChanged *sourceNotifObj = nullptr;
+
+            if (_targetObject != nullptr && _targetObject->IsType(&targetNotifObj)) {
+                targetNotifObj->PropertyChanged -=
+                    PropertyChangedEventHandler(*this, &Binding::OnTargetPropertyChanged);
+            }
+            if (_sourceObject != nullptr && _sourceObject->IsType(&sourceNotifObj)) {
+                sourceNotifObj->PropertyChanged -=
+                    PropertyChangedEventHandler(*this, &Binding::OnSourcePropertyChanged);
+            }
+
+            INotifyObjectDead *targetNotifObjDead = nullptr;
+            INotifyObjectDead *sourceNotifObjDead = nullptr;
+
+            if (_targetObject != nullptr && _targetObject->IsType(&targetNotifObjDead)) {
+                targetNotifObjDead->ObjectDead -=
+                    ObjectDeadEventHandler(*this, &Binding::OnTargetObjectDead);
+            }
+            if (_sourceObject != nullptr && _sourceObject->IsType(&sourceNotifObjDead)) {
+                sourceNotifObjDead->ObjectDead -=
+                    ObjectDeadEventHandler(*this, &Binding::OnSourceObjectDead);
+            }
+        }
+
+        /**
+         * @brief 目标属性更改处理函数
+         */
+        void OnTargetPropertyChanged(INotifyPropertyChanged &sender, PropertyChangedEventArgs &e)
+        {
+            if (e.propertyId != _targetPropertyId) {
+                return;
+            }
+
+            if (_mode == BindingMode::TwoWay ||
+                _mode == BindingMode::OneWayToSource) {
+                UpdateSource();
+            }
+        }
+
+        /**
+         * @brief 源属性更改处理函数
+         */
+        void OnSourcePropertyChanged(INotifyPropertyChanged &sender, PropertyChangedEventArgs &e)
+        {
+            if (e.propertyId != _sourcePropertyId) {
+                return;
+            }
+
+            if (_mode == BindingMode::TwoWay ||
+                _mode == BindingMode::OneWay) {
+                UpdateTarget();
+            }
+        }
+
+        /**
+         * @brief 目标对象销毁处理函数
+         */
+        void OnTargetObjectDead(INotifyObjectDead &sender, EventArgs &e)
+        {
+            SetTargetObject(nullptr);
+        }
+
+        /**
+         * @brief 源对象销毁处理函数
+         */
+        void OnSourceObjectDead(INotifyObjectDead &sender, EventArgs &e)
+        {
+            SetSourceObject(nullptr);
+        }
+
+        /**
+         * @brief 绑定创建和发生更改时调用
+         */
+        void OnBindingChanged()
+        {
+            switch (_mode) {
+                case BindingMode::OneTime:
+                case BindingMode::OneWay:
+                case BindingMode::TwoWay: {
+                    UpdateTarget();
+                    break;
+                }
+                case BindingMode::OneWayToSource: {
+                    UpdateSource();
+                    break;
+                }
+            }
+        }
+
+        /**
+         * @brief 内部创建绑定对象函数
+         * @param target 目标对象指针
+         * @param targetPropertyId 目标属性ID
+         * @param source 源对象指针
+         * @param sourcePropertyId 源属性ID
+         * @param mode 绑定模式
+         * @param converter 值转换器指针
+         * @return 绑定对象指针
+         */
+        template <typename TTargetValue, typename TSourceValue>
+        static Binding *Create(DynamicObject *target, FieldId targetPropertyId,
+                               DynamicObject *source, FieldId sourcePropertyId,
+                               BindingMode mode, IValueConverter<TSourceValue, TTargetValue> *converter)
+        {
+            auto binding = new Binding;
+
+            binding->_targetObject     = target;
+            binding->_sourceObject     = source;
+            binding->_targetPropertyId = targetPropertyId;
+            binding->_sourcePropertyId = sourcePropertyId;
+
+            binding->_mode      = mode;
+            binding->_converter = converter;
+
+            binding->_converterDeleter = [](void *ptr) {
+                delete reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(ptr);
+            };
+            return binding;
+        }
+
+    public:
+        /**
+         * @brief 创建绑定对象
+         * @param target 目标对象指针
+         * @param targetProperty 目标属性成员指针
+         * @param source 源对象指针
+         * @param sourceProperty 源属性成员指针
+         * @param mode 绑定模式
+         * @param converter 值转换器指针
+         * @return 绑定对象指针
+         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
+         */
+        template <
+            typename TTargetObject,
+            typename TTargetProperty,
+            typename TSourceObject,
+            typename TSourceProperty>
+        static auto Create(DynamicObject *target, TTargetProperty TTargetObject::*targetProperty,
+                           DynamicObject *source, TSourceProperty TSourceObject::*sourceProperty,
+                           BindingMode mode,
+                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter = nullptr)
+            -> typename std::enable_if<
+                _IsProperty<TTargetProperty>::value &&
+                    _IsProperty<TSourceProperty>::value &&
+                    std::is_base_of<DynamicObject, TTargetObject>::value &&
+                    std::is_base_of<DynamicObject, TSourceObject>::value &&
+                    BindingCastHelper<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value,
+                Binding *>::type
+        {
+            using TTargetValue  = typename TTargetProperty::TValue;
+            using TSourceValue  = typename TSourceProperty::TValue;
+            using DefaultCaster = BindingCastHelper<TSourceValue, TTargetValue>;
+
+            auto binding = Create(
+                target, Reflection::GetFieldId(targetProperty),
+                source, Reflection::GetFieldId(sourceProperty), mode, converter);
+
+            // update target action
+            binding->_updateTargetFunc = [targetSetter = Reflection::GetPropertySetter(targetProperty),
+                                          sourceGetter = Reflection::GetPropertyGetter(sourceProperty)](Binding *binding) -> bool //
+            {
+                IValueConverter<TSourceValue, TTargetValue> *converter =
+                    reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(binding->_converter);
+
+                if (targetSetter == nullptr ||
+                    sourceGetter == nullptr ||
+                    binding->_targetObject == nullptr ||
+                    binding->_sourceObject == nullptr) {
+                    return false;
+                }
+
+                if (converter) {
+                    targetSetter(
+                        *binding->_targetObject,
+                        converter->Convert(sourceGetter(*binding->_sourceObject)));
+                } else {
+                    targetSetter(
+                        *binding->_targetObject,
+                        DefaultCaster::Convert(sourceGetter(*binding->_sourceObject)));
+                }
+                return true;
+            };
+
+            // update source action
+            binding->_updateSourceFunc = [targetGetter = Reflection::GetPropertyGetter(targetProperty),
+                                          sourceSetter = Reflection::GetPropertySetter(sourceProperty)](Binding *binding) -> bool //
+            {
+                IValueConverter<TSourceValue, TTargetValue> *converter =
+                    reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(binding->_converter);
+
+                if (targetGetter == nullptr ||
+                    sourceSetter == nullptr ||
+                    binding->_targetObject == nullptr ||
+                    binding->_sourceObject == nullptr) {
+                    return false;
+                }
+
+                if (converter) {
+                    sourceSetter(
+                        *binding->_sourceObject,
+                        converter->ConvertBack(targetGetter(*binding->_targetObject)));
+                } else {
+                    sourceSetter(
+                        *binding->_sourceObject,
+                        DefaultCaster::ConvertBack(targetGetter(*binding->_targetObject)));
+                }
+                return true;
+            };
+
+            binding->RegisterNotifications();
+            binding->OnBindingChanged();
+            return binding;
+        }
+
+        /**
+         * @brief 创建延迟绑定对象
+         * @param targetProperty 目标属性成员指针
+         * @param source 源对象指针
+         * @param sourceProperty 源属性成员指针
+         * @param mode 绑定模式
+         * @param converter 值转换器指针
+         * @return 绑定对象指针
+         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
+         */
+        template <
+            typename TTargetObject,
+            typename TTargetProperty,
+            typename TSourceObject,
+            typename TSourceProperty>
+        static auto Create(TTargetProperty TTargetObject::*targetProperty,
+                           DynamicObject *source,
+                           TSourceProperty TSourceObject::*sourceProperty,
+                           BindingMode mode,
+                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter = nullptr)
+            -> typename std::enable_if<
+                _IsProperty<TTargetProperty>::value &&
+                    _IsProperty<TSourceProperty>::value &&
+                    std::is_base_of<DynamicObject, TTargetObject>::value &&
+                    std::is_base_of<DynamicObject, TSourceObject>::value &&
+                    BindingCastHelper<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value,
+                Binding *>::type
+        {
+            return Create(nullptr, targetProperty, source, sourceProperty, mode, converter);
+        }
+
+        /**
+         * @brief 创建延迟绑定对象
+         * @param targetProperty 目标属性成员指针
+         * @param sourceProperty 源属性成员指针
+         * @param mode 绑定模式
+         * @param converter 值转换器指针
+         * @return 绑定对象指针
+         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
+         */
+        template <
+            typename TTargetObject,
+            typename TTargetProperty,
+            typename TSourceObject,
+            typename TSourceProperty>
+        static auto Create(TTargetProperty TTargetObject::*targetProperty,
+                           TSourceProperty TSourceObject::*sourceProperty,
+                           BindingMode mode,
+                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter = nullptr)
+            -> typename std::enable_if<
+                _IsProperty<TTargetProperty>::value &&
+                    _IsProperty<TSourceProperty>::value &&
+                    std::is_base_of<DynamicObject, TTargetObject>::value &&
+                    std::is_base_of<DynamicObject, TSourceObject>::value &&
+                    BindingCastHelper<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value,
+                Binding *>::type
+        {
+            return Create(nullptr, targetProperty, nullptr, sourceProperty, mode, converter);
+        }
+
+        /**
+         * @brief 创建绑定对象
+         * @param target 目标对象指针
+         * @param targetProperty 目标属性成员指针
+         * @param source 源对象指针
+         * @param sourceProperty 源属性成员指针
+         * @param mode 绑定模式
+         * @param converter 值转换器指针
+         * @return 绑定对象指针
+         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
+         */
+        template <
+            typename TTargetObject,
+            typename TTargetProperty,
+            typename TSourceObject,
+            typename TSourceProperty>
+        static auto Create(DynamicObject *target, TTargetProperty TTargetObject::*targetProperty,
+                           DynamicObject *source, TSourceProperty TSourceObject::*sourceProperty,
+                           BindingMode mode,
+                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter)
+            -> typename std::enable_if<
+                _IsProperty<TTargetProperty>::value &&
+                    _IsProperty<TSourceProperty>::value &&
+                    std::is_base_of<DynamicObject, TTargetObject>::value &&
+                    std::is_base_of<DynamicObject, TSourceObject>::value &&
+                    !BindingCastHelper<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value,
+                Binding *>::type
+        {
+            using TTargetValue = typename TTargetProperty::TValue;
+            using TSourceValue = typename TSourceProperty::TValue;
+
+            auto binding = Create(
+                target, Reflection::GetFieldId(targetProperty),
+                source, Reflection::GetFieldId(sourceProperty), mode, converter);
+
+            // update target action
+            binding->_updateTargetFunc = [targetSetter = Reflection::GetPropertySetter(targetProperty),
+                                          sourceGetter = Reflection::GetPropertyGetter(sourceProperty)](Binding *binding) -> bool //
+            {
+                IValueConverter<TSourceValue, TTargetValue> *converter =
+                    reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(binding->_converter);
+
+                if (targetSetter == nullptr ||
+                    sourceGetter == nullptr ||
+                    converter == nullptr ||
+                    binding->_targetObject == nullptr ||
+                    binding->_sourceObject == nullptr) {
+                    return false;
+                }
+
+                targetSetter(
+                    *binding->_targetObject,
+                    converter->Convert(sourceGetter(*binding->_sourceObject)));
+                return true;
+            };
+
+            // update source action
+            binding->_updateSourceFunc = [targetGetter = Reflection::GetPropertyGetter(targetProperty),
+                                          sourceSetter = Reflection::GetPropertySetter(sourceProperty)](Binding *binding) -> bool //
+            {
+                IValueConverter<TSourceValue, TTargetValue> *converter =
+                    reinterpret_cast<IValueConverter<TSourceValue, TTargetValue> *>(binding->_converter);
+
+                if (targetGetter == nullptr ||
+                    sourceSetter == nullptr ||
+                    converter == nullptr ||
+                    binding->_targetObject == nullptr ||
+                    binding->_sourceObject == nullptr) {
+                    return false;
+                }
+
+                sourceSetter(
+                    *binding->_sourceObject,
+                    converter->ConvertBack(targetGetter(*binding->_targetObject)));
+                return true;
+            };
+
+            binding->RegisterNotifications();
+            binding->OnBindingChanged();
+            return binding;
+        }
+
+        /**
+         * @brief 创建延迟绑定对象
+         * @param targetProperty 目标属性成员指针
+         * @param source 源对象指针
+         * @param sourceProperty 源属性成员指针
+         * @param mode 绑定模式
+         * @param converter 值转换器指针
+         * @return 绑定对象指针
+         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
+         */
+        template <
+            typename TTargetObject,
+            typename TTargetProperty,
+            typename TSourceObject,
+            typename TSourceProperty>
+        static auto Create(TTargetProperty TTargetObject::*targetProperty,
+                           DynamicObject *source,
+                           TSourceProperty TSourceObject::*sourceProperty,
+                           BindingMode mode,
+                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter)
+            -> typename std::enable_if<
+                _IsProperty<TTargetProperty>::value &&
+                    _IsProperty<TSourceProperty>::value &&
+                    std::is_base_of<DynamicObject, TTargetObject>::value &&
+                    std::is_base_of<DynamicObject, TSourceObject>::value &&
+                    !BindingCastHelper<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value,
+                Binding *>::type
+        {
+            return Create(nullptr, targetProperty, source, sourceProperty, mode, converter);
+        }
+
+        /**
+         * @brief 创建延迟绑定对象
+         * @param targetProperty 目标属性成员指针
+         * @param sourceProperty 源属性成员指针
+         * @param mode 绑定模式
+         * @param converter 值转换器指针
+         * @return 绑定对象指针
+         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
+         */
+        template <
+            typename TTargetObject,
+            typename TTargetProperty,
+            typename TSourceObject,
+            typename TSourceProperty>
+        static auto Create(TTargetProperty TTargetObject::*targetProperty,
+                           TSourceProperty TSourceObject::*sourceProperty,
+                           BindingMode mode,
+                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter)
+            -> typename std::enable_if<
+                _IsProperty<TTargetProperty>::value &&
+                    _IsProperty<TSourceProperty>::value &&
+                    std::is_base_of<DynamicObject, TTargetObject>::value &&
+                    std::is_base_of<DynamicObject, TSourceObject>::value &&
+                    !BindingCastHelper<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value,
+                Binding *>::type
+        {
+            return Create(nullptr, targetProperty, nullptr, sourceProperty, mode, converter);
+        }
+    };
+}
+
 // CanvasLayout.h
 
 
@@ -12793,163 +13324,7 @@ namespace sw
     };
 }
 
-// SelfBinding.h
-
-
-namespace sw
-{
-    /**
-     * @brief 自绑定类，用于同一对象内部属性之间的绑定
-     */
-    class SelfBinding final : public BindingBase
-    {
-    private:
-        /**
-         * @brief 内部绑定对象
-         */
-        std::unique_ptr<Binding> _innerBinding;
-
-    private:
-        /**
-         * @brief 构造函数
-         * @param binding 内部绑定对象
-         */
-        SelfBinding(Binding *binding)
-            : _innerBinding(binding)
-        {
-        }
-
-    public:
-        /**
-         * @brief 更新目标属性的值
-         * @return 如果更新成功则返回true，否则返回false
-         */
-        virtual bool UpdateTarget() override
-        {
-            return _innerBinding->UpdateTarget();
-        }
-
-        /**
-         * @brief 更新源属性的值
-         * @return 如果更新成功则返回true，否则返回false
-         */
-        virtual bool UpdateSource() override
-        {
-            return _innerBinding->UpdateSource();
-        }
-
-        /**
-         * @brief 获取目标属性ID
-         */
-        virtual FieldId GetTargetPropertyId() const override
-        {
-            return _innerBinding->GetTargetPropertyId();
-        }
-
-        /**
-         * @brief 获取源属性ID
-         */
-        virtual FieldId GetSourcePropertyId() const override
-        {
-            return _innerBinding->GetSourcePropertyId();
-        }
-
-        /**
-         * @brief 获取绑定模式
-         */
-        BindingMode GetBindingMode() const
-        {
-            return _innerBinding->GetBindingMode();
-        }
-
-        /**
-         * @brief 设置绑定模式
-         */
-        void SetBindingMode(BindingMode mode)
-        {
-            _innerBinding->SetBindingMode(mode);
-        }
-
-        /**
-         * @brief 获取目标对象
-         */
-        DynamicObject *GetTargetObject() const
-        {
-            return _innerBinding->GetTargetObject();
-        }
-
-        /**
-         * @brief 修改目标对象
-         */
-        void SetTargetObject(DynamicObject *target)
-        {
-            _innerBinding->SetBindingObjects(target, target);
-        }
-
-    public:
-        /**
-         * @brief 创建自绑定对象
-         * @param targetProperty 目标属性成员指针
-         * @param sourceProperty 源属性成员指针
-         * @param mode 绑定模式
-         * @param converter 值转换器指针
-         * @return 绑定对象指针
-         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
-         */
-        template <
-            typename TTargetObject,
-            typename TTargetProperty,
-            typename TSourceObject,
-            typename TSourceProperty>
-        static auto Create(TTargetProperty TTargetObject::*targetProperty,
-                           TSourceProperty TSourceObject::*sourceProperty,
-                           BindingMode mode,
-                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter = nullptr)
-            -> typename std::enable_if<
-                _IsProperty<TTargetProperty>::value &&
-                    _IsProperty<TSourceProperty>::value &&
-                    std::is_base_of<DynamicObject, TTargetObject>::value &&
-                    std::is_base_of<DynamicObject, TSourceObject>::value &&
-                    _IsStaticCastable<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value &&
-                    _IsStaticCastable<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value,
-                SelfBinding *>::type
-        {
-            return new SelfBinding(Binding::Create(targetProperty, sourceProperty, mode, converter));
-        }
-
-        /**
-         * @brief 创建自绑定对象
-         * @param targetProperty 目标属性成员指针
-         * @param sourceProperty 源属性成员指针
-         * @param mode 绑定模式
-         * @param converter 值转换器指针
-         * @return 绑定对象指针
-         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
-         */
-        template <
-            typename TTargetObject,
-            typename TTargetProperty,
-            typename TSourceObject,
-            typename TSourceProperty>
-        static auto Create(TTargetProperty TTargetObject::*targetProperty,
-                           TSourceProperty TSourceObject::*sourceProperty,
-                           BindingMode mode,
-                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter)
-            -> typename std::enable_if<
-                _IsProperty<TTargetProperty>::value &&
-                    _IsProperty<TSourceProperty>::value &&
-                    std::is_base_of<DynamicObject, TTargetObject>::value &&
-                    std::is_base_of<DynamicObject, TSourceObject>::value &&
-                    !(_IsStaticCastable<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value &&
-                      _IsStaticCastable<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value),
-                SelfBinding *>::type
-        {
-            return new SelfBinding(Binding::Create(targetProperty, sourceProperty, mode, converter));
-        }
-    };
-}
-
-// StackLayoutH.h
+// StackLayout.h
 
 
 namespace sw
@@ -12973,19 +13348,38 @@ namespace sw
          */
         virtual void ArrangeOverride(const Size &finalSize) override;
     };
-}
 
-// StackLayoutV.h
-
-
-namespace sw
-{
     /**
      * @brief 纵向堆叠布局
      */
     class StackLayoutV : virtual public LayoutHost
     {
     public:
+        /**
+         * @brief 测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return 返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief 安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+
+    /**
+     * @brief 堆叠布局
+     */
+    class StackLayout : public StackLayoutH, public StackLayoutV
+    {
+    public:
+        /**
+         * @brief 排列方式
+         */
+        Orientation orientation = Orientation::Vertical;
+
         /**
          * @brief 测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
@@ -13042,7 +13436,7 @@ namespace sw
     };
 }
 
-// WrapLayoutH.h
+// WrapLayout.h
 
 
 namespace sw
@@ -13066,19 +13460,38 @@ namespace sw
          */
         virtual void ArrangeOverride(const Size &finalSize) override;
     };
-}
 
-// WrapLayoutV.h
-
-
-namespace sw
-{
     /**
      * @brief 纵向自动换行布局
      */
     class WrapLayoutV : virtual public LayoutHost
     {
     public:
+        /**
+         * @brief 测量元素所需尺寸，无需考虑边框和边距
+         * @param availableSize 可用的尺寸
+         * @return 返回元素需要占用的尺寸
+         */
+        virtual Size MeasureOverride(const Size &availableSize) override;
+
+        /**
+         * @brief 安排子元素的位置，可重写该函数以实现自定义布局
+         * @param finalSize 可用于排列子元素的最终尺寸
+         */
+        virtual void ArrangeOverride(const Size &finalSize) override;
+    };
+
+    /**
+     * @brief 自动换行布局
+     */
+    class WrapLayout : public WrapLayoutH, public WrapLayoutV
+    {
+    public:
+        /**
+         * @brief 排列方式
+         */
+        Orientation orientation = Orientation::Horizontal;
+
         /**
          * @brief 测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
@@ -13539,190 +13952,6 @@ namespace sw
          * @brief 设置初始文件名到缓冲区
          */
         void _SetInitialFileName();
-    };
-}
-
-// FrameworkElement.h
-
-
-namespace sw
-{
-    // 前向声明
-    class DataBinding;
-    class FrameworkElement;
-
-    /**
-     * @brief 数据上下文更改事件参数
-     */
-    struct DataContextChangedEventArgs : EventArgs {
-        /**
-         * @brief 旧的数据上下文值
-         */
-        DynamicObject *oldDataContext;
-    };
-
-    /**
-     * @brief 数据上下文更改事件处理函数类型
-     */
-    using DataContextChangedEventHandler =
-        EventHandler<FrameworkElement, DataContextChangedEventArgs>;
-
-    /**
-     * @brief 框架元素类，提供数据上下文和绑定功能
-     */
-    class FrameworkElement : public ObservableObject,
-                             public ITag<Variant>
-    {
-    private:
-        /**
-         * @brief 属性的绑定信息
-         */
-        std::unordered_map<FieldId, std::unique_ptr<BindingBase>> _bindings{};
-
-        /**
-         * @brief 用户自定义数据标签
-         */
-        Variant _tag = nullptr;
-
-        /**
-         * @brief 数据上下文
-         */
-        Variant _dataContext = nullptr;
-
-        /**
-         * @brief 数据上下文改变事件委托
-         */
-        DataContextChangedEventHandler _dataContextChanged;
-
-    public:
-        /**
-         * @brief 数据上下文改变时触发该事件
-         */
-        const Event<DataContextChangedEventHandler> DataContextChanged;
-
-        /**
-         * @brief 自定义数据标签，可用于存储任意用户数据
-         */
-        const Property<Variant> Tag;
-
-        /**
-         * @brief 数据上下文
-         * @note 若需以引用语义持有外部对象，请使用Variant::MakeRef构造，
-         *       而非传入DynamicObject*裸指针 —— 后者会被Variant按值装箱为
-         *       BoxedObject<DynamicObject*>，导致绑定无法解析到原对象。
-         */
-        const Property<Variant> DataContext;
-
-        /**
-         * @brief 当前元素的有效数据上下文
-         * @note 若当前元素的DataContext不为nullptr则返回该值，否则递归获取父元素的DataContext
-         */
-        const ReadOnlyProperty<DynamicObject *> CurrentDataContext;
-
-    protected:
-        /**
-         * @brief 初始化FrameworkElement
-         */
-        FrameworkElement();
-
-        // 删除拷贝构造函数
-        FrameworkElement(const FrameworkElement &) = delete;
-
-        // 删除移动构造函数
-        FrameworkElement(FrameworkElement &&) = delete;
-
-        // 删除拷贝赋值运算符
-        FrameworkElement &operator=(const FrameworkElement &) = delete;
-
-        // 删除移动赋值运算符
-        FrameworkElement &operator=(FrameworkElement &&) = delete;
-
-    public:
-        /**
-         * @brief 添加绑定对象
-         * @return 若函数成功则返回true，否则返回false
-         * @note 绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
-         * @note 请确保绑定对象的目标属性为当前元素的属性，该函数内部不会对此进行检查
-         * @note 同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
-         */
-        bool AddBinding(BindingBase *binding);
-
-        /**
-         * @brief 添加绑定对象
-         * @return 若函数成功则返回true，否则返回false
-         * @note 绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
-         * @note 该函数会将绑定的目标对象设置为当前元素，若未指定源对象则会将DataContext作为源对象
-         * @note 同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
-         */
-        bool AddBinding(Binding *binding);
-
-        /**
-         * @brief 添加自绑定对象
-         * @return 若函数成功则返回true，否则返回false
-         * @note 绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
-         * @note 同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
-         */
-        bool AddBinding(SelfBinding *binding);
-
-        /**
-         * @brief 添加绑定到DataContext的绑定对象
-         * @return 若函数成功则返回true，否则返回false
-         * @note 绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
-         * @note 同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
-         */
-        bool AddBinding(DataBinding *binding);
-
-        /**
-         * @brief 移除指定属性的绑定对象
-         * @return 若函数成功则返回true，否则返回false
-         */
-        bool RemoveBinding(FieldId propertyId);
-
-        /**
-         * @brief 移除指定属性的绑定对象
-         * @return 若函数成功则返回true，否则返回false
-         */
-        template <typename T, typename TProperty>
-        bool RemoveBinding(TProperty T::*prop)
-        { return RemoveBinding(Reflection::GetFieldId(prop)); }
-
-    public:
-        /**
-         * @brief 获取Tag
-         */
-        virtual Variant GetTag() const override final;
-
-        /**
-         * @brief 设置Tag
-         */
-        virtual void SetTag(const Variant &tag) override final;
-
-    protected:
-        /**
-         * @brief 当CurrentDataContext更改时调用此函数
-         * @param oldDataContext 旧的数据上下文值
-         */
-        virtual void OnCurrentDataContextChanged(DynamicObject *oldDataContext);
-
-    public:
-        /**
-         * @brief 获取逻辑树中的父元素
-         * @return 父元素指针，如果没有父元素则返回nullptr
-         */
-        virtual FrameworkElement *GetParent() const = 0;
-
-        /**
-         * @brief 获取逻辑树中的子元素数量
-         * @return 子元素数量
-         */
-        virtual int GetChildCount() const = 0;
-
-        /**
-         * @brief 获取逻辑树中指定索引处的子元素
-         * @param index 子元素索引
-         * @throw std::out_of_range 如果索引超出范围
-         */
-        virtual FrameworkElement &GetChildAt(int index) const = 0;
     };
 }
 
@@ -14384,65 +14613,341 @@ namespace sw
     };
 }
 
-// StackLayout.h
+// SelfBinding.h
 
 
 namespace sw
 {
     /**
-     * @brief 堆叠布局
+     * @brief 自绑定类，用于同一对象内部属性之间的绑定
      */
-    class StackLayout : public StackLayoutH, public StackLayoutV
+    class SelfBinding final : public BindingBase
     {
+    private:
+        /**
+         * @brief 内部绑定对象
+         */
+        std::unique_ptr<Binding> _innerBinding;
+
+    private:
+        /**
+         * @brief 构造函数
+         * @param binding 内部绑定对象
+         */
+        SelfBinding(Binding *binding)
+            : _innerBinding(binding)
+        {
+        }
+
     public:
         /**
-         * @brief 排列方式
+         * @brief 更新目标属性的值
+         * @return 如果更新成功则返回true，否则返回false
          */
-        Orientation orientation = Orientation::Vertical;
+        virtual bool UpdateTarget() override
+        {
+            return _innerBinding->UpdateTarget();
+        }
 
         /**
-         * @brief 测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return 返回元素需要占用的尺寸
+         * @brief 更新源属性的值
+         * @return 如果更新成功则返回true，否则返回false
          */
-        virtual Size MeasureOverride(const Size &availableSize) override;
+        virtual bool UpdateSource() override
+        {
+            return _innerBinding->UpdateSource();
+        }
 
         /**
-         * @brief 安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
+         * @brief 获取目标属性ID
          */
-        virtual void ArrangeOverride(const Size &finalSize) override;
+        virtual FieldId GetTargetPropertyId() const override
+        {
+            return _innerBinding->GetTargetPropertyId();
+        }
+
+        /**
+         * @brief 获取源属性ID
+         */
+        virtual FieldId GetSourcePropertyId() const override
+        {
+            return _innerBinding->GetSourcePropertyId();
+        }
+
+        /**
+         * @brief 获取绑定模式
+         */
+        BindingMode GetBindingMode() const
+        {
+            return _innerBinding->GetBindingMode();
+        }
+
+        /**
+         * @brief 设置绑定模式
+         */
+        void SetBindingMode(BindingMode mode)
+        {
+            _innerBinding->SetBindingMode(mode);
+        }
+
+        /**
+         * @brief 获取目标对象
+         */
+        DynamicObject *GetTargetObject() const
+        {
+            return _innerBinding->GetTargetObject();
+        }
+
+        /**
+         * @brief 修改目标对象
+         */
+        void SetTargetObject(DynamicObject *target)
+        {
+            _innerBinding->SetBindingObjects(target, target);
+        }
+
+    public:
+        /**
+         * @brief 创建自绑定对象
+         * @param targetProperty 目标属性成员指针
+         * @param sourceProperty 源属性成员指针
+         * @param mode 绑定模式
+         * @param converter 值转换器指针
+         * @return 绑定对象指针
+         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
+         */
+        template <
+            typename TTargetObject,
+            typename TTargetProperty,
+            typename TSourceObject,
+            typename TSourceProperty>
+        static auto Create(TTargetProperty TTargetObject::*targetProperty,
+                           TSourceProperty TSourceObject::*sourceProperty,
+                           BindingMode mode,
+                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter = nullptr)
+            -> typename std::enable_if<
+                _IsProperty<TTargetProperty>::value &&
+                    _IsProperty<TSourceProperty>::value &&
+                    std::is_base_of<DynamicObject, TTargetObject>::value &&
+                    std::is_base_of<DynamicObject, TSourceObject>::value &&
+                    BindingCastHelper<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value,
+                SelfBinding *>::type
+        {
+            return new SelfBinding(Binding::Create(targetProperty, sourceProperty, mode, converter));
+        }
+
+        /**
+         * @brief 创建自绑定对象
+         * @param targetProperty 目标属性成员指针
+         * @param sourceProperty 源属性成员指针
+         * @param mode 绑定模式
+         * @param converter 值转换器指针
+         * @return 绑定对象指针
+         * @note 转换器的生命周期将由绑定对象管理，请勿与其他对象共享
+         */
+        template <
+            typename TTargetObject,
+            typename TTargetProperty,
+            typename TSourceObject,
+            typename TSourceProperty>
+        static auto Create(TTargetProperty TTargetObject::*targetProperty,
+                           TSourceProperty TSourceObject::*sourceProperty,
+                           BindingMode mode,
+                           IValueConverter<typename TSourceProperty::TValue, typename TTargetProperty::TValue> *converter)
+            -> typename std::enable_if<
+                _IsProperty<TTargetProperty>::value &&
+                    _IsProperty<TSourceProperty>::value &&
+                    std::is_base_of<DynamicObject, TTargetObject>::value &&
+                    std::is_base_of<DynamicObject, TSourceObject>::value &&
+                    !BindingCastHelper<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value,
+                SelfBinding *>::type
+        {
+            return new SelfBinding(Binding::Create(targetProperty, sourceProperty, mode, converter));
+        }
     };
 }
 
-// WrapLayout.h
+// FrameworkElement.h
 
 
 namespace sw
 {
+    // 前向声明
+    class DataBinding;
+    class FrameworkElement;
+
     /**
-     * @brief 自动换行布局
+     * @brief 数据上下文更改事件参数
      */
-    class WrapLayout : public WrapLayoutH, public WrapLayoutV
+    struct DataContextChangedEventArgs : EventArgs {
+        /**
+         * @brief 旧的数据上下文值
+         */
+        DynamicObject *oldDataContext;
+    };
+
+    /**
+     * @brief 数据上下文更改事件处理函数类型
+     */
+    using DataContextChangedEventHandler =
+        EventHandler<FrameworkElement, DataContextChangedEventArgs>;
+
+    /**
+     * @brief 框架元素类，提供数据上下文和绑定功能
+     */
+    class FrameworkElement : public ObservableObject,
+                             public ITag<Variant>
     {
+    private:
+        /**
+         * @brief 属性的绑定信息
+         */
+        std::unordered_map<FieldId, std::unique_ptr<BindingBase>> _bindings{};
+
+        /**
+         * @brief 用户自定义数据标签
+         */
+        Variant _tag = nullptr;
+
+        /**
+         * @brief 数据上下文
+         */
+        Variant _dataContext = nullptr;
+
+        /**
+         * @brief 数据上下文改变事件委托
+         */
+        DataContextChangedEventHandler _dataContextChanged;
+
     public:
         /**
-         * @brief 排列方式
+         * @brief 数据上下文改变时触发该事件
          */
-        Orientation orientation = Orientation::Horizontal;
+        const Event<DataContextChangedEventHandler> DataContextChanged;
 
         /**
-         * @brief 测量元素所需尺寸，无需考虑边框和边距
-         * @param availableSize 可用的尺寸
-         * @return 返回元素需要占用的尺寸
+         * @brief 自定义数据标签，可用于存储任意用户数据
          */
-        virtual Size MeasureOverride(const Size &availableSize) override;
+        const Property<Variant> Tag;
 
         /**
-         * @brief 安排子元素的位置，可重写该函数以实现自定义布局
-         * @param finalSize 可用于排列子元素的最终尺寸
+         * @brief 数据上下文
+         * @note 若需以引用语义持有外部对象，请使用Variant::MakeRef构造，
+         *       而非传入DynamicObject*裸指针 —— 后者会被Variant按值装箱为
+         *       BoxedObject<DynamicObject*>，导致绑定无法解析到原对象。
          */
-        virtual void ArrangeOverride(const Size &finalSize) override;
+        const Property<Variant> DataContext;
+
+        /**
+         * @brief 当前元素的有效数据上下文
+         * @note 若当前元素的DataContext不为nullptr则返回该值，否则递归获取父元素的DataContext
+         */
+        const ReadOnlyProperty<DynamicObject *> CurrentDataContext;
+
+    protected:
+        /**
+         * @brief 初始化FrameworkElement
+         */
+        FrameworkElement();
+
+        // 删除拷贝构造函数
+        FrameworkElement(const FrameworkElement &) = delete;
+
+        // 删除移动构造函数
+        FrameworkElement(FrameworkElement &&) = delete;
+
+        // 删除拷贝赋值运算符
+        FrameworkElement &operator=(const FrameworkElement &) = delete;
+
+        // 删除移动赋值运算符
+        FrameworkElement &operator=(FrameworkElement &&) = delete;
+
+    public:
+        /**
+         * @brief 添加绑定对象
+         * @return 若函数成功则返回true，否则返回false
+         * @note 绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
+         * @note 请确保绑定对象的目标属性为当前元素的属性，该函数内部不会对此进行检查
+         * @note 同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
+         */
+        bool AddBinding(BindingBase *binding);
+
+        /**
+         * @brief 添加绑定对象
+         * @return 若函数成功则返回true，否则返回false
+         * @note 绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
+         * @note 该函数会将绑定的目标对象设置为当前元素，若未指定源对象则会将DataContext作为源对象
+         * @note 同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
+         */
+        bool AddBinding(Binding *binding);
+
+        /**
+         * @brief 添加自绑定对象
+         * @return 若函数成功则返回true，否则返回false
+         * @note 绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
+         * @note 同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
+         */
+        bool AddBinding(SelfBinding *binding);
+
+        /**
+         * @brief 添加绑定到DataContext的绑定对象
+         * @return 若函数成功则返回true，否则返回false
+         * @note 绑定对象的生命周期将由当前元素管理，请勿与其他对象共享
+         * @note 同一个属性只能设置一个绑定，若该属性已存在绑定则会被新的绑定覆盖
+         */
+        bool AddBinding(DataBinding *binding);
+
+        /**
+         * @brief 移除指定属性的绑定对象
+         * @return 若函数成功则返回true，否则返回false
+         */
+        bool RemoveBinding(FieldId propertyId);
+
+        /**
+         * @brief 移除指定属性的绑定对象
+         * @return 若函数成功则返回true，否则返回false
+         */
+        template <typename T, typename TProperty>
+        bool RemoveBinding(TProperty T::*prop)
+        { return RemoveBinding(Reflection::GetFieldId(prop)); }
+
+    public:
+        /**
+         * @brief 获取Tag
+         */
+        virtual Variant GetTag() const override final;
+
+        /**
+         * @brief 设置Tag
+         */
+        virtual void SetTag(const Variant &tag) override final;
+
+    protected:
+        /**
+         * @brief 当CurrentDataContext更改时调用此函数
+         * @param oldDataContext 旧的数据上下文值
+         */
+        virtual void OnCurrentDataContextChanged(DynamicObject *oldDataContext);
+
+    public:
+        /**
+         * @brief 获取逻辑树中的父元素
+         * @return 父元素指针，如果没有父元素则返回nullptr
+         */
+        virtual FrameworkElement *GetParent() const = 0;
+
+        /**
+         * @brief 获取逻辑树中的子元素数量
+         * @return 子元素数量
+         */
+        virtual int GetChildCount() const = 0;
+
+        /**
+         * @brief 获取逻辑树中指定索引处的子元素
+         * @param index 子元素索引
+         * @throw std::out_of_range 如果索引超出范围
+         */
+        virtual FrameworkElement &GetChildAt(int index) const = 0;
     };
 }
 
@@ -14660,8 +15165,7 @@ namespace sw
                     _IsProperty<TSourceProperty>::value &&
                     std::is_base_of<DynamicObject, TTargetObject>::value &&
                     std::is_base_of<DynamicObject, TSourceObject>::value &&
-                    _IsStaticCastable<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value &&
-                    _IsStaticCastable<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value,
+                    BindingCastHelper<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value,
                 DataBinding *>::type
         {
             return new DataBinding(nullptr, Binding::Create(targetProperty, sourceProperty, mode, converter));
@@ -14690,8 +15194,7 @@ namespace sw
                     _IsProperty<TSourceProperty>::value &&
                     std::is_base_of<DynamicObject, TTargetObject>::value &&
                     std::is_base_of<DynamicObject, TSourceObject>::value &&
-                    !(_IsStaticCastable<typename TTargetProperty::TValue, typename TSourceProperty::TValue>::value &&
-                      _IsStaticCastable<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value),
+                    !BindingCastHelper<typename TSourceProperty::TValue, typename TTargetProperty::TValue>::value,
                 DataBinding *>::type
         {
             return new DataBinding(nullptr, Binding::Create(targetProperty, sourceProperty, mode, converter));
@@ -16859,6 +17362,11 @@ namespace sw
         virtual uint64_t GetLayoutTag() const override;
 
         /**
+         * @brief 获取当前元素所需尺寸
+         */
+        virtual Size GetDesireSize() const override;
+
+        /**
          * @brief 获取参与布局的子元素数量
          * @note 参与布局的子元素：即非collapsed状态的元素
          */
@@ -16869,12 +17377,7 @@ namespace sw
          * @throw std::out_of_range 如果索引超出范围
          * @note 参与布局的子元素：即非collapsed状态的元素
          */
-        virtual ILayout &GetChildLayoutAt(int index) const override final;
-
-        /**
-         * @brief 获取当前元素所需尺寸
-         */
-        virtual Size GetDesireSize() const override;
+        virtual UIElement &GetChildLayoutAt(int index) const override final;
 
         /**
          * @brief 测量元素所需尺寸
@@ -18477,7 +18980,7 @@ namespace sw
 
             for (int i = 0; i < childCount; ++i) {
                 // measure
-                UIElement &item = static_cast<UIElement &>(this->GetChildLayoutAt(i));
+                UIElement &item = this->GetChildLayoutAt(i);
                 item.Measure(Size{INFINITY, INFINITY});
                 // arrange
                 Size desireSize      = item.GetDesireSize();
@@ -20030,36 +20533,68 @@ namespace sw
         int DeleteAllChildren();
     };
 
-    // clang-format off
-
     /**
      * @brief 树视图节点正在展开或折叠事件参数类型
      */
-    struct TreeViewItemExpandingEventArgs : TypedRoutedEventArgs<TreeView_ItemExpanding, CancelableEventArgs> {
-        bool action;       // true表示展开，false表示折叠
-        TreeViewNode node; // 正在展开或折叠的节点
-        TreeViewItemExpandingEventArgs(bool action, const TreeViewNode &node): action(action), node(node) {}
+    class TreeViewItemExpandingEventArgs : public TypedRoutedEventArgs<TreeView_ItemExpanding, CancelableEventArgs>
+    {
+    public:
+        /// @brief true表示展开，false表示折叠
+        bool action;
+
+        /// @brief 正在展开或折叠的节点
+        TreeViewNode node;
+
+        /// @brief 构造函数
+        /// @param action true表示展开，false表示折叠
+        /// @param node 正在展开或折叠的节点
+        TreeViewItemExpandingEventArgs(bool action, const TreeViewNode &node)
+            : action(action), node(node)
+        {
+        }
     };
 
     /**
      * @brief 树视图节点已展开或折叠事件参数类型
      */
-    struct TreeViewItemExpandedEventArgs : TypedRoutedEventArgs<TreeView_ItemExpanding> {
-        bool action;       // true表示展开，false表示折叠
-        TreeViewNode node; // 已展开或折叠的节点
-        TreeViewItemExpandedEventArgs(bool action, const TreeViewNode &node): action(action), node(node) {}
+    class TreeViewItemExpandedEventArgs : public TypedRoutedEventArgs<TreeView_ItemExpanding>
+    {
+    public:
+        /// @brief true表示展开，false表示折叠
+        bool action;
+
+        /// @brief 已展开或折叠的节点
+        TreeViewNode node;
+
+        /// @brief 构造函数
+        /// @param action true表示展开，false表示折叠
+        /// @param node 已展开或折叠的节点
+        TreeViewItemExpandedEventArgs(bool action, const TreeViewNode &node)
+            : action(action), node(node)
+        {
+        }
     };
 
     /**
      * @brief 树视图节点复选框状态改变事件参数类型
      */
-    struct TreeViewCheckStateChangedEventArgs : TypedRoutedEventArgs<TreeView_CheckStateChanged> {
-        int checkState;    // 复选框的新状态，0表示未选中，1表示选中，-1表示无复选框
-        TreeViewNode node; // 复选框状态改变的节点
-        TreeViewCheckStateChangedEventArgs(int checkState, const TreeViewNode &node): checkState(checkState), node(node) {}
-    };
+    class TreeViewCheckStateChangedEventArgs : public TypedRoutedEventArgs<TreeView_CheckStateChanged>
+    {
+    public:
+        /// @brief 复选框的新状态，0表示未选中，1表示选中，-1表示无复选框
+        int checkState;
 
-    // clang-format on
+        /// @brief 复选框状态改变的节点
+        TreeViewNode node;
+
+        /// @brief 构造函数
+        /// @param checkState 复选框的新状态，0表示未选中，1表示选中，-1表示无复选框
+        /// @param node 复选框状态改变的节点
+        TreeViewCheckStateChangedEventArgs(int checkState, const TreeViewNode &node)
+            : checkState(checkState), node(node)
+        {
+        }
+    };
 
     /**
      * @brief 树视图控件
@@ -21119,7 +21654,7 @@ namespace sw
         /**
          * @brief 默认布局对象
          */
-        DockLayout _dockLayout = DockLayout();
+        DockLayout _dockLayout{};
 
     public:
         /**
@@ -21147,7 +21682,7 @@ namespace sw
         /**
          * @brief 获取默认布局对象
          */
-        virtual LayoutHost *GetDefaultLayout() override;
+        virtual LayoutHost *GetDefaultLayout() override final;
     };
 }
 
@@ -21296,7 +21831,7 @@ namespace sw
         /**
          * @brief 默认布局对象
          */
-        GridLayout _gridLayout = GridLayout();
+        GridLayout _gridLayout{};
 
     public:
         /**
@@ -21348,7 +21883,7 @@ namespace sw
         /**
          * @brief 获取默认布局对象
          */
-        virtual LayoutHost *GetDefaultLayout() override;
+        virtual LayoutHost *GetDefaultLayout() override final;
     };
 }
 
@@ -22619,7 +23154,7 @@ namespace sw
         /**
          * @brief 默认布局对象
          */
-        StackLayout _stackLayout = StackLayout();
+        StackLayout _stackLayout{};
 
     public:
         /**
@@ -22637,7 +23172,7 @@ namespace sw
         /**
          * @brief 获取默认布局对象
          */
-        virtual LayoutHost *GetDefaultLayout() override;
+        virtual LayoutHost *GetDefaultLayout() override final;
     };
 }
 
@@ -22700,7 +23235,7 @@ namespace sw
         /**
          * @brief 默认布局对象
          */
-        UniformGridLayout _uniformGridLayout = UniformGridLayout();
+        UniformGridLayout _uniformGridLayout{};
 
     public:
         /**
@@ -22728,7 +23263,7 @@ namespace sw
         /**
          * @brief 获取默认布局对象
          */
-        virtual LayoutHost *GetDefaultLayout() override;
+        virtual LayoutHost *GetDefaultLayout() override final;
     };
 }
 
@@ -22746,7 +23281,7 @@ namespace sw
         /**
          * @brief 默认布局对象
          */
-        WrapLayout _wrapLayout = WrapLayout();
+        WrapLayout _wrapLayout{};
 
     public:
         /**
@@ -22764,7 +23299,7 @@ namespace sw
         /**
          * @brief 获取默认布局对象
          */
-        virtual LayoutHost *GetDefaultLayout() override;
+        virtual LayoutHost *GetDefaultLayout() override final;
     };
 }
 
@@ -22978,12 +23513,9 @@ namespace sw
  * @brief SimpleWindow框架的顶级命名空间，所有公共类型、控件、枚举和工具函数均定义于此。
  */
 
-// 包含SimpleWindow所有头文件
 
-// 启用视觉样式
 #pragma comment(linker, "\"/manifestdependency:type='win32' \
 name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
 processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
-// Comctl32
 #pragma comment(lib, "comctl32.lib")

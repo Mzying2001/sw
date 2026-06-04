@@ -4126,289 +4126,269 @@ HICON sw::IconBox::_SetIconIfNotNull(HICON hIcon)
 
 // ImageList.cpp
 
-sw::ImageList::ImageList(HIMAGELIST hImageList, bool isWrap)
+sw::ImageList::ImageList(HIMAGELIST hImageList, bool isWrap) noexcept
     : _hImageList(hImageList), _isWrap(isWrap)
 {
 }
 
-sw::ImageList::ImageList(int cx, int cy, UINT flags, int cInitial, int cGrow)
+sw::ImageList::ImageList(int cx, int cy, UINT flags, int cInitial, int cGrow) noexcept
     : ImageList(ImageList_Create(cx, cy, flags, cInitial, cGrow), false)
 {
 }
 
-sw::ImageList::ImageList(const ImageList &other)
+sw::ImageList::ImageList(const ImageList &other) noexcept
 {
     if (other._isWrap) {
-        this->_isWrap     = true;
-        this->_hImageList = other._hImageList;
+        _isWrap     = true;
+        _hImageList = other._hImageList;
     } else {
-        this->_isWrap     = false;
-        this->_hImageList = ImageList_Duplicate(other._hImageList);
+        _isWrap     = false;
+        _hImageList = ImageList_Duplicate(other._hImageList);
     }
 }
 
-sw::ImageList::ImageList(ImageList &&other)
+sw::ImageList::ImageList(ImageList &&other) noexcept
 {
-    this->_isWrap     = other._isWrap;
-    this->_hImageList = other._hImageList;
+    _isWrap           = other._isWrap;
+    _hImageList       = other._hImageList;
     other._hImageList = NULL;
 }
 
-sw::ImageList::~ImageList()
+sw::ImageList::~ImageList() noexcept
 {
-    this->_DestroyIfNotWrap();
+    _DestroyIfNotWrap();
 }
 
-sw::ImageList &sw::ImageList::operator=(const ImageList &other)
+sw::ImageList &sw::ImageList::operator=(const ImageList &other) noexcept
 {
     if (this == &other) {
         return *this;
     }
 
-    this->_DestroyIfNotWrap();
+    _DestroyIfNotWrap();
 
     if (other._isWrap) {
-        this->_isWrap     = true;
-        this->_hImageList = other._hImageList;
+        _isWrap     = true;
+        _hImageList = other._hImageList;
     } else {
-        this->_isWrap     = false;
-        this->_hImageList = ImageList_Duplicate(other._hImageList);
+        _isWrap     = false;
+        _hImageList = ImageList_Duplicate(other._hImageList);
     }
 
     return *this;
 }
 
-sw::ImageList &sw::ImageList::operator=(ImageList &&other)
+sw::ImageList &sw::ImageList::operator=(ImageList &&other) noexcept
 {
     if (this == &other) {
         return *this;
     }
 
-    this->_DestroyIfNotWrap();
+    _DestroyIfNotWrap();
 
-    this->_isWrap     = other._isWrap;
-    this->_hImageList = other._hImageList;
+    _isWrap           = other._isWrap;
+    _hImageList       = other._hImageList;
     other._hImageList = NULL;
 
     return *this;
 }
 
-sw::ImageList sw::ImageList::Create(int cx, int cy, UINT flags, int cInitial, int cGrow)
+sw::ImageList sw::ImageList::Create(int cx, int cy, UINT flags, int cInitial, int cGrow) noexcept
 {
     return ImageList{cx, cy, flags, cInitial, cGrow};
 }
 
-sw::ImageList sw::ImageList::Wrap(HIMAGELIST hImageList)
+sw::ImageList sw::ImageList::Wrap(HIMAGELIST hImageList) noexcept
 {
     return ImageList{hImageList, true};
 }
 
-bool sw::ImageList::Copy(const ImageList &dst, int iDst, const ImageList &src, int iSrc, UINT uFlags)
+bool sw::ImageList::Copy(const ImageList &dst, int iDst, const ImageList &src, int iSrc, UINT uFlags) noexcept
 {
     return ImageList_Copy(dst._hImageList, iDst, src._hImageList, iSrc, uFlags);
 }
 
-bool sw::ImageList::DragEnter(HWND hwndLock, double x, double y)
-{
-    return ImageList_DragEnter(hwndLock, Dip::DipToPxX(x), Dip::DipToPxY(y));
-}
-
-bool sw::ImageList::DragEnterPx(HWND hwndLock, int x, int y)
+bool sw::ImageList::DragEnter(HWND hwndLock, int x, int y) noexcept
 {
     return ImageList_DragEnter(hwndLock, x, y);
 }
 
-bool sw::ImageList::DragLeave(HWND hwndLock)
+bool sw::ImageList::DragLeave(HWND hwndLock) noexcept
 {
     return ImageList_DragLeave(hwndLock);
 }
 
-bool sw::ImageList::DragMove(double x, double y)
-{
-    return ImageList_DragMove(Dip::DipToPxX(x), Dip::DipToPxY(y));
-}
-
-bool sw::ImageList::DragMovePx(int x, int y)
+bool sw::ImageList::DragMove(int x, int y) noexcept
 {
     return ImageList_DragMove(x, y);
 }
 
-bool sw::ImageList::DragShowNolock(bool fShow)
+bool sw::ImageList::DragShowNolock(bool fShow) noexcept
 {
     return ImageList_DragShowNolock(fShow);
 }
 
-void sw::ImageList::EndDrag()
+void sw::ImageList::EndDrag() noexcept
 {
     ImageList_EndDrag();
 }
 
-sw::ImageList sw::ImageList::GetDragImage(POINT *ppt, POINT *pptHotspot)
+sw::ImageList sw::ImageList::GetDragImage(POINT *ppt, POINT *pptHotspot) noexcept
 {
-    return ImageList{ImageList_GetDragImage(ppt, pptHotspot), false};
+    return ImageList::Wrap(ImageList_GetDragImage(ppt, pptHotspot));
 }
 
-sw::ImageList sw::ImageList::LoadImageA(HINSTANCE hi, LPCSTR lpbmp, int cx, int cGrow, COLORREF crMask, UINT uType, UINT uFlags)
+sw::ImageList sw::ImageList::LoadImageA(HINSTANCE hi, LPCSTR lpbmp, int cx, int cGrow, COLORREF crMask, UINT uType, UINT uFlags) noexcept
 {
     return ImageList{ImageList_LoadImageA(hi, lpbmp, cx, cGrow, crMask, uType, uFlags), false};
 }
 
-sw::ImageList sw::ImageList::LoadImageW(HINSTANCE hi, LPCWSTR lpbmp, int cx, int cGrow, COLORREF crMask, UINT uType, UINT uFlags)
+sw::ImageList sw::ImageList::LoadImageW(HINSTANCE hi, LPCWSTR lpbmp, int cx, int cGrow, COLORREF crMask, UINT uType, UINT uFlags) noexcept
 {
     return ImageList{ImageList_LoadImageW(hi, lpbmp, cx, cGrow, crMask, uType, uFlags), false};
 }
 
-sw::ImageList sw::ImageList::Merge(const ImageList &iml1, int i1, const ImageList &iml2, int i2, int dx, int dy)
+sw::ImageList sw::ImageList::Merge(const ImageList &iml1, int i1, const ImageList &iml2, int i2, int dx, int dy) noexcept
 {
     return ImageList{ImageList_Merge(iml1._hImageList, i1, iml2._hImageList, i2, dx, dy), false};
 }
 
-sw::ImageList sw::ImageList::Read(IStream *pstm)
+sw::ImageList sw::ImageList::Read(IStream *pstm) noexcept
 {
     return ImageList{ImageList_Read(pstm), false};
 }
 
-HIMAGELIST sw::ImageList::GetHandle() const
+HIMAGELIST sw::ImageList::GetHandle() const noexcept
 {
-    return this->_hImageList;
+    return _hImageList;
 }
 
-bool sw::ImageList::IsWrap() const
+bool sw::ImageList::IsWrap() const noexcept
 {
-    return this->_isWrap;
+    return _isWrap;
 }
 
-HIMAGELIST sw::ImageList::ReleaseHandle()
+HIMAGELIST sw::ImageList::ReleaseHandle() noexcept
 {
-    HIMAGELIST result = this->_hImageList;
-    this->_hImageList = NULL;
+    HIMAGELIST result = _hImageList;
+    _hImageList       = NULL;
     return result;
 }
 
-int sw::ImageList::Add(HBITMAP hbmImage, HBITMAP hbmMask)
+int sw::ImageList::Add(HBITMAP hbmImage, HBITMAP hbmMask) noexcept
 {
-    return ImageList_Add(this->_hImageList, hbmImage, hbmMask);
+    return ImageList_Add(_hImageList, hbmImage, hbmMask);
 }
 
-int sw::ImageList::AddIcon(HICON hIcon)
+int sw::ImageList::AddIcon(HICON hIcon) noexcept
 {
-    return ImageList_AddIcon(this->_hImageList, hIcon);
+    return ImageList_AddIcon(_hImageList, hIcon);
 }
 
-int sw::ImageList::AddMasked(HBITMAP hbmImage, COLORREF crMask)
+int sw::ImageList::AddMasked(HBITMAP hbmImage, COLORREF crMask) noexcept
 {
-    return ImageList_AddMasked(this->_hImageList, hbmImage, crMask);
+    return ImageList_AddMasked(_hImageList, hbmImage, crMask);
 }
 
-bool sw::ImageList::BeginDrag(int iTrack, int dxHotspot, int dyHotspot)
+bool sw::ImageList::BeginDrag(int iTrack, int dxHotspot, int dyHotspot) noexcept
 {
-    return ImageList_BeginDrag(this->_hImageList, iTrack, dxHotspot, dyHotspot);
+    return ImageList_BeginDrag(_hImageList, iTrack, dxHotspot, dyHotspot);
 }
 
-bool sw::ImageList::Draw(int i, HDC hdcDst, double x, double y, UINT fStyle)
+bool sw::ImageList::Draw(int i, HDC hdcDst, int x, int y, UINT fStyle) noexcept
 {
-    return this->DrawPx(i, hdcDst, Dip::DipToPxX(x), Dip::DipToPxY(y), fStyle);
+    return ImageList_Draw(_hImageList, i, hdcDst, x, y, fStyle);
 }
 
-bool sw::ImageList::Draw(int i, HDC hdcDst, double x, double y, double dx, double dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle)
+bool sw::ImageList::Draw(int i, HDC hdcDst, int x, int y, int dx, int dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle) noexcept
 {
-    return this->DrawPx(i, hdcDst, Dip::DipToPxX(x), Dip::DipToPxY(y), Dip::DipToPxX(dx), Dip::DipToPxY(dy), rgbBk, rgbFg, fStyle);
+    return ImageList_DrawEx(_hImageList, i, hdcDst, x, y, dx, dy, rgbBk, rgbFg, fStyle);
 }
 
-bool sw::ImageList::DrawPx(int i, HDC hdcDst, int x, int y, UINT fStyle)
+sw::ImageList sw::ImageList::Duplicate() noexcept
 {
-    return ImageList_Draw(this->_hImageList, i, hdcDst, x, y, fStyle);
+    return ImageList{ImageList_Duplicate(_hImageList), false};
 }
 
-bool sw::ImageList::DrawPx(int i, HDC hdcDst, int x, int y, int dx, int dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle)
+COLORREF sw::ImageList::GetBkColor() noexcept
 {
-    return ImageList_DrawEx(this->_hImageList, i, hdcDst, x, y, dx, dy, rgbBk, rgbFg, fStyle);
+    return ImageList_GetBkColor(_hImageList);
 }
 
-sw::ImageList sw::ImageList::Duplicate()
+HICON sw::ImageList::GetIcon(int i, UINT flags) noexcept
 {
-    return ImageList{ImageList_Duplicate(this->_hImageList), false};
+    return ImageList_GetIcon(_hImageList, i, flags);
 }
 
-COLORREF sw::ImageList::GetBkColor()
+bool sw::ImageList::GetIconSize(int &cx, int &cy) noexcept
 {
-    return ImageList_GetBkColor(this->_hImageList);
+    return ImageList_GetIconSize(_hImageList, &cx, &cy);
 }
 
-HICON sw::ImageList::GetIcon(int i, UINT flags)
+int sw::ImageList::GetImageCount() noexcept
 {
-    return ImageList_GetIcon(this->_hImageList, i, flags);
+    return ImageList_GetImageCount(_hImageList);
 }
 
-bool sw::ImageList::GetIconSize(int &cx, int &cy)
+bool sw::ImageList::GetImageInfo(int i, IMAGEINFO *pImageInfo) noexcept
 {
-    return ImageList_GetIconSize(this->_hImageList, &cx, &cy);
+    return ImageList_GetImageInfo(_hImageList, i, pImageInfo);
 }
 
-int sw::ImageList::GetImageCount()
+bool sw::ImageList::Remove(int i) noexcept
 {
-    return ImageList_GetImageCount(this->_hImageList);
+    return ImageList_Remove(_hImageList, i);
 }
 
-bool sw::ImageList::GetImageInfo(int i, IMAGEINFO *pImageInfo)
+bool sw::ImageList::RemoveAll() noexcept
 {
-    return ImageList_GetImageInfo(this->_hImageList, i, pImageInfo);
+    return Remove(-1);
 }
 
-bool sw::ImageList::Remove(int i)
+bool sw::ImageList::Replace(int i, HBITMAP hbmImage, HBITMAP hbmMask) noexcept
 {
-    return ImageList_Remove(this->_hImageList, i);
+    return ImageList_Replace(_hImageList, i, hbmImage, hbmMask);
 }
 
-bool sw::ImageList::RemoveAll()
+int sw::ImageList::ReplaceIcon(int i, HICON hicon) noexcept
 {
-    return this->Remove(-1);
+    return ImageList_ReplaceIcon(_hImageList, i, hicon);
 }
 
-bool sw::ImageList::Replace(int i, HBITMAP hbmImage, HBITMAP hbmMask)
+COLORREF sw::ImageList::SetBkColor(COLORREF clrBk) noexcept
 {
-    return ImageList_Replace(this->_hImageList, i, hbmImage, hbmMask);
+    return ImageList_SetBkColor(_hImageList, clrBk);
 }
 
-int sw::ImageList::ReplaceIcon(int i, HICON hicon)
+bool sw::ImageList::SetDragCursorImage(int iDrag, int dxHotspot, int dyHotspot) noexcept
 {
-    return ImageList_ReplaceIcon(this->_hImageList, i, hicon);
+    return ImageList_SetDragCursorImage(_hImageList, iDrag, dxHotspot, dyHotspot);
 }
 
-COLORREF sw::ImageList::SetBkColor(COLORREF clrBk)
+bool sw::ImageList::SetIconSize(int cx, int cy) noexcept
 {
-    return ImageList_SetBkColor(this->_hImageList, clrBk);
+    return ImageList_SetIconSize(_hImageList, cx, cy);
 }
 
-bool sw::ImageList::SetDragCursorImage(int iDrag, int dxHotspot, int dyHotspot)
+bool sw::ImageList::SetImageCount(UINT uNewCount) noexcept
 {
-    return ImageList_SetDragCursorImage(this->_hImageList, iDrag, dxHotspot, dyHotspot);
+    return ImageList_SetImageCount(_hImageList, uNewCount);
 }
 
-bool sw::ImageList::SetIconSize(int cx, int cy)
+bool sw::ImageList::SetOverlayImage(int iImage, int iOverlay) noexcept
 {
-    return ImageList_SetIconSize(this->_hImageList, cx, cy);
+    return ImageList_SetOverlayImage(_hImageList, iImage, iOverlay);
 }
 
-bool sw::ImageList::SetImageCount(UINT uNewCount)
+bool sw::ImageList::Write(IStream *pstm) noexcept
 {
-    return ImageList_SetImageCount(this->_hImageList, uNewCount);
+    return ImageList_Write(_hImageList, pstm);
 }
 
-bool sw::ImageList::SetOverlayImage(int iImage, int iOverlay)
+void sw::ImageList::_DestroyIfNotWrap() noexcept
 {
-    return ImageList_SetOverlayImage(this->_hImageList, iImage, iOverlay);
-}
-
-bool sw::ImageList::Write(IStream *pstm)
-{
-    return ImageList_Write(this->_hImageList, pstm);
-}
-
-void sw::ImageList::_DestroyIfNotWrap()
-{
-    if (this->_hImageList != NULL && !this->_isWrap) {
-        ImageList_Destroy(this->_hImageList);
+    if (_hImageList != NULL && !_isWrap) {
+        ImageList_Destroy(_hImageList);
     }
 }
 
@@ -4965,10 +4945,10 @@ void sw::ListBox::_UpdateCount()
 
 void sw::ListBox::_UpdateItemHeight()
 {
-    int cyHeight;
+    int cyItem;
 
     if (_itemHeight >= 0) {
-        cyHeight = Dip::DipToPxY(_itemHeight);
+        cyItem = Dip::DipToPxY(_itemHeight);
     } else {
         HWND hwnd   = Handle;
         HDC hdc     = GetDC(hwnd);
@@ -4983,14 +4963,14 @@ void sw::ListBox::_UpdateItemHeight()
         TEXTMETRIC tm{};
         GetTextMetrics(hdc, &tm);
 
-        cyHeight = tm.tmHeight + tm.tmExternalLeading;
-        cyHeight += GetSystemMetrics(SM_CYBORDER) * 2;
+        cyItem = tm.tmHeight + tm.tmExternalLeading;
+        cyItem += GetSystemMetrics(SM_CYBORDER) * 2;
 
         SelectObject(hdc, hFontOld);
         ReleaseDC(hwnd, hdc);
     }
 
-    SendMessageW(LB_SETITEMHEIGHT, 0, cyHeight);
+    SendMessageW(LB_SETITEMHEIGHT, 0, cyItem);
 }
 
 // ListView.cpp
@@ -5545,14 +5525,17 @@ void sw::ListView::GetCheckBoxRect(int index, RECT &rect)
 {
     ListView_GetItemRect(Handle, index, &rect, LVIR_ICON);
 
-    int rowHeight   = rect.bottom - rect.top;
-    int cxMenuCheck = GetSystemMetrics(SM_CXMENUCHECK);
-    int cyMenuCheck = GetSystemMetrics(SM_CYMENUCHECK);
+    int cyItem  = rect.bottom - rect.top;
+    int cxEdge  = GetSystemMetrics(SM_CXEDGE);
+    int cxCheck = GetSystemMetrics(SM_CXMENUCHECK);
+    int cyCheck = GetSystemMetrics(SM_CYMENUCHECK);
 
-    rect.top += (rowHeight - cyMenuCheck) / 2;
-    rect.left -= cxMenuCheck;
-    rect.right  = rect.left + cxMenuCheck;
-    rect.bottom = rect.top + cyMenuCheck;
+    int iconLeft = rect.left;
+
+    rect.top += (cyItem - cyCheck) / 2;
+    rect.left   = cxEdge + (iconLeft - cxEdge - cxCheck) / 2;
+    rect.right  = rect.left + cxCheck;
+    rect.bottom = rect.top + cyCheck;
 }
 
 void sw::ListView::OnGetItemCheckState(int index, bool &checked)
@@ -7369,14 +7352,14 @@ sw::Slider::Slider()
 bool sw::Slider::OnVerticalScroll(int event, int pos)
 {
     switch (event) {
-        case TB_BOTTOM:
-        case TB_LINEDOWN:
         case TB_LINEUP:
-        case TB_PAGEDOWN:
+        case TB_LINEDOWN:
         case TB_PAGEUP:
+        case TB_PAGEDOWN:
         case TB_THUMBPOSITION:
         case TB_THUMBTRACK:
-        case TB_TOP: {
+        case TB_TOP:
+        case TB_BOTTOM: {
             this->OnValueChanged();
             break;
         }
@@ -7391,13 +7374,14 @@ bool sw::Slider::OnVerticalScroll(int event, int pos)
 bool sw::Slider::OnHorizontalScroll(int event, int pos)
 {
     switch (event) {
-        case TB_BOTTOM:
-        case TB_LINEDOWN:
         case TB_LINEUP:
-        case TB_PAGEDOWN:
+        case TB_LINEDOWN:
         case TB_PAGEUP:
+        case TB_PAGEDOWN:
+        case TB_THUMBPOSITION:
         case TB_THUMBTRACK:
-        case TB_TOP: {
+        case TB_TOP:
+        case TB_BOTTOM: {
             this->OnValueChanged();
             break;
         }
@@ -7769,30 +7753,14 @@ bool sw::Splitter::OnSize(const Size &newClientSize)
 
 // StackLayout.cpp
 
-sw::Size sw::StackLayout::MeasureOverride(const Size &availableSize)
-{
-    return this->orientation == Orientation::Horizontal
-               ? this->StackLayoutH::MeasureOverride(availableSize)
-               : this->StackLayoutV::MeasureOverride(availableSize);
-}
-
-void sw::StackLayout::ArrangeOverride(const Size &finalSize)
-{
-    this->orientation == Orientation::Horizontal
-        ? this->StackLayoutH::ArrangeOverride(finalSize)
-        : this->StackLayoutV::ArrangeOverride(finalSize);
-}
-
-// StackLayoutH.cpp
-
 sw::Size sw::StackLayoutH::MeasureOverride(const Size &availableSize)
 {
     Size desireSize{};
-    int childCount = this->GetChildLayoutCount();
+    int childCount = GetChildLayoutCount();
 
     for (int i = 0; i < childCount; ++i) {
-        ILayout &item = this->GetChildLayoutAt(i);
-        item.Measure(Size(INFINITY, std::isinf(availableSize.height) ? INFINITY : availableSize.height));
+        ILayout &item = GetChildLayoutAt(i);
+        item.Measure(Size{INFINITY, std::isinf(availableSize.height) ? INFINITY : availableSize.height});
 
         Size itemDesireSize = item.GetDesireSize();
         desireSize.width += itemDesireSize.width;
@@ -7805,26 +7773,24 @@ sw::Size sw::StackLayoutH::MeasureOverride(const Size &availableSize)
 void sw::StackLayoutH::ArrangeOverride(const Size &finalSize)
 {
     double width   = 0;
-    int childCount = this->GetChildLayoutCount();
+    int childCount = GetChildLayoutCount();
 
     for (int i = 0; i < childCount; ++i) {
-        ILayout &item       = this->GetChildLayoutAt(i);
+        ILayout &item       = GetChildLayoutAt(i);
         Size itemDesireSize = item.GetDesireSize();
         item.Arrange(Rect{width, 0, itemDesireSize.width, finalSize.height});
         width += itemDesireSize.width;
     }
 }
 
-// StackLayoutV.cpp
-
 sw::Size sw::StackLayoutV::MeasureOverride(const Size &availableSize)
 {
     Size desireSize{};
-    int childCount = this->GetChildLayoutCount();
+    int childCount = GetChildLayoutCount();
 
     for (int i = 0; i < childCount; ++i) {
-        ILayout &item = this->GetChildLayoutAt(i);
-        item.Measure(Size(std::isinf(availableSize.width) ? INFINITY : availableSize.width, INFINITY));
+        ILayout &item = GetChildLayoutAt(i);
+        item.Measure(Size{std::isinf(availableSize.width) ? INFINITY : availableSize.width, INFINITY});
 
         Size itemDesireSize = item.GetDesireSize();
         desireSize.height += itemDesireSize.height;
@@ -7837,14 +7803,28 @@ sw::Size sw::StackLayoutV::MeasureOverride(const Size &availableSize)
 void sw::StackLayoutV::ArrangeOverride(const Size &finalSize)
 {
     double top     = 0;
-    int childCount = this->GetChildLayoutCount();
+    int childCount = GetChildLayoutCount();
 
     for (int i = 0; i < childCount; ++i) {
-        ILayout &item       = this->GetChildLayoutAt(i);
+        ILayout &item       = GetChildLayoutAt(i);
         Size itemDesireSize = item.GetDesireSize();
         item.Arrange(Rect{0, top, finalSize.width, itemDesireSize.height});
         top += itemDesireSize.height;
     }
+}
+
+sw::Size sw::StackLayout::MeasureOverride(const Size &availableSize)
+{
+    return orientation == Orientation::Horizontal
+               ? StackLayoutH::MeasureOverride(availableSize)
+               : StackLayoutV::MeasureOverride(availableSize);
+}
+
+void sw::StackLayout::ArrangeOverride(const Size &finalSize)
+{
+    orientation == Orientation::Horizontal
+        ? StackLayoutH::ArrangeOverride(finalSize)
+        : StackLayoutV::ArrangeOverride(finalSize);
 }
 
 // StackPanel.cpp
@@ -7938,6 +7918,7 @@ bool sw::StatusBar::SetParts(std::initializer_list<double> parts)
     vec.reserve(count);
 
     int right = 0;
+
     for (double item : parts) {
         if (item == -1) {
             vec.push_back(-1);
@@ -7945,7 +7926,7 @@ bool sw::StatusBar::SetParts(std::initializer_list<double> parts)
         } else {
             right += Utils::Max(0, Dip::DipToPxX(item));
             vec.push_back(right);
-            right += 2; // 分隔条
+            right += GetSystemMetrics(SM_CXEDGE); // 分隔条
         }
     }
 
@@ -10105,19 +10086,19 @@ uint64_t sw::UIElement::GetLayoutTag() const
     return this->_layoutTag;
 }
 
+sw::Size sw::UIElement::GetDesireSize() const
+{
+    return this->_desireSize;
+}
+
 int sw::UIElement::GetChildLayoutCount() const
 {
     return static_cast<int>(this->_layoutVisibleChildren.size());
 }
 
-sw::ILayout &sw::UIElement::GetChildLayoutAt(int index) const
+sw::UIElement &sw::UIElement::GetChildLayoutAt(int index) const
 {
     return *this->_layoutVisibleChildren.at(index);
-}
-
-sw::Size sw::UIElement::GetDesireSize() const
-{
-    return this->_desireSize;
 }
 
 void sw::UIElement::Measure(const Size &availableSize)
@@ -11061,6 +11042,11 @@ namespace
      * @brief 指示是否使用UTF-8编码进行字符串转换
      */
     bool _usesUtf8 = true;
+
+    /**
+     * @brief 用于裁剪字符串的空白字符集合
+     */
+    constexpr wchar_t _WhitespaceChars[] = L" \t\n\r\f\v";
 }
 
 void sw::Utils::UseUtf8Encoding(bool useUtf8)
@@ -11100,30 +11086,36 @@ std::string sw::Utils::ToMultiByteStr(const std::wstring &wstr, bool utf8)
 
 std::wstring sw::Utils::Trim(const std::wstring &str)
 {
-    size_t firstNonSpace = str.find_first_not_of(L" \t\n\r\f\v");
+    size_t firstNonSpace = str.find_first_not_of(_WhitespaceChars);
+
     if (firstNonSpace == std::wstring::npos) {
-        return L"";
+        return std::wstring{};
+    } else {
+        size_t lastNonSpace = str.find_last_not_of(_WhitespaceChars);
+        return str.substr(firstNonSpace, lastNonSpace - firstNonSpace + 1);
     }
-    size_t lastNonSpace = str.find_last_not_of(L" \t\n\r\f\v");
-    return str.substr(firstNonSpace, lastNonSpace - firstNonSpace + 1);
 }
 
 std::wstring sw::Utils::TrimStart(const std::wstring &str)
 {
-    size_t firstNonSpace = str.find_first_not_of(L" \t\n\r\f\v");
+    size_t firstNonSpace = str.find_first_not_of(_WhitespaceChars);
+
     if (firstNonSpace == std::wstring::npos) {
-        return L"";
+        return std::wstring{};
+    } else {
+        return str.substr(firstNonSpace);
     }
-    return str.substr(firstNonSpace);
 }
 
 std::wstring sw::Utils::TrimEnd(const std::wstring &str)
 {
-    size_t lastNonSpace = str.find_last_not_of(L" \t\n\r\f\v");
+    size_t lastNonSpace = str.find_last_not_of(_WhitespaceChars);
+
     if (lastNonSpace == std::wstring::npos) {
-        return L"";
+        return std::wstring{};
+    } else {
+        return str.substr(0, lastNonSpace + 1);
     }
-    return str.substr(0, lastNonSpace + 1);
 }
 
 std::vector<std::wstring> sw::Utils::Split(const std::wstring &str, const std::wstring &delimiter)
@@ -11147,7 +11139,6 @@ std::vector<std::wstring> sw::Utils::Split(const std::wstring &str, const std::w
     }
 
     result.emplace_back(str, start);
-
     return result;
 }
 
@@ -13327,31 +13318,50 @@ void sw::WndBase::_SetWndBase(HWND hwnd, WndBase &wnd)
 
 // WrapLayout.cpp
 
-sw::Size sw::WrapLayout::MeasureOverride(const Size &availableSize)
+namespace
 {
-    return this->orientation == Orientation::Horizontal
-               ? this->WrapLayoutH::MeasureOverride(availableSize)
-               : this->WrapLayoutV::MeasureOverride(availableSize);
-}
+    /**
+     * @brief 按行高统一安排一行中的所有子元素，使行内元素占用相同的垂直布局空间
+     */
+    void _ArrangeRow(double top, double height,
+                     const std::vector<std::tuple<sw::ILayout *, sw::Size>> &row)
+    {
+        double left = 0;
 
-void sw::WrapLayout::ArrangeOverride(const Size &finalSize)
-{
-    this->orientation == Orientation::Horizontal
-        ? this->WrapLayoutH::ArrangeOverride(finalSize)
-        : this->WrapLayoutV::ArrangeOverride(finalSize);
-}
+        for (auto &tuple : row) {
+            sw::ILayout *item = std::get<0>(tuple);
+            sw::Size itemSize = std::get<1>(tuple);
+            item->Arrange(sw::Rect{left, top, itemSize.width, height});
+            left += itemSize.width;
+        }
+    }
 
-// WrapLayoutH.cpp
+    /**
+     * @brief 按列宽统一安排一列中的所有子元素，使列内元素占用相同的水平布局空间
+     */
+    void _ArrangeCol(double left, double width,
+                     const std::vector<std::tuple<sw::ILayout *, sw::Size>> &col)
+    {
+        double top = 0;
+
+        for (auto &tuple : col) {
+            sw::ILayout *item = std::get<0>(tuple);
+            sw::Size itemSize = std::get<1>(tuple);
+            item->Arrange(sw::Rect{left, top, width, itemSize.height});
+            top += itemSize.height;
+        }
+    }
+}
 
 sw::Size sw::WrapLayoutH::MeasureOverride(const Size &availableSize)
 {
     Size size{};
-    int count = this->GetChildLayoutCount();
+    int count = GetChildLayoutCount();
 
     if (std::isinf(availableSize.width)) {
         for (int i = 0; i < count; ++i) {
-            ILayout &item = this->GetChildLayoutAt(i);
-            item.Measure(Size(INFINITY, INFINITY));
+            ILayout &item = GetChildLayoutAt(i);
+            item.Measure(Size{INFINITY, INFINITY});
 
             Size itemDesireSize = item.GetDesireSize();
             size.width += itemDesireSize.width;
@@ -13363,8 +13373,8 @@ sw::Size sw::WrapLayoutH::MeasureOverride(const Size &availableSize)
         double rowHeight = 0;
 
         for (int i = 0; i < count; ++i) {
-            ILayout &item = this->GetChildLayoutAt(i);
-            item.Measure(Size(availableSize.width - rowWidth, INFINITY));
+            ILayout &item = GetChildLayoutAt(i);
+            item.Measure(Size{availableSize.width, INFINITY});
 
             Size itemDesireSize = item.GetDesireSize();
             if (rowWidth + itemDesireSize.width <= availableSize.width) {
@@ -13389,35 +13399,45 @@ void sw::WrapLayoutH::ArrangeOverride(const Size &finalSize)
     double rowWidth  = 0;
     double rowHeight = 0;
 
-    int count = this->GetChildLayoutCount();
-    for (int i = 0; i < count; ++i) {
-        ILayout &item = this->GetChildLayoutAt(i);
+    int count = GetChildLayoutCount();
 
+    std::vector<std::tuple<ILayout *, Size>> row;
+    row.reserve(count);
+
+    for (int i = 0; i < count; ++i) {
+        ILayout &item       = GetChildLayoutAt(i);
         Size itemDesireSize = item.GetDesireSize();
+
         if (rowWidth + itemDesireSize.width <= finalSize.width) {
-            item.Arrange(Rect(rowWidth, top, itemDesireSize.width, itemDesireSize.height));
+            row.emplace_back(&item, itemDesireSize);
             rowWidth += itemDesireSize.width;
             rowHeight = Utils::Max(rowHeight, itemDesireSize.height);
         } else {
+            if (!row.empty()) {
+                _ArrangeRow(top, rowHeight, row);
+            }
+            row.clear();
+            row.emplace_back(&item, itemDesireSize);
             top += rowHeight;
-            item.Arrange(Rect(0, top, itemDesireSize.width, itemDesireSize.height));
             rowWidth  = itemDesireSize.width;
             rowHeight = itemDesireSize.height;
         }
     }
-}
 
-// WrapLayoutV.cpp
+    if (!row.empty()) {
+        _ArrangeRow(top, rowHeight, row);
+    }
+}
 
 sw::Size sw::WrapLayoutV::MeasureOverride(const Size &availableSize)
 {
     Size size{};
-    int count = this->GetChildLayoutCount();
+    int count = GetChildLayoutCount();
 
     if (std::isinf(availableSize.height)) {
         for (int i = 0; i < count; ++i) {
-            ILayout &item = this->GetChildLayoutAt(i);
-            item.Measure(Size(INFINITY, INFINITY));
+            ILayout &item = GetChildLayoutAt(i);
+            item.Measure(Size{INFINITY, INFINITY});
 
             Size itemDesireSize = item.GetDesireSize();
             size.height += itemDesireSize.height;
@@ -13429,8 +13449,8 @@ sw::Size sw::WrapLayoutV::MeasureOverride(const Size &availableSize)
         double colWidth  = 0;
 
         for (int i = 0; i < count; ++i) {
-            ILayout &item = this->GetChildLayoutAt(i);
-            item.Measure(Size(INFINITY, availableSize.height - colHeight));
+            ILayout &item = GetChildLayoutAt(i);
+            item.Measure(Size{INFINITY, availableSize.height});
 
             Size itemDesireSize = item.GetDesireSize();
             if (colHeight + itemDesireSize.height <= availableSize.height) {
@@ -13455,22 +13475,48 @@ void sw::WrapLayoutV::ArrangeOverride(const Size &finalSize)
     double colHeight = 0;
     double colWidth  = 0;
 
-    int count = this->GetChildLayoutCount();
-    for (int i = 0; i < count; ++i) {
-        ILayout &item = this->GetChildLayoutAt(i);
+    int count = GetChildLayoutCount();
 
+    std::vector<std::tuple<ILayout *, Size>> col;
+    col.reserve(count);
+
+    for (int i = 0; i < count; ++i) {
+        ILayout &item       = GetChildLayoutAt(i);
         Size itemDesireSize = item.GetDesireSize();
+
         if (colHeight + itemDesireSize.height <= finalSize.height) {
-            item.Arrange(Rect(left, colHeight, itemDesireSize.width, itemDesireSize.height));
+            col.emplace_back(&item, itemDesireSize);
             colHeight += itemDesireSize.height;
             colWidth = Utils::Max(colWidth, itemDesireSize.width);
         } else {
+            if (!col.empty()) {
+                _ArrangeCol(left, colWidth, col);
+            }
+            col.clear();
+            col.emplace_back(&item, itemDesireSize);
             left += colWidth;
-            item.Arrange(Rect(left, 0, itemDesireSize.width, itemDesireSize.height));
             colHeight = itemDesireSize.height;
             colWidth  = itemDesireSize.width;
         }
     }
+
+    if (!col.empty()) {
+        _ArrangeCol(left, colWidth, col);
+    }
+}
+
+sw::Size sw::WrapLayout::MeasureOverride(const Size &availableSize)
+{
+    return orientation == Orientation::Horizontal
+               ? WrapLayoutH::MeasureOverride(availableSize)
+               : WrapLayoutV::MeasureOverride(availableSize);
+}
+
+void sw::WrapLayout::ArrangeOverride(const Size &finalSize)
+{
+    orientation == Orientation::Horizontal
+        ? WrapLayoutH::ArrangeOverride(finalSize)
+        : WrapLayoutV::ArrangeOverride(finalSize);
 }
 
 // WrapPanel.cpp

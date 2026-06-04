@@ -1,7 +1,14 @@
 var searchData=
 [
-  ['weight_0',['weight',['../classsw_1_1Font.html#aa5126e73aad9ba2fd6aab826bac16a5c',1,'sw::Font']]],
-  ['width_1',['width',['../structsw_1_1GridColumn.html#aa07dbbfe79ce8c33ebd7bffa430bf6eb',1,'sw::GridColumn::width'],['../structsw_1_1ListViewColumn.html#abd8ec9f51310be92ec1ff113314e5257',1,'sw::ListViewColumn::width'],['../structsw_1_1Rect.html#ada69154ab3d734587ef9695b10144b01',1,'sw::Rect::width'],['../structsw_1_1Size.html#a22c3b210b0c48e2812604381f729d5bd',1,'sw::Size::width'],['../classsw_1_1Screen.html#a2276c1ff4a907b74517a0e12b3999c92',1,'sw::Screen::Width'],['../classsw_1_1WndBase.html#a445edbe5db50a5a4486ddff98e8ffbae',1,'sw::WndBase::Width']]],
-  ['windowcount_2',['WindowCount',['../classsw_1_1Window.html#a317c7f1dea4dd3f29d5d7c865563c310',1,'sw::Window']]],
-  ['wparam_3',['wParam',['../structsw_1_1ProcMsg.html#a114f533462da6db1852ad4aa5485d86b',1,'sw::ProcMsg']]]
+  ['value_0',['value',['../structsw_1_1FieldId.html#aa9081855df511b60c76170a13c1fb740',1,'sw::FieldId::value'],['../classsw_1_1HotKeyControl.html#ac935ffe86b400b6ad8685cafe1a93f28',1,'sw::HotKeyControl::Value'],['../classsw_1_1ProgressBar.html#a6dd5e209fbc7f35a89309f4056ae3d1f',1,'sw::ProgressBar::Value'],['../classsw_1_1Slider.html#ac4595d8d74e4759310cb0fc07fb7308a',1,'sw::Slider::Value'],['../classsw_1_1SpinBox.html#a7ecf6ef6e586189d6f0d58007d50c7cf',1,'sw::SpinBox::Value'],['../structsw_1_1FieldsAccessor.html#a9947db986bc3d127736c0d93eb4bad72',1,'sw::FieldsAccessor::value']]],
+  ['valuetooltips_1',['ValueTooltips',['../classsw_1_1Slider.html#a85276ebc466a4dbe6923f033bfe2b1cf',1,'sw::Slider']]],
+  ['vertical_2',['vertical',['../classsw_1_1ProgressBar.html#a3a211f4e0318c79bcc4a64720b6f8651',1,'sw::ProgressBar::Vertical'],['../classsw_1_1Slider.html#a3f0efcf4b566cec56fed536786556a00',1,'sw::Slider::Vertical']]],
+  ['verticalalignment_3',['VerticalAlignment',['../classsw_1_1UIElement.html#ad9f49244beb6b854b436e8bbd18f4e21',1,'sw::UIElement']]],
+  ['verticalcontentalignment_4',['VerticalContentAlignment',['../classsw_1_1Label.html#ab127ad68d85e658bb2e8cb271df5cedc',1,'sw::Label']]],
+  ['verticalscrollbar_5',['verticalscrollbar',['../classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#ad0c9a1952307358ac597b2f59a44f025',1,'sw::Layer&lt; TBase, typename std::enable_if&lt; std::is_base_of&lt; UIElement, TBase &gt;::value &gt;::type &gt;::VerticalScrollBar'],['../classsw_1_1TextBox.html#a8fa3d053d6386f3aac435133dbe3a05a',1,'sw::TextBox::VerticalScrollBar']]],
+  ['verticalscrolllimit_6',['VerticalScrollLimit',['../classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#a46b8836f3dd361382bac1343511ac6e0',1,'sw::Layer&lt; TBase, typename std::enable_if&lt; std::is_base_of&lt; UIElement, TBase &gt;::value &gt;::type &gt;']]],
+  ['verticalscrollpos_7',['VerticalScrollPos',['../classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#a6f54100ebe5d1e36c40070c6971037dc',1,'sw::Layer&lt; TBase, typename std::enable_if&lt; std::is_base_of&lt; UIElement, TBase &gt;::value &gt;::type &gt;']]],
+  ['virtualorigin_8',['VirtualOrigin',['../classsw_1_1Screen.html#afc0e2eb5ff6f921c066106ed165906a1',1,'sw::Screen']]],
+  ['virtualsize_9',['VirtualSize',['../classsw_1_1Screen.html#aa64e3b9d08e7191b771afb5821bdbb9e',1,'sw::Screen']]],
+  ['visible_10',['visible',['../classsw_1_1NotifyIcon.html#a0fd49668122e9cda5d98916050ff701b',1,'sw::NotifyIcon::Visible'],['../classsw_1_1WndBase.html#a808f5d6fd407e3b65cff88f1873bd754',1,'sw::WndBase::Visible']]]
 ];

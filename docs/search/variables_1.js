@@ -2,7 +2,7 @@ var searchData=
 [
   ['acceptfiles_0',['AcceptFiles',['../classsw_1_1WndBase.html#a43b324f78290554d0c08bf6f33cdb5fd',1,'sw::WndBase']]],
   ['accepttab_1',['AcceptTab',['../classsw_1_1TextBoxBase.html#a91bad54640a2bdd486232d3836611608',1,'sw::TextBoxBase']]],
-  ['action_2',['action',['../classsw_1_1NotifyCollectionChangedEventArgs.html#ae4f50c76627be3f8c81876fc7d6a204a',1,'sw::NotifyCollectionChangedEventArgs']]],
+  ['action_2',['action',['../classsw_1_1NotifyCollectionChangedEventArgs.html#ae4f50c76627be3f8c81876fc7d6a204a',1,'sw::NotifyCollectionChangedEventArgs::action'],['../classsw_1_1TreeViewItemExpandingEventArgs.html#aaf762b76de886f94c6c0bfba56970d4d',1,'sw::TreeViewItemExpandingEventArgs::action'],['../classsw_1_1TreeViewItemExpandedEventArgs.html#aeaf6e80d05753501b873ea592096ed06',1,'sw::TreeViewItemExpandedEventArgs::action']]],
   ['activewindow_3',['ActiveWindow',['../classsw_1_1Window.html#a53a830719caa870a49934419c6b231a3',1,'sw::Window']]],
   ['address_4',['Address',['../classsw_1_1IPAddressControl.html#a31e32ebdf9edf44f27213ba1fd0add8a',1,'sw::IPAddressControl']]],
   ['alignment_5',['alignment',['../classsw_1_1TabControl.html#a09a693f18956f7629fab2377ab1a1dda',1,'sw::TabControl::Alignment'],['../structsw_1_1ListViewColumn.html#a073e675567add518aa85b5356d472cf9',1,'sw::ListViewColumn::alignment']]],

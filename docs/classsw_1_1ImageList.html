@@ -98,215 +98,162 @@ $(document).ready(function(){initNavTree('classsw_1_1ImageList.html',''); initRe
 </div><!--header-->
 <div class="contents">
 
-<p>图像列表  
+<p>Win32图像列表句柄的RAII包装  
  <a href="classsw_1_1ImageList.html#details">更多...</a></p>
 
 <p><code>#include &lt;<a class="el" href="ImageList_8h_source.html">ImageList.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
-<tr class="memitem:a91fe4cb95359184c1cfd66b7a55ba862" id="r_a91fe4cb95359184c1cfd66b7a55ba862"><td class="memItemLeft" align="right" valign="top"><a id="a91fe4cb95359184c1cfd66b7a55ba862" name="a91fe4cb95359184c1cfd66b7a55ba862"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ImageList</b> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cx</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cy</a>, <a class="el" href="classsw_1_1IValueConverter.html">UINT</a> flags, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cInitial</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cGrow</a>)</td></tr>
-<tr class="memdesc:a91fe4cb95359184c1cfd66b7a55ba862"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建图像列表，参数与ImageList_Create相同 <br /></td></tr>
-<tr class="separator:a91fe4cb95359184c1cfd66b7a55ba862"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47fe3e8f96c176998f66293087baf107" id="r_a47fe3e8f96c176998f66293087baf107"><td class="memItemLeft" align="right" valign="top"><a id="a47fe3e8f96c176998f66293087baf107" name="a47fe3e8f96c176998f66293087baf107"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ImageList</b> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">other</a>)</td></tr>
-<tr class="memdesc:a47fe3e8f96c176998f66293087baf107"><td class="mdescLeft">&#160;</td><td class="mdescRight">拷贝构造 <br /></td></tr>
-<tr class="separator:a47fe3e8f96c176998f66293087baf107"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3c24f10e116601c14ec6e18124c27d1" id="r_af3c24f10e116601c14ec6e18124c27d1"><td class="memItemLeft" align="right" valign="top"><a id="af3c24f10e116601c14ec6e18124c27d1" name="af3c24f10e116601c14ec6e18124c27d1"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ImageList</b> (<a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;&amp;<a class="el" href="classsw_1_1IValueConverter.html">other</a>)</td></tr>
-<tr class="memdesc:af3c24f10e116601c14ec6e18124c27d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">移动构造 <br /></td></tr>
-<tr class="separator:af3c24f10e116601c14ec6e18124c27d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac39110050fa5810d799d79322624a220" id="r_ac39110050fa5810d799d79322624a220"><td class="memItemLeft" align="right" valign="top"><a id="ac39110050fa5810d799d79322624a220" name="ac39110050fa5810d799d79322624a220"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">virtual</a>&#160;</td><td class="memItemRight" valign="bottom"><b>~ImageList</b> ()</td></tr>
-<tr class="memdesc:ac39110050fa5810d799d79322624a220"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数 <br /></td></tr>
-<tr class="separator:ac39110050fa5810d799d79322624a220"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0d7f2777e2b329cb9b52eead1cd8531" id="r_ac0d7f2777e2b329cb9b52eead1cd8531"><td class="memItemLeft" align="right" valign="top"><a id="ac0d7f2777e2b329cb9b52eead1cd8531" name="ac0d7f2777e2b329cb9b52eead1cd8531"></a>
-<a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">other</a>)</td></tr>
-<tr class="memdesc:ac0d7f2777e2b329cb9b52eead1cd8531"><td class="mdescLeft">&#160;</td><td class="mdescRight">拷贝赋值 <br /></td></tr>
-<tr class="separator:ac0d7f2777e2b329cb9b52eead1cd8531"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a897db1e0571544d35147bb0ac70ce8fd" id="r_a897db1e0571544d35147bb0ac70ce8fd"><td class="memItemLeft" align="right" valign="top"><a id="a897db1e0571544d35147bb0ac70ce8fd" name="a897db1e0571544d35147bb0ac70ce8fd"></a>
-<a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;&amp;<a class="el" href="classsw_1_1IValueConverter.html">other</a>)</td></tr>
-<tr class="memdesc:a897db1e0571544d35147bb0ac70ce8fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">移动赋值 <br /></td></tr>
-<tr class="separator:a897db1e0571544d35147bb0ac70ce8fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b27f289f8b70fadb347b6781eb65c42" id="r_a2b27f289f8b70fadb347b6781eb65c42"><td class="memItemLeft" align="right" valign="top"><a id="a2b27f289f8b70fadb347b6781eb65c42" name="a2b27f289f8b70fadb347b6781eb65c42"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">HIMAGELIST</a>&#160;</td><td class="memItemRight" valign="bottom"><b>GetHandle</b> () <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:a2b27f289f8b70fadb347b6781eb65c42"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取图像列表的句柄 <br /></td></tr>
-<tr class="separator:a2b27f289f8b70fadb347b6781eb65c42"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0cf385d15bc51bcd7214f3f5969b494c" id="r_a0cf385d15bc51bcd7214f3f5969b494c"><td class="memItemLeft" align="right" valign="top"><a id="a0cf385d15bc51bcd7214f3f5969b494c" name="a0cf385d15bc51bcd7214f3f5969b494c"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>IsWrap</b> () <a class="el" href="classsw_1_1IValueConverter.html">const</a></td></tr>
-<tr class="memdesc:a0cf385d15bc51bcd7214f3f5969b494c"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断当前对象是否为包装对象 <br /></td></tr>
-<tr class="separator:a0cf385d15bc51bcd7214f3f5969b494c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4485f73aac2fd3df79aa5f8c322fe388" id="r_a4485f73aac2fd3df79aa5f8c322fe388"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">HIMAGELIST</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a4485f73aac2fd3df79aa5f8c322fe388">ReleaseHandle</a> ()</td></tr>
-<tr class="memdesc:a4485f73aac2fd3df79aa5f8c322fe388"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取图像列表句柄并取消对句柄的托管，调用该函数后当前对象将不可用，析构时也不会销毁句柄  <br /></td></tr>
-<tr class="separator:a4485f73aac2fd3df79aa5f8c322fe388"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16929804b8a2084329f0958a5b263503" id="r_a16929804b8a2084329f0958a5b263503"><td class="memItemLeft" align="right" valign="top"><a id="a16929804b8a2084329f0958a5b263503" name="a16929804b8a2084329f0958a5b263503"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Add</b> (<a class="el" href="classsw_1_1IValueConverter.html">HBITMAP</a> <a class="el" href="classsw_1_1IValueConverter.html">hbmImage</a>, <a class="el" href="classsw_1_1IValueConverter.html">HBITMAP</a> <a class="el" href="classsw_1_1IValueConverter.html">hbmMask</a>)</td></tr>
-<tr class="memdesc:a16929804b8a2084329f0958a5b263503"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加图像，该函数调用ImageList_Add <br /></td></tr>
-<tr class="separator:a16929804b8a2084329f0958a5b263503"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aecc9001c00394dc6dcea2471b150f17d" id="r_aecc9001c00394dc6dcea2471b150f17d"><td class="memItemLeft" align="right" valign="top"><a id="aecc9001c00394dc6dcea2471b150f17d" name="aecc9001c00394dc6dcea2471b150f17d"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td><td class="memItemRight" valign="bottom"><b>AddIcon</b> (<a class="el" href="classsw_1_1IValueConverter.html">HICON</a> <a class="el" href="classsw_1_1IValueConverter.html">hIcon</a>)</td></tr>
-<tr class="memdesc:aecc9001c00394dc6dcea2471b150f17d"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加图标，该函数调用ImageList_AddIcon <br /></td></tr>
-<tr class="separator:aecc9001c00394dc6dcea2471b150f17d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a371fa168a8a4206474e7b281eb448260" id="r_a371fa168a8a4206474e7b281eb448260"><td class="memItemLeft" align="right" valign="top"><a id="a371fa168a8a4206474e7b281eb448260" name="a371fa168a8a4206474e7b281eb448260"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td><td class="memItemRight" valign="bottom"><b>AddMasked</b> (<a class="el" href="classsw_1_1IValueConverter.html">HBITMAP</a> <a class="el" href="classsw_1_1IValueConverter.html">hbmImage</a>, <a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a> <a class="el" href="classsw_1_1IValueConverter.html">crMask</a>)</td></tr>
-<tr class="memdesc:a371fa168a8a4206474e7b281eb448260"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加图像，指定颜色为mask，该函数调用ImageList_AddMasked <br /></td></tr>
-<tr class="separator:a371fa168a8a4206474e7b281eb448260"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a181ecc8dbe2cc5dee3aebb1e0b670d" id="r_a2a181ecc8dbe2cc5dee3aebb1e0b670d"><td class="memItemLeft" align="right" valign="top"><a id="a2a181ecc8dbe2cc5dee3aebb1e0b670d" name="a2a181ecc8dbe2cc5dee3aebb1e0b670d"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>BeginDrag</b> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">iTrack</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">dxHotspot</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">dyHotspot</a>)</td></tr>
-<tr class="memdesc:a2a181ecc8dbe2cc5dee3aebb1e0b670d"><td class="mdescLeft">&#160;</td><td class="mdescRight">开始拖拽图像，该函数调用ImageList_BeginDrag <br /></td></tr>
-<tr class="separator:a2a181ecc8dbe2cc5dee3aebb1e0b670d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55b79373d96af59d74a3c9bfe3965d3c" id="r_a55b79373d96af59d74a3c9bfe3965d3c"><td class="memItemLeft" align="right" valign="top"><a id="a55b79373d96af59d74a3c9bfe3965d3c" name="a55b79373d96af59d74a3c9bfe3965d3c"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Draw</b> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">i</a>, <a class="el" href="classsw_1_1IValueConverter.html">HDC</a> <a class="el" href="classsw_1_1IValueConverter.html">hdcDst</a>, <a class="el" href="classsw_1_1IValueConverter.html">double</a> x, <a class="el" href="classsw_1_1IValueConverter.html">double</a> y, <a class="el" href="classsw_1_1IValueConverter.html">UINT</a> <a class="el" href="classsw_1_1IValueConverter.html">fStyle</a>)</td></tr>
-<tr class="memdesc:a55b79373d96af59d74a3c9bfe3965d3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">在指定上下文DC下绘制图像，该函数调用ImageList_Draw <br /></td></tr>
-<tr class="separator:a55b79373d96af59d74a3c9bfe3965d3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa78e37dc1f35ea0feab07a371d976284" id="r_aa78e37dc1f35ea0feab07a371d976284"><td class="memItemLeft" align="right" valign="top"><a id="aa78e37dc1f35ea0feab07a371d976284" name="aa78e37dc1f35ea0feab07a371d976284"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Draw</b> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">i</a>, <a class="el" href="classsw_1_1IValueConverter.html">HDC</a> <a class="el" href="classsw_1_1IValueConverter.html">hdcDst</a>, <a class="el" href="classsw_1_1IValueConverter.html">double</a> x, <a class="el" href="classsw_1_1IValueConverter.html">double</a> y, <a class="el" href="classsw_1_1IValueConverter.html">double</a> <a class="el" href="classsw_1_1IValueConverter.html">dx</a>, <a class="el" href="classsw_1_1IValueConverter.html">double</a> <a class="el" href="classsw_1_1IValueConverter.html">dy</a>, <a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a> <a class="el" href="classsw_1_1IValueConverter.html">rgbBk</a>, <a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a> <a class="el" href="classsw_1_1IValueConverter.html">rgbFg</a>, <a class="el" href="classsw_1_1IValueConverter.html">UINT</a> <a class="el" href="classsw_1_1IValueConverter.html">fStyle</a>)</td></tr>
-<tr class="memdesc:aa78e37dc1f35ea0feab07a371d976284"><td class="mdescLeft">&#160;</td><td class="mdescRight">在指定上下文DC下绘制图像，该函数调用ImageList_DrawEx <br /></td></tr>
-<tr class="separator:aa78e37dc1f35ea0feab07a371d976284"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1a861fe7edfb350de315fcc94064165" id="r_af1a861fe7edfb350de315fcc94064165"><td class="memItemLeft" align="right" valign="top"><a id="af1a861fe7edfb350de315fcc94064165" name="af1a861fe7edfb350de315fcc94064165"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>DrawPx</b> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">i</a>, <a class="el" href="classsw_1_1IValueConverter.html">HDC</a> <a class="el" href="classsw_1_1IValueConverter.html">hdcDst</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> x, <a class="el" href="classsw_1_1IValueConverter.html">int</a> y, <a class="el" href="classsw_1_1IValueConverter.html">UINT</a> <a class="el" href="classsw_1_1IValueConverter.html">fStyle</a>)</td></tr>
-<tr class="memdesc:af1a861fe7edfb350de315fcc94064165"><td class="mdescLeft">&#160;</td><td class="mdescRight">以像素为单位，在指定上下文DC下绘制图像，该函数调用ImageList_Draw <br /></td></tr>
-<tr class="separator:af1a861fe7edfb350de315fcc94064165"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84b971450d4e751bfe517219869289ae" id="r_a84b971450d4e751bfe517219869289ae"><td class="memItemLeft" align="right" valign="top"><a id="a84b971450d4e751bfe517219869289ae" name="a84b971450d4e751bfe517219869289ae"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>DrawPx</b> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">i</a>, <a class="el" href="classsw_1_1IValueConverter.html">HDC</a> <a class="el" href="classsw_1_1IValueConverter.html">hdcDst</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> x, <a class="el" href="classsw_1_1IValueConverter.html">int</a> y, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">dx</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">dy</a>, <a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a> <a class="el" href="classsw_1_1IValueConverter.html">rgbBk</a>, <a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a> <a class="el" href="classsw_1_1IValueConverter.html">rgbFg</a>, <a class="el" href="classsw_1_1IValueConverter.html">UINT</a> <a class="el" href="classsw_1_1IValueConverter.html">fStyle</a>)</td></tr>
-<tr class="memdesc:a84b971450d4e751bfe517219869289ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">以像素为单位，在指定上下文DC下绘制图像，该函数调用ImageList_DrawEx <br /></td></tr>
-<tr class="separator:a84b971450d4e751bfe517219869289ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65d9d17f68f44ab3c23531c7e9fe8d4b" id="r_a65d9d17f68f44ab3c23531c7e9fe8d4b"><td class="memItemLeft" align="right" valign="top"><a id="a65d9d17f68f44ab3c23531c7e9fe8d4b" name="a65d9d17f68f44ab3c23531c7e9fe8d4b"></a>
-<a class="el" href="classsw_1_1ImageList.html">ImageList</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Duplicate</b> ()</td></tr>
-<tr class="memdesc:a65d9d17f68f44ab3c23531c7e9fe8d4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">复制当前图像列表，该函数调用ImageList_Duplicate <br /></td></tr>
-<tr class="separator:a65d9d17f68f44ab3c23531c7e9fe8d4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a91e2810916e7a2b1cc1f0b645f2e93c2" id="r_a91e2810916e7a2b1cc1f0b645f2e93c2"><td class="memItemLeft" align="right" valign="top"><a id="a91e2810916e7a2b1cc1f0b645f2e93c2" name="a91e2810916e7a2b1cc1f0b645f2e93c2"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a>&#160;</td><td class="memItemRight" valign="bottom"><b>GetBkColor</b> ()</td></tr>
-<tr class="memdesc:a91e2810916e7a2b1cc1f0b645f2e93c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取背景颜色，该函数调用ImageList_GetBkColor <br /></td></tr>
-<tr class="separator:a91e2810916e7a2b1cc1f0b645f2e93c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c6bd70272e91cb2864eadd2cad8699e" id="r_a7c6bd70272e91cb2864eadd2cad8699e"><td class="memItemLeft" align="right" valign="top"><a id="a7c6bd70272e91cb2864eadd2cad8699e" name="a7c6bd70272e91cb2864eadd2cad8699e"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">HICON</a>&#160;</td><td class="memItemRight" valign="bottom"><b>GetIcon</b> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">i</a>, <a class="el" href="classsw_1_1IValueConverter.html">UINT</a> flags)</td></tr>
-<tr class="memdesc:a7c6bd70272e91cb2864eadd2cad8699e"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过指定位置的图像创建图标句柄，该函数调用ImageList_GetIcon <br /></td></tr>
-<tr class="separator:a7c6bd70272e91cb2864eadd2cad8699e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06efc8f7069f2b36ebe6e1b670fd76e0" id="r_a06efc8f7069f2b36ebe6e1b670fd76e0"><td class="memItemLeft" align="right" valign="top"><a id="a06efc8f7069f2b36ebe6e1b670fd76e0" name="a06efc8f7069f2b36ebe6e1b670fd76e0"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>GetIconSize</b> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">cx</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">cy</a>)</td></tr>
-<tr class="memdesc:a06efc8f7069f2b36ebe6e1b670fd76e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取图标大小，该函数调用ImageList_GetIconSize <br /></td></tr>
-<tr class="separator:a06efc8f7069f2b36ebe6e1b670fd76e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aecd3933b5f90659befc686971249fd23" id="r_aecd3933b5f90659befc686971249fd23"><td class="memItemLeft" align="right" valign="top"><a id="aecd3933b5f90659befc686971249fd23" name="aecd3933b5f90659befc686971249fd23"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td><td class="memItemRight" valign="bottom"><b>GetImageCount</b> ()</td></tr>
-<tr class="memdesc:aecd3933b5f90659befc686971249fd23"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取图像个数，该函数调用ImageList_GetImageCount <br /></td></tr>
-<tr class="separator:aecd3933b5f90659befc686971249fd23"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7a6e514c37ea4efc090d6a927f74e0b" id="r_ac7a6e514c37ea4efc090d6a927f74e0b"><td class="memItemLeft" align="right" valign="top"><a id="ac7a6e514c37ea4efc090d6a927f74e0b" name="ac7a6e514c37ea4efc090d6a927f74e0b"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>GetImageInfo</b> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">i</a>, <a class="el" href="classsw_1_1IValueConverter.html">IMAGEINFO</a> *<a class="el" href="classsw_1_1IValueConverter.html">pImageInfo</a>)</td></tr>
-<tr class="memdesc:ac7a6e514c37ea4efc090d6a927f74e0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取图像信息，该函数调用ImageList_GetImageInfo <br /></td></tr>
-<tr class="separator:ac7a6e514c37ea4efc090d6a927f74e0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a44e2ba6e4c0634bc657f68efef2e2780" id="r_a44e2ba6e4c0634bc657f68efef2e2780"><td class="memItemLeft" align="right" valign="top"><a id="a44e2ba6e4c0634bc657f68efef2e2780" name="a44e2ba6e4c0634bc657f68efef2e2780"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Remove</b> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">i</a>)</td></tr>
-<tr class="memdesc:a44e2ba6e4c0634bc657f68efef2e2780"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除指定图像，该函数调用ImageList_Remove <br /></td></tr>
-<tr class="separator:a44e2ba6e4c0634bc657f68efef2e2780"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64792d6a098071c39917191399d2ce9c" id="r_a64792d6a098071c39917191399d2ce9c"><td class="memItemLeft" align="right" valign="top"><a id="a64792d6a098071c39917191399d2ce9c" name="a64792d6a098071c39917191399d2ce9c"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>RemoveAll</b> ()</td></tr>
-<tr class="memdesc:a64792d6a098071c39917191399d2ce9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除所有图像，该函数调用ImageList_Remove <br /></td></tr>
-<tr class="separator:a64792d6a098071c39917191399d2ce9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9a6b0efc4217626ce43c7dd4d922e484" id="r_a9a6b0efc4217626ce43c7dd4d922e484"><td class="memItemLeft" align="right" valign="top"><a id="a9a6b0efc4217626ce43c7dd4d922e484" name="a9a6b0efc4217626ce43c7dd4d922e484"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Replace</b> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">i</a>, <a class="el" href="classsw_1_1IValueConverter.html">HBITMAP</a> <a class="el" href="classsw_1_1IValueConverter.html">hbmImage</a>, <a class="el" href="classsw_1_1IValueConverter.html">HBITMAP</a> <a class="el" href="classsw_1_1IValueConverter.html">hbmMask</a>)</td></tr>
-<tr class="memdesc:a9a6b0efc4217626ce43c7dd4d922e484"><td class="mdescLeft">&#160;</td><td class="mdescRight">更换指定位置的图像，该函数调用ImageList_Replace <br /></td></tr>
-<tr class="separator:a9a6b0efc4217626ce43c7dd4d922e484"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ed6264ffa967f24bdaf547cd8b2129d" id="r_a3ed6264ffa967f24bdaf547cd8b2129d"><td class="memItemLeft" align="right" valign="top"><a id="a3ed6264ffa967f24bdaf547cd8b2129d" name="a3ed6264ffa967f24bdaf547cd8b2129d"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td><td class="memItemRight" valign="bottom"><b>ReplaceIcon</b> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">i</a>, <a class="el" href="classsw_1_1IValueConverter.html">HICON</a> <a class="el" href="classsw_1_1IValueConverter.html">hicon</a>)</td></tr>
-<tr class="memdesc:a3ed6264ffa967f24bdaf547cd8b2129d"><td class="mdescLeft">&#160;</td><td class="mdescRight">更换图标，该函数调用ImageList_ReplaceIcon <br /></td></tr>
-<tr class="separator:a3ed6264ffa967f24bdaf547cd8b2129d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90faf8d6d490055ae723dd7735221ea0" id="r_a90faf8d6d490055ae723dd7735221ea0"><td class="memItemLeft" align="right" valign="top"><a id="a90faf8d6d490055ae723dd7735221ea0" name="a90faf8d6d490055ae723dd7735221ea0"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SetBkColor</b> (<a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a> <a class="el" href="classsw_1_1IValueConverter.html">clrBk</a>)</td></tr>
-<tr class="memdesc:a90faf8d6d490055ae723dd7735221ea0"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置背景颜色，该函数调用ImageList_SetBkColor <br /></td></tr>
-<tr class="separator:a90faf8d6d490055ae723dd7735221ea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19ff9980768b9e0dace609e2f182db72" id="r_a19ff9980768b9e0dace609e2f182db72"><td class="memItemLeft" align="right" valign="top"><a id="a19ff9980768b9e0dace609e2f182db72" name="a19ff9980768b9e0dace609e2f182db72"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SetDragCursorImage</b> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">iDrag</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">dxHotspot</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">dyHotspot</a>)</td></tr>
-<tr class="memdesc:a19ff9980768b9e0dace609e2f182db72"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置拖拽图标为指定图标与当前拖拽图标的结合，该函数调用ImageList_SetDragCursorImage <br /></td></tr>
-<tr class="separator:a19ff9980768b9e0dace609e2f182db72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a750f71a7a8f14d18d14c026ea3bc2566" id="r_a750f71a7a8f14d18d14c026ea3bc2566"><td class="memItemLeft" align="right" valign="top"><a id="a750f71a7a8f14d18d14c026ea3bc2566" name="a750f71a7a8f14d18d14c026ea3bc2566"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SetIconSize</b> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cx</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cy</a>)</td></tr>
-<tr class="memdesc:a750f71a7a8f14d18d14c026ea3bc2566"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置图像大小并移除所有图像，该函数调用ImageList_SetIconSize <br /></td></tr>
-<tr class="separator:a750f71a7a8f14d18d14c026ea3bc2566"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8db4caa03f9f294950eae85ed79a67e6" id="r_a8db4caa03f9f294950eae85ed79a67e6"><td class="memItemLeft" align="right" valign="top"><a id="a8db4caa03f9f294950eae85ed79a67e6" name="a8db4caa03f9f294950eae85ed79a67e6"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SetImageCount</b> (<a class="el" href="classsw_1_1IValueConverter.html">UINT</a> <a class="el" href="classsw_1_1IValueConverter.html">uNewCount</a>)</td></tr>
-<tr class="memdesc:a8db4caa03f9f294950eae85ed79a67e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置图像个数，该函数调用ImageList_SetImageCount <br /></td></tr>
-<tr class="separator:a8db4caa03f9f294950eae85ed79a67e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab54ce1532d2576f7103468486d7b5dac" id="r_ab54ce1532d2576f7103468486d7b5dac"><td class="memItemLeft" align="right" valign="top"><a id="ab54ce1532d2576f7103468486d7b5dac" name="ab54ce1532d2576f7103468486d7b5dac"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SetOverlayImage</b> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">iImage</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">iOverlay</a>)</td></tr>
-<tr class="memdesc:ab54ce1532d2576f7103468486d7b5dac"><td class="mdescLeft">&#160;</td><td class="mdescRight">将指定的图像添加到要用作覆盖遮罩的图像列表中，该函数调用ImageList_SetOverlayImage <br /></td></tr>
-<tr class="separator:ab54ce1532d2576f7103468486d7b5dac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a978978d6bc38f32b85e8cdcaafd08664" id="r_a978978d6bc38f32b85e8cdcaafd08664"><td class="memItemLeft" align="right" valign="top"><a id="a978978d6bc38f32b85e8cdcaafd08664" name="a978978d6bc38f32b85e8cdcaafd08664"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Write</b> (<a class="el" href="classsw_1_1IValueConverter.html">IStream</a> *<a class="el" href="classsw_1_1IValueConverter.html">pstm</a>)</td></tr>
-<tr class="memdesc:a978978d6bc38f32b85e8cdcaafd08664"><td class="mdescLeft">&#160;</td><td class="mdescRight">写图像列表，该函数调用ImageList_Write <br /></td></tr>
-<tr class="separator:a978978d6bc38f32b85e8cdcaafd08664"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9cbe8ce1d545825e4203ef3e4a7745f" id="r_af9cbe8ce1d545825e4203ef3e4a7745f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#af9cbe8ce1d545825e4203ef3e4a7745f">ImageList</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cx</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cy</a>, <a class="el" href="classsw_1_1IValueConverter.html">UINT</a> flags, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cInitial</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cGrow</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:af9cbe8ce1d545825e4203ef3e4a7745f"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建图像列表，该函数调用ImageList_Create  <br /></td></tr>
+<tr class="separator:af9cbe8ce1d545825e4203ef3e4a7745f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a895ce53c5a103503feba2f28ff4dd2" id="r_a8a895ce53c5a103503feba2f28ff4dd2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a8a895ce53c5a103503feba2f28ff4dd2">ImageList</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">other</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a8a895ce53c5a103503feba2f28ff4dd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">拷贝构造图像列表对象  <br /></td></tr>
+<tr class="separator:a8a895ce53c5a103503feba2f28ff4dd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab041f30fc1f1ce061d3356e797318b5f" id="r_ab041f30fc1f1ce061d3356e797318b5f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#ab041f30fc1f1ce061d3356e797318b5f">ImageList</a> (<a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;&amp;<a class="el" href="classsw_1_1IValueConverter.html">other</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:ab041f30fc1f1ce061d3356e797318b5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">移动构造图像列表对象  <br /></td></tr>
+<tr class="separator:ab041f30fc1f1ce061d3356e797318b5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63a7f1d3af0b1f7f281322ae4d7276d2" id="r_a63a7f1d3af0b1f7f281322ae4d7276d2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a63a7f1d3af0b1f7f281322ae4d7276d2">~ImageList</a> () <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a63a7f1d3af0b1f7f281322ae4d7276d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构图像列表对象  <br /></td></tr>
+<tr class="separator:a63a7f1d3af0b1f7f281322ae4d7276d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a658a41bc168a5dbcae6bc4683ebcc5a2" id="r_a658a41bc168a5dbcae6bc4683ebcc5a2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a658a41bc168a5dbcae6bc4683ebcc5a2">operator=</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">other</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a658a41bc168a5dbcae6bc4683ebcc5a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">拷贝赋值图像列表对象  <br /></td></tr>
+<tr class="separator:a658a41bc168a5dbcae6bc4683ebcc5a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad307bc21b93d86e6356226cc7fdde36b" id="r_ad307bc21b93d86e6356226cc7fdde36b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#ad307bc21b93d86e6356226cc7fdde36b">operator=</a> (<a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;&amp;<a class="el" href="classsw_1_1IValueConverter.html">other</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:ad307bc21b93d86e6356226cc7fdde36b"><td class="mdescLeft">&#160;</td><td class="mdescRight">移动赋值图像列表对象  <br /></td></tr>
+<tr class="separator:ad307bc21b93d86e6356226cc7fdde36b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf6674a7c74b460e4df116b05606068a" id="r_acf6674a7c74b460e4df116b05606068a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">HIMAGELIST</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#acf6674a7c74b460e4df116b05606068a">GetHandle</a> () <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:acf6674a7c74b460e4df116b05606068a"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取图像列表句柄  <br /></td></tr>
+<tr class="separator:acf6674a7c74b460e4df116b05606068a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34736ef48a58060efe5a39209234af96" id="r_a34736ef48a58060efe5a39209234af96"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a34736ef48a58060efe5a39209234af96">IsWrap</a> () <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a34736ef48a58060efe5a39209234af96"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断当前对象是否为包装对象  <br /></td></tr>
+<tr class="separator:a34736ef48a58060efe5a39209234af96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9aaa493d993dd3923cba4c8e08cf6d8a" id="r_a9aaa493d993dd3923cba4c8e08cf6d8a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">HIMAGELIST</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a9aaa493d993dd3923cba4c8e08cf6d8a">ReleaseHandle</a> () <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a9aaa493d993dd3923cba4c8e08cf6d8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取图像列表句柄并取消对句柄的托管  <br /></td></tr>
+<tr class="separator:a9aaa493d993dd3923cba4c8e08cf6d8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeebba92e6208813d0fcbd8caea7f8ca5" id="r_aeebba92e6208813d0fcbd8caea7f8ca5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#aeebba92e6208813d0fcbd8caea7f8ca5">Add</a> (<a class="el" href="classsw_1_1IValueConverter.html">HBITMAP</a> <a class="el" href="classsw_1_1IValueConverter.html">hbmImage</a>, <a class="el" href="classsw_1_1IValueConverter.html">HBITMAP</a> <a class="el" href="classsw_1_1IValueConverter.html">hbmMask</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:aeebba92e6208813d0fcbd8caea7f8ca5"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加图像，该函数调用ImageList_Add  <br /></td></tr>
+<tr class="separator:aeebba92e6208813d0fcbd8caea7f8ca5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45a730073afb844c7f40d31c138a51f6" id="r_a45a730073afb844c7f40d31c138a51f6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a45a730073afb844c7f40d31c138a51f6">AddIcon</a> (<a class="el" href="classsw_1_1IValueConverter.html">HICON</a> <a class="el" href="classsw_1_1IValueConverter.html">hIcon</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a45a730073afb844c7f40d31c138a51f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加图标，该函数调用ImageList_AddIcon  <br /></td></tr>
+<tr class="separator:a45a730073afb844c7f40d31c138a51f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9082d138eb2231783d85929f08447952" id="r_a9082d138eb2231783d85929f08447952"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a9082d138eb2231783d85929f08447952">AddMasked</a> (<a class="el" href="classsw_1_1IValueConverter.html">HBITMAP</a> <a class="el" href="classsw_1_1IValueConverter.html">hbmImage</a>, <a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a> <a class="el" href="classsw_1_1IValueConverter.html">crMask</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a9082d138eb2231783d85929f08447952"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加图像，指定颜色为mask，该函数调用ImageList_AddMasked  <br /></td></tr>
+<tr class="separator:a9082d138eb2231783d85929f08447952"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ea14ef880e1925bddc1636581dc3075" id="r_a0ea14ef880e1925bddc1636581dc3075"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a0ea14ef880e1925bddc1636581dc3075">BeginDrag</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">iTrack</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">dxHotspot</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">dyHotspot</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a0ea14ef880e1925bddc1636581dc3075"><td class="mdescLeft">&#160;</td><td class="mdescRight">开始拖拽图像，该函数调用ImageList_BeginDrag  <br /></td></tr>
+<tr class="separator:a0ea14ef880e1925bddc1636581dc3075"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b866ed66f37760b3408b9104de86a7e" id="r_a5b866ed66f37760b3408b9104de86a7e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a5b866ed66f37760b3408b9104de86a7e">Draw</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">i</a>, <a class="el" href="classsw_1_1IValueConverter.html">HDC</a> <a class="el" href="classsw_1_1IValueConverter.html">hdcDst</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> x, <a class="el" href="classsw_1_1IValueConverter.html">int</a> y, <a class="el" href="classsw_1_1IValueConverter.html">UINT</a> <a class="el" href="classsw_1_1IValueConverter.html">fStyle</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a5b866ed66f37760b3408b9104de86a7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">在指定上下文DC下绘制图像，该函数调用ImageList_Draw  <br /></td></tr>
+<tr class="separator:a5b866ed66f37760b3408b9104de86a7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb6beba9d36119a43e17ef8ceb43c6b4" id="r_afb6beba9d36119a43e17ef8ceb43c6b4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#afb6beba9d36119a43e17ef8ceb43c6b4">Draw</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">i</a>, <a class="el" href="classsw_1_1IValueConverter.html">HDC</a> <a class="el" href="classsw_1_1IValueConverter.html">hdcDst</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> x, <a class="el" href="classsw_1_1IValueConverter.html">int</a> y, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">dx</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">dy</a>, <a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a> <a class="el" href="classsw_1_1IValueConverter.html">rgbBk</a>, <a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a> <a class="el" href="classsw_1_1IValueConverter.html">rgbFg</a>, <a class="el" href="classsw_1_1IValueConverter.html">UINT</a> <a class="el" href="classsw_1_1IValueConverter.html">fStyle</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:afb6beba9d36119a43e17ef8ceb43c6b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">在指定上下文DC下绘制图像，该函数调用ImageList_DrawEx  <br /></td></tr>
+<tr class="separator:afb6beba9d36119a43e17ef8ceb43c6b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abda9900cb8d72b1212300943b0c8b137" id="r_abda9900cb8d72b1212300943b0c8b137"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1ImageList.html">ImageList</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#abda9900cb8d72b1212300943b0c8b137">Duplicate</a> () <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:abda9900cb8d72b1212300943b0c8b137"><td class="mdescLeft">&#160;</td><td class="mdescRight">复制当前图像列表，该函数调用ImageList_Duplicate  <br /></td></tr>
+<tr class="separator:abda9900cb8d72b1212300943b0c8b137"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c5f80ff77ec2342a27d817a7d4dda12" id="r_a9c5f80ff77ec2342a27d817a7d4dda12"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a9c5f80ff77ec2342a27d817a7d4dda12">GetBkColor</a> () <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a9c5f80ff77ec2342a27d817a7d4dda12"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取背景颜色，该函数调用ImageList_GetBkColor  <br /></td></tr>
+<tr class="separator:a9c5f80ff77ec2342a27d817a7d4dda12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76eef627859c6cbc4ef2e3385bc198c0" id="r_a76eef627859c6cbc4ef2e3385bc198c0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">HICON</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a76eef627859c6cbc4ef2e3385bc198c0">GetIcon</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">i</a>, <a class="el" href="classsw_1_1IValueConverter.html">UINT</a> flags) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a76eef627859c6cbc4ef2e3385bc198c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过指定位置的图像创建图标句柄，该函数调用ImageList_GetIcon  <br /></td></tr>
+<tr class="separator:a76eef627859c6cbc4ef2e3385bc198c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a580ad20a16bdca71f942861f577d3c12" id="r_a580ad20a16bdca71f942861f577d3c12"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a580ad20a16bdca71f942861f577d3c12">GetIconSize</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">cx</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">cy</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a580ad20a16bdca71f942861f577d3c12"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取图标大小，该函数调用ImageList_GetIconSize  <br /></td></tr>
+<tr class="separator:a580ad20a16bdca71f942861f577d3c12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e866fde614eed279e49aabeb32572ed" id="r_a1e866fde614eed279e49aabeb32572ed"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a1e866fde614eed279e49aabeb32572ed">GetImageCount</a> () <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a1e866fde614eed279e49aabeb32572ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取图像个数，该函数调用ImageList_GetImageCount  <br /></td></tr>
+<tr class="separator:a1e866fde614eed279e49aabeb32572ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1668eb4960cbb9f9a20bc33644572532" id="r_a1668eb4960cbb9f9a20bc33644572532"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a1668eb4960cbb9f9a20bc33644572532">GetImageInfo</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">i</a>, <a class="el" href="classsw_1_1IValueConverter.html">IMAGEINFO</a> *<a class="el" href="classsw_1_1IValueConverter.html">pImageInfo</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a1668eb4960cbb9f9a20bc33644572532"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取图像信息，该函数调用ImageList_GetImageInfo  <br /></td></tr>
+<tr class="separator:a1668eb4960cbb9f9a20bc33644572532"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6186c6ff2ce808f80dd3d4bfae8dd77d" id="r_a6186c6ff2ce808f80dd3d4bfae8dd77d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a6186c6ff2ce808f80dd3d4bfae8dd77d">Remove</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">i</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a6186c6ff2ce808f80dd3d4bfae8dd77d"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除指定图像，该函数调用ImageList_Remove  <br /></td></tr>
+<tr class="separator:a6186c6ff2ce808f80dd3d4bfae8dd77d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c8f141ad89dbdd3b733e127657060a9" id="r_a9c8f141ad89dbdd3b733e127657060a9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a9c8f141ad89dbdd3b733e127657060a9">RemoveAll</a> () <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a9c8f141ad89dbdd3b733e127657060a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除所有图像，该函数调用ImageList_Remove  <br /></td></tr>
+<tr class="separator:a9c8f141ad89dbdd3b733e127657060a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66c525b2464c658d3639c65f0b440e8e" id="r_a66c525b2464c658d3639c65f0b440e8e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a66c525b2464c658d3639c65f0b440e8e">Replace</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">i</a>, <a class="el" href="classsw_1_1IValueConverter.html">HBITMAP</a> <a class="el" href="classsw_1_1IValueConverter.html">hbmImage</a>, <a class="el" href="classsw_1_1IValueConverter.html">HBITMAP</a> <a class="el" href="classsw_1_1IValueConverter.html">hbmMask</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a66c525b2464c658d3639c65f0b440e8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">更换指定位置的图像，该函数调用ImageList_Replace  <br /></td></tr>
+<tr class="separator:a66c525b2464c658d3639c65f0b440e8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a052b71e78061ed4c0273c4a697a825f5" id="r_a052b71e78061ed4c0273c4a697a825f5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a052b71e78061ed4c0273c4a697a825f5">ReplaceIcon</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">i</a>, <a class="el" href="classsw_1_1IValueConverter.html">HICON</a> <a class="el" href="classsw_1_1IValueConverter.html">hicon</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a052b71e78061ed4c0273c4a697a825f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">更换图标，该函数调用ImageList_ReplaceIcon  <br /></td></tr>
+<tr class="separator:a052b71e78061ed4c0273c4a697a825f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d1aaa2aa83bfd690ca2b61d1121100c" id="r_a8d1aaa2aa83bfd690ca2b61d1121100c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a8d1aaa2aa83bfd690ca2b61d1121100c">SetBkColor</a> (<a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a> <a class="el" href="classsw_1_1IValueConverter.html">clrBk</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a8d1aaa2aa83bfd690ca2b61d1121100c"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置背景颜色，该函数调用ImageList_SetBkColor  <br /></td></tr>
+<tr class="separator:a8d1aaa2aa83bfd690ca2b61d1121100c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c2e30e8dfb3b5b30b692dd7d90cc6e9" id="r_a8c2e30e8dfb3b5b30b692dd7d90cc6e9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a8c2e30e8dfb3b5b30b692dd7d90cc6e9">SetDragCursorImage</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">iDrag</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">dxHotspot</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">dyHotspot</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a8c2e30e8dfb3b5b30b692dd7d90cc6e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置拖拽图标为指定图标与当前拖拽图标的结合，该函数调用ImageList_SetDragCursorImage  <br /></td></tr>
+<tr class="separator:a8c2e30e8dfb3b5b30b692dd7d90cc6e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8193402a5874ed639c1608b01a3dd41f" id="r_a8193402a5874ed639c1608b01a3dd41f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a8193402a5874ed639c1608b01a3dd41f">SetIconSize</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cx</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cy</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a8193402a5874ed639c1608b01a3dd41f"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置图像大小并移除所有图像，该函数调用ImageList_SetIconSize  <br /></td></tr>
+<tr class="separator:a8193402a5874ed639c1608b01a3dd41f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c5145f72d33f69d3f7ad85e36692f71" id="r_a6c5145f72d33f69d3f7ad85e36692f71"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a6c5145f72d33f69d3f7ad85e36692f71">SetImageCount</a> (<a class="el" href="classsw_1_1IValueConverter.html">UINT</a> <a class="el" href="classsw_1_1IValueConverter.html">uNewCount</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a6c5145f72d33f69d3f7ad85e36692f71"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置图像个数，该函数调用ImageList_SetImageCount  <br /></td></tr>
+<tr class="separator:a6c5145f72d33f69d3f7ad85e36692f71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1337b1edfac3827843e973a93fc00182" id="r_a1337b1edfac3827843e973a93fc00182"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a1337b1edfac3827843e973a93fc00182">SetOverlayImage</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">iImage</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">iOverlay</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a1337b1edfac3827843e973a93fc00182"><td class="mdescLeft">&#160;</td><td class="mdescRight">将指定的图像添加到要用作覆盖遮罩的图像列表中，该函数调用ImageList_SetOverlayImage  <br /></td></tr>
+<tr class="separator:a1337b1edfac3827843e973a93fc00182"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acddbe0bfb32d8ff0516dd4f463a3b82b" id="r_acddbe0bfb32d8ff0516dd4f463a3b82b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#acddbe0bfb32d8ff0516dd4f463a3b82b">Write</a> (<a class="el" href="classsw_1_1IValueConverter.html">IStream</a> *<a class="el" href="classsw_1_1IValueConverter.html">pstm</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:acddbe0bfb32d8ff0516dd4f463a3b82b"><td class="mdescLeft">&#160;</td><td class="mdescRight">写图像列表，该函数调用ImageList_Write  <br /></td></tr>
+<tr class="separator:acddbe0bfb32d8ff0516dd4f463a3b82b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 静态 Public 成员函数</h2></td></tr>
-<tr class="memitem:a880ac4fd98a4602480ce760fa6a9d332" id="r_a880ac4fd98a4602480ce760fa6a9d332"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a880ac4fd98a4602480ce760fa6a9d332">Create</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cx</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cy</a>, <a class="el" href="classsw_1_1IValueConverter.html">UINT</a> flags, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cInitial</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cGrow</a>)</td></tr>
-<tr class="memdesc:a880ac4fd98a4602480ce760fa6a9d332"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建一个图像列表，该函数调用ImageList_Create  <br /></td></tr>
-<tr class="separator:a880ac4fd98a4602480ce760fa6a9d332"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05c15ad4b9d0dff17f2513d8fe40260a" id="r_a05c15ad4b9d0dff17f2513d8fe40260a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a05c15ad4b9d0dff17f2513d8fe40260a">Wrap</a> (<a class="el" href="classsw_1_1IValueConverter.html">HIMAGELIST</a> <a class="el" href="classsw_1_1IValueConverter.html">hImageList</a>)</td></tr>
-<tr class="memdesc:a05c15ad4b9d0dff17f2513d8fe40260a"><td class="mdescLeft">&#160;</td><td class="mdescRight">包装一个图像列表句柄为ImageList对象，通过该函数创建的对象析构时不会销毁句柄  <br /></td></tr>
-<tr class="separator:a05c15ad4b9d0dff17f2513d8fe40260a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48997d021e3a815ddc3f8a609c801416" id="r_a48997d021e3a815ddc3f8a609c801416"><td class="memItemLeft" align="right" valign="top"><a id="a48997d021e3a815ddc3f8a609c801416" name="a48997d021e3a815ddc3f8a609c801416"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Copy</b> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">dst</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">iDst</a>, <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">src</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">iSrc</a>, <a class="el" href="classsw_1_1IValueConverter.html">UINT</a> <a class="el" href="classsw_1_1IValueConverter.html">uFlags</a>)</td></tr>
-<tr class="memdesc:a48997d021e3a815ddc3f8a609c801416"><td class="mdescLeft">&#160;</td><td class="mdescRight">复制图像，该函数调用ImageList_Copy <br /></td></tr>
-<tr class="separator:a48997d021e3a815ddc3f8a609c801416"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6663c89b5ad3ae965ec4871d73560d01" id="r_a6663c89b5ad3ae965ec4871d73560d01"><td class="memItemLeft" align="right" valign="top"><a id="a6663c89b5ad3ae965ec4871d73560d01" name="a6663c89b5ad3ae965ec4871d73560d01"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>DragEnter</b> (<a class="el" href="classsw_1_1IValueConverter.html">HWND</a> <a class="el" href="classsw_1_1IValueConverter.html">hwndLock</a>, <a class="el" href="classsw_1_1IValueConverter.html">double</a> x, <a class="el" href="classsw_1_1IValueConverter.html">double</a> y)</td></tr>
-<tr class="memdesc:a6663c89b5ad3ae965ec4871d73560d01"><td class="mdescLeft">&#160;</td><td class="mdescRight">锁定窗口并在指定窗口内显示拖拽图像，该函数调用ImageList_DragEnter <br /></td></tr>
-<tr class="separator:a6663c89b5ad3ae965ec4871d73560d01"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a603e959c40cbe65d0e27606911d74358" id="r_a603e959c40cbe65d0e27606911d74358"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a603e959c40cbe65d0e27606911d74358">DragEnterPx</a> (<a class="el" href="classsw_1_1IValueConverter.html">HWND</a> <a class="el" href="classsw_1_1IValueConverter.html">hwndLock</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> x, <a class="el" href="classsw_1_1IValueConverter.html">int</a> y)</td></tr>
-<tr class="memdesc:a603e959c40cbe65d0e27606911d74358"><td class="mdescLeft">&#160;</td><td class="mdescRight">锁定窗口并在指定窗口内显示拖拽图像，该函数调用ImageList_DragEnter  <br /></td></tr>
-<tr class="separator:a603e959c40cbe65d0e27606911d74358"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2bfeeb41dbd1c7e720c99834acb59ac" id="r_ad2bfeeb41dbd1c7e720c99834acb59ac"><td class="memItemLeft" align="right" valign="top"><a id="ad2bfeeb41dbd1c7e720c99834acb59ac" name="ad2bfeeb41dbd1c7e720c99834acb59ac"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>DragLeave</b> (<a class="el" href="classsw_1_1IValueConverter.html">HWND</a> <a class="el" href="classsw_1_1IValueConverter.html">hwndLock</a>)</td></tr>
-<tr class="memdesc:ad2bfeeb41dbd1c7e720c99834acb59ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">解除窗口锁定并隐藏显示的拖拽图像，该函数调用ImageList_DragLeave <br /></td></tr>
-<tr class="separator:ad2bfeeb41dbd1c7e720c99834acb59ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7c173d2524fec0403df9cec068c7f61" id="r_ad7c173d2524fec0403df9cec068c7f61"><td class="memItemLeft" align="right" valign="top"><a id="ad7c173d2524fec0403df9cec068c7f61" name="ad7c173d2524fec0403df9cec068c7f61"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>DragMove</b> (<a class="el" href="classsw_1_1IValueConverter.html">double</a> x, <a class="el" href="classsw_1_1IValueConverter.html">double</a> y)</td></tr>
-<tr class="memdesc:ad7c173d2524fec0403df9cec068c7f61"><td class="mdescLeft">&#160;</td><td class="mdescRight">拖拽移动，一般在WM_MOUSEMOVE函数中调用，该函数调用ImageList_DragMove <br /></td></tr>
-<tr class="separator:ad7c173d2524fec0403df9cec068c7f61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac722e503dd8ac7110bb565ba57174a01" id="r_ac722e503dd8ac7110bb565ba57174a01"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#ac722e503dd8ac7110bb565ba57174a01">DragMovePx</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> x, <a class="el" href="classsw_1_1IValueConverter.html">int</a> y)</td></tr>
-<tr class="memdesc:ac722e503dd8ac7110bb565ba57174a01"><td class="mdescLeft">&#160;</td><td class="mdescRight">拖拽移动，一般在WM_MOUSEMOVE函数中调用，该函数调用ImageList_DragMove  <br /></td></tr>
-<tr class="separator:ac722e503dd8ac7110bb565ba57174a01"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0d44a25ff0352d05b34228d675c69c0" id="r_aa0d44a25ff0352d05b34228d675c69c0"><td class="memItemLeft" align="right" valign="top"><a id="aa0d44a25ff0352d05b34228d675c69c0" name="aa0d44a25ff0352d05b34228d675c69c0"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><b>DragShowNolock</b> (<a class="el" href="classsw_1_1IValueConverter.html">bool</a> <a class="el" href="classsw_1_1IValueConverter.html">fShow</a>)</td></tr>
-<tr class="memdesc:aa0d44a25ff0352d05b34228d675c69c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">拖拽时显示或隐藏图像，该函数调用ImageList_DragShowNolock <br /></td></tr>
-<tr class="separator:aa0d44a25ff0352d05b34228d675c69c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71d142366b5920ec8aa6c9a374632e18" id="r_a71d142366b5920ec8aa6c9a374632e18"><td class="memItemLeft" align="right" valign="top"><a id="a71d142366b5920ec8aa6c9a374632e18" name="a71d142366b5920ec8aa6c9a374632e18"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><b>EndDrag</b> ()</td></tr>
-<tr class="memdesc:a71d142366b5920ec8aa6c9a374632e18"><td class="mdescLeft">&#160;</td><td class="mdescRight">结束拖拽，该函数调用ImageList_EndDrag <br /></td></tr>
-<tr class="separator:a71d142366b5920ec8aa6c9a374632e18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a66630a589d4ea2e1f85fb0a45e4e251a" id="r_a66630a589d4ea2e1f85fb0a45e4e251a"><td class="memItemLeft" align="right" valign="top"><a id="a66630a589d4ea2e1f85fb0a45e4e251a" name="a66630a589d4ea2e1f85fb0a45e4e251a"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a>&#160;</td><td class="memItemRight" valign="bottom"><b>GetDragImage</b> (<a class="el" href="classsw_1_1IValueConverter.html">POINT</a> *<a class="el" href="classsw_1_1IValueConverter.html">ppt</a>, <a class="el" href="classsw_1_1IValueConverter.html">POINT</a> *<a class="el" href="classsw_1_1IValueConverter.html">pptHotspot</a>)</td></tr>
-<tr class="memdesc:a66630a589d4ea2e1f85fb0a45e4e251a"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取拖拽中图像的列表，该函数调用ImageList_GetDragImage <br /></td></tr>
-<tr class="separator:a66630a589d4ea2e1f85fb0a45e4e251a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54db92dcaa75f9cf3f5f72d6319af6a4" id="r_a54db92dcaa75f9cf3f5f72d6319af6a4"><td class="memItemLeft" align="right" valign="top"><a id="a54db92dcaa75f9cf3f5f72d6319af6a4" name="a54db92dcaa75f9cf3f5f72d6319af6a4"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a>&#160;</td><td class="memItemRight" valign="bottom"><b>LoadImageA</b> (<a class="el" href="classsw_1_1IValueConverter.html">HINSTANCE</a> <a class="el" href="classsw_1_1IValueConverter.html">hi</a>, <a class="el" href="classsw_1_1IValueConverter.html">LPCSTR</a> <a class="el" href="classsw_1_1IValueConverter.html">lpbmp</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cx</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cGrow</a>, <a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a> <a class="el" href="classsw_1_1IValueConverter.html">crMask</a>, <a class="el" href="classsw_1_1IValueConverter.html">UINT</a> <a class="el" href="classsw_1_1IValueConverter.html">uType</a>, <a class="el" href="classsw_1_1IValueConverter.html">UINT</a> <a class="el" href="classsw_1_1IValueConverter.html">uFlags</a>)</td></tr>
-<tr class="memdesc:a54db92dcaa75f9cf3f5f72d6319af6a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">加载图像列表，该函数调用ImageList_LoadImageA <br /></td></tr>
-<tr class="separator:a54db92dcaa75f9cf3f5f72d6319af6a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a254d64c41c8f5a9ea92889a33a4b5dfa" id="r_a254d64c41c8f5a9ea92889a33a4b5dfa"><td class="memItemLeft" align="right" valign="top"><a id="a254d64c41c8f5a9ea92889a33a4b5dfa" name="a254d64c41c8f5a9ea92889a33a4b5dfa"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a>&#160;</td><td class="memItemRight" valign="bottom"><b>LoadImageW</b> (<a class="el" href="classsw_1_1IValueConverter.html">HINSTANCE</a> <a class="el" href="classsw_1_1IValueConverter.html">hi</a>, <a class="el" href="classsw_1_1IValueConverter.html">LPCWSTR</a> <a class="el" href="classsw_1_1IValueConverter.html">lpbmp</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cx</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cGrow</a>, <a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a> <a class="el" href="classsw_1_1IValueConverter.html">crMask</a>, <a class="el" href="classsw_1_1IValueConverter.html">UINT</a> <a class="el" href="classsw_1_1IValueConverter.html">uType</a>, <a class="el" href="classsw_1_1IValueConverter.html">UINT</a> <a class="el" href="classsw_1_1IValueConverter.html">uFlags</a>)</td></tr>
-<tr class="memdesc:a254d64c41c8f5a9ea92889a33a4b5dfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">加载图像列表，该函数调用ImageList_LoadImageW <br /></td></tr>
-<tr class="separator:a254d64c41c8f5a9ea92889a33a4b5dfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adca5d8123ebaccbbc618b9934e1d4158" id="r_adca5d8123ebaccbbc618b9934e1d4158"><td class="memItemLeft" align="right" valign="top"><a id="adca5d8123ebaccbbc618b9934e1d4158" name="adca5d8123ebaccbbc618b9934e1d4158"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Merge</b> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">iml1</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">i1</a>, <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">iml2</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">i2</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">dx</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">dy</a>)</td></tr>
-<tr class="memdesc:adca5d8123ebaccbbc618b9934e1d4158"><td class="mdescLeft">&#160;</td><td class="mdescRight">合并两个图像列表，该函数调用ImageList_Merge <br /></td></tr>
-<tr class="separator:adca5d8123ebaccbbc618b9934e1d4158"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac9e8a7e7e65e852fae12d29e899d42e5" id="r_ac9e8a7e7e65e852fae12d29e899d42e5"><td class="memItemLeft" align="right" valign="top"><a id="ac9e8a7e7e65e852fae12d29e899d42e5" name="ac9e8a7e7e65e852fae12d29e899d42e5"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Read</b> (<a class="el" href="classsw_1_1IValueConverter.html">IStream</a> *<a class="el" href="classsw_1_1IValueConverter.html">pstm</a>)</td></tr>
-<tr class="memdesc:ac9e8a7e7e65e852fae12d29e899d42e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">读取图像列表，该函数调用ImageList_Read <br /></td></tr>
-<tr class="separator:ac9e8a7e7e65e852fae12d29e899d42e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a219f8b3955ffb9742d4c0b9fe88dcc1c" id="r_a219f8b3955ffb9742d4c0b9fe88dcc1c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a219f8b3955ffb9742d4c0b9fe88dcc1c">Create</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cx</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cy</a>, <a class="el" href="classsw_1_1IValueConverter.html">UINT</a> flags, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cInitial</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cGrow</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a219f8b3955ffb9742d4c0b9fe88dcc1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建图像列表，该函数调用ImageList_Create  <br /></td></tr>
+<tr class="separator:a219f8b3955ffb9742d4c0b9fe88dcc1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b7e4a117987946cc5371017f5ba5bb6" id="r_a9b7e4a117987946cc5371017f5ba5bb6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a9b7e4a117987946cc5371017f5ba5bb6">Wrap</a> (<a class="el" href="classsw_1_1IValueConverter.html">HIMAGELIST</a> <a class="el" href="classsw_1_1IValueConverter.html">hImageList</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a9b7e4a117987946cc5371017f5ba5bb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">将已有图像列表句柄包装为ImageList对象  <br /></td></tr>
+<tr class="separator:a9b7e4a117987946cc5371017f5ba5bb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0599fd81c0f285544bde0fb4ef11fc1f" id="r_a0599fd81c0f285544bde0fb4ef11fc1f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a0599fd81c0f285544bde0fb4ef11fc1f">Copy</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">dst</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">iDst</a>, <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">src</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">iSrc</a>, <a class="el" href="classsw_1_1IValueConverter.html">UINT</a> <a class="el" href="classsw_1_1IValueConverter.html">uFlags</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a0599fd81c0f285544bde0fb4ef11fc1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">复制图像，该函数调用ImageList_Copy  <br /></td></tr>
+<tr class="separator:a0599fd81c0f285544bde0fb4ef11fc1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a641c555405dafdef527dd82fc74bc1" id="r_a7a641c555405dafdef527dd82fc74bc1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a7a641c555405dafdef527dd82fc74bc1">DragEnter</a> (<a class="el" href="classsw_1_1IValueConverter.html">HWND</a> <a class="el" href="classsw_1_1IValueConverter.html">hwndLock</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> x, <a class="el" href="classsw_1_1IValueConverter.html">int</a> y) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a7a641c555405dafdef527dd82fc74bc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">锁定窗口并在指定窗口内显示拖拽图像，该函数调用ImageList_DragEnter  <br /></td></tr>
+<tr class="separator:a7a641c555405dafdef527dd82fc74bc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7150a9f6a08c6d3ea9633fc4698f23f5" id="r_a7150a9f6a08c6d3ea9633fc4698f23f5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a7150a9f6a08c6d3ea9633fc4698f23f5">DragLeave</a> (<a class="el" href="classsw_1_1IValueConverter.html">HWND</a> <a class="el" href="classsw_1_1IValueConverter.html">hwndLock</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a7150a9f6a08c6d3ea9633fc4698f23f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">解除窗口锁定并隐藏显示的拖拽图像，该函数调用ImageList_DragLeave  <br /></td></tr>
+<tr class="separator:a7150a9f6a08c6d3ea9633fc4698f23f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ac770db57d59ee7f02f55eba03421a3" id="r_a4ac770db57d59ee7f02f55eba03421a3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a4ac770db57d59ee7f02f55eba03421a3">DragMove</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> x, <a class="el" href="classsw_1_1IValueConverter.html">int</a> y) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a4ac770db57d59ee7f02f55eba03421a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">拖拽移动，一般在WM_MOUSEMOVE函数中调用，该函数调用ImageList_DragMove  <br /></td></tr>
+<tr class="separator:a4ac770db57d59ee7f02f55eba03421a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b2a0e2d7f33bf42a69b71c12a1b760a" id="r_a5b2a0e2d7f33bf42a69b71c12a1b760a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a5b2a0e2d7f33bf42a69b71c12a1b760a">DragShowNolock</a> (<a class="el" href="classsw_1_1IValueConverter.html">bool</a> <a class="el" href="classsw_1_1IValueConverter.html">fShow</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a5b2a0e2d7f33bf42a69b71c12a1b760a"><td class="mdescLeft">&#160;</td><td class="mdescRight">拖拽时显示或隐藏图像，该函数调用ImageList_DragShowNolock  <br /></td></tr>
+<tr class="separator:a5b2a0e2d7f33bf42a69b71c12a1b760a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39533bc8f72d5b0740438a95b5e27d95" id="r_a39533bc8f72d5b0740438a95b5e27d95"><td class="memItemLeft" align="right" valign="top"><a id="a39533bc8f72d5b0740438a95b5e27d95" name="a39533bc8f72d5b0740438a95b5e27d95"></a>
+<a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><b>EndDrag</b> () <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a39533bc8f72d5b0740438a95b5e27d95"><td class="mdescLeft">&#160;</td><td class="mdescRight">结束拖拽操作并销毁临时拖拽图像列表，该函数调用ImageList_EndDrag <br /></td></tr>
+<tr class="separator:a39533bc8f72d5b0740438a95b5e27d95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8e7f8423170f7e248de42ce782cbcfb" id="r_af8e7f8423170f7e248de42ce782cbcfb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#af8e7f8423170f7e248de42ce782cbcfb">GetDragImage</a> (<a class="el" href="classsw_1_1IValueConverter.html">POINT</a> *<a class="el" href="classsw_1_1IValueConverter.html">ppt</a>, <a class="el" href="classsw_1_1IValueConverter.html">POINT</a> *<a class="el" href="classsw_1_1IValueConverter.html">pptHotspot</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:af8e7f8423170f7e248de42ce782cbcfb"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取拖拽中的临时图像列表，该函数调用ImageList_GetDragImage  <br /></td></tr>
+<tr class="separator:af8e7f8423170f7e248de42ce782cbcfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3506c8ee700f14c853317c27aed076a" id="r_aa3506c8ee700f14c853317c27aed076a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#aa3506c8ee700f14c853317c27aed076a">LoadImageA</a> (<a class="el" href="classsw_1_1IValueConverter.html">HINSTANCE</a> <a class="el" href="classsw_1_1IValueConverter.html">hi</a>, <a class="el" href="classsw_1_1IValueConverter.html">LPCSTR</a> <a class="el" href="classsw_1_1IValueConverter.html">lpbmp</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cx</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cGrow</a>, <a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a> <a class="el" href="classsw_1_1IValueConverter.html">crMask</a>, <a class="el" href="classsw_1_1IValueConverter.html">UINT</a> <a class="el" href="classsw_1_1IValueConverter.html">uType</a>, <a class="el" href="classsw_1_1IValueConverter.html">UINT</a> <a class="el" href="classsw_1_1IValueConverter.html">uFlags</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:aa3506c8ee700f14c853317c27aed076a"><td class="mdescLeft">&#160;</td><td class="mdescRight">加载图像列表，该函数调用ImageList_LoadImageA  <br /></td></tr>
+<tr class="separator:aa3506c8ee700f14c853317c27aed076a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af99bb038c14059c04356d82a0e4436f2" id="r_af99bb038c14059c04356d82a0e4436f2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#af99bb038c14059c04356d82a0e4436f2">LoadImageW</a> (<a class="el" href="classsw_1_1IValueConverter.html">HINSTANCE</a> <a class="el" href="classsw_1_1IValueConverter.html">hi</a>, <a class="el" href="classsw_1_1IValueConverter.html">LPCWSTR</a> <a class="el" href="classsw_1_1IValueConverter.html">lpbmp</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cx</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">cGrow</a>, <a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a> <a class="el" href="classsw_1_1IValueConverter.html">crMask</a>, <a class="el" href="classsw_1_1IValueConverter.html">UINT</a> <a class="el" href="classsw_1_1IValueConverter.html">uType</a>, <a class="el" href="classsw_1_1IValueConverter.html">UINT</a> <a class="el" href="classsw_1_1IValueConverter.html">uFlags</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:af99bb038c14059c04356d82a0e4436f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">加载图像列表，该函数调用ImageList_LoadImageW  <br /></td></tr>
+<tr class="separator:af99bb038c14059c04356d82a0e4436f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72a564b1846bd012b53067b81616dd88" id="r_a72a564b1846bd012b53067b81616dd88"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#a72a564b1846bd012b53067b81616dd88">Merge</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">iml1</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">i1</a>, <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">iml2</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">i2</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">dx</a>, <a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">dy</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:a72a564b1846bd012b53067b81616dd88"><td class="mdescLeft">&#160;</td><td class="mdescRight">合并两个图像列表，该函数调用ImageList_Merge  <br /></td></tr>
+<tr class="separator:a72a564b1846bd012b53067b81616dd88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1f9bb98547d35d2a9a3a3aec07d83fc" id="r_af1f9bb98547d35d2a9a3a3aec07d83fc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#af1f9bb98547d35d2a9a3a3aec07d83fc">Read</a> (<a class="el" href="classsw_1_1IValueConverter.html">IStream</a> *<a class="el" href="classsw_1_1IValueConverter.html">pstm</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:af1f9bb98547d35d2a9a3a3aec07d83fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">读取图像列表，该函数调用ImageList_Read  <br /></td></tr>
+<tr class="separator:af1f9bb98547d35d2a9a3a3aec07d83fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected 成员函数</h2></td></tr>
-<tr class="memitem:aebd5f923b68aed80790b269303a621fa" id="r_aebd5f923b68aed80790b269303a621fa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#aebd5f923b68aed80790b269303a621fa">ImageList</a> (<a class="el" href="classsw_1_1IValueConverter.html">HIMAGELIST</a> <a class="el" href="classsw_1_1IValueConverter.html">hImageList</a>, <a class="el" href="classsw_1_1IValueConverter.html">bool</a> <a class="el" href="classsw_1_1IValueConverter.html">isWrap</a>)</td></tr>
-<tr class="memdesc:aebd5f923b68aed80790b269303a621fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化图像列表  <br /></td></tr>
-<tr class="separator:aebd5f923b68aed80790b269303a621fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0612947774a3f5f36cb7a2a28b9c0e3" id="r_ae0612947774a3f5f36cb7a2a28b9c0e3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1ImageList.html#ae0612947774a3f5f36cb7a2a28b9c0e3">ImageList</a> (<a class="el" href="classsw_1_1IValueConverter.html">HIMAGELIST</a> <a class="el" href="classsw_1_1IValueConverter.html">hImageList</a>, <a class="el" href="classsw_1_1IValueConverter.html">bool</a> <a class="el" href="classsw_1_1IValueConverter.html">isWrap</a>) <a class="el" href="classsw_1_1IValueConverter.html">noexcept</a></td></tr>
+<tr class="memdesc:ae0612947774a3f5f36cb7a2a28b9c0e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">使用已有句柄初始化图像列表对象  <br /></td></tr>
+<tr class="separator:ae0612947774a3f5f36cb7a2a28b9c0e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
-<div class="textblock"><p>图像列表 </p>
+<div class="textblock"><p>Win32图像列表句柄的RAII包装 </p>
+<dl class="section note"><dt>注解</dt><dd>非包装对象在析构时会调用ImageList_Destroy；通过Wrap创建的包装对象不负责销毁句柄。 </dd></dl>
 </div><h2 class="groupheader">构造及析构函数说明</h2>
-<a id="aebd5f923b68aed80790b269303a621fa" name="aebd5f923b68aed80790b269303a621fa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aebd5f923b68aed80790b269303a621fa">&#9670;&#160;</a></span>ImageList()</h2>
+<a id="ae0612947774a3f5f36cb7a2a28b9c0e3" name="ae0612947774a3f5f36cb7a2a28b9c0e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0612947774a3f5f36cb7a2a28b9c0e3">&#9670;&#160;</a></span>ImageList() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -334,25 +281,435 @@ Protected 成员函数</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>初始化图像列表 </p>
+<p>使用已有句柄初始化图像列表对象 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">hImageList</td><td>图像列表的句柄 </td></tr>
-    <tr><td class="paramname">isWrap</td><td>是否为包装对象 </td></tr>
+    <tr><td class="paramname">hImageList</td><td>图像列表句柄 </td></tr>
+    <tr><td class="paramname">isWrap</td><td>是否仅包装句柄，若为true则析构时不销毁句柄 </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
+<a id="af9cbe8ce1d545825e4203ef3e4a7745f" name="af9cbe8ce1d545825e4203ef3e4a7745f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9cbe8ce1d545825e4203ef3e4a7745f">&#9670;&#160;</a></span>ImageList() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sw::ImageList::ImageList </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>cx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>cy</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">UINT</a>&#160;</td>
+          <td class="paramname"><em>flags</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>cInitial</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>cGrow</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>创建图像列表，该函数调用ImageList_Create </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cx</td><td>每个图像的宽度，单位为像素 </td></tr>
+    <tr><td class="paramname">cy</td><td>每个图像的高度，单位为像素 </td></tr>
+    <tr><td class="paramname">flags</td><td>创建标志，与ImageList_Create的flags参数相同 </td></tr>
+    <tr><td class="paramname">cInitial</td><td>图像列表的初始容量 </td></tr>
+    <tr><td class="paramname">cGrow</td><td>容量不足时每次增长的图像数量 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a8a895ce53c5a103503feba2f28ff4dd2" name="a8a895ce53c5a103503feba2f28ff4dd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a895ce53c5a103503feba2f28ff4dd2">&#9670;&#160;</a></span>ImageList() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sw::ImageList::ImageList </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>拷贝构造图像列表对象 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>要拷贝的对象 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>包装对象会共享原句柄；非包装对象会调用ImageList_Duplicate复制句柄。 </dd></dl>
+
+</div>
+</div>
+<a id="ab041f30fc1f1ce061d3356e797318b5f" name="ab041f30fc1f1ce061d3356e797318b5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab041f30fc1f1ce061d3356e797318b5f">&#9670;&#160;</a></span>ImageList() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sw::ImageList::ImageList </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>移动构造图像列表对象 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>要移动的对象，移动后其句柄被置空 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a63a7f1d3af0b1f7f281322ae4d7276d2" name="a63a7f1d3af0b1f7f281322ae4d7276d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63a7f1d3af0b1f7f281322ae4d7276d2">&#9670;&#160;</a></span>~ImageList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sw::ImageList::~ImageList </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>析构图像列表对象 </p>
+<dl class="section note"><dt>注解</dt><dd>若当前对象不是包装对象且句柄有效，则调用ImageList_Destroy销毁句柄。 </dd></dl>
+
+</div>
+</div>
 <h2 class="groupheader">成员函数说明</h2>
-<a id="a880ac4fd98a4602480ce760fa6a9d332" name="a880ac4fd98a4602480ce760fa6a9d332"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a880ac4fd98a4602480ce760fa6a9d332">&#9670;&#160;</a></span>Create()</h2>
+<a id="aeebba92e6208813d0fcbd8caea7f8ca5" name="aeebba92e6208813d0fcbd8caea7f8ca5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeebba92e6208813d0fcbd8caea7f8ca5">&#9670;&#160;</a></span>Add()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">int</a> sw::ImageList::Add </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">HBITMAP</a>&#160;</td>
+          <td class="paramname"><em>hbmImage</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">HBITMAP</a>&#160;</td>
+          <td class="paramname"><em>hbmMask</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>添加图像，该函数调用ImageList_Add </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hbmImage</td><td>包含一个或多个图像的位图句柄 </td></tr>
+    <tr><td class="paramname">hbmMask</td><td>包含掩码的位图句柄，可为NULL </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>新增图像中第一个图像的索引，失败返回-1 </dd></dl>
+
+</div>
+</div>
+<a id="a45a730073afb844c7f40d31c138a51f6" name="a45a730073afb844c7f40d31c138a51f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45a730073afb844c7f40d31c138a51f6">&#9670;&#160;</a></span>AddIcon()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">int</a> sw::ImageList::AddIcon </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">HICON</a>&#160;</td>
+          <td class="paramname"><em>hIcon</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>添加图标，该函数调用ImageList_AddIcon </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hIcon</td><td>要添加的图标句柄 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>新增图标的索引，失败返回-1 </dd></dl>
+
+</div>
+</div>
+<a id="a9082d138eb2231783d85929f08447952" name="a9082d138eb2231783d85929f08447952"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9082d138eb2231783d85929f08447952">&#9670;&#160;</a></span>AddMasked()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">int</a> sw::ImageList::AddMasked </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">HBITMAP</a>&#160;</td>
+          <td class="paramname"><em>hbmImage</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a>&#160;</td>
+          <td class="paramname"><em>crMask</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>添加图像，指定颜色为mask，该函数调用ImageList_AddMasked </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hbmImage</td><td>包含一个或多个图像的位图句柄 </td></tr>
+    <tr><td class="paramname">crMask</td><td>用作透明掩码的颜色 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>新增图像中第一个图像的索引，失败返回-1 </dd></dl>
+
+</div>
+</div>
+<a id="a0ea14ef880e1925bddc1636581dc3075" name="a0ea14ef880e1925bddc1636581dc3075"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ea14ef880e1925bddc1636581dc3075">&#9670;&#160;</a></span>BeginDrag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::ImageList::BeginDrag </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>iTrack</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>dxHotspot</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>dyHotspot</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>开始拖拽图像，该函数调用ImageList_BeginDrag </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">iTrack</td><td>要拖拽的图像索引 </td></tr>
+    <tr><td class="paramname">dxHotspot</td><td>拖拽热点相对图像左上角的水平偏移，单位为像素 </td></tr>
+    <tr><td class="paramname">dyHotspot</td><td>拖拽热点相对图像左上角的垂直偏移，单位为像素 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>操作成功返回true，否则返回false </dd></dl>
+
+</div>
+</div>
+<a id="a0599fd81c0f285544bde0fb4ef11fc1f" name="a0599fd81c0f285544bde0fb4ef11fc1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0599fd81c0f285544bde0fb4ef11fc1f">&#9670;&#160;</a></span>Copy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::ImageList::Copy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;&#160;</td>
+          <td class="paramname"><em>dst</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>iDst</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>iSrc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">UINT</a>&#160;</td>
+          <td class="paramname"><em>uFlags</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>复制图像，该函数调用ImageList_Copy </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dst</td><td>目标图像列表 </td></tr>
+    <tr><td class="paramname">iDst</td><td>目标图像索引 </td></tr>
+    <tr><td class="paramname">src</td><td>源图像列表 </td></tr>
+    <tr><td class="paramname">iSrc</td><td>源图像索引 </td></tr>
+    <tr><td class="paramname">uFlags</td><td>复制方式标志，与ImageList_Copy的uFlags参数相同 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>操作成功返回true，否则返回false </dd></dl>
+
+</div>
+</div>
+<a id="a219f8b3955ffb9742d4c0b9fe88dcc1c" name="a219f8b3955ffb9742d4c0b9fe88dcc1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a219f8b3955ffb9742d4c0b9fe88dcc1c">&#9670;&#160;</a></span>Create()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -398,18 +755,28 @@ Protected 成员函数</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>创建一个图像列表，该函数调用ImageList_Create </p>
-<dl class="section return"><dt>返回</dt><dd>图像列表对象 </dd></dl>
+<p>创建图像列表，该函数调用ImageList_Create </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cx</td><td>每个图像的宽度，单位为像素 </td></tr>
+    <tr><td class="paramname">cy</td><td>每个图像的高度，单位为像素 </td></tr>
+    <tr><td class="paramname">flags</td><td>创建标志，与ImageList_Create的flags参数相同 </td></tr>
+    <tr><td class="paramname">cInitial</td><td>图像列表的初始容量 </td></tr>
+    <tr><td class="paramname">cGrow</td><td>容量不足时每次增长的图像数量 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>拥有新图像列表句柄的对象，创建失败时句柄为NULL </dd></dl>
 
 </div>
 </div>
-<a id="a603e959c40cbe65d0e27606911d74358" name="a603e959c40cbe65d0e27606911d74358"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a603e959c40cbe65d0e27606911d74358">&#9670;&#160;</a></span>DragEnterPx()</h2>
+<a id="a7a641c555405dafdef527dd82fc74bc1" name="a7a641c555405dafdef527dd82fc74bc1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a641c555405dafdef527dd82fc74bc1">&#9670;&#160;</a></span>DragEnter()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -418,7 +785,7 @@ Protected 成员函数</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::ImageList::DragEnterPx </td>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::ImageList::DragEnter </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">HWND</a>&#160;</td>
           <td class="paramname"><em>hwndLock</em>, </td>
@@ -443,18 +810,27 @@ Protected 成员函数</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 <p>锁定窗口并在指定窗口内显示拖拽图像，该函数调用ImageList_DragEnter </p>
-<dl class="section note"><dt>注解</dt><dd>该函数参数以像素为单位 </dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hwndLock</td><td>要锁定更新的窗口句柄 </td></tr>
+    <tr><td class="paramname">x</td><td>拖拽图像相对锁定窗口左上角的水平位置，单位为像素 </td></tr>
+    <tr><td class="paramname">y</td><td>拖拽图像相对锁定窗口左上角的垂直位置，单位为像素 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>操作成功返回true，否则返回false </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>hwndLock为NULL时，坐标相对屏幕左上角。 </dd></dl>
 
 </div>
 </div>
-<a id="ac722e503dd8ac7110bb565ba57174a01" name="ac722e503dd8ac7110bb565ba57174a01"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac722e503dd8ac7110bb565ba57174a01">&#9670;&#160;</a></span>DragMovePx()</h2>
+<a id="a7150a9f6a08c6d3ea9633fc4698f23f5" name="a7150a9f6a08c6d3ea9633fc4698f23f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7150a9f6a08c6d3ea9633fc4698f23f5">&#9670;&#160;</a></span>DragLeave()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -463,7 +839,42 @@ Protected 成员函数</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::ImageList::DragMovePx </td>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::ImageList::DragLeave </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">HWND</a>&#160;</td>
+          <td class="paramname"><em>hwndLock</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>解除窗口锁定并隐藏显示的拖拽图像，该函数调用ImageList_DragLeave </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hwndLock</td><td>先前传给DragEnter的窗口句柄 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>操作成功返回true，否则返回false </dd></dl>
+
+</div>
+</div>
+<a id="a4ac770db57d59ee7f02f55eba03421a3" name="a4ac770db57d59ee7f02f55eba03421a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ac770db57d59ee7f02f55eba03421a3">&#9670;&#160;</a></span>DragMove()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::ImageList::DragMove </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
           <td class="paramname"><em>x</em>, </td>
@@ -482,21 +893,895 @@ Protected 成员函数</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 <p>拖拽移动，一般在WM_MOUSEMOVE函数中调用，该函数调用ImageList_DragMove </p>
-<dl class="section note"><dt>注解</dt><dd>该函数参数以像素为单位 </dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>拖拽图像相对锁定窗口左上角的新水平位置，单位为像素 </td></tr>
+    <tr><td class="paramname">y</td><td>拖拽图像相对锁定窗口左上角的新垂直位置，单位为像素 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>操作成功返回true，否则返回false </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>拖拽锁定窗口为NULL时，坐标相对屏幕左上角。 </dd></dl>
 
 </div>
 </div>
-<a id="a4485f73aac2fd3df79aa5f8c322fe388" name="a4485f73aac2fd3df79aa5f8c322fe388"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4485f73aac2fd3df79aa5f8c322fe388">&#9670;&#160;</a></span>ReleaseHandle()</h2>
+<a id="a5b2a0e2d7f33bf42a69b71c12a1b760a" name="a5b2a0e2d7f33bf42a69b71c12a1b760a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b2a0e2d7f33bf42a69b71c12a1b760a">&#9670;&#160;</a></span>DragShowNolock()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::ImageList::DragShowNolock </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td>
+          <td class="paramname"><em>fShow</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>拖拽时显示或隐藏图像，该函数调用ImageList_DragShowNolock </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fShow</td><td>为true时显示拖拽图像，为false时隐藏拖拽图像 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>操作成功返回true，否则返回false </dd></dl>
+
+</div>
+</div>
+<a id="afb6beba9d36119a43e17ef8ceb43c6b4" name="afb6beba9d36119a43e17ef8ceb43c6b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb6beba9d36119a43e17ef8ceb43c6b4">&#9670;&#160;</a></span>Draw() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::ImageList::Draw </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">HDC</a>&#160;</td>
+          <td class="paramname"><em>hdcDst</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>dx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>dy</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a>&#160;</td>
+          <td class="paramname"><em>rgbBk</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a>&#160;</td>
+          <td class="paramname"><em>rgbFg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">UINT</a>&#160;</td>
+          <td class="paramname"><em>fStyle</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在指定上下文DC下绘制图像，该函数调用ImageList_DrawEx </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>要绘制的图像索引 </td></tr>
+    <tr><td class="paramname">hdcDst</td><td>目标设备上下文句柄 </td></tr>
+    <tr><td class="paramname">x</td><td>绘制位置的水平坐标，单位为像素 </td></tr>
+    <tr><td class="paramname">y</td><td>绘制位置的垂直坐标，单位为像素 </td></tr>
+    <tr><td class="paramname">dx</td><td>绘制宽度，单位为像素 </td></tr>
+    <tr><td class="paramname">dy</td><td>绘制高度，单位为像素 </td></tr>
+    <tr><td class="paramname">rgbBk</td><td>背景颜色，与ImageList_DrawEx的rgbBk参数相同 </td></tr>
+    <tr><td class="paramname">rgbFg</td><td>前景颜色，与ImageList_DrawEx的rgbFg参数相同 </td></tr>
+    <tr><td class="paramname">fStyle</td><td>绘制样式标志，与ImageList_DrawEx的fStyle参数相同 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>操作成功返回true，否则返回false </dd></dl>
+
+</div>
+</div>
+<a id="a5b866ed66f37760b3408b9104de86a7e" name="a5b866ed66f37760b3408b9104de86a7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b866ed66f37760b3408b9104de86a7e">&#9670;&#160;</a></span>Draw() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::ImageList::Draw </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">HDC</a>&#160;</td>
+          <td class="paramname"><em>hdcDst</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">UINT</a>&#160;</td>
+          <td class="paramname"><em>fStyle</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在指定上下文DC下绘制图像，该函数调用ImageList_Draw </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>要绘制的图像索引 </td></tr>
+    <tr><td class="paramname">hdcDst</td><td>目标设备上下文句柄 </td></tr>
+    <tr><td class="paramname">x</td><td>绘制位置的水平坐标，单位为像素 </td></tr>
+    <tr><td class="paramname">y</td><td>绘制位置的垂直坐标，单位为像素 </td></tr>
+    <tr><td class="paramname">fStyle</td><td>绘制样式标志，与ImageList_Draw的fStyle参数相同 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>操作成功返回true，否则返回false </dd></dl>
+
+</div>
+</div>
+<a id="abda9900cb8d72b1212300943b0c8b137" name="abda9900cb8d72b1212300943b0c8b137"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abda9900cb8d72b1212300943b0c8b137">&#9670;&#160;</a></span>Duplicate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1ImageList.html">ImageList</a> sw::ImageList::Duplicate </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>复制当前图像列表，该函数调用ImageList_Duplicate </p>
+<dl class="section return"><dt>返回</dt><dd>拥有复制结果句柄的对象，复制失败时句柄为NULL </dd></dl>
+
+</div>
+</div>
+<a id="a9c5f80ff77ec2342a27d817a7d4dda12" name="a9c5f80ff77ec2342a27d817a7d4dda12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c5f80ff77ec2342a27d817a7d4dda12">&#9670;&#160;</a></span>GetBkColor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a> sw::ImageList::GetBkColor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取背景颜色，该函数调用ImageList_GetBkColor </p>
+<dl class="section return"><dt>返回</dt><dd>当前背景颜色，返回值语义与ImageList_GetBkColor相同 </dd></dl>
+
+</div>
+</div>
+<a id="af8e7f8423170f7e248de42ce782cbcfb" name="af8e7f8423170f7e248de42ce782cbcfb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8e7f8423170f7e248de42ce782cbcfb">&#9670;&#160;</a></span>GetDragImage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a> sw::ImageList::GetDragImage </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">POINT</a> *&#160;</td>
+          <td class="paramname"><em>ppt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">POINT</a> *&#160;</td>
+          <td class="paramname"><em>pptHotspot</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取拖拽中的临时图像列表，该函数调用ImageList_GetDragImage </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ppt</td><td>接收当前拖拽位置，可为NULL </td></tr>
+    <tr><td class="paramname">pptHotspot</td><td>接收拖拽图像热点相对拖拽位置的偏移，可为NULL </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>包装临时图像列表句柄的对象；该句柄由拖拽过程管理，EndDrag后失效 </dd></dl>
+
+</div>
+</div>
+<a id="acf6674a7c74b460e4df116b05606068a" name="acf6674a7c74b460e4df116b05606068a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf6674a7c74b460e4df116b05606068a">&#9670;&#160;</a></span>GetHandle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">HIMAGELIST</a> sw::ImageList::GetHandle </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取图像列表句柄 </p>
+<dl class="section return"><dt>返回</dt><dd>当前对象持有的HIMAGELIST句柄，所有权不转移 </dd></dl>
+
+</div>
+</div>
+<a id="a76eef627859c6cbc4ef2e3385bc198c0" name="a76eef627859c6cbc4ef2e3385bc198c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76eef627859c6cbc4ef2e3385bc198c0">&#9670;&#160;</a></span>GetIcon()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">HICON</a> sw::ImageList::GetIcon </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">UINT</a>&#160;</td>
+          <td class="paramname"><em>flags</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>通过指定位置的图像创建图标句柄，该函数调用ImageList_GetIcon </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>图像索引 </td></tr>
+    <tr><td class="paramname">flags</td><td>绘制样式标志，与ImageList_GetIcon的flags参数相同 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>新创建的图标句柄，失败返回NULL；调用方负责在不再使用时销毁该图标 </dd></dl>
+
+</div>
+</div>
+<a id="a580ad20a16bdca71f942861f577d3c12" name="a580ad20a16bdca71f942861f577d3c12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a580ad20a16bdca71f942861f577d3c12">&#9670;&#160;</a></span>GetIconSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::ImageList::GetIconSize </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a> &amp;&#160;</td>
+          <td class="paramname"><em>cx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a> &amp;&#160;</td>
+          <td class="paramname"><em>cy</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取图标大小，该函数调用ImageList_GetIconSize </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cx</td><td>接收图像宽度，单位为像素 </td></tr>
+    <tr><td class="paramname">cy</td><td>接收图像高度，单位为像素 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>操作成功返回true，否则返回false </dd></dl>
+
+</div>
+</div>
+<a id="a1e866fde614eed279e49aabeb32572ed" name="a1e866fde614eed279e49aabeb32572ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e866fde614eed279e49aabeb32572ed">&#9670;&#160;</a></span>GetImageCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">int</a> sw::ImageList::GetImageCount </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取图像个数，该函数调用ImageList_GetImageCount </p>
+<dl class="section return"><dt>返回</dt><dd>图像列表中的图像数量 </dd></dl>
+
+</div>
+</div>
+<a id="a1668eb4960cbb9f9a20bc33644572532" name="a1668eb4960cbb9f9a20bc33644572532"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1668eb4960cbb9f9a20bc33644572532">&#9670;&#160;</a></span>GetImageInfo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::ImageList::GetImageInfo </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">IMAGEINFO</a> *&#160;</td>
+          <td class="paramname"><em>pImageInfo</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取图像信息，该函数调用ImageList_GetImageInfo </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>图像索引 </td></tr>
+    <tr><td class="paramname">pImageInfo</td><td>接收图像信息的IMAGEINFO结构指针 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>操作成功返回true，否则返回false </dd></dl>
+
+</div>
+</div>
+<a id="a34736ef48a58060efe5a39209234af96" name="a34736ef48a58060efe5a39209234af96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34736ef48a58060efe5a39209234af96">&#9670;&#160;</a></span>IsWrap()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::ImageList::IsWrap </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断当前对象是否为包装对象 </p>
+<dl class="section return"><dt>返回</dt><dd>当前对象仅包装句柄且析构时不销毁句柄则返回true，否则返回false </dd></dl>
+
+</div>
+</div>
+<a id="aa3506c8ee700f14c853317c27aed076a" name="aa3506c8ee700f14c853317c27aed076a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3506c8ee700f14c853317c27aed076a">&#9670;&#160;</a></span>LoadImageA()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a> sw::ImageList::LoadImageA </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">HINSTANCE</a>&#160;</td>
+          <td class="paramname"><em>hi</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">LPCSTR</a>&#160;</td>
+          <td class="paramname"><em>lpbmp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>cx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>cGrow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a>&#160;</td>
+          <td class="paramname"><em>crMask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">UINT</a>&#160;</td>
+          <td class="paramname"><em>uType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">UINT</a>&#160;</td>
+          <td class="paramname"><em>uFlags</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>加载图像列表，该函数调用ImageList_LoadImageA </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hi</td><td>包含资源的模块实例句柄 </td></tr>
+    <tr><td class="paramname">lpbmp</td><td>位图资源名、资源ID或文件路径 </td></tr>
+    <tr><td class="paramname">cx</td><td>每个图像的宽度，单位为像素 </td></tr>
+    <tr><td class="paramname">cGrow</td><td>容量不足时每次增长的图像数量 </td></tr>
+    <tr><td class="paramname">crMask</td><td>用作透明掩码的颜色 </td></tr>
+    <tr><td class="paramname">uType</td><td>图像类型，与LoadImage的uType参数相同 </td></tr>
+    <tr><td class="paramname">uFlags</td><td>加载标志，与LoadImage的fuLoad参数相同 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>拥有新图像列表句柄的对象，加载失败时句柄为NULL </dd></dl>
+
+</div>
+</div>
+<a id="af99bb038c14059c04356d82a0e4436f2" name="af99bb038c14059c04356d82a0e4436f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af99bb038c14059c04356d82a0e4436f2">&#9670;&#160;</a></span>LoadImageW()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a> sw::ImageList::LoadImageW </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">HINSTANCE</a>&#160;</td>
+          <td class="paramname"><em>hi</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">LPCWSTR</a>&#160;</td>
+          <td class="paramname"><em>lpbmp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>cx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>cGrow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a>&#160;</td>
+          <td class="paramname"><em>crMask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">UINT</a>&#160;</td>
+          <td class="paramname"><em>uType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">UINT</a>&#160;</td>
+          <td class="paramname"><em>uFlags</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>加载图像列表，该函数调用ImageList_LoadImageW </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hi</td><td>包含资源的模块实例句柄 </td></tr>
+    <tr><td class="paramname">lpbmp</td><td>位图资源名、资源ID或文件路径 </td></tr>
+    <tr><td class="paramname">cx</td><td>每个图像的宽度，单位为像素 </td></tr>
+    <tr><td class="paramname">cGrow</td><td>容量不足时每次增长的图像数量 </td></tr>
+    <tr><td class="paramname">crMask</td><td>用作透明掩码的颜色 </td></tr>
+    <tr><td class="paramname">uType</td><td>图像类型，与LoadImage的uType参数相同 </td></tr>
+    <tr><td class="paramname">uFlags</td><td>加载标志，与LoadImage的fuLoad参数相同 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>拥有新图像列表句柄的对象，加载失败时句柄为NULL </dd></dl>
+
+</div>
+</div>
+<a id="a72a564b1846bd012b53067b81616dd88" name="a72a564b1846bd012b53067b81616dd88"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72a564b1846bd012b53067b81616dd88">&#9670;&#160;</a></span>Merge()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a> sw::ImageList::Merge </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;&#160;</td>
+          <td class="paramname"><em>iml1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>i1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;&#160;</td>
+          <td class="paramname"><em>iml2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>i2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>dx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>dy</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>合并两个图像列表，该函数调用ImageList_Merge </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">iml1</td><td>第一个图像列表 </td></tr>
+    <tr><td class="paramname">i1</td><td>第一个图像列表中的图像索引 </td></tr>
+    <tr><td class="paramname">iml2</td><td>第二个图像列表 </td></tr>
+    <tr><td class="paramname">i2</td><td>第二个图像列表中的图像索引 </td></tr>
+    <tr><td class="paramname">dx</td><td>第二个图像相对第一个图像的水平偏移，单位为像素 </td></tr>
+    <tr><td class="paramname">dy</td><td>第二个图像相对第一个图像的垂直偏移，单位为像素 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>拥有合并结果句柄的对象，合并失败时句柄为NULL </dd></dl>
+
+</div>
+</div>
+<a id="a658a41bc168a5dbcae6bc4683ebcc5a2" name="a658a41bc168a5dbcae6bc4683ebcc5a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a658a41bc168a5dbcae6bc4683ebcc5a2">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp; sw::ImageList::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>拷贝赋值图像列表对象 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>要拷贝的对象 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>当前对象 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>原有非包装句柄会先被销毁；包装对象会共享原句柄，非包装对象会复制句柄。 </dd></dl>
+
+</div>
+</div>
+<a id="ad307bc21b93d86e6356226cc7fdde36b" name="ad307bc21b93d86e6356226cc7fdde36b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad307bc21b93d86e6356226cc7fdde36b">&#9670;&#160;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp; sw::ImageList::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1ImageList.html">ImageList</a> &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>移动赋值图像列表对象 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>要移动的对象，移动后其句柄被置空 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>当前对象 </dd></dl>
+
+</div>
+</div>
+<a id="af1f9bb98547d35d2a9a3a3aec07d83fc" name="af1f9bb98547d35d2a9a3a3aec07d83fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1f9bb98547d35d2a9a3a3aec07d83fc">&#9670;&#160;</a></span>Read()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">static</a> <a class="el" href="classsw_1_1ImageList.html">ImageList</a> sw::ImageList::Read </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">IStream</a> *&#160;</td>
+          <td class="paramname"><em>pstm</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>读取图像列表，该函数调用ImageList_Read </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pstm</td><td>要读取的流对象 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>拥有读取结果句柄的对象，读取失败时句柄为NULL </dd></dl>
+
+</div>
+</div>
+<a id="a9aaa493d993dd3923cba4c8e08cf6d8a" name="a9aaa493d993dd3923cba4c8e08cf6d8a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9aaa493d993dd3923cba4c8e08cf6d8a">&#9670;&#160;</a></span>ReleaseHandle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">HIMAGELIST</a> sw::ImageList::ReleaseHandle </td>
@@ -505,15 +1790,398 @@ Protected 成员函数</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>获取图像列表句柄并取消对句柄的托管，调用该函数后当前对象将不可用，析构时也不会销毁句柄 </p>
-<dl class="section return"><dt>返回</dt><dd>当前对象的图像列表句柄 </dd></dl>
+<p>获取图像列表句柄并取消对句柄的托管 </p>
+<dl class="section return"><dt>返回</dt><dd>原图像列表句柄，调用方负责在需要时销毁该句柄 </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>调用后当前对象的句柄被置空，析构时不会销毁原句柄。 </dd></dl>
 
 </div>
 </div>
-<a id="a05c15ad4b9d0dff17f2513d8fe40260a" name="a05c15ad4b9d0dff17f2513d8fe40260a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a05c15ad4b9d0dff17f2513d8fe40260a">&#9670;&#160;</a></span>Wrap()</h2>
+<a id="a6186c6ff2ce808f80dd3d4bfae8dd77d" name="a6186c6ff2ce808f80dd3d4bfae8dd77d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6186c6ff2ce808f80dd3d4bfae8dd77d">&#9670;&#160;</a></span>Remove()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::ImageList::Remove </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>移除指定图像，该函数调用ImageList_Remove </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>要移除的图像索引，传入-1时移除所有图像 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>操作成功返回true，否则返回false </dd></dl>
+
+</div>
+</div>
+<a id="a9c8f141ad89dbdd3b733e127657060a9" name="a9c8f141ad89dbdd3b733e127657060a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c8f141ad89dbdd3b733e127657060a9">&#9670;&#160;</a></span>RemoveAll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::ImageList::RemoveAll </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>移除所有图像，该函数调用ImageList_Remove </p>
+<dl class="section return"><dt>返回</dt><dd>操作成功返回true，否则返回false </dd></dl>
+
+</div>
+</div>
+<a id="a66c525b2464c658d3639c65f0b440e8e" name="a66c525b2464c658d3639c65f0b440e8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66c525b2464c658d3639c65f0b440e8e">&#9670;&#160;</a></span>Replace()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::ImageList::Replace </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">HBITMAP</a>&#160;</td>
+          <td class="paramname"><em>hbmImage</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">HBITMAP</a>&#160;</td>
+          <td class="paramname"><em>hbmMask</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>更换指定位置的图像，该函数调用ImageList_Replace </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>要更换的图像索引 </td></tr>
+    <tr><td class="paramname">hbmImage</td><td>新图像位图句柄 </td></tr>
+    <tr><td class="paramname">hbmMask</td><td>新掩码位图句柄，可为NULL </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>操作成功返回true，否则返回false </dd></dl>
+
+</div>
+</div>
+<a id="a052b71e78061ed4c0273c4a697a825f5" name="a052b71e78061ed4c0273c4a697a825f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a052b71e78061ed4c0273c4a697a825f5">&#9670;&#160;</a></span>ReplaceIcon()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">int</a> sw::ImageList::ReplaceIcon </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">HICON</a>&#160;</td>
+          <td class="paramname"><em>hicon</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>更换图标，该函数调用ImageList_ReplaceIcon </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>要更换的图像索引，传入-1时追加图标 </td></tr>
+    <tr><td class="paramname">hicon</td><td>新图标句柄 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>被更换或追加图标的索引，失败返回-1 </dd></dl>
+
+</div>
+</div>
+<a id="a8d1aaa2aa83bfd690ca2b61d1121100c" name="a8d1aaa2aa83bfd690ca2b61d1121100c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d1aaa2aa83bfd690ca2b61d1121100c">&#9670;&#160;</a></span>SetBkColor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a> sw::ImageList::SetBkColor </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">COLORREF</a>&#160;</td>
+          <td class="paramname"><em>clrBk</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>设置背景颜色，该函数调用ImageList_SetBkColor </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">clrBk</td><td>新背景颜色 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>先前的背景颜色，返回值语义与ImageList_SetBkColor相同 </dd></dl>
+
+</div>
+</div>
+<a id="a8c2e30e8dfb3b5b30b692dd7d90cc6e9" name="a8c2e30e8dfb3b5b30b692dd7d90cc6e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c2e30e8dfb3b5b30b692dd7d90cc6e9">&#9670;&#160;</a></span>SetDragCursorImage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::ImageList::SetDragCursorImage </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>iDrag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>dxHotspot</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>dyHotspot</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>设置拖拽图标为指定图标与当前拖拽图标的结合，该函数调用ImageList_SetDragCursorImage </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">iDrag</td><td>当前图像列表中要组合到拖拽图像上的图像索引 </td></tr>
+    <tr><td class="paramname">dxHotspot</td><td>新图像相对拖拽热点的水平偏移，单位为像素 </td></tr>
+    <tr><td class="paramname">dyHotspot</td><td>新图像相对拖拽热点的垂直偏移，单位为像素 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>操作成功返回true，否则返回false </dd></dl>
+
+</div>
+</div>
+<a id="a8193402a5874ed639c1608b01a3dd41f" name="a8193402a5874ed639c1608b01a3dd41f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8193402a5874ed639c1608b01a3dd41f">&#9670;&#160;</a></span>SetIconSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::ImageList::SetIconSize </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>cx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>cy</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>设置图像大小并移除所有图像，该函数调用ImageList_SetIconSize </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cx</td><td>新图像宽度，单位为像素 </td></tr>
+    <tr><td class="paramname">cy</td><td>新图像高度，单位为像素 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>操作成功返回true，否则返回false </dd></dl>
+
+</div>
+</div>
+<a id="a6c5145f72d33f69d3f7ad85e36692f71" name="a6c5145f72d33f69d3f7ad85e36692f71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c5145f72d33f69d3f7ad85e36692f71">&#9670;&#160;</a></span>SetImageCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::ImageList::SetImageCount </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">UINT</a>&#160;</td>
+          <td class="paramname"><em>uNewCount</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>设置图像个数，该函数调用ImageList_SetImageCount </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">uNewCount</td><td>新图像数量 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>操作成功返回true，否则返回false </dd></dl>
+
+</div>
+</div>
+<a id="a1337b1edfac3827843e973a93fc00182" name="a1337b1edfac3827843e973a93fc00182"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1337b1edfac3827843e973a93fc00182">&#9670;&#160;</a></span>SetOverlayImage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::ImageList::SetOverlayImage </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>iImage</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>iOverlay</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>将指定的图像添加到要用作覆盖遮罩的图像列表中，该函数调用ImageList_SetOverlayImage </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">iImage</td><td>要用作覆盖图像的图像索引 </td></tr>
+    <tr><td class="paramname">iOverlay</td><td>覆盖图像编号，用于INDEXTOOVERLAYMASK </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>操作成功返回true，否则返回false </dd></dl>
+
+</div>
+</div>
+<a id="a9b7e4a117987946cc5371017f5ba5bb6" name="a9b7e4a117987946cc5371017f5ba5bb6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b7e4a117987946cc5371017f5ba5bb6">&#9670;&#160;</a></span>Wrap()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -531,19 +2199,54 @@ Protected 成员函数</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>包装一个图像列表句柄为ImageList对象，通过该函数创建的对象析构时不会销毁句柄 </p>
+<p>将已有图像列表句柄包装为ImageList对象 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">hImageList</td><td>要包装的句柄 </td></tr>
+    <tr><td class="paramname">hImageList</td><td>要包装的图像列表句柄 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>包装原有句柄的对象 </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>包装原有句柄的对象，该对象析构时不会销毁句柄 </dd></dl>
+
+</div>
+</div>
+<a id="acddbe0bfb32d8ff0516dd4f463a3b82b" name="acddbe0bfb32d8ff0516dd4f463a3b82b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acddbe0bfb32d8ff0516dd4f463a3b82b">&#9670;&#160;</a></span>Write()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::ImageList::Write </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">IStream</a> *&#160;</td>
+          <td class="paramname"><em>pstm</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>写图像列表，该函数调用ImageList_Write </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pstm</td><td>要写入的流对象 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>操作成功返回true，否则返回false </dd></dl>
 
 </div>
 </div>

@@ -1,9 +1,19 @@
 var searchData=
 [
-  ['name_0',['name',['../structsw_1_1FileFilterItem.html#a351e74be2d3ecfd2f6bbff15f71d59e5',1,'sw::FileFilterItem::name'],['../classsw_1_1Font.html#a169e7893a4b799bcb3424c5df0d5f54d',1,'sw::Font::name']]],
-  ['newfolderbutton_1',['NewFolderButton',['../classsw_1_1FolderBrowserDialog.html#a1146b36190727f370f2071b7cd7c25a7',1,'sw::FolderBrowserDialog']]],
-  ['notetext_2',['NoteText',['../classsw_1_1CommandLink.html#a87b5542fa235d2cd3fb9873d23492082',1,'sw::CommandLink']]],
-  ['notify_3',['Notify',['../classsw_1_1StaticControl.html#a1aa16699f8b60dd9fb6cd3c6b6c129e4',1,'sw::StaticControl']]],
-  ['notifycollectionchanged_4',['notifyCollectionChanged',['../classsw_1_1ItemsControl.html#acdbf6a5ac183782c7f37355a7be85e05',1,'sw::ItemsControl']]],
-  ['nullhwndmsghandler_5',['NullHwndMsgHandler',['../classsw_1_1App.html#ad0c804dc798cbbd24b4521264a67611e',1,'sw::App']]]
+  ['margin_0',['Margin',['../classsw_1_1UIElement.html#a8fe2c0aebc77409d3fbdefbd79d45a1e',1,'sw::UIElement']]],
+  ['maxheight_1',['MaxHeight',['../classsw_1_1UIElement.html#aa97ce0e4104f8c0d9445bc1b8b556b15',1,'sw::UIElement']]],
+  ['maximizebox_2',['MaximizeBox',['../classsw_1_1Window.html#a6852326120a03242ffef09aa3bae9e09',1,'sw::Window']]],
+  ['maximum_3',['maximum',['../classsw_1_1ProgressBar.html#a23e176b3cc807b9e0e403e214421179c',1,'sw::ProgressBar::Maximum'],['../classsw_1_1Slider.html#ab44222d9c4bacb9294a6578778b56256',1,'sw::Slider::Maximum'],['../classsw_1_1SpinBox.html#a5f528d62bb54c9ee9fa7ab5bf18fc19d',1,'sw::SpinBox::Maximum']]],
+  ['maxtipwidth_4',['MaxTipWidth',['../classsw_1_1ToolTip.html#ad88b0e4d9cb3858196a5ead05ecb342a',1,'sw::ToolTip']]],
+  ['maxwidth_5',['MaxWidth',['../classsw_1_1UIElement.html#ad63be2acaa88ddc21df18ad9f3e08b31',1,'sw::UIElement']]],
+  ['menu_6',['Menu',['../classsw_1_1Window.html#a27de84e46eda2bccca6f5b2f30fb3117',1,'sw::Window']]],
+  ['minheight_7',['MinHeight',['../classsw_1_1UIElement.html#a360ea4cc7f6cf85fef3533f425af97d3',1,'sw::UIElement']]],
+  ['minimizebox_8',['MinimizeBox',['../classsw_1_1Window.html#aa9476a0b4bff312e523bba76aa82b96b',1,'sw::Window']]],
+  ['minimum_9',['minimum',['../classsw_1_1Slider.html#ae3a7b7c831318c34341bfdf363daf4c2',1,'sw::Slider::Minimum'],['../classsw_1_1SpinBox.html#a5395c352984620cac53a33b3bf76e9cb',1,'sw::SpinBox::Minimum'],['../classsw_1_1ProgressBar.html#ad6ae6e88db8560fb7574e22c87a72ce5',1,'sw::ProgressBar::Minimum']]],
+  ['minwidth_10',['MinWidth',['../classsw_1_1UIElement.html#a99fb629a6497ed371a43572388d0207b',1,'sw::UIElement']]],
+  ['modifier_11',['modifier',['../classsw_1_1HotKeyValueChangedEventArgs.html#a3c9f15489432dda2fd3bfacc119dde67',1,'sw::HotKeyValueChangedEventArgs']]],
+  ['mouseposition_12',['mouseposition',['../structsw_1_1NotifyIconMouseEventArgs.html#a6d99a7b4bb7669ace0b4596864319f59',1,'sw::NotifyIconMouseEventArgs::mousePosition'],['../classsw_1_1MouseEventArgs.html#ac47e6af0cf13a9f5563fbcf4752eafae',1,'sw::MouseEventArgs::mousePosition'],['../classsw_1_1ShowContextMenuEventArgs.html#af7f165108f720344d6c8f29df4ec464d',1,'sw::ShowContextMenuEventArgs::mousePosition']]],
+  ['mousewheelscrollenabled_13',['MouseWheelScrollEnabled',['../classsw_1_1Layer_3_01TBase_00_01typename_01std_1_1enable__if_3_01std_1_1is__base__of_3_01UIEleme3065110893a87018299608df09ffdf44.html#a97ac92fcc231df4a89b108fdeb43f9d8',1,'sw::Layer&lt; TBase, typename std::enable_if&lt; std::is_base_of&lt; UIElement, TBase &gt;::value &gt;::type &gt;']]],
+  ['multiline_14',['multiline',['../classsw_1_1ButtonBase.html#aeb03e538225ccc9791324b868ca02693',1,'sw::ButtonBase::MultiLine'],['../classsw_1_1TabControl.html#ae0fc4dead5149c903eb429d0927ec182',1,'sw::TabControl::MultiLine'],['../classsw_1_1TextBox.html#a74bf917de24ebc4ce676306922a080ec',1,'sw::TextBox::MultiLine']]],
+  ['multiselect_15',['multiselect',['../classsw_1_1FileDialog.html#a14842fca73b74ef747363fcc662b644f',1,'sw::FileDialog::MultiSelect'],['../classsw_1_1ListView.html#a07b5ecb6c37936ae7b6cef9d68d7a541',1,'sw::ListView::MultiSelect']]]
 ];

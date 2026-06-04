@@ -2,7 +2,7 @@ var searchData=
 [
   ['callablelist_0',['CallableList',['../classsw_1_1CallableList.html',1,'sw']]],
   ['callablelist_3c_20tret_28args_2e_2e_2e_29_3e_1',['CallableList&lt; TRet(Args...)&gt;',['../classsw_1_1CallableList.html',1,'sw']]],
-  ['cancelableeventargs_2',['CancelableEventArgs',['../structsw_1_1CancelableEventArgs.html',1,'sw']]],
+  ['cancelableeventargs_2',['CancelableEventArgs',['../classsw_1_1CancelableEventArgs.html',1,'sw']]],
   ['canvas_3',['Canvas',['../classsw_1_1Canvas.html',1,'sw']]],
   ['canvaslayout_4',['CanvasLayout',['../classsw_1_1CanvasLayout.html',1,'sw']]],
   ['canvaslayouttag_5',['CanvasLayoutTag',['../structsw_1_1CanvasLayoutTag.html',1,'sw']]],

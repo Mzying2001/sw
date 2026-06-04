@@ -63,25 +63,25 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "Alignment_8h_source.html",
-"classsw_1_1BoxedObject.html",
+"classsw_1_1BoxedObject_3_01T_00_01typename_01std_1_1enable__if_3_9std_1_1is__base__of_3_01Dynami0b7f9f3c76f32dfd4a67d3da638a9e5e.html#a072f73f8546eb3efb3d7c3240fabf7fd",
 "classsw_1_1DataBinding.html#a7dd867f8625669f0353bbd3d79bf77dc",
-"classsw_1_1FileDialog.html#a5cc79643efa4ddff5a2f45008608fc00",
-"classsw_1_1HwndHost.html#a86f6a07189a60e99f6fc451570300710",
-"classsw_1_1ImageList.html#a90faf8d6d490055ae723dd7735221ea0",
-"classsw_1_1ListBox.html#a3fa1be9a1a9752e54d61cb6cadd1bc4a",
-"classsw_1_1MenuItem.html#ac8e01802bb6cc6f1336025819050f3c4",
-"classsw_1_1ProgressBar.html",
-"classsw_1_1ReverseConverter.html",
-"classsw_1_1TabControl.html#afe3911adf115bf45e1ef7156f56a6b9b",
-"classsw_1_1UIElement.html#a55968daf78ca80665ef03f284c72b7ac",
-"classsw_1_1Variant.html#a3b960644638d9485d4d6c718dfd76246",
-"classsw_1_1WndBase.html#a6c99714fa3f313e7535936585f63b9cb",
-"hierarchy.html",
-"namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0a2e6361ee3b8e634cb3b172838a86a351",
-"namespacesw.html#aa971d1c6faca9536f660056782c49f19a61db47dac8aefe03fc67ee1b65ecd8f6",
-"namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210ac1081e9843c17be68ab2db4fc2a16f13",
-"structsw_1_1GridRow.html#a33599a7582800e97299f2ea8314ed4aa",
-"structsw_1_1Thickness.html#aeab2d678b9bba2d1944e01e515438aad"
+"classsw_1_1FileDialog.html#a14842fca73b74ef747363fcc662b644f",
+"classsw_1_1HotKeyControl.html",
+"classsw_1_1ImageList.html#a580ad20a16bdca71f942861f577d3c12",
+"classsw_1_1List.html#a90312cc68b94ae231cde185708d5f849",
+"classsw_1_1MenuBase.html#a2f4d2832b6bcc759e291a99278b3eb12",
+"classsw_1_1ObservableCollection.html#a6b4293b4bb5cc2ad2408e305fc45418e",
+"classsw_1_1PropertyBase.html#aa2fdf9388f4ba565ed12fe82dd7ee330",
+"classsw_1_1StackLayout.html#aa9848e505c027c4ebde40c98d37e2300",
+"classsw_1_1TreeView.html#acafe4209c828972b92bd3700bc95b815",
+"classsw_1_1UIElement.html#a8fe2c0aebc77409d3fbdefbd79d45a1e",
+"classsw_1_1Window.html#a6852326120a03242ffef09aa3bae9e09",
+"classsw_1_1WndBase.html#ad5e7d8d1a548315b3e709151f71766b3",
+"namespacesw.html#a388b6854a3e8dbe58a2fc7f94b56ed21abafd7322c6e97d25b6299b5d6fe8920b",
+"namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab5fb5a50989498163b49c9bf1aaec11e",
+"namespacesw.html#aa971d1c6faca9536f660056782c49f19ae346c232ce72c429ea0995de9f63f551",
+"namespacesw.html#af46d3f9374c13150a788ff0bd0463953addb2563b5ef447bf0a72993141fe0029",
+"structsw_1_1Point.html"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';
