@@ -42,17 +42,11 @@ namespace sw
 
         /// @brief 构造函数，默认宽度100，左对齐
         ListViewColumn(const wchar_t *header, double width = 100,
-                       ListViewColumnAlignment alignment = ListViewColumnAlignment::Left)
-            : header(header), width(width), alignment(alignment)
-        {
-        }
+                       ListViewColumnAlignment alignment = ListViewColumnAlignment::Left);
 
         /// @brief 构造函数，默认宽度100，左对齐
         ListViewColumn(const std::wstring &header, double width = 100,
-                       ListViewColumnAlignment alignment = ListViewColumnAlignment::Left)
-            : header(header), width(width), alignment(alignment)
-        {
-        }
+                       ListViewColumnAlignment alignment = ListViewColumnAlignment::Left);
     };
 
     /**
@@ -435,6 +429,13 @@ namespace sw
          * @param pNMInfo 要同步到的NMLVDISPINFOW结构体指针
          */
         void _ApplyDispInfo(const ListViewItem &item, NMLVDISPINFOW *pNMInfo);
+
+        /**
+         * @brief 同步ListViewColumn数据到LVCOLUMNW结构体
+         * @param column 包含要显示信息的ListViewColumn结构体
+         * @param pLvc 要同步到的LVCOLUMNW结构体指针
+         */
+        void _ApplyColumnInfo(const ListViewColumn &column, LVCOLUMNW *pLvc);
 
         /**
          * @brief 插入列
