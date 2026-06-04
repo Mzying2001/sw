@@ -1,14 +1,14 @@
 var searchData=
 [
   ['tabstop_0',['TabStop',['../classsw_1_1UIElement.html#a2b54e00e1e41af2a634ad694da3ffa98',1,'sw::UIElement']]],
-  ['tag_1',['tag',['../classsw_1_1MenuItem.html#a71e23c18ace7346f28415ed747d80905',1,'sw::MenuItem::tag'],['../classsw_1_1FrameworkElement.html#a92483dc602362f25a0cd2a31eba472bc',1,'sw::FrameworkElement::Tag']]],
-  ['text_2',['text',['../classsw_1_1MenuItem.html#a0f67fc28cb879876a328495035031979',1,'sw::MenuItem::text'],['../classsw_1_1WndBase.html#a9afff86d32e9b54cccc204ef29a85891',1,'sw::WndBase::Text']]],
+  ['tag_1',['tag',['../classsw_1_1FrameworkElement.html#a92483dc602362f25a0cd2a31eba472bc',1,'sw::FrameworkElement::Tag'],['../classsw_1_1MenuItem.html#a71e23c18ace7346f28415ed747d80905',1,'sw::MenuItem::tag']]],
+  ['text_2',['text',['../classsw_1_1WndBase.html#a9afff86d32e9b54cccc204ef29a85891',1,'sw::WndBase::Text'],['../classsw_1_1MenuItem.html#a0f67fc28cb879876a328495035031979',1,'sw::MenuItem::text']]],
   ['textcolor_3',['TextColor',['../classsw_1_1UIElement.html#aeaf2381fdffd82bd41e90c1a2cf69022',1,'sw::UIElement']]],
   ['textmargin_4',['TextMargin',['../classsw_1_1ButtonBase.html#a51e40f85ed267d67770e845fefb550f5',1,'sw::ButtonBase']]],
   ['texttrimming_5',['TextTrimming',['../classsw_1_1Label.html#a967e6a7cfc9341958f362ae94c56f583',1,'sw::Label']]],
   ['threestate_6',['ThreeState',['../classsw_1_1CheckBox.html#ac8a52241895124f970ee2878f5d00d11',1,'sw::CheckBox']]],
   ['tick_7',['Tick',['../classsw_1_1Timer.html#a08a89d13ed71dbefb0506819202bea4c',1,'sw::Timer']]],
-  ['time_8',['time',['../classsw_1_1DateTimePicker.html#a30988e5298c810dea8ee41d7d4d4d20f',1,'sw::DateTimePicker::Time'],['../classsw_1_1MonthCalendar.html#a80fffc7a50aebc28217be5db26055178',1,'sw::MonthCalendar::Time'],['../classsw_1_1TimeChangedEventArgs.html#a999745fd9568c3eb9bb23beecece76d6',1,'sw::TimeChangedEventArgs::time']]],
+  ['time_8',['time',['../classsw_1_1TimeChangedEventArgs.html#a999745fd9568c3eb9bb23beecece76d6',1,'sw::TimeChangedEventArgs::time'],['../classsw_1_1DateTimePicker.html#a30988e5298c810dea8ee41d7d4d4d20f',1,'sw::DateTimePicker::Time'],['../classsw_1_1MonthCalendar.html#a80fffc7a50aebc28217be5db26055178',1,'sw::MonthCalendar::Time']]],
   ['title_9',['Title',['../classsw_1_1FileDialog.html#a37064ae5c1d6c830f899816922721735',1,'sw::FileDialog']]],
   ['tooltip_10',['ToolTip',['../classsw_1_1NotifyIcon.html#a8562cbf034cf34be552ccbcaa5b7efa8',1,'sw::NotifyIcon']]],
   ['tooltipicon_11',['ToolTipIcon',['../classsw_1_1ToolTip.html#aef949fdb1311093b15af062904048032',1,'sw::ToolTip']]],

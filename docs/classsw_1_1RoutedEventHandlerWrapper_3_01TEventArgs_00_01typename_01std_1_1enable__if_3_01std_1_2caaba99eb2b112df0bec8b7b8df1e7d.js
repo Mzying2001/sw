@@ -1,0 +1,11 @@
+var classsw_1_1RoutedEventHandlerWrapper_3_01TEventArgs_00_01typename_01std_1_1enable__if_3_01std_1_2caaba99eb2b112df0bec8b7b8df1e7d =
+[
+    [ "RoutedEventHandlerWrapper", "classsw_1_1RoutedEventHandlerWrapper_3_01TEventArgs_00_01typename_01std_1_1enable__if_3_01std_1_2caaba99eb2b112df0bec8b7b8df1e7d.html#a312e03d49958b59f3875165b8311cb23", null ],
+    [ "RoutedEventHandlerWrapper", "classsw_1_1RoutedEventHandlerWrapper_3_01TEventArgs_00_01typename_01std_1_1enable__if_3_01std_1_2caaba99eb2b112df0bec8b7b8df1e7d.html#a013e13bdb8fc6c44e90469f2ca499061", null ],
+    [ "RoutedEventHandlerWrapper", "classsw_1_1RoutedEventHandlerWrapper_3_01TEventArgs_00_01typename_01std_1_1enable__if_3_01std_1_2caaba99eb2b112df0bec8b7b8df1e7d.html#a65ef73f1f7cf40e85e7a5053eaa6e9f1", null ],
+    [ "RoutedEventHandlerWrapper", "classsw_1_1RoutedEventHandlerWrapper_3_01TEventArgs_00_01typename_01std_1_1enable__if_3_01std_1_2caaba99eb2b112df0bec8b7b8df1e7d.html#a5b2a1b95dbf26021726aa3536821da1a", null ],
+    [ "Clone", "classsw_1_1RoutedEventHandlerWrapper_3_01TEventArgs_00_01typename_01std_1_1enable__if_3_01std_1_2caaba99eb2b112df0bec8b7b8df1e7d.html#a91b3038dfc9305e0a9e25a1b6b6a8798", null ],
+    [ "Equals", "classsw_1_1RoutedEventHandlerWrapper_3_01TEventArgs_00_01typename_01std_1_1enable__if_3_01std_1_2caaba99eb2b112df0bec8b7b8df1e7d.html#af3f584457b0df0a2851d39d0ea830a7c", null ],
+    [ "GetType", "classsw_1_1RoutedEventHandlerWrapper_3_01TEventArgs_00_01typename_01std_1_1enable__if_3_01std_1_2caaba99eb2b112df0bec8b7b8df1e7d.html#a15239f50ce39f66da57f7ab8db9fb68c", null ],
+    [ "Invoke", "classsw_1_1RoutedEventHandlerWrapper_3_01TEventArgs_00_01typename_01std_1_1enable__if_3_01std_1_2caaba99eb2b112df0bec8b7b8df1e7d.html#a1f619d26ac53da55c56d968845776b27", null ]
+];
