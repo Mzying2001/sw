@@ -19,14 +19,20 @@ namespace sw
 
     public:
         /**
+         * @brief 行定义
+         */
+        const ReadOnlyProperty<ObservableCollection<GridRow> *> Rows;
+
+        /**
+         * @brief 列定义
+         */
+        const ReadOnlyProperty<ObservableCollection<GridColumn> *> Columns;
+
+    public:
+        /**
          * @brief 初始化Grid
          */
         Grid();
-
-        /**
-         * @brief 添加行
-         */
-        void AddRow(const GridRow &row);
 
         /**
          * @brief 设置行信息
@@ -34,24 +40,9 @@ namespace sw
         void SetRows(std::initializer_list<GridRow> rows);
 
         /**
-         * @brief 添加列
-         */
-        void AddColumn(const GridColumn &col);
-
-        /**
          * @brief 设置列信息
          */
         void SetColumns(std::initializer_list<GridColumn> cols);
-
-        /**
-         * @brief 清空行
-         */
-        void ClearRows();
-
-        /**
-         * @brief 清空列
-         */
-        void ClearColumns();
 
         /**
          * @brief 获取指定元素的网格布局标记
@@ -68,5 +59,14 @@ namespace sw
          * @brief 获取默认布局对象
          */
         virtual LayoutHost *GetDefaultLayout() override final;
+
+    private:
+        /**
+         * @brief 行或列定义变更事件处理函数
+         * @param sender 事件发送者
+         * @param args 事件参数
+         */
+        void _RowsColumnsCollectionChangedHandler(
+            INotifyCollectionChanged &sender, NotifyCollectionChangedEventArgs &args);
     };
 }

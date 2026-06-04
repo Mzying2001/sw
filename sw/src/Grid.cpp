@@ -1,48 +1,40 @@
 #include "Grid.h"
 
 sw::Grid::Grid()
-{
-    this->_gridLayout.Associate(this);
-    this->HorizontalAlignment = HorizontalAlignment::Stretch;
-    this->VerticalAlignment   = VerticalAlignment::Stretch;
-}
+    : Rows(
+          Property<ObservableCollection<GridRow> *>::Init(this)
+              .Getter([](Grid *self) -> ObservableCollection<GridRow> * {
+                  return &self->_gridLayout.rows;
+              })),
 
-void sw::Grid::AddRow(const GridRow &row)
+      Columns(
+          Property<ObservableCollection<GridColumn> *>::Init(this)
+              .Getter([](Grid *self) -> ObservableCollection<GridColumn> * {
+                  return &self->_gridLayout.columns;
+              }))
 {
-    this->_gridLayout.rows.Add(row);
-    this->InvalidateMeasure();
+    _gridLayout.Associate(this);
+
+    _gridLayout.rows.CollectionChanged +=
+        NotifyCollectionChangedEventHandler(*this, &Grid::_RowsColumnsCollectionChangedHandler);
+
+    _gridLayout.columns.CollectionChanged +=
+        NotifyCollectionChangedEventHandler(*this, &Grid::_RowsColumnsCollectionChangedHandler);
+
+    HorizontalAlignment = HorizontalAlignment::Stretch;
+    VerticalAlignment   = VerticalAlignment::Stretch;
 }
 
 void sw::Grid::SetRows(std::initializer_list<GridRow> rows)
 {
-    List<GridRow> rowsList = rows;
-    this->_gridLayout.rows = rowsList;
-    this->InvalidateMeasure();
-}
-
-void sw::Grid::AddColumn(const GridColumn &col)
-{
-    this->_gridLayout.columns.Add(col);
-    this->InvalidateMeasure();
+    _gridLayout.rows.GetInternalVector().assign(rows);
+    InvalidateMeasure();
 }
 
 void sw::Grid::SetColumns(std::initializer_list<GridColumn> cols)
 {
-    List<GridColumn> colsList = cols;
-    this->_gridLayout.columns = colsList;
-    this->InvalidateMeasure();
-}
-
-void sw::Grid::ClearRows()
-{
-    this->_gridLayout.rows.Clear();
-    this->InvalidateMeasure();
-}
-
-void sw::Grid::ClearColumns()
-{
-    this->_gridLayout.columns.Clear();
-    this->InvalidateMeasure();
+    _gridLayout.columns.GetInternalVector().assign(cols);
+    InvalidateMeasure();
 }
 
 sw::GridLayoutTag sw::Grid::GetGridLayoutTag(UIElement &element)
@@ -57,5 +49,11 @@ void sw::Grid::SetGridLayoutTag(UIElement &element, const GridLayoutTag &tag)
 
 sw::LayoutHost *sw::Grid::GetDefaultLayout()
 {
-    return &this->_gridLayout;
+    return &_gridLayout;
+}
+
+void sw::Grid::_RowsColumnsCollectionChangedHandler(
+    INotifyCollectionChanged &sender, NotifyCollectionChangedEventArgs &args)
+{
+    InvalidateMeasure();
 }
