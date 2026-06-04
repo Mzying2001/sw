@@ -232,7 +232,7 @@ namespace sw
                 return;
             }
 
-            auto &items = _items.GetStdVector();
+            auto &items = _items.GetInternalVector();
 
             T value = std::move(items[static_cast<size_t>(oldIndex)]);
             items.erase(items.begin() + static_cast<size_t>(oldIndex));
@@ -312,18 +312,18 @@ namespace sw
          * @brief 获取底层std::vector的引用
          * @return std::vector的引用
          */
-        std::vector<T> &GetStdVector() noexcept
+        std::vector<T> &GetInternalVector() noexcept
         {
-            return _items.GetStdVector();
+            return _items.GetInternalVector();
         }
 
         /**
          * @brief 获取底层std::vector的const引用
          * @return std::vector的const引用
          */
-        const std::vector<T> &GetStdVector() const noexcept
+        const std::vector<T> &GetInternalVector() const noexcept
         {
-            return _items.GetStdVector();
+            return _items.GetInternalVector();
         }
 
     public:

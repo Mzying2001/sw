@@ -263,7 +263,7 @@ namespace sw
          * @brief 获取底层std::vector的引用
          * @return std::vector的引用
          */
-        std::vector<T> &GetStdVector() noexcept
+        std::vector<T> &GetInternalVector() noexcept
         {
             return _data;
         }
@@ -272,7 +272,7 @@ namespace sw
          * @brief 获取底层std::vector的const引用
          * @return std::vector的const引用
          */
-        const std::vector<T> &GetStdVector() const noexcept
+        const std::vector<T> &GetInternalVector() const noexcept
         {
             return _data;
         }
