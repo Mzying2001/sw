@@ -1,16 +1,28 @@
 #pragma once
 
 #include "RoutedEvent.h"
+#include <type_traits>
+#include <typeindex>
+#include <utility>
 
 namespace sw
 {
     /**
+     * @brief 路由事件处理函数包装类前置声明
+     * @note 第二个模板参数用于SFINAE，只有当TEventArgs继承自RoutedEventArgs时才启用具体实现
+     */
+    template <typename TEventArgs, typename = void>
+    class RoutedEventHandlerWrapper;
+
+    /**
      * @brief 路由事件处理函数包装类，用于需要转换RoutedEventArgs为特定事件参数类型的情况
      */
-    template <
-        typename TEventArgs,
-        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value, int>::type = 0>
-    class RoutedEventHandlerWrapper : public ICallable<void(UIElement &, RoutedEventArgs &)>
+    template <typename TEventArgs>
+    class RoutedEventHandlerWrapper<
+        TEventArgs,
+        typename std::enable_if<
+            std::is_base_of<RoutedEventArgs, TEventArgs>::value>::type>
+        : public ICallable<void(UIElement &, RoutedEventArgs &)>
     {
     private:
         /**
@@ -20,7 +32,7 @@ namespace sw
 
     public:
         /**
-         * @brief 构造函数
+         * @brief 构造函数，拷贝事件处理函数
          * @param handler 事件处理函数
          */
         RoutedEventHandlerWrapper(const Action<UIElement &, TEventArgs &> &handler)
@@ -29,7 +41,35 @@ namespace sw
         }
 
         /**
+         * @brief 构造函数，移动事件处理函数
+         * @param handler 事件处理函数
+         */
+        RoutedEventHandlerWrapper(Action<UIElement &, TEventArgs &> &&handler)
+            : _handler(std::move(handler))
+        {
+        }
+
+        /**
+         * @brief 拷贝构造函数
+         * @param other 要拷贝的路由事件处理函数包装对象
+         */
+        RoutedEventHandlerWrapper(const RoutedEventHandlerWrapper &other)
+            : _handler(other._handler)
+        {
+        }
+
+        /**
+         * @brief 移动构造函数
+         * @param other 要移动的路由事件处理函数包装对象
+         */
+        RoutedEventHandlerWrapper(RoutedEventHandlerWrapper &&other) noexcept
+            : _handler(std::move(other._handler))
+        {
+        }
+
+        /**
          * @brief 调用事件处理函数
+         * @note 调用方根据路由事件类型保证args的实际类型为TEventArgs
          */
         virtual void Invoke(UIElement &sender, RoutedEventArgs &args) const override
         {
@@ -41,7 +81,7 @@ namespace sw
          */
         virtual ICallable<void(UIElement &, RoutedEventArgs &)> *Clone() const override
         {
-            return new RoutedEventHandlerWrapper(_handler);
+            return new RoutedEventHandlerWrapper(*this);
         }
 
         /**

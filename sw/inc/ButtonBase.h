@@ -11,6 +11,11 @@ namespace sw
     {
     private:
         /**
+         * @brief 基类别名，方便调用基类函数
+         */
+        using TBase = Control;
+
+        /**
          * @brief 是否自动调整大小以适应内容
          */
         bool _autoSize = false;

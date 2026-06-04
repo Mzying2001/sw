@@ -2,76 +2,113 @@
 #include "Utils.h"
 #include <cmath>
 
-sw::Size sw::StackLayoutH::MeasureOverride(const Size &availableSize)
+namespace
 {
-    Size desireSize{};
-    int childCount = GetChildLayoutCount();
+    /**
+     * @brief 水平堆叠布局的测量逻辑
+     */
+    sw::Size _StackLayoutMeasureOverrideHorz(sw::LayoutHost *self, const sw::Size &availableSize)
+    {
+        sw::Size desireSize{};
+        int childCount = self->GetChildLayoutCount();
 
-    for (int i = 0; i < childCount; ++i) {
-        ILayout &item = GetChildLayoutAt(i);
-        item.Measure(Size{INFINITY, std::isinf(availableSize.height) ? INFINITY : availableSize.height});
+        for (int i = 0; i < childCount; ++i) {
+            sw::ILayout &item = self->GetChildLayoutAt(i);
+            item.Measure(sw::Size{INFINITY, std::isinf(availableSize.height) ? INFINITY : availableSize.height});
 
-        Size itemDesireSize = item.GetDesireSize();
-        desireSize.width += itemDesireSize.width;
-        desireSize.height = Utils::Max(desireSize.height, itemDesireSize.height);
+            sw::Size itemDesireSize = item.GetDesireSize();
+            desireSize.width += itemDesireSize.width;
+            desireSize.height = sw::Utils::Max(desireSize.height, itemDesireSize.height);
+        }
+        return desireSize;
     }
 
-    return desireSize;
+    /**
+     * @brief 水平堆叠布局的排列逻辑
+     */
+    void _StackLayoutArrangeOverrideHorz(sw::LayoutHost *self, const sw::Size &finalSize)
+    {
+        double width   = 0;
+        int childCount = self->GetChildLayoutCount();
+
+        for (int i = 0; i < childCount; ++i) {
+            sw::ILayout &item       = self->GetChildLayoutAt(i);
+            sw::Size itemDesireSize = item.GetDesireSize();
+            item.Arrange(sw::Rect{width, 0, itemDesireSize.width, finalSize.height});
+            width += itemDesireSize.width;
+        }
+    }
+
+    /**
+     * @brief 垂直堆叠布局的测量逻辑
+     */
+    sw::Size _StackLayoutMeasureOverrideVert(sw::LayoutHost *self, const sw::Size &availableSize)
+    {
+        sw::Size desireSize{};
+        int childCount = self->GetChildLayoutCount();
+
+        for (int i = 0; i < childCount; ++i) {
+            sw::ILayout &item = self->GetChildLayoutAt(i);
+            item.Measure(sw::Size{std::isinf(availableSize.width) ? INFINITY : availableSize.width, INFINITY});
+
+            sw::Size itemDesireSize = item.GetDesireSize();
+            desireSize.height += itemDesireSize.height;
+            desireSize.width = sw::Utils::Max(desireSize.width, itemDesireSize.width);
+        }
+        return desireSize;
+    }
+
+    /**
+     * @brief 垂直堆叠布局的排列逻辑
+     */
+    void _StackLayoutArrangeOverrideVert(sw::LayoutHost *self, const sw::Size &finalSize)
+    {
+        double top     = 0;
+        int childCount = self->GetChildLayoutCount();
+
+        for (int i = 0; i < childCount; ++i) {
+            sw::ILayout &item       = self->GetChildLayoutAt(i);
+            sw::Size itemDesireSize = item.GetDesireSize();
+            item.Arrange(sw::Rect{0, top, finalSize.width, itemDesireSize.height});
+            top += itemDesireSize.height;
+        }
+    }
+}
+
+sw::Size sw::StackLayoutH::MeasureOverride(const Size &availableSize)
+{
+    return _StackLayoutMeasureOverrideHorz(this, availableSize);
 }
 
 void sw::StackLayoutH::ArrangeOverride(const Size &finalSize)
 {
-    double width   = 0;
-    int childCount = GetChildLayoutCount();
-
-    for (int i = 0; i < childCount; ++i) {
-        ILayout &item       = GetChildLayoutAt(i);
-        Size itemDesireSize = item.GetDesireSize();
-        item.Arrange(Rect{width, 0, itemDesireSize.width, finalSize.height});
-        width += itemDesireSize.width;
-    }
+    _StackLayoutArrangeOverrideHorz(this, finalSize);
 }
 
 sw::Size sw::StackLayoutV::MeasureOverride(const Size &availableSize)
 {
-    Size desireSize{};
-    int childCount = GetChildLayoutCount();
-
-    for (int i = 0; i < childCount; ++i) {
-        ILayout &item = GetChildLayoutAt(i);
-        item.Measure(Size{std::isinf(availableSize.width) ? INFINITY : availableSize.width, INFINITY});
-
-        Size itemDesireSize = item.GetDesireSize();
-        desireSize.height += itemDesireSize.height;
-        desireSize.width = Utils::Max(desireSize.width, itemDesireSize.width);
-    }
-
-    return desireSize;
+    return _StackLayoutMeasureOverrideVert(this, availableSize);
 }
 
 void sw::StackLayoutV::ArrangeOverride(const Size &finalSize)
 {
-    double top     = 0;
-    int childCount = GetChildLayoutCount();
-
-    for (int i = 0; i < childCount; ++i) {
-        ILayout &item       = GetChildLayoutAt(i);
-        Size itemDesireSize = item.GetDesireSize();
-        item.Arrange(Rect{0, top, finalSize.width, itemDesireSize.height});
-        top += itemDesireSize.height;
-    }
+    _StackLayoutArrangeOverrideVert(this, finalSize);
 }
 
 sw::Size sw::StackLayout::MeasureOverride(const Size &availableSize)
 {
-    return orientation == Orientation::Horizontal
-               ? StackLayoutH::MeasureOverride(availableSize)
-               : StackLayoutV::MeasureOverride(availableSize);
+    if (orientation == Orientation::Horizontal) {
+        return _StackLayoutMeasureOverrideHorz(this, availableSize);
+    } else {
+        return _StackLayoutMeasureOverrideVert(this, availableSize);
+    }
 }
 
 void sw::StackLayout::ArrangeOverride(const Size &finalSize)
 {
-    orientation == Orientation::Horizontal
-        ? StackLayoutH::ArrangeOverride(finalSize)
-        : StackLayoutV::ArrangeOverride(finalSize);
+    if (orientation == Orientation::Horizontal) {
+        _StackLayoutArrangeOverrideHorz(this, finalSize);
+    } else {
+        _StackLayoutArrangeOverrideVert(this, finalSize);
+    }
 }
