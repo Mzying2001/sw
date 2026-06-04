@@ -102,7 +102,7 @@ namespace sw
          */
         virtual const Variant GetVariantAt(int index) const override final
         {
-            return Variant::MakeRef(GetAt(index));
+            return Variant::MakeRef(const_cast<T &>(GetAt(index)));
         }
 
         /**
