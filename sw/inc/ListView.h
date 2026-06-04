@@ -19,6 +19,15 @@ namespace sw
     };
 
     /**
+     * @brief 列表视图的列对齐方式
+     */
+    enum class ListViewColumnAlignment {
+        Left   = LVCFMT_LEFT,   ///< 左对齐
+        Right  = LVCFMT_RIGHT,  ///< 右对齐
+        Center = LVCFMT_CENTER, ///< 居中
+    };
+
+    /**
      * @brief 列表视图的列信息
      */
     struct ListViewColumn {
@@ -28,11 +37,22 @@ namespace sw
         /// @brief 列宽度
         double width;
 
-        /// @brief 构造函数，默认宽度为100
-        ListViewColumn(const wchar_t *header, double width = 100);
+        /// @brief 列对齐方式
+        ListViewColumnAlignment alignment;
 
-        /// @brief 构造函数，默认宽度为100
-        ListViewColumn(const std::wstring &header, double width = 100);
+        /// @brief 构造函数，默认宽度100，左对齐
+        ListViewColumn(const wchar_t *header, double width = 100,
+                       ListViewColumnAlignment alignment = ListViewColumnAlignment::Left)
+            : header(header), width(width), alignment(alignment)
+        {
+        }
+
+        /// @brief 构造函数，默认宽度100，左对齐
+        ListViewColumn(const std::wstring &header, double width = 100,
+                       ListViewColumnAlignment alignment = ListViewColumnAlignment::Left)
+            : header(header), width(width), alignment(alignment)
+        {
+        }
     };
 
     /**

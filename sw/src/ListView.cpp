@@ -4,16 +4,6 @@
 #include <cmath>
 #include <memory>
 
-sw::ListViewColumn::ListViewColumn(const wchar_t *header, double width)
-    : header(header), width(width)
-{
-}
-
-sw::ListViewColumn::ListViewColumn(const std::wstring &header, double width)
-    : header(header), width(width)
-{
-}
-
 sw::ListViewItem::ListViewItem(ListViewItem &&other) noexcept
     : subItems(std::move(other.subItems)), imageIndex(other.imageIndex), checked(other.checked)
 {
@@ -599,10 +589,10 @@ void sw::ListView::_ApplyDispInfo(const ListViewItem &item, NMLVDISPINFOW *pNMIn
 bool sw::ListView::_InsertColumn(int index, const ListViewColumn &column)
 {
     LVCOLUMNW lvc{};
-    lvc.mask     = LVCF_WIDTH | LVCF_TEXT;
-    lvc.iSubItem = index;
-    lvc.cx       = Dip::DipToPxX(column.width);
-    lvc.pszText  = const_cast<LPWSTR>(column.header.c_str());
+    lvc.mask    = LVCF_TEXT | LVCF_WIDTH | LVCF_FMT;
+    lvc.fmt     = static_cast<int>(column.alignment);
+    lvc.cx      = Dip::DipToPxX(column.width);
+    lvc.pszText = const_cast<LPWSTR>(column.header.c_str());
 
     return SendMessageW(LVM_INSERTCOLUMNW, index, reinterpret_cast<LPARAM>(&lvc)) != -1;
 }
@@ -615,10 +605,10 @@ bool sw::ListView::_DeleteColumn(int index)
 bool sw::ListView::_SetColumn(int index, const ListViewColumn &column)
 {
     LVCOLUMNW lvc{};
-    lvc.mask     = LVCF_WIDTH | LVCF_TEXT;
-    lvc.iSubItem = index;
-    lvc.cx       = Dip::DipToPxX(column.width);
-    lvc.pszText  = const_cast<LPWSTR>(column.header.c_str());
+    lvc.mask    = LVCF_TEXT | LVCF_WIDTH | LVCF_FMT;
+    lvc.fmt     = static_cast<int>(column.alignment);
+    lvc.cx      = Dip::DipToPxX(column.width);
+    lvc.pszText = const_cast<LPWSTR>(column.header.c_str());
 
     return SendMessageW(LVM_SETCOLUMNW, index, reinterpret_cast<LPARAM>(&lvc));
 }
