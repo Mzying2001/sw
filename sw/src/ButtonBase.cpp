@@ -1,6 +1,7 @@
 #include "ButtonBase.h"
 #include "Dip.h"
 #include <cmath>
+#include <limits>
 
 sw::ButtonBase::ButtonBase()
     : AutoSize(
@@ -93,30 +94,38 @@ void sw::ButtonBase::OnCommand(int code)
 sw::Size sw::ButtonBase::MeasureOverride(const Size &availableSize)
 {
     if (!_autoSize) {
-        return UIElement::MeasureOverride(availableSize);
+        return TBase::MeasureOverride(availableSize);
     }
 
     SIZE szIdeal = {0, 0};
 
     if (!_GetIdealSize(szIdeal)) {
-        return UIElement::MeasureOverride(availableSize);
+        return TBase::MeasureOverride(availableSize);
     }
 
     Size desireSize = szIdeal;
 
+    constexpr auto unlimitedWidth =
+        (std::numeric_limits<decltype(szIdeal.cx)>::max)();
+
     if (szIdeal.cx == 0 && std::isinf(availableSize.width)) {
-        desireSize = UIElement::MeasureOverride(availableSize);
-        szIdeal.cx = Dip::DipToPxX(desireSize.width);
+        szIdeal.cx = unlimitedWidth;
         szIdeal.cy = 0;
-        _GetIdealSize(szIdeal);
-        desireSize.height = Dip::PxToDipY(szIdeal.cy);
+        if (_GetIdealSize(szIdeal)) {
+            desireSize = szIdeal;
+        } else {
+            desireSize = TBase::MeasureOverride(availableSize);
+        }
     } else if (availableSize.width < desireSize.width ||
                (szIdeal.cx == 0 && !std::isinf(availableSize.width))) {
         szIdeal.cx = Dip::DipToPxX(availableSize.width);
         szIdeal.cy = 0;
-        _GetIdealSize(szIdeal);
-        desireSize.width  = availableSize.width;
-        desireSize.height = Dip::PxToDipY(szIdeal.cy);
+        if (_GetIdealSize(szIdeal)) {
+            desireSize.width  = availableSize.width;
+            desireSize.height = Dip::PxToDipY(szIdeal.cy);
+        } else {
+            desireSize = TBase::MeasureOverride(availableSize);
+        }
     }
     return desireSize;
 }
