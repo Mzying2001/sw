@@ -37,12 +37,13 @@ namespace sw
         virtual Variant GetVariantAt(int index) = 0;
 
         /**
-         * @brief 获取指定索引处元素的const Variant引用
+         * @brief 获取指定索引处元素的Variant副本
          * @param index 元素索引
-         * @return 元素的const Variant引用
+         * @return 元素的Variant副本
          * @throws std::out_of_range 索引超出范围
+         * @throws std::logic_error 元素类型不可拷贝构造时
          */
-        virtual const Variant GetVariantAt(int index) const = 0;
+        virtual Variant GetVariantAt(int index) const = 0;
 
         /**
          * @brief 设置指定索引处的元素值
@@ -95,14 +96,15 @@ namespace sw
         }
 
         /**
-         * @brief 获取指定索引处元素的const Variant引用
+         * @brief 获取指定索引处元素的Variant副本
          * @param index 元素索引
-         * @return 元素的const Variant引用
+         * @return 元素的Variant副本
          * @throws std::out_of_range 索引超出范围
+         * @throws std::logic_error T不可拷贝构造时
          */
-        virtual const Variant GetVariantAt(int index) const override final
+        virtual Variant GetVariantAt(int index) const override final
         {
-            return Variant::MakeRef(const_cast<T &>(GetAt(index)));
+            return GetVariantValueAtImpl(index);
         }
 
         /**
@@ -134,6 +136,31 @@ namespace sw
         }
 
     private:
+        /**
+         * @brief 获取Variant副本的实现（T可拷贝构造时）
+         * @param index 元素索引
+         * @return 元素的Variant副本
+         * @throws std::out_of_range 索引超出范围
+         */
+        template <typename U = T>
+        auto GetVariantValueAtImpl(int index) const
+            -> typename std::enable_if<std::is_copy_constructible<U>::value, Variant>::type
+        {
+            return Variant{GetAt(index)};
+        }
+
+        /**
+         * @brief 获取Variant副本的实现（T不可拷贝构造时）
+         * @throws std::logic_error T不可拷贝构造
+         */
+        template <typename U = T>
+        auto GetVariantValueAtImpl(int) const
+            -> typename std::enable_if<!std::is_copy_constructible<U>::value, Variant>::type
+        {
+            throw std::logic_error(
+                "Type T must be copy constructible to get Variant by value in IListT.");
+        }
+
         /**
          * @brief 设置Variant值的实现（T为Variant时，直接赋值）
          * @param index 元素索引
