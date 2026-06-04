@@ -8,7 +8,7 @@ namespace sw
     /**
      * @brief 横向堆叠布局
      */
-    class StackLayoutH : virtual public LayoutHost
+    class StackLayoutH : public LayoutHost
     {
     public:
         /**
@@ -28,7 +28,7 @@ namespace sw
     /**
      * @brief 纵向堆叠布局
      */
-    class StackLayoutV : virtual public LayoutHost
+    class StackLayoutV : public LayoutHost
     {
     public:
         /**
@@ -48,7 +48,7 @@ namespace sw
     /**
      * @brief 堆叠布局
      */
-    class StackLayout : public StackLayoutH, public StackLayoutV
+    class StackLayout : public LayoutHost
     {
     public:
         /**
