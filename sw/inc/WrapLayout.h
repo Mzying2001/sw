@@ -8,7 +8,7 @@ namespace sw
     /**
      * @brief 横向自动换行布局
      */
-    class WrapLayoutH : virtual public LayoutHost
+    class WrapLayoutH : public LayoutHost
     {
     public:
         /**
@@ -28,7 +28,7 @@ namespace sw
     /**
      * @brief 纵向自动换行布局
      */
-    class WrapLayoutV : virtual public LayoutHost
+    class WrapLayoutV : public LayoutHost
     {
     public:
         /**
@@ -48,7 +48,7 @@ namespace sw
     /**
      * @brief 自动换行布局
      */
-    class WrapLayout : public WrapLayoutH, public WrapLayoutV
+    class WrapLayout : public LayoutHost
     {
     public:
         /**

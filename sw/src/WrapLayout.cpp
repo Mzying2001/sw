@@ -9,8 +9,8 @@ namespace
     /**
      * @brief 按行高统一安排一行中的所有子元素，使行内元素占用相同的垂直布局空间
      */
-    void _ArrangeRow(double top, double height,
-                     const std::vector<std::tuple<sw::ILayout *, sw::Size>> &row)
+    void _WrapLayoutArrangeRow(
+        double top, double height, const std::vector<std::tuple<sw::ILayout *, sw::Size>> &row)
     {
         double left = 0;
 
@@ -25,8 +25,8 @@ namespace
     /**
      * @brief 按列宽统一安排一列中的所有子元素，使列内元素占用相同的水平布局空间
      */
-    void _ArrangeCol(double left, double width,
-                     const std::vector<std::tuple<sw::ILayout *, sw::Size>> &col)
+    void _WrapLayoutArrangeCol(
+        double left, double width, const std::vector<std::tuple<sw::ILayout *, sw::Size>> &col)
     {
         double top = 0;
 
@@ -37,170 +37,206 @@ namespace
             top += itemSize.height;
         }
     }
-}
 
-sw::Size sw::WrapLayoutH::MeasureOverride(const Size &availableSize)
-{
-    Size size{};
-    int count = GetChildLayoutCount();
+    /**
+     * @brief 水平自动换行布局的测量逻辑
+     */
+    sw::Size _WrapLayoutMeasureOverrideHorz(sw::LayoutHost *self, const sw::Size &availableSize)
+    {
+        sw::Size size{};
+        int count = self->GetChildLayoutCount();
 
-    if (std::isinf(availableSize.width)) {
-        for (int i = 0; i < count; ++i) {
-            ILayout &item = GetChildLayoutAt(i);
-            item.Measure(Size{INFINITY, INFINITY});
+        if (std::isinf(availableSize.width)) {
+            for (int i = 0; i < count; ++i) {
+                sw::ILayout &item = self->GetChildLayoutAt(i);
+                item.Measure(sw::Size{INFINITY, INFINITY});
 
-            Size itemDesireSize = item.GetDesireSize();
-            size.width += itemDesireSize.width;
-            size.height = Utils::Max(size.height, itemDesireSize.height);
+                sw::Size itemDesireSize = item.GetDesireSize();
+                size.width += itemDesireSize.width;
+                size.height = sw::Utils::Max(size.height, itemDesireSize.height);
+            }
+        } else {
+            double top       = 0;
+            double rowWidth  = 0;
+            double rowHeight = 0;
+
+            for (int i = 0; i < count; ++i) {
+                sw::ILayout &item = self->GetChildLayoutAt(i);
+                item.Measure(sw::Size{availableSize.width, INFINITY});
+
+                sw::Size itemDesireSize = item.GetDesireSize();
+                if (rowWidth + itemDesireSize.width <= availableSize.width) {
+                    rowWidth += itemDesireSize.width;
+                    rowHeight = sw::Utils::Max(rowHeight, itemDesireSize.height);
+                } else {
+                    top += rowHeight;
+                    rowWidth  = itemDesireSize.width;
+                    rowHeight = itemDesireSize.height;
+                }
+                size.width = sw::Utils::Max(size.width, rowWidth);
+            }
+            size.height = top + rowHeight;
         }
-    } else {
+
+        return size;
+    }
+
+    /**
+     * @brief 水平自动换行布局的排列逻辑
+     */
+    void _WrapLayoutArrangeOverrideHorz(sw::LayoutHost *self, const sw::Size &finalSize)
+    {
         double top       = 0;
         double rowWidth  = 0;
         double rowHeight = 0;
 
-        for (int i = 0; i < count; ++i) {
-            ILayout &item = GetChildLayoutAt(i);
-            item.Measure(Size{availableSize.width, INFINITY});
+        int count = self->GetChildLayoutCount();
 
-            Size itemDesireSize = item.GetDesireSize();
-            if (rowWidth + itemDesireSize.width <= availableSize.width) {
+        std::vector<std::tuple<sw::ILayout *, sw::Size>> row;
+        row.reserve(count);
+
+        for (int i = 0; i < count; ++i) {
+            sw::ILayout &item       = self->GetChildLayoutAt(i);
+            sw::Size itemDesireSize = item.GetDesireSize();
+
+            if (rowWidth + itemDesireSize.width <= finalSize.width) {
+                row.emplace_back(&item, itemDesireSize);
                 rowWidth += itemDesireSize.width;
-                rowHeight = Utils::Max(rowHeight, itemDesireSize.height);
+                rowHeight = sw::Utils::Max(rowHeight, itemDesireSize.height);
             } else {
+                if (!row.empty()) {
+                    _WrapLayoutArrangeRow(top, rowHeight, row);
+                }
+                row.clear();
+                row.emplace_back(&item, itemDesireSize);
                 top += rowHeight;
                 rowWidth  = itemDesireSize.width;
                 rowHeight = itemDesireSize.height;
             }
-            size.width = Utils::Max(size.width, rowWidth);
         }
-        size.height = top + rowHeight;
+
+        if (!row.empty()) {
+            _WrapLayoutArrangeRow(top, rowHeight, row);
+        }
     }
 
-    return size;
-}
+    /**
+     * @brief 垂直自动换行布局的测量逻辑
+     */
+    sw::Size _WrapLayoutMeasureOverrideVert(sw::LayoutHost *self, const sw::Size &availableSize)
+    {
+        sw::Size size{};
+        int count = self->GetChildLayoutCount();
 
-void sw::WrapLayoutH::ArrangeOverride(const Size &finalSize)
-{
-    double top       = 0;
-    double rowWidth  = 0;
-    double rowHeight = 0;
+        if (std::isinf(availableSize.height)) {
+            for (int i = 0; i < count; ++i) {
+                sw::ILayout &item = self->GetChildLayoutAt(i);
+                item.Measure(sw::Size{INFINITY, INFINITY});
 
-    int count = GetChildLayoutCount();
-
-    std::vector<std::tuple<ILayout *, Size>> row;
-    row.reserve(count);
-
-    for (int i = 0; i < count; ++i) {
-        ILayout &item       = GetChildLayoutAt(i);
-        Size itemDesireSize = item.GetDesireSize();
-
-        if (rowWidth + itemDesireSize.width <= finalSize.width) {
-            row.emplace_back(&item, itemDesireSize);
-            rowWidth += itemDesireSize.width;
-            rowHeight = Utils::Max(rowHeight, itemDesireSize.height);
-        } else {
-            if (!row.empty()) {
-                _ArrangeRow(top, rowHeight, row);
+                sw::Size itemDesireSize = item.GetDesireSize();
+                size.height += itemDesireSize.height;
+                size.width = sw::Utils::Max(size.width, itemDesireSize.width);
             }
-            row.clear();
-            row.emplace_back(&item, itemDesireSize);
-            top += rowHeight;
-            rowWidth  = itemDesireSize.width;
-            rowHeight = itemDesireSize.height;
+        } else {
+            double left      = 0;
+            double colHeight = 0;
+            double colWidth  = 0;
+
+            for (int i = 0; i < count; ++i) {
+                sw::ILayout &item = self->GetChildLayoutAt(i);
+                item.Measure(sw::Size{INFINITY, availableSize.height});
+
+                sw::Size itemDesireSize = item.GetDesireSize();
+                if (colHeight + itemDesireSize.height <= availableSize.height) {
+                    colHeight += itemDesireSize.height;
+                    colWidth = sw::Utils::Max(colWidth, itemDesireSize.width);
+                } else {
+                    left += colWidth;
+                    colHeight = itemDesireSize.height;
+                    colWidth  = itemDesireSize.width;
+                }
+                size.height = sw::Utils::Max(size.height, colHeight);
+            }
+            size.width = left + colWidth;
         }
+
+        return size;
     }
 
-    if (!row.empty()) {
-        _ArrangeRow(top, rowHeight, row);
-    }
-}
-
-sw::Size sw::WrapLayoutV::MeasureOverride(const Size &availableSize)
-{
-    Size size{};
-    int count = GetChildLayoutCount();
-
-    if (std::isinf(availableSize.height)) {
-        for (int i = 0; i < count; ++i) {
-            ILayout &item = GetChildLayoutAt(i);
-            item.Measure(Size{INFINITY, INFINITY});
-
-            Size itemDesireSize = item.GetDesireSize();
-            size.height += itemDesireSize.height;
-            size.width = Utils::Max(size.width, itemDesireSize.width);
-        }
-    } else {
+    /**
+     * @brief 垂直自动换行布局的排列逻辑
+     */
+    void _WrapLayoutArrangeOverrideVert(sw::LayoutHost *self, const sw::Size &finalSize)
+    {
         double left      = 0;
         double colHeight = 0;
         double colWidth  = 0;
 
-        for (int i = 0; i < count; ++i) {
-            ILayout &item = GetChildLayoutAt(i);
-            item.Measure(Size{INFINITY, availableSize.height});
+        int count = self->GetChildLayoutCount();
 
-            Size itemDesireSize = item.GetDesireSize();
-            if (colHeight + itemDesireSize.height <= availableSize.height) {
+        std::vector<std::tuple<sw::ILayout *, sw::Size>> col;
+        col.reserve(count);
+
+        for (int i = 0; i < count; ++i) {
+            sw::ILayout &item       = self->GetChildLayoutAt(i);
+            sw::Size itemDesireSize = item.GetDesireSize();
+
+            if (colHeight + itemDesireSize.height <= finalSize.height) {
+                col.emplace_back(&item, itemDesireSize);
                 colHeight += itemDesireSize.height;
-                colWidth = Utils::Max(colWidth, itemDesireSize.width);
+                colWidth = sw::Utils::Max(colWidth, itemDesireSize.width);
             } else {
+                if (!col.empty()) {
+                    _WrapLayoutArrangeCol(left, colWidth, col);
+                }
+                col.clear();
+                col.emplace_back(&item, itemDesireSize);
                 left += colWidth;
                 colHeight = itemDesireSize.height;
                 colWidth  = itemDesireSize.width;
             }
-            size.height = Utils::Max(size.height, colHeight);
         }
-        size.width = left + colWidth;
-    }
 
-    return size;
+        if (!col.empty()) {
+            _WrapLayoutArrangeCol(left, colWidth, col);
+        }
+    }
+}
+
+sw::Size sw::WrapLayoutH::MeasureOverride(const Size &availableSize)
+{
+    return _WrapLayoutMeasureOverrideHorz(this, availableSize);
+}
+
+void sw::WrapLayoutH::ArrangeOverride(const Size &finalSize)
+{
+    _WrapLayoutArrangeOverrideHorz(this, finalSize);
+}
+
+sw::Size sw::WrapLayoutV::MeasureOverride(const Size &availableSize)
+{
+    return _WrapLayoutMeasureOverrideVert(this, availableSize);
 }
 
 void sw::WrapLayoutV::ArrangeOverride(const Size &finalSize)
 {
-    double left      = 0;
-    double colHeight = 0;
-    double colWidth  = 0;
-
-    int count = GetChildLayoutCount();
-
-    std::vector<std::tuple<ILayout *, Size>> col;
-    col.reserve(count);
-
-    for (int i = 0; i < count; ++i) {
-        ILayout &item       = GetChildLayoutAt(i);
-        Size itemDesireSize = item.GetDesireSize();
-
-        if (colHeight + itemDesireSize.height <= finalSize.height) {
-            col.emplace_back(&item, itemDesireSize);
-            colHeight += itemDesireSize.height;
-            colWidth = Utils::Max(colWidth, itemDesireSize.width);
-        } else {
-            if (!col.empty()) {
-                _ArrangeCol(left, colWidth, col);
-            }
-            col.clear();
-            col.emplace_back(&item, itemDesireSize);
-            left += colWidth;
-            colHeight = itemDesireSize.height;
-            colWidth  = itemDesireSize.width;
-        }
-    }
-
-    if (!col.empty()) {
-        _ArrangeCol(left, colWidth, col);
-    }
+    _WrapLayoutArrangeOverrideVert(this, finalSize);
 }
 
 sw::Size sw::WrapLayout::MeasureOverride(const Size &availableSize)
 {
-    return orientation == Orientation::Horizontal
-               ? WrapLayoutH::MeasureOverride(availableSize)
-               : WrapLayoutV::MeasureOverride(availableSize);
+    if (orientation == Orientation::Horizontal) {
+        return _WrapLayoutMeasureOverrideHorz(this, availableSize);
+    } else {
+        return _WrapLayoutMeasureOverrideVert(this, availableSize);
+    }
 }
 
 void sw::WrapLayout::ArrangeOverride(const Size &finalSize)
 {
-    orientation == Orientation::Horizontal
-        ? WrapLayoutH::ArrangeOverride(finalSize)
-        : WrapLayoutV::ArrangeOverride(finalSize);
+    if (orientation == Orientation::Horizontal) {
+        _WrapLayoutArrangeOverrideHorz(this, finalSize);
+    } else {
+        _WrapLayoutArrangeOverrideVert(this, finalSize);
+    }
 }
