@@ -625,18 +625,19 @@ bool sw::ListView::_SetColumn(int index, const ListViewColumn &column)
 
 void sw::ListView::_UpdateColumns()
 {
-    int colCount    = _GetColCount();
-    int newColCount = _columns.Count();
-    int maxCount    = Utils::Max(colCount, newColCount);
+    int colCount = _GetColCount();
+    int newCount = _columns.Count();
 
-    for (int i = 0; i < maxCount; i++) {
-        if (i >= colCount) {
-            _InsertColumn(i, _columns.GetAt(i));
-        } else if (i >= newColCount) {
-            _DeleteColumn(i);
-        } else {
-            _SetColumn(i, _columns.GetAt(i));
-        }
+    int i = 0;
+
+    for (; i < colCount && i < newCount; ++i) {
+        _SetColumn(i, _columns.GetAt(i));
+    }
+    for (; i < newCount; ++i) {
+        _InsertColumn(i, _columns.GetAt(i));
+    }
+    while (colCount > newCount) {
+        _DeleteColumn(--colCount);
     }
 }
 
