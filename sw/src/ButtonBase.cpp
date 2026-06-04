@@ -121,8 +121,7 @@ sw::Size sw::ButtonBase::MeasureOverride(const Size &availableSize)
         szIdeal.cx = Dip::DipToPxX(availableSize.width);
         szIdeal.cy = 0;
         if (_GetIdealSize(szIdeal)) {
-            desireSize.width  = availableSize.width;
-            desireSize.height = Dip::PxToDipY(szIdeal.cy);
+            desireSize = szIdeal;
         } else {
             desireSize = TBase::MeasureOverride(availableSize);
         }
