@@ -121,7 +121,6 @@ void sw::ListView::Refresh(bool refreshColumns)
     if (refreshColumns)
         _UpdateColumns();
     _UpdateCount();
-    Redraw();
 }
 
 sw::List<int> sw::ListView::GetSelectedIndices()
@@ -194,9 +193,9 @@ void sw::ListView::OnCurrentItemsSourceCollectionChanged(const NotifyCollectionC
             break;
         case NotifyCollectionChangedAction::Replace:
         case NotifyCollectionChangedAction::Move:
-            break; // 数量未变无需更新
+            Redraw();
+            break;
     }
-    Redraw();
 }
 
 int sw::ListView::GetSelectedIndex()
