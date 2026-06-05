@@ -28,7 +28,7 @@ var searchData=
   ['addrow_25',['AddRow',['../classsw_1_1Grid.html#a4878fb93660714d7f0a70a6a131852a1',1,'sw::Grid']]],
   ['addsubitem_26',['AddSubItem',['../classsw_1_1MenuBase.html#aa48a89a167974e8a7397ffe6058c475f',1,'sw::MenuBase']]],
   ['aliceblue_27',['AliceBlue',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19ab13c1f7b78e22d9601f27340c8a9342d',1,'sw']]],
-  ['alignment_28',['alignment',['../structsw_1_1ListViewColumn.html#a073e675567add518aa85b5356d472cf9',1,'sw::ListViewColumn::alignment'],['../classsw_1_1TabControl.html#a09a693f18956f7629fab2377ab1a1dda',1,'sw::TabControl::Alignment']]],
+  ['alignment_28',['alignment',['../classsw_1_1TabControl.html#a09a693f18956f7629fab2377ab1a1dda',1,'sw::TabControl::Alignment'],['../structsw_1_1ListViewColumn.html#a073e675567add518aa85b5356d472cf9',1,'sw::ListViewColumn::alignment']]],
   ['allitemscount_29',['AllItemsCount',['../classsw_1_1TreeView.html#afbb3ced96a966320ad579996e80d4b75',1,'sw::TreeView']]],
   ['allowmultiselect_30',['AllowMultiSelect',['../namespacesw.html#ac4dcf0d2a487e02ca4fca93d1bbe33fba5891f861d7cfb9c6094f325feb5c531f',1,'sw']]],
   ['alt_31',['alt',['../namespacesw.html#a9f714b0b461aa8bd94ee5b0d4dcb44d8aa2e92861b757ab878312dd57993d60cf',1,'sw::Alt'],['../namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0aa2e92861b757ab878312dd57993d60cf',1,'sw::Alt'],['../namespacesw.html#aff2f009267ebe4714fea2e8f620fdc1faa2e92861b757ab878312dd57993d60cf',1,'sw::Alt']]],

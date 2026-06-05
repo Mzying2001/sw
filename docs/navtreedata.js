@@ -68,20 +68,20 @@ var NAVTREEINDEX =
 "classsw_1_1FileDialog.html#a14842fca73b74ef747363fcc662b644f",
 "classsw_1_1HotKeyControl.html",
 "classsw_1_1ImageList.html#a580ad20a16bdca71f942861f577d3c12",
-"classsw_1_1List.html#a90312cc68b94ae231cde185708d5f849",
+"classsw_1_1List.html#aabdb30bdd58106d8d81ab4fc915787ff",
 "classsw_1_1MenuBase.html#a2f4d2832b6bcc759e291a99278b3eb12",
 "classsw_1_1ObservableCollection.html#a6b4293b4bb5cc2ad2408e305fc45418e",
 "classsw_1_1PropertyBase.html#aa2fdf9388f4ba565ed12fe82dd7ee330",
-"classsw_1_1StackLayout.html#aa9848e505c027c4ebde40c98d37e2300",
-"classsw_1_1TreeView.html#acafe4209c828972b92bd3700bc95b815",
-"classsw_1_1UIElement.html#a8fe2c0aebc77409d3fbdefbd79d45a1e",
-"classsw_1_1Window.html#a6852326120a03242ffef09aa3bae9e09",
-"classsw_1_1WndBase.html#ad5e7d8d1a548315b3e709151f71766b3",
-"namespacesw.html#a388b6854a3e8dbe58a2fc7f94b56ed21abafd7322c6e97d25b6299b5d6fe8920b",
-"namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0ab5fb5a50989498163b49c9bf1aaec11e",
-"namespacesw.html#aa971d1c6faca9536f660056782c49f19ae346c232ce72c429ea0995de9f63f551",
-"namespacesw.html#af46d3f9374c13150a788ff0bd0463953addb2563b5ef447bf0a72993141fe0029",
-"structsw_1_1Point.html"
+"classsw_1_1Splitter.html#acc4ee8d727fd36e75444d014cbf1a1ff",
+"classsw_1_1TreeView.html#aac0929cf0287bedcdebbb4065a9e5c08",
+"classsw_1_1UIElement.html#a89f7d92c47cd4ec2049f7b669db30ed9",
+"classsw_1_1Window.html#a4defede94579c304c176b8f8e64c8668",
+"classsw_1_1WndBase.html#acec415276b77e727ebe3f5adaf760ab1",
+"namespacesw.html#a2fd9112bf35468c1f9dbf5cf75b7204f",
+"namespacesw.html#a8e13dda3cd505d5e7d179eea5da649f0aa458be0f08b7e4ff3c0f633c100176c0",
+"namespacesw.html#aa971d1c6faca9536f660056782c49f19ada3a4f0a911cebe3bc75f6e39c324696",
+"namespacesw.html#af46d3f9374c13150a788ff0bd0463953a6bc9dc7a83723084d1ed1b5cc88ea182",
+"structsw_1_1NotifyIconMouseEventArgs.html#a6d99a7b4bb7669ace0b4596864319f59"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';

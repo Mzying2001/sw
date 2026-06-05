@@ -237,7 +237,7 @@ var hierarchy =
       [ "sw::Delegate< TRet(Args...)>", "classsw_1_1Delegate_3_01TRet_07Args_8_8_8_08_4.html", null ]
     ] ],
     [ "sw::ICallable< void(UIElement &, RoutedEventArgs &)>", "structsw_1_1ICallable.html", [
-      [ "sw::RoutedEventHandlerWrapper< TEventArgs, type >", "classsw_1_1RoutedEventHandlerWrapper.html", null ]
+      [ "sw::RoutedEventHandlerWrapper< TEventArgs, typename std::enable_if< std::is_base_of< RoutedEventArgs, TEventArgs >::value >::type >", "classsw_1_1RoutedEventHandlerWrapper_3_01TEventArgs_00_01typename_01std_1_1enable__if_3_01std_1_2caaba99eb2b112df0bec8b7b8df1e7d.html", null ]
     ] ],
     [ "sw::IconHelper", "classsw_1_1IconHelper.html", null ],
     [ "sw::IDialog", "classsw_1_1IDialog.html", [
@@ -453,19 +453,13 @@ var hierarchy =
       [ "sw::DockLayout", "classsw_1_1DockLayout.html", null ],
       [ "sw::FillLayout", "classsw_1_1FillLayout.html", null ],
       [ "sw::GridLayout", "classsw_1_1GridLayout.html", null ],
-      [ "sw::StackLayoutH", "classsw_1_1StackLayoutH.html", [
-        [ "sw::StackLayout", "classsw_1_1StackLayout.html", null ]
-      ] ],
-      [ "sw::StackLayoutV", "classsw_1_1StackLayoutV.html", [
-        [ "sw::StackLayout", "classsw_1_1StackLayout.html", null ]
-      ] ],
+      [ "sw::StackLayout", "classsw_1_1StackLayout.html", null ],
+      [ "sw::StackLayoutH", "classsw_1_1StackLayoutH.html", null ],
+      [ "sw::StackLayoutV", "classsw_1_1StackLayoutV.html", null ],
       [ "sw::UniformGridLayout", "classsw_1_1UniformGridLayout.html", null ],
-      [ "sw::WrapLayoutH", "classsw_1_1WrapLayoutH.html", [
-        [ "sw::WrapLayout", "classsw_1_1WrapLayout.html", null ]
-      ] ],
-      [ "sw::WrapLayoutV", "classsw_1_1WrapLayoutV.html", [
-        [ "sw::WrapLayout", "classsw_1_1WrapLayout.html", null ]
-      ] ]
+      [ "sw::WrapLayout", "classsw_1_1WrapLayout.html", null ],
+      [ "sw::WrapLayoutH", "classsw_1_1WrapLayoutH.html", null ],
+      [ "sw::WrapLayoutV", "classsw_1_1WrapLayoutV.html", null ]
     ] ],
     [ "sw::ListViewColumn", "structsw_1_1ListViewColumn.html", null ],
     [ "sw::ListViewItem", "structsw_1_1ListViewItem.html", null ],
@@ -627,6 +621,7 @@ var hierarchy =
     [ "sw::PropertyBase< WindowState, Property< WindowState > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::Reflection", "classsw_1_1Reflection.html", null ],
     [ "sw::ReverseConverter< TBaseConverter, typename >", "classsw_1_1ReverseConverter.html", null ],
+    [ "sw::RoutedEventHandlerWrapper< TEventArgs, typename >", "classsw_1_1RoutedEventHandlerWrapper.html", null ],
     [ "sw::Screen", "classsw_1_1Screen.html", null ],
     [ "sw::StaticEventInitializer< TDelegate >", "classsw_1_1StaticEventInitializer.html", null ],
     [ "sw::StaticPropertyInitializer< TValue >", "classsw_1_1StaticPropertyInitializer.html", null ],

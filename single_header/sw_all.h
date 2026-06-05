@@ -9317,12 +9317,21 @@ namespace sw
 namespace sw
 {
     /**
+     * @brief 路由事件处理函数包装类前置声明
+     * @note 第二个模板参数用于SFINAE，只有当TEventArgs继承自RoutedEventArgs时才启用具体实现
+     */
+    template <typename TEventArgs, typename = void>
+    class RoutedEventHandlerWrapper;
+
+    /**
      * @brief 路由事件处理函数包装类，用于需要转换RoutedEventArgs为特定事件参数类型的情况
      */
-    template <
-        typename TEventArgs,
-        typename std::enable_if<std::is_base_of<RoutedEventArgs, TEventArgs>::value, int>::type = 0>
-    class RoutedEventHandlerWrapper : public ICallable<void(UIElement &, RoutedEventArgs &)>
+    template <typename TEventArgs>
+    class RoutedEventHandlerWrapper<
+        TEventArgs,
+        typename std::enable_if<
+            std::is_base_of<RoutedEventArgs, TEventArgs>::value>::type>
+        : public ICallable<void(UIElement &, RoutedEventArgs &)>
     {
     private:
         /**
@@ -9332,7 +9341,7 @@ namespace sw
 
     public:
         /**
-         * @brief 构造函数
+         * @brief 构造函数，拷贝事件处理函数
          * @param handler 事件处理函数
          */
         RoutedEventHandlerWrapper(const Action<UIElement &, TEventArgs &> &handler)
@@ -9341,7 +9350,35 @@ namespace sw
         }
 
         /**
+         * @brief 构造函数，移动事件处理函数
+         * @param handler 事件处理函数
+         */
+        RoutedEventHandlerWrapper(Action<UIElement &, TEventArgs &> &&handler)
+            : _handler(std::move(handler))
+        {
+        }
+
+        /**
+         * @brief 拷贝构造函数
+         * @param other 要拷贝的路由事件处理函数包装对象
+         */
+        RoutedEventHandlerWrapper(const RoutedEventHandlerWrapper &other)
+            : _handler(other._handler)
+        {
+        }
+
+        /**
+         * @brief 移动构造函数
+         * @param other 要移动的路由事件处理函数包装对象
+         */
+        RoutedEventHandlerWrapper(RoutedEventHandlerWrapper &&other) noexcept
+            : _handler(std::move(other._handler))
+        {
+        }
+
+        /**
          * @brief 调用事件处理函数
+         * @note 调用方根据路由事件类型保证args的实际类型为TEventArgs
          */
         virtual void Invoke(UIElement &sender, RoutedEventArgs &args) const override
         {
@@ -9353,7 +9390,7 @@ namespace sw
          */
         virtual ICallable<void(UIElement &, RoutedEventArgs &)> *Clone() const override
         {
-            return new RoutedEventHandlerWrapper(_handler);
+            return new RoutedEventHandlerWrapper(*this);
         }
 
         /**
@@ -11139,12 +11176,13 @@ namespace sw
         virtual Variant GetVariantAt(int index) = 0;
 
         /**
-         * @brief 获取指定索引处元素的const Variant引用
+         * @brief 获取指定索引处元素的Variant副本
          * @param index 元素索引
-         * @return 元素的const Variant引用
+         * @return 元素的Variant副本
          * @throws std::out_of_range 索引超出范围
+         * @throws std::logic_error 元素类型不可拷贝构造时
          */
-        virtual const Variant GetVariantAt(int index) const = 0;
+        virtual Variant GetVariantAt(int index) const = 0;
 
         /**
          * @brief 设置指定索引处的元素值
@@ -11197,14 +11235,15 @@ namespace sw
         }
 
         /**
-         * @brief 获取指定索引处元素的const Variant引用
+         * @brief 获取指定索引处元素的Variant副本
          * @param index 元素索引
-         * @return 元素的const Variant引用
+         * @return 元素的Variant副本
          * @throws std::out_of_range 索引超出范围
+         * @throws std::logic_error T不可拷贝构造时
          */
-        virtual const Variant GetVariantAt(int index) const override final
+        virtual Variant GetVariantAt(int index) const override final
         {
-            return Variant::MakeRef(GetAt(index));
+            return GetVariantValueAtImpl(index);
         }
 
         /**
@@ -11236,6 +11275,31 @@ namespace sw
         }
 
     private:
+        /**
+         * @brief 获取Variant副本的实现（T可拷贝构造时）
+         * @param index 元素索引
+         * @return 元素的Variant副本
+         * @throws std::out_of_range 索引超出范围
+         */
+        template <typename U = T>
+        auto GetVariantValueAtImpl(int index) const
+            -> typename std::enable_if<std::is_copy_constructible<U>::value, Variant>::type
+        {
+            return Variant{GetAt(index)};
+        }
+
+        /**
+         * @brief 获取Variant副本的实现（T不可拷贝构造时）
+         * @throws std::logic_error T不可拷贝构造
+         */
+        template <typename U = T>
+        auto GetVariantValueAtImpl(int) const
+            -> typename std::enable_if<!std::is_copy_constructible<U>::value, Variant>::type
+        {
+            throw std::logic_error(
+                "Type T must be copy constructible to get Variant by value in IListT.");
+        }
+
         /**
          * @brief 设置Variant值的实现（T为Variant时，直接赋值）
          * @param index 元素索引
@@ -13187,7 +13251,7 @@ namespace sw
          * @brief 获取底层std::vector的引用
          * @return std::vector的引用
          */
-        std::vector<T> &GetStdVector() noexcept
+        std::vector<T> &GetInternalVector() noexcept
         {
             return _data;
         }
@@ -13196,7 +13260,7 @@ namespace sw
          * @brief 获取底层std::vector的const引用
          * @return std::vector的const引用
          */
-        const std::vector<T> &GetStdVector() const noexcept
+        const std::vector<T> &GetInternalVector() const noexcept
         {
             return _data;
         }
@@ -13332,7 +13396,7 @@ namespace sw
     /**
      * @brief 横向堆叠布局
      */
-    class StackLayoutH : virtual public LayoutHost
+    class StackLayoutH : public LayoutHost
     {
     public:
         /**
@@ -13352,7 +13416,7 @@ namespace sw
     /**
      * @brief 纵向堆叠布局
      */
-    class StackLayoutV : virtual public LayoutHost
+    class StackLayoutV : public LayoutHost
     {
     public:
         /**
@@ -13372,7 +13436,7 @@ namespace sw
     /**
      * @brief 堆叠布局
      */
-    class StackLayout : public StackLayoutH, public StackLayoutV
+    class StackLayout : public LayoutHost
     {
     public:
         /**
@@ -13444,7 +13508,7 @@ namespace sw
     /**
      * @brief 横向自动换行布局
      */
-    class WrapLayoutH : virtual public LayoutHost
+    class WrapLayoutH : public LayoutHost
     {
     public:
         /**
@@ -13464,7 +13528,7 @@ namespace sw
     /**
      * @brief 纵向自动换行布局
      */
-    class WrapLayoutV : virtual public LayoutHost
+    class WrapLayoutV : public LayoutHost
     {
     public:
         /**
@@ -13484,7 +13548,7 @@ namespace sw
     /**
      * @brief 自动换行布局
      */
-    class WrapLayout : public WrapLayoutH, public WrapLayoutV
+    class WrapLayout : public LayoutHost
     {
     public:
         /**
@@ -14449,7 +14513,7 @@ namespace sw
                 return;
             }
 
-            auto &items = _items.GetStdVector();
+            auto &items = _items.GetInternalVector();
 
             T value = std::move(items[static_cast<size_t>(oldIndex)]);
             items.erase(items.begin() + static_cast<size_t>(oldIndex));
@@ -14529,18 +14593,18 @@ namespace sw
          * @brief 获取底层std::vector的引用
          * @return std::vector的引用
          */
-        std::vector<T> &GetStdVector() noexcept
+        std::vector<T> &GetInternalVector() noexcept
         {
-            return _items.GetStdVector();
+            return _items.GetInternalVector();
         }
 
         /**
          * @brief 获取底层std::vector的const引用
          * @return std::vector的const引用
          */
-        const std::vector<T> &GetStdVector() const noexcept
+        const std::vector<T> &GetInternalVector() const noexcept
         {
-            return _items.GetStdVector();
+            return _items.GetInternalVector();
         }
 
     public:
@@ -19096,6 +19160,11 @@ namespace sw
     class ButtonBase : public Control
     {
     private:
+        /**
+         * @brief 基类别名，方便调用基类函数
+         */
+        using TBase = Control;
+
         /**
          * @brief 是否自动调整大小以适应内容
          */
