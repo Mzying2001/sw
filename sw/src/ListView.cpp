@@ -173,6 +173,11 @@ void sw::ListView::CancelEdit()
     SendMessageW(LVM_CANCELEDITLABEL, 0, 0);
 }
 
+bool sw::ListView::EnsureVisible(int index, bool partialOK)
+{
+    return SendMessageW(LVM_ENSUREVISIBLE, index, static_cast<LPARAM>(partialOK)) != FALSE;
+}
+
 sw::IList *sw::ListView::GetDefaultItemsSource()
 {
     return &_items;
@@ -613,14 +618,14 @@ bool sw::ListView::_InsertColumn(int index, const ListViewColumn &column)
 
 bool sw::ListView::_DeleteColumn(int index)
 {
-    return SendMessageW(LVM_DELETECOLUMN, index, 0);
+    return SendMessageW(LVM_DELETECOLUMN, index, 0) != FALSE;
 }
 
 bool sw::ListView::_SetColumn(int index, const ListViewColumn &column)
 {
     LVCOLUMNW lvc{};
     _ApplyColumnInfo(column, &lvc);
-    return SendMessageW(LVM_SETCOLUMNW, index, reinterpret_cast<LPARAM>(&lvc));
+    return SendMessageW(LVM_SETCOLUMNW, index, reinterpret_cast<LPARAM>(&lvc)) != FALSE;
 }
 
 void sw::ListView::_UpdateColumns()

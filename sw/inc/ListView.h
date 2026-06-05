@@ -201,6 +201,14 @@ namespace sw
          */
         void CancelEdit();
 
+        /**
+         * @brief 确保指定索引的项可见
+         * @param index 要确保可见的项的索引
+         * @param partialOK 是否允许部分可见，默认为false表示必须完全可见
+         * @return 操作是否成功，若index无效或无法确保可见则返回false
+         */
+        bool EnsureVisible(int index, bool partialOK = false);
+
     protected:
         /**
          * @brief 获取默认数据源，当ItemsSource未设置时使用该数据源
