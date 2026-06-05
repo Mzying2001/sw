@@ -20,6 +20,7 @@ sw::Splitter::Splitter()
               .Setter([](Splitter *self, sw::Orientation value) {
                   if (self->_orientation != value) {
                       self->_orientation = value;
+                      self->RaisePropertyChanged(&Splitter::Orientation);
                       value == Orientation::Horizontal
                           ? self->SetAlignment(HorizontalAlignment::Stretch, VerticalAlignment::Center)
                           : self->SetAlignment(HorizontalAlignment::Center, VerticalAlignment::Stretch);
@@ -35,20 +36,21 @@ sw::Splitter::Splitter()
                   if (self->_drawSplitterLine != value) {
                       self->_drawSplitterLine = value;
                       self->Redraw();
+                      self->RaisePropertyChanged(&Splitter::DrawSplitterLine);
                   }
               }))
 {
-    static thread_local ATOM splitterClsAtom = 0;
-
-    if (splitterClsAtom == 0) {
+    static ATOM wndClsAtom = []() -> ATOM {
         WNDCLASSEXW wc{};
         wc.cbSize        = sizeof(wc);
         wc.hInstance     = App::Instance;
         wc.lpfnWndProc   = DefWindowProcW;
         wc.lpszClassName = _SplitterClassName;
         wc.hCursor       = CursorHelper::GetCursorHandle(StandardCursor::Arrow);
-        splitterClsAtom  = RegisterClassExW(&wc);
-    }
+        return RegisterClassExW(&wc);
+    }();
+
+    (void)wndClsAtom; // 消除未使用变量警告
 
     InitControl(_SplitterClassName, NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, WS_EX_NOACTIVATE);
 

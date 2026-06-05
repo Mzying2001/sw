@@ -1,7 +1,7 @@
 #pragma once
 
 #include "LayoutHost.h"
-#include "List.h"
+#include "ObservableCollection.h"
 
 namespace sw
 {
@@ -232,12 +232,12 @@ namespace sw
         /**
          * @brief 行定义
          */
-        List<GridRow> rows;
+        ObservableCollection<GridRow> rows;
 
         /**
          * @brief 列定义
          */
-        List<GridColumn> columns;
+        ObservableCollection<GridColumn> columns;
 
         /**
          * @brief 测量元素所需尺寸，无需考虑边框和边距

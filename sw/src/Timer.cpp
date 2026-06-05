@@ -20,10 +20,12 @@ sw::Timer::Timer()
                   return self->_interval;
               })
               .Setter([](Timer *self, uint32_t value) {
-                  self->_interval = value;
-                  if (self->_started) {
-                      self->Stop();
-                      self->Start();
+                  if (self->_interval != value) {
+                      self->_interval = value;
+                      self->RaisePropertyChanged(&Timer::Interval);
+                      if (self->_started) {
+                          self->Stop(), self->Start();
+                      }
                   }
               }))
 {

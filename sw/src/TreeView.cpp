@@ -253,7 +253,10 @@ sw::TreeView::TreeView()
                   return self->GetStyle(TVS_CHECKBOXES);
               })
               .Setter([](TreeView *self, bool value) {
-                  self->SetStyle(TVS_CHECKBOXES, value);
+                  if (self->CheckBoxes != value) {
+                      self->SetStyle(TVS_CHECKBOXES, value);
+                      self->RaisePropertyChanged(&TreeView::CheckBoxes);
+                  }
               })),
 
       LineColor(
@@ -263,8 +266,11 @@ sw::TreeView::TreeView()
                   return static_cast<Color>(TreeView_GetLineColor(hwnd));
               })
               .Setter([](TreeView *self, const Color &value) {
-                  HWND hwnd = self->Handle;
-                  TreeView_SetLineColor(hwnd, static_cast<COLORREF>(value));
+                  if (self->LineColor != value) {
+                      HWND hwnd = self->Handle;
+                      TreeView_SetLineColor(hwnd, static_cast<COLORREF>(value));
+                      self->RaisePropertyChanged(&TreeView::LineColor);
+                  }
               })),
 
       IndentWidth(
@@ -274,8 +280,11 @@ sw::TreeView::TreeView()
                   return Dip::PxToDipX(TreeView_GetIndent(hwnd));
               })
               .Setter([](TreeView *self, double value) {
-                  HWND hwnd = self->Handle;
-                  TreeView_SetIndent(hwnd, Dip::DipToPxX(value));
+                  if (self->IndentWidth != value) {
+                      HWND hwnd = self->Handle;
+                      TreeView_SetIndent(hwnd, Dip::DipToPxX(value));
+                      self->RaisePropertyChanged(&TreeView::IndentWidth);
+                  }
               }))
 {
     InitControl(WC_TREEVIEWW, NULL, WS_VISIBLE | WS_CHILD | WS_CLIPSIBLINGS | WS_BORDER | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS, 0);
@@ -284,17 +293,17 @@ sw::TreeView::TreeView()
     TabStop = true;
 }
 
-void sw::TreeView::SetBackColor(Color color, bool redraw)
+void sw::TreeView::OnSetBackColor(Color color, bool redraw)
 {
-    Control::SetBackColor(color, false);
+    TBase::OnSetBackColor(color, false);
 
     HWND hwnd = Handle;
     TreeView_SetBkColor(hwnd, static_cast<COLORREF>(color));
 }
 
-void sw::TreeView::SetTextColor(Color color, bool redraw)
+void sw::TreeView::OnSetTextColor(Color color, bool redraw)
 {
-    Control::SetTextColor(color, false);
+    TBase::OnSetTextColor(color, false);
 
     HWND hwnd = Handle;
     TreeView_SetTextColor(hwnd, static_cast<COLORREF>(color));

@@ -57,7 +57,10 @@ sw::ProgressBar::ProgressBar()
                   return (ProgressBarState)self->SendMessageW(PBM_GETSTATE, 0, 0);
               })
               .Setter([](ProgressBar *self, ProgressBarState value) {
-                  self->SendMessageW(PBM_SETSTATE, (WPARAM)value, 0);
+                  if (self->State != value) {
+                      self->SendMessageW(PBM_SETSTATE, (WPARAM)value, 0);
+                      self->RaisePropertyChanged(&ProgressBar::State);
+                  }
               })),
 
       Vertical(
@@ -66,9 +69,12 @@ sw::ProgressBar::ProgressBar()
                   return self->GetStyle(PBS_VERTICAL);
               })
               .Setter([](ProgressBar *self, bool value) {
-                  auto pos = self->Value.Get();
-                  self->SetStyle(PBS_VERTICAL, value);
-                  self->SendMessageW(PBM_SETPOS, pos, 0);
+                  if (self->Vertical != value) {
+                      auto pos = self->Value.Get();
+                      self->SetStyle(PBS_VERTICAL, value);
+                      self->SendMessageW(PBM_SETPOS, pos, 0);
+                      self->RaisePropertyChanged(&ProgressBar::Vertical);
+                  }
               }))
 {
     InitControl(PROGRESS_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | PBS_SMOOTH | PBS_SMOOTHREVERSE, 0);

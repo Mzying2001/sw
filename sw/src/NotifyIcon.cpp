@@ -42,10 +42,13 @@ sw::NotifyIcon::NotifyIcon()
                   return self->_nid.hIcon;
               })
               .Setter([](NotifyIcon *self, HICON value) {
-                  self->_nid.hIcon = value;
-                  self->_nid.uFlags |= NIF_ICON;
-                  self->_ModifyIcon();
-                  self->_nid.uFlags &= ~NIF_ICON;
+                  if (self->_nid.hIcon != value) {
+                      self->_nid.hIcon = value;
+                      self->_nid.uFlags |= NIF_ICON;
+                      self->_ModifyIcon();
+                      self->_nid.uFlags &= ~NIF_ICON;
+                      self->RaisePropertyChanged(&NotifyIcon::Icon);
+                  }
               })),
 
       ToolTip(
@@ -54,6 +57,9 @@ sw::NotifyIcon::NotifyIcon()
                   return self->_nid.szTip;
               })
               .Setter([](NotifyIcon *self, const std::wstring &value) {
+                  if (self->_nid.szTip == value) {
+                      return;
+                  }
                   if (value.empty()) {
                       self->_nid.szTip[0] = L'\0';
                   } else {
@@ -63,6 +69,7 @@ sw::NotifyIcon::NotifyIcon()
                   self->_nid.uFlags |= NIF_TIP;
                   self->_ModifyIcon();
                   self->_nid.uFlags &= ~NIF_TIP;
+                  self->RaisePropertyChanged(&NotifyIcon::ToolTip);
               })),
 
       Visible(
@@ -71,7 +78,10 @@ sw::NotifyIcon::NotifyIcon()
                   return (self->_nid.dwState & NIS_HIDDEN) == 0;
               })
               .Setter([](NotifyIcon *self, bool value) {
-                  value ? self->Show() : self->Hide();
+                  if (self->Visible != value) {
+                      value ? self->Show() : self->Hide();
+                      self->RaisePropertyChanged(&NotifyIcon::Visible);
+                  }
               })),
 
       ContextMenu(
@@ -80,7 +90,10 @@ sw::NotifyIcon::NotifyIcon()
                   return self->_contextMenu;
               })
               .Setter([](NotifyIcon *self, sw::ContextMenu *value) {
-                  self->_contextMenu = value;
+                  if (self->_contextMenu != value) {
+                      self->_contextMenu = value;
+                      self->RaisePropertyChanged(&NotifyIcon::ContextMenu);
+                  }
               })),
 
       Rect(

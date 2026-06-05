@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ObservableCollection.h"
 #include "TextBoxBase.h"
 
 namespace sw
@@ -23,7 +24,7 @@ namespace sw
         /**
          * @brief 储存加速信息
          */
-        std::vector<UDACCEL> _accels;
+        ObservableCollection<UDACCEL> _accels;
 
     public:
         /**
@@ -51,24 +52,16 @@ namespace sw
          */
         const Property<uint32_t> Increment;
 
+        /**
+         * @brief 加速信息集合，默认为包含一个元素（0秒后增量为1）的集合
+         */
+        const ReadOnlyProperty<ObservableCollection<UDACCEL> *> Accelerations;
+
     public:
         /**
          * @brief 初始化数值调节框
          */
         SpinBox();
-
-        /**
-         * @brief 添加加速信息
-         * @param seconds 按住按钮多少秒后开始加速
-         * @param increment 达到seconds秒后每次增加的值
-         * @return 返回当前对象以支持链式调用
-         */
-        SpinBox &AddAccel(uint32_t seconds, uint32_t increment);
-
-        /**
-         * @brief 清除所有加速信息
-         */
-        void ClearAccels();
 
     protected:
         /**
@@ -115,11 +108,6 @@ namespace sw
         void _InitUpDownControl();
 
         /**
-         * @brief 初始化加速信息
-         */
-        void _InitAccels();
-
-        /**
          * @brief 获取当前值
          * @return 当前值
          */
@@ -157,5 +145,13 @@ namespace sw
          * @brief 更新UpDown控件的位置
          */
         void _UpdateUpDownPos();
+
+        /**
+         * @brief Accelerations集合变更时调用该函数
+         * @param sender 事件的发送者
+         * @param args 包含集合变更信息的事件参数
+         */
+        void _AccelerationCollectionChangedHandler(
+            INotifyCollectionChanged &sender, NotifyCollectionChangedEventArgs &args);
     };
 };

@@ -9,6 +9,7 @@ sw::DockPanel::DockPanel()
               .Setter([](DockPanel *self, bool value) {
                   if (self->_dockLayout.lastChildFill != value) {
                       self->_dockLayout.lastChildFill = value;
+                      self->RaisePropertyChanged(&DockPanel::LastChildFill);
                       self->InvalidateMeasure();
                   }
               }))

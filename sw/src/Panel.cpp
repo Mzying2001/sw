@@ -39,17 +39,17 @@ sw::Panel::Panel()
                   }
               }))
 {
-    static thread_local ATOM panelClsAtom = 0;
-
-    if (panelClsAtom == 0) {
+    static ATOM wndClsAtom = []() -> ATOM {
         WNDCLASSEXW wc{};
         wc.cbSize        = sizeof(wc);
         wc.hInstance     = App::Instance;
         wc.lpfnWndProc   = DefWindowProcW;
         wc.lpszClassName = _PanelClassName;
         wc.hCursor       = CursorHelper::GetCursorHandle(StandardCursor::Arrow);
-        panelClsAtom     = RegisterClassExW(&wc);
-    }
+        return RegisterClassExW(&wc);
+    }();
+
+    (void)wndClsAtom; // 消除未使用变量警告
 
     InitControl(_PanelClassName, NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, WS_EX_NOACTIVATE);
 

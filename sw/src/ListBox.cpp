@@ -70,7 +70,6 @@ sw::ListBox::ListBox()
 void sw::ListBox::Refresh()
 {
     _UpdateCount();
-    Redraw();
 }
 
 int sw::ListBox::GetItemIndexFromPoint(const Point &point)
@@ -99,9 +98,9 @@ void sw::ListBox::OnCurrentItemsSourceCollectionChanged(const NotifyCollectionCh
             break;
         case NotifyCollectionChangedAction::Replace:
         case NotifyCollectionChangedAction::Move:
-            break; // 数量未变无需更新
+            Redraw();
+            break;
     }
-    Redraw();
 }
 
 void sw::ListBox::FontChanged(HFONT hfont)

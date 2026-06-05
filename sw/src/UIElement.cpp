@@ -148,8 +148,11 @@ sw::UIElement::UIElement()
                   return self->_backColor;
               })
               .Setter([](UIElement *self, const Color &value) {
-                  self->Transparent = false;
-                  self->SetBackColor(value, true);
+                  if (self->_transparent) {
+                      self->_transparent = false;
+                      self->RaisePropertyChanged(_PropId_Transparent);
+                  }
+                  self->OnSetBackColor(value, true);
               })),
 
       TextColor(
@@ -158,8 +161,11 @@ sw::UIElement::UIElement()
                   return self->_textColor;
               })
               .Setter([](UIElement *self, const Color &value) {
-                  self->InheritTextColor = false;
-                  self->SetTextColor(value, true);
+                  if (self->_inheritTextColor) {
+                      self->_inheritTextColor = false;
+                      self->RaisePropertyChanged(_PropId_InheritTextColor);
+                  }
+                  self->OnSetTextColor(value, true);
               })),
 
       Transparent(
@@ -170,8 +176,8 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, bool value) {
                   if (self->_transparent != value) {
                       self->_transparent = value;
-                      self->RaisePropertyChanged(_PropId_Transparent);
                       self->Redraw();
+                      self->RaisePropertyChanged(_PropId_Transparent);
                   }
               })),
 
@@ -183,8 +189,8 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, bool value) {
                   if (self->_inheritTextColor != value) {
                       self->_inheritTextColor = value;
-                      self->RaisePropertyChanged(_PropId_InheritTextColor);
                       self->Redraw();
+                      self->RaisePropertyChanged(_PropId_InheritTextColor);
                   }
               })),
 
@@ -1086,24 +1092,20 @@ void sw::UIElement::ArrangeOverride(const Size &finalSize)
 {
 }
 
-void sw::UIElement::SetBackColor(Color color, bool redraw)
+void sw::UIElement::OnSetBackColor(Color color, bool redraw)
 {
     this->_backColor = color;
     this->RaisePropertyChanged(_PropId_BackColor);
 
-    if (redraw) {
-        this->Redraw();
-    }
+    if (redraw) this->Redraw();
 }
 
-void sw::UIElement::SetTextColor(Color color, bool redraw)
+void sw::UIElement::OnSetTextColor(Color color, bool redraw)
 {
     this->_textColor = color;
     this->RaisePropertyChanged(_PropId_TextColor);
 
-    if (redraw) {
-        this->Redraw();
-    }
+    if (redraw) this->Redraw();
 }
 
 bool sw::UIElement::RequestBringIntoView(const sw::Rect &screenRect)

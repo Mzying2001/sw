@@ -9,6 +9,7 @@ sw::StackPanel::StackPanel()
               .Setter([](StackPanel *self, sw::Orientation value) {
                   if (self->_stackLayout.orientation != value) {
                       self->_stackLayout.orientation = value;
+                      self->RaisePropertyChanged(&StackPanel::Orientation);
                       self->InvalidateMeasure();
                   }
               }))

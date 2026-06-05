@@ -45,8 +45,11 @@ sw::TabControl::TabControl()
                   return self->GetStyle(TCS_MULTILINE);
               })
               .Setter([](TabControl *self, bool value) {
-                  self->SetStyle(TCS_MULTILINE, value);
-                  self->InvalidateMeasure();
+                  if (self->MultiLine != value) {
+                      self->SetStyle(TCS_MULTILINE, value);
+                      self->RaisePropertyChanged(&TabControl::MultiLine);
+                      self->InvalidateMeasure();
+                  }
               })),
 
       AutoSize(
@@ -57,6 +60,7 @@ sw::TabControl::TabControl()
               .Setter([](TabControl *self, bool value) {
                   if (self->_autoSize != value) {
                       self->_autoSize = value;
+                      self->RaisePropertyChanged(&TabControl::AutoSize);
                       self->InvalidateMeasure();
                   }
               }))
@@ -283,6 +287,7 @@ void sw::TabControl::_SetTabAlignment(TabAlignment value)
         this->LayoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
     }
 
+    this->RaisePropertyChanged(&TabControl::Alignment);
     this->InvalidateMeasure();
 }
 

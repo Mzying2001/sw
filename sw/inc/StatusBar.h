@@ -69,6 +69,6 @@ namespace sw
          * @param color 要设置的颜色
          * @param redraw 是否重绘
          */
-        virtual void SetBackColor(Color color, bool redraw) override;
+        virtual void OnSetBackColor(Color color, bool redraw) override;
     };
 }

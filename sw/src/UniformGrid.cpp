@@ -9,6 +9,7 @@ sw::UniformGrid::UniformGrid()
               .Setter([](UniformGrid *self, int value) {
                   if (self->_uniformGridLayout.rows != value) {
                       self->_uniformGridLayout.rows = value;
+                      self->RaisePropertyChanged(&UniformGrid::Rows);
                       self->InvalidateMeasure();
                   }
               })),
@@ -21,6 +22,7 @@ sw::UniformGrid::UniformGrid()
               .Setter([](UniformGrid *self, int value) {
                   if (self->_uniformGridLayout.columns != value) {
                       self->_uniformGridLayout.columns = value;
+                      self->RaisePropertyChanged(&UniformGrid::Columns);
                       self->InvalidateMeasure();
                   }
               })),
@@ -33,6 +35,7 @@ sw::UniformGrid::UniformGrid()
               .Setter([](UniformGrid *self, int value) {
                   if (self->_uniformGridLayout.firstColumn != value) {
                       self->_uniformGridLayout.firstColumn = value;
+                      self->RaisePropertyChanged(&UniformGrid::FirstColumn);
                       self->InvalidateMeasure();
                   }
               }))
