@@ -55,41 +55,35 @@ sw::SpinBox::SpinBox()
       Increment(
           Property<uint32_t>::Init(this)
               .Getter([](SpinBox *self) -> uint32_t {
-                  if (self->_accels.empty())
-                      self->_InitAccels();
-                  return self->_accels[0].nInc;
+                  if (self->_accels.Count() == 0)
+                      self->_accels.Refresh();
+                  return self->_accels.GetAt(0).nInc;
               })
               .Setter([](SpinBox *self, uint32_t value) {
-                  if (self->Increment != value) {
-                      if (self->_accels.empty()) {
-                          self->_accels.push_back({0, value});
-                      } else {
-                          self->_accels[0].nInc = value;
+                  if (self->_accels.Count() == 0 ||
+                      self->_accels.GetAt(0).nSec != 0) {
+                      self->_accels.Insert(0, {0, value});
+                  } else {
+                      auto inc = self->_accels.GetAt(0).nInc;
+                      if (inc != value) {
+                          self->_accels.SetAt(0, {0, value});
                       }
-                      self->_SetAccel(self->_accels.size(), &self->_accels[0]);
-                      self->RaisePropertyChanged(&SpinBox::Increment);
                   }
+              })),
+
+      Accelerations(
+          Property<ObservableCollection<UDACCEL> *>::Init(this)
+              .Getter([](SpinBox *self) -> ObservableCollection<UDACCEL> * {
+                  return &self->_accels;
               }))
 {
     InitTextBoxBase(WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | ES_LEFT | ES_AUTOHSCROLL | ES_AUTOVSCROLL, WS_EX_CLIENTEDGE);
+
+    _accels.CollectionChanged +=
+        NotifyCollectionChangedEventHandler(*this, &SpinBox::_AccelerationCollectionChangedHandler);
+
     Rect = sw::Rect{0, 0, 100, 24};
     _InitSpinBox();
-}
-
-sw::SpinBox &sw::SpinBox::AddAccel(uint32_t seconds, uint32_t increment)
-{
-    if (seconds <= 0) {
-        Increment = increment;
-    } else {
-        _accels.push_back({seconds, increment});
-        _SetAccel(_accels.size(), &_accels[0]);
-    }
-    return *this;
-}
-
-void sw::SpinBox::ClearAccels()
-{
-    _InitAccels();
 }
 
 void sw::SpinBox::OnTextChanged()
@@ -100,8 +94,8 @@ void sw::SpinBox::OnTextChanged()
 
 void sw::SpinBox::OnHandleChanged(HWND hwnd)
 {
-    TextBoxBase::OnHandleChanged(hwnd);
     _InitSpinBox();
+    TextBoxBase::OnHandleChanged(hwnd);
 }
 
 bool sw::SpinBox::OnMove(const Point &newClientPosition)
@@ -144,17 +138,10 @@ void sw::SpinBox::_InitUpDownControl()
         0, 0, 20, 0,
         hwnd, NULL, App::Instance, NULL);
 
-    _InitAccels();
     _UpdateUpDownPos();
+    _accels.Refresh();
 
     ::SendMessageW(_hUpDown, UDM_SETBUDDY, reinterpret_cast<WPARAM>(hwnd), 0);
-}
-
-void sw::SpinBox::_InitAccels()
-{
-    _accels.clear();
-    _accels.push_back({0, 1});
-    _SetAccel(_accels.size(), &_accels[0]);
 }
 
 int sw::SpinBox::_GetPos32()
@@ -200,4 +187,41 @@ void sw::SpinBox::_UpdateUpDownPos()
         _upDownWidth, rtClient.bottom, SWP_NOZORDER | SWP_NOACTIVATE);
 
     InvalidateRect(_hUpDown, NULL, FALSE);
+}
+
+void sw::SpinBox::_AccelerationCollectionChangedHandler(
+    INotifyCollectionChanged &sender, NotifyCollectionChangedEventArgs &args)
+{
+    bool incChanged = false;
+
+    switch (args.action) {
+        case NotifyCollectionChangedAction::Add:
+        case NotifyCollectionChangedAction::Remove:
+        case NotifyCollectionChangedAction::Replace:
+            if (args.index == 0)
+                incChanged = true;
+            break;
+
+        case NotifyCollectionChangedAction::Move:
+            if (args.index == 0 || args.oldIndex == 0)
+                incChanged = true;
+            break;
+
+        case NotifyCollectionChangedAction::Reset:
+            incChanged = true;
+            break;
+    }
+
+    auto &vec = _accels.GetInternalVector();
+
+    if (vec.size() == 0 || vec[0].nSec != 0) {
+        incChanged = true;
+        vec.insert(vec.begin(), {0, 1});
+    }
+
+    _SetAccel(vec.size(), &vec[0]);
+
+    if (incChanged) {
+        RaisePropertyChanged(&SpinBox::Increment);
+    }
 }
