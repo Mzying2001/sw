@@ -11,6 +11,11 @@ namespace sw
     {
     private:
         /**
+         * @brief 基类别名，方便调用基类函数
+         */
+        using TBase = Panel;
+
+        /**
          * @brief 标题文本所需大小
          */
         SIZE _textSize;

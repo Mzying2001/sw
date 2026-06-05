@@ -96,25 +96,25 @@ void sw::GroupBox::OnTextChanged()
 {
     _UpdateTextSize();
     UpdateBorder();
-    Panel::OnTextChanged();
+    TBase::OnTextChanged();
 }
 
 void sw::GroupBox::FontChanged(HFONT hfont)
 {
     _UpdateTextSize();
     UpdateBorder();
-    Panel::FontChanged(hfont);
+    TBase::FontChanged(hfont);
 }
 
 void sw::GroupBox::OnSetBackColor(Color color, bool redraw)
 {
-    UIElement::OnSetBackColor(color, redraw);
+    TBase::OnSetBackColor(color, redraw);
     if (redraw) UpdateBorder();
 }
 
 void sw::GroupBox::OnSetTextColor(Color color, bool redraw)
 {
-    UIElement::OnSetTextColor(color, redraw);
+    TBase::OnSetTextColor(color, redraw);
     if (redraw) UpdateBorder();
 }
 
