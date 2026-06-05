@@ -82,6 +82,11 @@ namespace sw
     {
     private:
         /**
+         * @brief 基类别名，方便调用基类函数
+         */
+        using TBase = ItemsControl;
+
+        /**
          * @brief 列表项集合
          */
         ObservableCollection<ListViewItem> _items;
@@ -245,14 +250,14 @@ namespace sw
          * @param color 要设置的颜色
          * @param redraw 是否重绘
          */
-        virtual void SetBackColor(Color color, bool redraw) override;
+        virtual void OnSetBackColor(Color color, bool redraw) override;
 
         /**
          * @brief 设置文本颜色
          * @param color 要设置的颜色
          * @param redraw 是否重绘
          */
-        virtual void SetTextColor(Color color, bool redraw) override;
+        virtual void OnSetTextColor(Color color, bool redraw) override;
 
         /**
          * @brief 接收到WM_NOTIFY后调用该函数

@@ -284,17 +284,17 @@ sw::TreeView::TreeView()
     TabStop = true;
 }
 
-void sw::TreeView::SetBackColor(Color color, bool redraw)
+void sw::TreeView::OnSetBackColor(Color color, bool redraw)
 {
-    Control::SetBackColor(color, false);
+    TBase::OnSetBackColor(color, false);
 
     HWND hwnd = Handle;
     TreeView_SetBkColor(hwnd, static_cast<COLORREF>(color));
 }
 
-void sw::TreeView::SetTextColor(Color color, bool redraw)
+void sw::TreeView::OnSetTextColor(Color color, bool redraw)
 {
-    Control::SetTextColor(color, false);
+    TBase::OnSetTextColor(color, false);
 
     HWND hwnd = Handle;
     TreeView_SetTextColor(hwnd, static_cast<COLORREF>(color));

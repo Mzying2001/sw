@@ -63,15 +63,15 @@ bool sw::MonthCalendar::SetRange(const SYSTEMTIME &minTime, const SYSTEMTIME &ma
     return this->SendMessageW(MCM_SETRANGE, GDTR_MIN | GDTR_MAX, reinterpret_cast<LPARAM>(range));
 }
 
-void sw::MonthCalendar::SetBackColor(Color color, bool redraw)
+void sw::MonthCalendar::OnSetBackColor(Color color, bool redraw)
 {
-    this->Control::SetBackColor(color, false);
+    this->Control::OnSetBackColor(color, false);
     this->SendMessageW(MCM_SETCOLOR, MCSC_BACKGROUND, (COLORREF)color);
 }
 
-void sw::MonthCalendar::SetTextColor(Color color, bool redraw)
+void sw::MonthCalendar::OnSetTextColor(Color color, bool redraw)
 {
-    this->Control::SetTextColor(color, false);
+    this->Control::OnSetTextColor(color, false);
     this->SendMessageW(MCM_SETCOLOR, MCSC_TEXT, (COLORREF)color);
 }
 

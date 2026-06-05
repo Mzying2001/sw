@@ -221,16 +221,16 @@ void sw::ListView::SetSelectedIndex(int index)
     SendMessageW(LVM_SETITEMSTATE, index, reinterpret_cast<LPARAM>(&lvi));
 }
 
-void sw::ListView::SetBackColor(Color color, bool redraw)
+void sw::ListView::OnSetBackColor(Color color, bool redraw)
 {
-    Control::SetBackColor(color, false);
+    TBase::OnSetBackColor(color, false);
     SendMessageW(LVM_SETBKCOLOR, 0, (LPARAM)(COLORREF)color);
     SendMessageW(LVM_SETTEXTBKCOLOR, 0, (LPARAM)(COLORREF)color);
 }
 
-void sw::ListView::SetTextColor(Color color, bool redraw)
+void sw::ListView::OnSetTextColor(Color color, bool redraw)
 {
-    Control::SetTextColor(color, false);
+    TBase::OnSetTextColor(color, false);
     SendMessageW(LVM_SETTEXTCOLOR, 0, (LPARAM)(COLORREF)color);
 }
 
@@ -291,7 +291,7 @@ bool sw::ListView::OnNotified(NMHDR *pNMHDR, LRESULT &result)
             return true;
         }
     }
-    return Control::OnNotified(pNMHDR, result);
+    return TBase::OnNotified(pNMHDR, result);
 }
 
 bool sw::ListView::OnPrePaint(NMCUSTOMDRAW *pNMCD, LRESULT &result)
@@ -563,7 +563,7 @@ void sw::ListView::_UpdateCount()
     IList *currentItemsSource = GetCurrentItemsSource();
     _SetCount(currentItemsSource ? currentItemsSource->Count() : 0);
 
-    RaisePropertyChanged(&ItemsControl::ItemsCount);
+    RaisePropertyChanged(&TBase::ItemsCount);
     SetSelectedIndex(selectedIndex); // 尝试恢复选中项，若原选中项索引超出范围则会被重置为-1
 }
 

@@ -106,15 +106,15 @@ void sw::GroupBox::FontChanged(HFONT hfont)
     Panel::FontChanged(hfont);
 }
 
-void sw::GroupBox::SetBackColor(Color color, bool redraw)
+void sw::GroupBox::OnSetBackColor(Color color, bool redraw)
 {
-    UIElement::SetBackColor(color, redraw);
+    UIElement::OnSetBackColor(color, redraw);
     if (redraw) UpdateBorder();
 }
 
-void sw::GroupBox::SetTextColor(Color color, bool redraw)
+void sw::GroupBox::OnSetTextColor(Color color, bool redraw)
 {
-    UIElement::SetTextColor(color, redraw);
+    UIElement::OnSetTextColor(color, redraw);
     if (redraw) UpdateBorder();
 }
 

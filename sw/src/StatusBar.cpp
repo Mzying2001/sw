@@ -34,7 +34,7 @@ sw::StatusBar::StatusBar()
     this->InitControl(STATUSCLASSNAMEW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | CCS_NORESIZE, 0);
     this->Height = 25;
     this->SetAlignment(HorizontalAlignment::Stretch, VerticalAlignment::Bottom);
-    this->Control::SetBackColor(KnownColors::Control, false);
+    this->Control::OnSetBackColor(KnownColors::Control, false);
 }
 
 bool sw::StatusBar::SetParts(std::initializer_list<double> parts)
@@ -91,8 +91,8 @@ bool sw::StatusBar::GetRectAt(uint8_t index, sw::Rect &out)
     return false;
 }
 
-void sw::StatusBar::SetBackColor(Color color, bool redraw)
+void sw::StatusBar::OnSetBackColor(Color color, bool redraw)
 {
-    this->Control::SetBackColor(color, false);
+    this->Control::OnSetBackColor(color, false);
     this->SendMessageW(SB_SETBKCOLOR, 0, (COLORREF)color);
 }

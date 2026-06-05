@@ -736,14 +736,14 @@ namespace sw
          * @param color 要设置的颜色
          * @param redraw 是否重绘
          */
-        virtual void SetBackColor(Color color, bool redraw);
+        virtual void OnSetBackColor(Color color, bool redraw);
 
         /**
          * @brief 设置文本颜色
          * @param color 要设置的颜色
          * @param redraw 是否重绘
          */
-        virtual void SetTextColor(Color color, bool redraw);
+        virtual void OnSetTextColor(Color color, bool redraw);
 
         /**
          * @brief 尝试将指定的矩形区域移动到可视区域内
