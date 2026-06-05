@@ -226,6 +226,7 @@ sw::BmpBox::BmpBox()
                   if (self->_sizeMode != value) {
                       self->_sizeMode = value;
                       self->Redraw();
+                      self->RaisePropertyChanged(&BmpBox::SizeMode);
                       self->InvalidateMeasure();
                   }
               }))
@@ -1796,6 +1797,7 @@ sw::DockPanel::DockPanel()
               .Setter([](DockPanel *self, bool value) {
                   if (self->_dockLayout.lastChildFill != value) {
                       self->_dockLayout.lastChildFill = value;
+                      self->RaisePropertyChanged(&DockPanel::LastChildFill);
                       self->InvalidateMeasure();
                   }
               }))
@@ -2004,62 +2006,6 @@ namespace
     constexpr int _FileDialogInitialBufferSize = 1024;
 }
 
-sw::FileFilter::FileFilter(std::initializer_list<FileFilterItem> filters)
-{
-    SetFilter(filters);
-}
-
-bool sw::FileFilter::AddFilter(const std::wstring &name, const std::wstring &filter, const std::wstring &defaultExt)
-{
-    if (name.empty() || filter.empty()) {
-        return false;
-    }
-
-    if (!_buffer.empty()) {
-        _buffer.pop_back();
-    }
-
-    for (auto c : name) {
-        _buffer.push_back(c);
-    }
-    _buffer.push_back(0);
-
-    for (auto c : filter) {
-        _buffer.push_back(c);
-    }
-    _buffer.push_back(0);
-    _buffer.push_back(0);
-
-    _defaultExts.emplace_back(defaultExt);
-    return true;
-}
-
-int sw::FileFilter::SetFilter(std::initializer_list<FileFilterItem> filters)
-{
-    int result = 0;
-    Clear();
-    for (auto &item : filters) {
-        result += AddFilter(item.name, item.filter, item.defaultExt);
-    }
-    return result;
-}
-
-void sw::FileFilter::Clear()
-{
-    _buffer.clear();
-    _defaultExts.clear();
-}
-
-wchar_t *sw::FileFilter::GetFilterStr()
-{
-    return _buffer.empty() ? nullptr : _buffer.data();
-}
-
-const wchar_t *sw::FileFilter::GetDefaultExt(int index)
-{
-    return (index >= 0 && index < (int)_defaultExts.size()) ? _defaultExts[index].c_str() : L"";
-}
-
 sw::FileDialog::FileDialog()
     : BufferSize(
           Property<int>::Init(this)
@@ -2111,10 +2057,10 @@ sw::FileDialog::FileDialog()
                   }
               })),
 
-      Filter(
-          Property<FileFilter *>::Init(this)
-              .Getter([](FileDialog *self) -> FileFilter * {
-                  return &self->_filter;
+      Filters(
+          Property<ObservableCollection<FileFilterItem> *>::Init(this)
+              .Getter([](FileDialog *self) -> ObservableCollection<FileFilterItem> * {
+                  return &self->_filters;
               })),
 
       FilterIndex(
@@ -2198,11 +2144,9 @@ sw::FileDialog::FileDialog()
     Title       = L"";
     InitialDir  = L"";
     FilterIndex = 0;
-}
 
-void sw::FileDialog::SetFilter(const FileFilter &filter)
-{
-    _filter = filter;
+    _filters.CollectionChanged +=
+        NotifyCollectionChangedEventHandler(*this, &FileDialog::_FiltersCollectionChangedHandler);
 }
 
 void sw::FileDialog::Close()
@@ -2215,7 +2159,11 @@ void sw::FileDialog::Show()
 
 OPENFILENAMEW *sw::FileDialog::GetOFN()
 {
-    _ofn.lpstrFilter = _filter.GetFilterStr();
+    if (_filterBuffer.empty()) {
+        _ofn.lpstrFilter = nullptr;
+    } else {
+        _ofn.lpstrFilter = _filterBuffer.data();
+    }
     return &_ofn;
 }
 
@@ -2232,6 +2180,42 @@ void sw::FileDialog::ClearBuffer()
 
 void sw::FileDialog::ProcessFileName(std::wstring &fileName)
 {
+}
+
+void sw::FileDialog::_AppendFilterToBuffer(const FileFilterItem &filter)
+{
+    auto &buffer = _filterBuffer;
+
+    if (!buffer.empty()) {
+        buffer.pop_back();
+    }
+
+    buffer.insert(buffer.end(), filter.name.begin(), filter.name.end());
+    buffer.push_back(0);
+
+    buffer.insert(buffer.end(), filter.filter.begin(), filter.filter.end());
+    buffer.push_back(0);
+    buffer.push_back(0);
+}
+
+void sw::FileDialog::_ResetFilterBuffer()
+{
+    _filterBuffer.clear();
+
+    for (auto &item : _filters.GetInternalVector()) {
+        _AppendFilterToBuffer(item);
+    }
+}
+
+void sw::FileDialog::_FiltersCollectionChangedHandler(
+    INotifyCollectionChanged &sender, NotifyCollectionChangedEventArgs &args)
+{
+    if (args.action == NotifyCollectionChangedAction::Add &&
+        args.index == _filters.Count() - 1) {
+        _AppendFilterToBuffer(_filters.GetAt(args.index));
+    } else {
+        _ResetFilterBuffer();
+    }
 }
 
 sw::OpenFileDialog::OpenFileDialog()
@@ -2322,13 +2306,21 @@ int sw::SaveFileDialog::ShowDialog(Window &owner)
 
 void sw::SaveFileDialog::ProcessFileName(std::wstring &fileName)
 {
-    const wchar_t *ext = Filter->GetDefaultExt(FilterIndex);
-    if (ext == nullptr || ext[0] == L'\0') return;
+    int index     = FilterIndex;
+    auto *filters = Filters.Get();
+
+    if (index < 0 || index >= filters->Count()) {
+        return;
+    }
+
+    auto &ext = filters->GetAt(index).defaultExt;
+    if (ext.empty()) return;
 
     size_t indexSlash = fileName.find_last_of(L"\\/");
     size_t indexDot   = fileName.find_last_of(L'.');
 
     static const auto npos = std::wstring::npos;
+
     if (indexDot == npos || (indexSlash != npos && indexSlash > indexDot)) {
         fileName += ext;
     }
@@ -2839,48 +2831,40 @@ void sw::FrameworkElement::OnCurrentDataContextChanged(DynamicObject *oldDataCon
 // Grid.cpp
 
 sw::Grid::Grid()
-{
-    this->_gridLayout.Associate(this);
-    this->HorizontalAlignment = HorizontalAlignment::Stretch;
-    this->VerticalAlignment   = VerticalAlignment::Stretch;
-}
+    : Rows(
+          Property<ObservableCollection<GridRow> *>::Init(this)
+              .Getter([](Grid *self) -> ObservableCollection<GridRow> * {
+                  return &self->_gridLayout.rows;
+              })),
 
-void sw::Grid::AddRow(const GridRow &row)
+      Columns(
+          Property<ObservableCollection<GridColumn> *>::Init(this)
+              .Getter([](Grid *self) -> ObservableCollection<GridColumn> * {
+                  return &self->_gridLayout.columns;
+              }))
 {
-    this->_gridLayout.rows.Add(row);
-    this->InvalidateMeasure();
+    _gridLayout.Associate(this);
+
+    _gridLayout.rows.CollectionChanged +=
+        NotifyCollectionChangedEventHandler(*this, &Grid::_RowsColumnsCollectionChangedHandler);
+
+    _gridLayout.columns.CollectionChanged +=
+        NotifyCollectionChangedEventHandler(*this, &Grid::_RowsColumnsCollectionChangedHandler);
+
+    HorizontalAlignment = HorizontalAlignment::Stretch;
+    VerticalAlignment   = VerticalAlignment::Stretch;
 }
 
 void sw::Grid::SetRows(std::initializer_list<GridRow> rows)
 {
-    List<GridRow> rowsList = rows;
-    this->_gridLayout.rows = rowsList;
-    this->InvalidateMeasure();
-}
-
-void sw::Grid::AddColumn(const GridColumn &col)
-{
-    this->_gridLayout.columns.Add(col);
-    this->InvalidateMeasure();
+    _gridLayout.rows.GetInternalVector().assign(rows);
+    InvalidateMeasure();
 }
 
 void sw::Grid::SetColumns(std::initializer_list<GridColumn> cols)
 {
-    List<GridColumn> colsList = cols;
-    this->_gridLayout.columns = colsList;
-    this->InvalidateMeasure();
-}
-
-void sw::Grid::ClearRows()
-{
-    this->_gridLayout.rows.Clear();
-    this->InvalidateMeasure();
-}
-
-void sw::Grid::ClearColumns()
-{
-    this->_gridLayout.columns.Clear();
-    this->InvalidateMeasure();
+    _gridLayout.columns.GetInternalVector().assign(cols);
+    InvalidateMeasure();
 }
 
 sw::GridLayoutTag sw::Grid::GetGridLayoutTag(UIElement &element)
@@ -2895,7 +2879,13 @@ void sw::Grid::SetGridLayoutTag(UIElement &element, const GridLayoutTag &tag)
 
 sw::LayoutHost *sw::Grid::GetDefaultLayout()
 {
-    return &this->_gridLayout;
+    return &_gridLayout;
+}
+
+void sw::Grid::_RowsColumnsCollectionChangedHandler(
+    INotifyCollectionChanged &sender, NotifyCollectionChangedEventArgs &args)
+{
+    InvalidateMeasure();
 }
 
 // GridLayout.cpp
@@ -3663,25 +3653,25 @@ void sw::GroupBox::OnTextChanged()
 {
     _UpdateTextSize();
     UpdateBorder();
-    Panel::OnTextChanged();
+    TBase::OnTextChanged();
 }
 
 void sw::GroupBox::FontChanged(HFONT hfont)
 {
     _UpdateTextSize();
     UpdateBorder();
-    Panel::FontChanged(hfont);
+    TBase::FontChanged(hfont);
 }
 
-void sw::GroupBox::SetBackColor(Color color, bool redraw)
+void sw::GroupBox::OnSetBackColor(Color color, bool redraw)
 {
-    UIElement::SetBackColor(color, redraw);
+    TBase::OnSetBackColor(color, redraw);
     if (redraw) UpdateBorder();
 }
 
-void sw::GroupBox::SetTextColor(Color color, bool redraw)
+void sw::GroupBox::OnSetTextColor(Color color, bool redraw)
 {
-    UIElement::SetTextColor(color, redraw);
+    TBase::OnSetTextColor(color, redraw);
     if (redraw) UpdateBorder();
 }
 
@@ -4042,7 +4032,10 @@ sw::IconBox::IconBox()
                   return !self->GetStyle(SS_CENTERIMAGE);
               })
               .Setter([](IconBox *self, bool value) {
-                  self->SetStyle(SS_CENTERIMAGE, !value);
+                  if (self->StretchIcon != value) {
+                      self->SetStyle(SS_CENTERIMAGE, !value);
+                      self->RaisePropertyChanged(&IconBox::StretchIcon);
+                  }
               }))
 {
     this->Rect = sw::Rect{0, 0, 50, 50};
@@ -4819,7 +4812,6 @@ sw::ListBox::ListBox()
 void sw::ListBox::Refresh()
 {
     _UpdateCount();
-    Redraw();
 }
 
 int sw::ListBox::GetItemIndexFromPoint(const Point &point)
@@ -4848,9 +4840,9 @@ void sw::ListBox::OnCurrentItemsSourceCollectionChanged(const NotifyCollectionCh
             break;
         case NotifyCollectionChangedAction::Replace:
         case NotifyCollectionChangedAction::Move:
-            break; // 数量未变无需更新
+            Redraw();
+            break;
     }
-    Redraw();
 }
 
 void sw::ListBox::FontChanged(HFONT hfont)
@@ -4982,50 +4974,14 @@ void sw::ListBox::_UpdateItemHeight()
 
 // ListView.cpp
 
-sw::ListViewColumn::ListViewColumn(const std::wstring &header, double width)
-    : header(header), width(width)
+sw::ListViewColumn::ListViewColumn(const wchar_t *header, double width, ListViewColumnAlignment alignment)
+    : header(header), width(width), imageIndex(-1), alignment(alignment)
 {
 }
 
-sw::ListViewColumn::ListViewColumn(const LVCOLUMNW &lvc)
+sw::ListViewColumn::ListViewColumn(const std::wstring &header, double width, ListViewColumnAlignment alignment)
+    : header(header), width(width), imageIndex(-1), alignment(alignment)
 {
-    double scaleX = Dip::ScaleX;
-
-    if (lvc.mask & LVCF_TEXT) {
-        header = lvc.pszText;
-    } else {
-        header = L"";
-    }
-
-    if (lvc.mask & LVCF_WIDTH) {
-        width = lvc.cx * scaleX;
-    } else {
-        width = 0;
-    }
-
-    if (lvc.mask & LVCF_FMT) {
-        if (lvc.fmt & LVCFMT_RIGHT) {
-            alignment = ListViewColumnAlignment::Right;
-        } else if (lvc.fmt & LVCFMT_CENTER) {
-            alignment = ListViewColumnAlignment::Center;
-        } /*else { alignment = ListViewColumnAlignment::Left; }*/
-    }
-}
-
-sw::ListViewColumn::operator LVCOLUMNW() const
-{
-    double scaleX = Dip::ScaleX;
-
-    LVCOLUMNW lvc{};
-    lvc.mask    = LVCF_TEXT | LVCF_FMT;
-    lvc.pszText = const_cast<LPWSTR>(header.c_str());
-    lvc.fmt     = (int)alignment;
-
-    if (width >= 0) {
-        lvc.mask |= LVCF_WIDTH;
-        lvc.cx = std::lround(width / scaleX);
-    }
-    return lvc;
 }
 
 sw::ListViewItem::ListViewItem(ListViewItem &&other) noexcept
@@ -5047,10 +5003,10 @@ sw::ListView::ListView()
                   return &self->_items;
               })),
 
-      ColumnsCount(
-          Property<int>::Init(this)
-              .Getter([](ListView *self) -> int {
-                  return self->_GetColCount();
+      Columns(
+          Property<ObservableCollection<ListViewColumn> *>::Init(this)
+              .Getter([](ListView *self) -> ObservableCollection<ListViewColumn> * {
+                  return &self->_columns;
               })),
 
       GridLines(
@@ -5059,10 +5015,13 @@ sw::ListView::ListView()
                   return self->_GetExtendedListViewStyle() & LVS_EX_GRIDLINES;
               })
               .Setter([](ListView *self, bool value) {
-                  DWORD style;
-                  style = self->_GetExtendedListViewStyle();
-                  style = value ? (style | LVS_EX_GRIDLINES) : (style & (~LVS_EX_GRIDLINES));
-                  self->_SetExtendedListViewStyle(style);
+                  if (self->GridLines != value) {
+                      DWORD style;
+                      style = self->_GetExtendedListViewStyle();
+                      style = value ? (style | LVS_EX_GRIDLINES) : (style & (~LVS_EX_GRIDLINES));
+                      self->_SetExtendedListViewStyle(style);
+                      self->RaisePropertyChanged(&ListView::GridLines);
+                  }
               })),
 
       MultiSelect(
@@ -5071,7 +5030,10 @@ sw::ListView::ListView()
                   return !(self->GetStyle() & LVS_SINGLESEL);
               })
               .Setter([](ListView *self, bool value) {
-                  self->SetStyle(LVS_SINGLESEL, !value);
+                  if (self->MultiSelect != value) {
+                      self->SetStyle(LVS_SINGLESEL, !value);
+                      self->RaisePropertyChanged(&ListView::MultiSelect);
+                  }
               })),
 
       SelectedCount(
@@ -5086,10 +5048,13 @@ sw::ListView::ListView()
                   return self->_GetExtendedListViewStyle() & LVS_EX_CHECKBOXES;
               })
               .Setter([](ListView *self, bool value) {
-                  DWORD style;
-                  style = self->_GetExtendedListViewStyle();
-                  style = value ? (style | LVS_EX_CHECKBOXES) : (style & (~LVS_EX_CHECKBOXES));
-                  self->_SetExtendedListViewStyle(style);
+                  if (self->CheckBoxes != value) {
+                      DWORD style;
+                      style = self->_GetExtendedListViewStyle();
+                      style = value ? (style | LVS_EX_CHECKBOXES) : (style & (~LVS_EX_CHECKBOXES));
+                      self->_SetExtendedListViewStyle(style);
+                      self->RaisePropertyChanged(&ListView::CheckBoxes);
+                  }
               })),
 
       TopIndex(
@@ -5104,7 +5069,10 @@ sw::ListView::ListView()
                   return self->GetStyle(LVS_SHAREIMAGELISTS);
               })
               .Setter([](ListView *self, bool value) {
-                  self->SetStyle(LVS_SHAREIMAGELISTS, value);
+                  if (self->ShareImageLists != value) {
+                      self->SetStyle(LVS_SHAREIMAGELISTS, value);
+                      self->RaisePropertyChanged(&ListView::ShareImageLists);
+                  }
               })),
 
       Editable(
@@ -5113,7 +5081,10 @@ sw::ListView::ListView()
                   return self->GetStyle(LVS_EDITLABELS);
               })
               .Setter([](ListView *self, bool value) {
-                  self->SetStyle(LVS_EDITLABELS, value);
+                  if (self->Editable != value) {
+                      self->SetStyle(LVS_EDITLABELS, value);
+                      self->RaisePropertyChanged(&ListView::Editable);
+                  }
               }))
 {
     InitControl(
@@ -5125,62 +5096,16 @@ sw::ListView::ListView()
     Rect    = sw::Rect(0, 0, 200, 200);
     TabStop = true;
     UpdateCurrentItemsSource();
+
+    _columns.CollectionChanged +=
+        NotifyCollectionChangedEventHandler(*this, &ListView::_ColumnsCollectionChangedHandler);
 }
 
-void sw::ListView::Refresh()
+void sw::ListView::Refresh(bool refreshColumns)
 {
+    if (refreshColumns)
+        _UpdateColumns();
     _UpdateCount();
-    Redraw();
-}
-
-bool sw::ListView::AddColumn(const ListViewColumn &column)
-{
-    return InsertColumn(_GetColCount(), column);
-}
-
-bool sw::ListView::AddColumn(const std::wstring &header)
-{
-    ListViewColumn column(header);
-    return InsertColumn(_GetColCount(), column);
-}
-
-bool sw::ListView::InsertColumn(int index, const ListViewColumn &column)
-{
-    LVCOLUMNW lvc = column;
-    return SendMessageW(LVM_INSERTCOLUMNW, index, reinterpret_cast<LPARAM>(&lvc)) != -1;
-}
-
-bool sw::ListView::InsertColumn(int index, const std::wstring &header)
-{
-    ListViewColumn column(header);
-    return InsertColumn(index, column);
-}
-
-bool sw::ListView::SetColumnHeader(int index, const std::wstring &header)
-{
-    LVCOLUMNW lvc;
-    lvc.mask    = LVCF_TEXT;
-    lvc.pszText = const_cast<LPWSTR>(header.c_str());
-    return SendMessageW(LVM_SETCOLUMNW, index, reinterpret_cast<LPARAM>(&lvc));
-}
-
-double sw::ListView::GetColumnWidth(int index)
-{
-    if (index < 0 || index >= _GetColCount()) {
-        return -1;
-    } else {
-        return SendMessageW(LVM_GETCOLUMNWIDTH, index, 0) * Dip::ScaleX;
-    }
-}
-
-bool sw::ListView::SetColumnWidth(int index, double width)
-{
-    return SendMessageW(LVM_SETCOLUMNWIDTH, index, std::lround(width / Dip::ScaleX));
-}
-
-bool sw::ListView::RemoveColumnAt(int index)
-{
-    return SendMessageW(LVM_DELETECOLUMN, index, 0);
 }
 
 sw::List<int> sw::ListView::GetSelectedIndices()
@@ -5233,6 +5158,11 @@ void sw::ListView::CancelEdit()
     SendMessageW(LVM_CANCELEDITLABEL, 0, 0);
 }
 
+bool sw::ListView::EnsureVisible(int index, bool partialOK)
+{
+    return SendMessageW(LVM_ENSUREVISIBLE, index, static_cast<LPARAM>(partialOK)) != FALSE;
+}
+
 sw::IList *sw::ListView::GetDefaultItemsSource()
 {
     return &_items;
@@ -5240,7 +5170,7 @@ sw::IList *sw::ListView::GetDefaultItemsSource()
 
 void sw::ListView::OnCurrentItemsSourceChanged(IList *oldItemsSource, IList *newItemsSource)
 {
-    Refresh();
+    Refresh(false);
 }
 
 void sw::ListView::OnCurrentItemsSourceCollectionChanged(const NotifyCollectionChangedEventArgs &args)
@@ -5253,9 +5183,9 @@ void sw::ListView::OnCurrentItemsSourceCollectionChanged(const NotifyCollectionC
             break;
         case NotifyCollectionChangedAction::Replace:
         case NotifyCollectionChangedAction::Move:
-            break; // 数量未变无需更新
+            Redraw();
+            break;
     }
-    Redraw();
 }
 
 int sw::ListView::GetSelectedIndex()
@@ -5276,22 +5206,30 @@ void sw::ListView::SetSelectedIndex(int index)
     SendMessageW(LVM_SETITEMSTATE, index, reinterpret_cast<LPARAM>(&lvi));
 }
 
-void sw::ListView::SetBackColor(Color color, bool redraw)
+void sw::ListView::OnSetBackColor(Color color, bool redraw)
 {
-    Control::SetBackColor(color, false);
+    TBase::OnSetBackColor(color, false);
     SendMessageW(LVM_SETBKCOLOR, 0, (LPARAM)(COLORREF)color);
     SendMessageW(LVM_SETTEXTBKCOLOR, 0, (LPARAM)(COLORREF)color);
 }
 
-void sw::ListView::SetTextColor(Color color, bool redraw)
+void sw::ListView::OnSetTextColor(Color color, bool redraw)
 {
-    Control::SetTextColor(color, false);
+    TBase::OnSetTextColor(color, false);
     SendMessageW(LVM_SETTEXTCOLOR, 0, (LPARAM)(COLORREF)color);
 }
 
 bool sw::ListView::OnNotify(NMHDR *pNMHDR, LRESULT &result)
 {
     switch (pNMHDR->code) {
+        case HDN_ITEMCHANGINGW: {
+            OnHeaderItemChanging(reinterpret_cast<NMHEADERW *>(pNMHDR));
+            break;
+        }
+        case HDN_ITEMCHANGEDW: {
+            OnHeaderItemChanged(reinterpret_cast<NMHEADERW *>(pNMHDR));
+            break;
+        }
         case HDN_ITEMCLICKW: {
             OnHeaderItemClicked(reinterpret_cast<NMHEADERW *>(pNMHDR));
             break;
@@ -5338,7 +5276,7 @@ bool sw::ListView::OnNotified(NMHDR *pNMHDR, LRESULT &result)
             return true;
         }
     }
-    return Control::OnNotified(pNMHDR, result);
+    return TBase::OnNotified(pNMHDR, result);
 }
 
 bool sw::ListView::OnPrePaint(NMCUSTOMDRAW *pNMCD, LRESULT &result)
@@ -5395,6 +5333,21 @@ void sw::ListView::OnCheckStateChanged(int index)
 {
     ListViewCheckStateChangedEventArgs args(index);
     RaiseRoutedEvent(args);
+}
+
+void sw::ListView::OnHeaderItemChanging(NMHEADERW *pNMH)
+{
+}
+
+void sw::ListView::OnHeaderItemChanged(NMHEADERW *pNMH)
+{
+    if (pNMH->pitem->mask & HDI_WIDTH) {
+        int index = pNMH->iItem;
+        if (index >= 0 && index < _columns.Count()) {
+            auto &column = _columns.GetAt(index);
+            column.width = Dip::PxToDipX(pNMH->pitem->cxy);
+        }
+    }
 }
 
 void sw::ListView::OnHeaderItemClicked(NMHEADERW *pNMH)
@@ -5595,7 +5548,7 @@ void sw::ListView::_UpdateCount()
     IList *currentItemsSource = GetCurrentItemsSource();
     _SetCount(currentItemsSource ? currentItemsSource->Count() : 0);
 
-    RaisePropertyChanged(&ItemsControl::ItemsCount);
+    RaisePropertyChanged(&TBase::ItemsCount);
     SetSelectedIndex(selectedIndex); // 尝试恢复选中项，若原选中项索引超出范围则会被重置为-1
 }
 
@@ -5630,6 +5583,83 @@ void sw::ListView::_ApplyDispInfo(const ListViewItem &item, NMLVDISPINFOW *pNMIn
     }
     if (pNMInfo->item.mask & LVIF_IMAGE) {
         pNMInfo->item.iImage = item.imageIndex;
+    }
+}
+
+void sw::ListView::_ApplyColumnInfo(const ListViewColumn &column, LVCOLUMNW *pLvc)
+{
+    pLvc->mask    = LVCF_TEXT | LVCF_WIDTH | LVCF_FMT;
+    pLvc->fmt     = static_cast<int>(column.alignment);
+    pLvc->cx      = Dip::DipToPxX(column.width);
+    pLvc->pszText = const_cast<LPWSTR>(column.header.c_str());
+
+    if (column.imageIndex >= 0) {
+        pLvc->mask |= LVCF_IMAGE;
+        pLvc->iImage = column.imageIndex;
+    }
+}
+
+bool sw::ListView::_InsertColumn(int index, const ListViewColumn &column)
+{
+    LVCOLUMNW lvc{};
+    _ApplyColumnInfo(column, &lvc);
+    return SendMessageW(LVM_INSERTCOLUMNW, index, reinterpret_cast<LPARAM>(&lvc)) != -1;
+}
+
+bool sw::ListView::_DeleteColumn(int index)
+{
+    return SendMessageW(LVM_DELETECOLUMN, index, 0) != FALSE;
+}
+
+bool sw::ListView::_SetColumn(int index, const ListViewColumn &column)
+{
+    LVCOLUMNW lvc{};
+    _ApplyColumnInfo(column, &lvc);
+    return SendMessageW(LVM_SETCOLUMNW, index, reinterpret_cast<LPARAM>(&lvc)) != FALSE;
+}
+
+void sw::ListView::_UpdateColumns()
+{
+    int colCount = _GetColCount();
+    int newCount = _columns.Count();
+
+    int i = 0;
+
+    for (; i < colCount && i < newCount; ++i) {
+        _SetColumn(i, _columns.GetAt(i));
+    }
+    for (; i < newCount; ++i) {
+        _InsertColumn(i, _columns.GetAt(i));
+    }
+    while (colCount > newCount) {
+        _DeleteColumn(--colCount);
+    }
+}
+
+void sw::ListView::_ColumnsCollectionChangedHandler(
+    INotifyCollectionChanged &sender, NotifyCollectionChangedEventArgs &args)
+{
+    switch (args.action) {
+        case NotifyCollectionChangedAction::Add:
+            _InsertColumn(args.index, _columns.GetAt(args.index));
+            break;
+
+        case NotifyCollectionChangedAction::Remove:
+            _DeleteColumn(args.index);
+            break;
+
+        case NotifyCollectionChangedAction::Replace:
+            _SetColumn(args.index, _columns.GetAt(args.index));
+            break;
+
+        case NotifyCollectionChangedAction::Move:
+            _SetColumn(args.index, _columns.GetAt(args.index));
+            _SetColumn(args.oldIndex, _columns.GetAt(args.oldIndex));
+            break;
+
+        case NotifyCollectionChangedAction::Reset:
+            _UpdateColumns();
+            break;
     }
 }
 
@@ -6233,15 +6263,15 @@ bool sw::MonthCalendar::SetRange(const SYSTEMTIME &minTime, const SYSTEMTIME &ma
     return this->SendMessageW(MCM_SETRANGE, GDTR_MIN | GDTR_MAX, reinterpret_cast<LPARAM>(range));
 }
 
-void sw::MonthCalendar::SetBackColor(Color color, bool redraw)
+void sw::MonthCalendar::OnSetBackColor(Color color, bool redraw)
 {
-    this->Control::SetBackColor(color, false);
+    this->Control::OnSetBackColor(color, false);
     this->SendMessageW(MCM_SETCOLOR, MCSC_BACKGROUND, (COLORREF)color);
 }
 
-void sw::MonthCalendar::SetTextColor(Color color, bool redraw)
+void sw::MonthCalendar::OnSetTextColor(Color color, bool redraw)
 {
-    this->Control::SetTextColor(color, false);
+    this->Control::OnSetTextColor(color, false);
     this->SendMessageW(MCM_SETCOLOR, MCSC_TEXT, (COLORREF)color);
 }
 
@@ -6443,10 +6473,13 @@ sw::NotifyIcon::NotifyIcon()
                   return self->_nid.hIcon;
               })
               .Setter([](NotifyIcon *self, HICON value) {
-                  self->_nid.hIcon = value;
-                  self->_nid.uFlags |= NIF_ICON;
-                  self->_ModifyIcon();
-                  self->_nid.uFlags &= ~NIF_ICON;
+                  if (self->_nid.hIcon != value) {
+                      self->_nid.hIcon = value;
+                      self->_nid.uFlags |= NIF_ICON;
+                      self->_ModifyIcon();
+                      self->_nid.uFlags &= ~NIF_ICON;
+                      self->RaisePropertyChanged(&NotifyIcon::Icon);
+                  }
               })),
 
       ToolTip(
@@ -6455,6 +6488,9 @@ sw::NotifyIcon::NotifyIcon()
                   return self->_nid.szTip;
               })
               .Setter([](NotifyIcon *self, const std::wstring &value) {
+                  if (self->_nid.szTip == value) {
+                      return;
+                  }
                   if (value.empty()) {
                       self->_nid.szTip[0] = L'\0';
                   } else {
@@ -6464,6 +6500,7 @@ sw::NotifyIcon::NotifyIcon()
                   self->_nid.uFlags |= NIF_TIP;
                   self->_ModifyIcon();
                   self->_nid.uFlags &= ~NIF_TIP;
+                  self->RaisePropertyChanged(&NotifyIcon::ToolTip);
               })),
 
       Visible(
@@ -6472,7 +6509,10 @@ sw::NotifyIcon::NotifyIcon()
                   return (self->_nid.dwState & NIS_HIDDEN) == 0;
               })
               .Setter([](NotifyIcon *self, bool value) {
-                  value ? self->Show() : self->Hide();
+                  if (self->Visible != value) {
+                      value ? self->Show() : self->Hide();
+                      self->RaisePropertyChanged(&NotifyIcon::Visible);
+                  }
               })),
 
       ContextMenu(
@@ -6481,7 +6521,10 @@ sw::NotifyIcon::NotifyIcon()
                   return self->_contextMenu;
               })
               .Setter([](NotifyIcon *self, sw::ContextMenu *value) {
-                  self->_contextMenu = value;
+                  if (self->_contextMenu != value) {
+                      self->_contextMenu = value;
+                      self->RaisePropertyChanged(&NotifyIcon::ContextMenu);
+                  }
               })),
 
       Rect(
@@ -6752,17 +6795,17 @@ sw::Panel::Panel()
                   }
               }))
 {
-    static thread_local ATOM panelClsAtom = 0;
-
-    if (panelClsAtom == 0) {
+    static ATOM wndClsAtom = []() -> ATOM {
         WNDCLASSEXW wc{};
         wc.cbSize        = sizeof(wc);
         wc.hInstance     = App::Instance;
         wc.lpfnWndProc   = DefWindowProcW;
         wc.lpszClassName = _PanelClassName;
         wc.hCursor       = CursorHelper::GetCursorHandle(StandardCursor::Arrow);
-        panelClsAtom     = RegisterClassExW(&wc);
-    }
+        return RegisterClassExW(&wc);
+    }();
+
+    (void)wndClsAtom; // 消除未使用变量警告
 
     InitControl(_PanelClassName, NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, WS_EX_NOACTIVATE);
 
@@ -7116,7 +7159,10 @@ sw::ProgressBar::ProgressBar()
                   return (ProgressBarState)self->SendMessageW(PBM_GETSTATE, 0, 0);
               })
               .Setter([](ProgressBar *self, ProgressBarState value) {
-                  self->SendMessageW(PBM_SETSTATE, (WPARAM)value, 0);
+                  if (self->State != value) {
+                      self->SendMessageW(PBM_SETSTATE, (WPARAM)value, 0);
+                      self->RaisePropertyChanged(&ProgressBar::State);
+                  }
               })),
 
       Vertical(
@@ -7125,9 +7171,12 @@ sw::ProgressBar::ProgressBar()
                   return self->GetStyle(PBS_VERTICAL);
               })
               .Setter([](ProgressBar *self, bool value) {
-                  auto pos = self->Value.Get();
-                  self->SetStyle(PBS_VERTICAL, value);
-                  self->SendMessageW(PBM_SETPOS, pos, 0);
+                  if (self->Vertical != value) {
+                      auto pos = self->Value.Get();
+                      self->SetStyle(PBS_VERTICAL, value);
+                      self->SendMessageW(PBM_SETPOS, pos, 0);
+                      self->RaisePropertyChanged(&ProgressBar::Vertical);
+                  }
               }))
 {
     InitControl(PROGRESS_CLASSW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | PBS_SMOOTH | PBS_SMOOTHREVERSE, 0);
@@ -7330,7 +7379,10 @@ sw::Slider::Slider()
                   return self->GetStyle(TBS_VERT);
               })
               .Setter([](Slider *self, bool value) {
-                  self->SetStyle(TBS_VERT, value);
+                  if (self->Vertical != value) {
+                      self->SetStyle(TBS_VERT, value);
+                      self->RaisePropertyChanged(&Slider::Vertical);
+                  }
               })),
 
       ValueTooltips(
@@ -7348,6 +7400,7 @@ sw::Slider::Slider()
                       self->SendMessageW(TBM_SETRANGEMIN, FALSE, minimum);
                       self->SendMessageW(TBM_SETRANGEMAX, FALSE, maximum);
                       self->SendMessageW(TBM_SETPOS, TRUE, position);
+                      self->RaisePropertyChanged(&Slider::ValueTooltips);
                   }
               }))
 {
@@ -7457,45 +7510,45 @@ sw::SpinBox::SpinBox()
                   return ::SendMessageW(self->_hUpDown, UDM_GETBASE, 0, 0) == 16;
               })
               .Setter([](SpinBox *self, bool value) {
-                  WPARAM base = value ? 16 : 10;
-                  ::SendMessageW(self->_hUpDown, UDM_SETBASE, base, 0);
+                  if (self->Hexadecimal != value) {
+                      WPARAM base = value ? 16 : 10;
+                      ::SendMessageW(self->_hUpDown, UDM_SETBASE, base, 0);
+                      self->RaisePropertyChanged(&SpinBox::Hexadecimal);
+                  }
               })),
 
       Increment(
           Property<uint32_t>::Init(this)
               .Getter([](SpinBox *self) -> uint32_t {
-                  if (self->_accels.empty())
-                      self->_InitAccels();
-                  return self->_accels[0].nInc;
+                  if (self->_accels.Count() == 0)
+                      self->_accels.Refresh();
+                  return self->_accels.GetAt(0).nInc;
               })
               .Setter([](SpinBox *self, uint32_t value) {
-                  if (self->_accels.empty()) {
-                      self->_accels.push_back({0, value});
+                  if (self->_accels.Count() == 0 ||
+                      self->_accels.GetAt(0).nSec != 0) {
+                      self->_accels.Insert(0, {0, value});
                   } else {
-                      self->_accels[0].nInc = value;
+                      auto inc = self->_accels.GetAt(0).nInc;
+                      if (inc != value) {
+                          self->_accels.SetAt(0, {0, value});
+                      }
                   }
-                  self->_SetAccel(self->_accels.size(), &self->_accels[0]);
+              })),
+
+      Accelerations(
+          Property<ObservableCollection<UDACCEL> *>::Init(this)
+              .Getter([](SpinBox *self) -> ObservableCollection<UDACCEL> * {
+                  return &self->_accels;
               }))
 {
     InitTextBoxBase(WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | ES_LEFT | ES_AUTOHSCROLL | ES_AUTOVSCROLL, WS_EX_CLIENTEDGE);
+
+    _accels.CollectionChanged +=
+        NotifyCollectionChangedEventHandler(*this, &SpinBox::_AccelerationCollectionChangedHandler);
+
     Rect = sw::Rect{0, 0, 100, 24};
     _InitSpinBox();
-}
-
-sw::SpinBox &sw::SpinBox::AddAccel(uint32_t seconds, uint32_t increment)
-{
-    if (seconds <= 0) {
-        Increment = increment;
-    } else {
-        _accels.push_back({seconds, increment});
-        _SetAccel(_accels.size(), &_accels[0]);
-    }
-    return *this;
-}
-
-void sw::SpinBox::ClearAccels()
-{
-    _InitAccels();
 }
 
 void sw::SpinBox::OnTextChanged()
@@ -7506,8 +7559,8 @@ void sw::SpinBox::OnTextChanged()
 
 void sw::SpinBox::OnHandleChanged(HWND hwnd)
 {
-    TextBoxBase::OnHandleChanged(hwnd);
     _InitSpinBox();
+    TextBoxBase::OnHandleChanged(hwnd);
 }
 
 bool sw::SpinBox::OnMove(const Point &newClientPosition)
@@ -7550,17 +7603,10 @@ void sw::SpinBox::_InitUpDownControl()
         0, 0, 20, 0,
         hwnd, NULL, App::Instance, NULL);
 
-    _InitAccels();
     _UpdateUpDownPos();
+    _accels.Refresh();
 
     ::SendMessageW(_hUpDown, UDM_SETBUDDY, reinterpret_cast<WPARAM>(hwnd), 0);
-}
-
-void sw::SpinBox::_InitAccels()
-{
-    _accels.clear();
-    _accels.push_back({0, 1});
-    _SetAccel(_accels.size(), &_accels[0]);
 }
 
 int sw::SpinBox::_GetPos32()
@@ -7606,6 +7652,43 @@ void sw::SpinBox::_UpdateUpDownPos()
         _upDownWidth, rtClient.bottom, SWP_NOZORDER | SWP_NOACTIVATE);
 
     InvalidateRect(_hUpDown, NULL, FALSE);
+}
+
+void sw::SpinBox::_AccelerationCollectionChangedHandler(
+    INotifyCollectionChanged &sender, NotifyCollectionChangedEventArgs &args)
+{
+    bool incChanged = false;
+
+    switch (args.action) {
+        case NotifyCollectionChangedAction::Add:
+        case NotifyCollectionChangedAction::Remove:
+        case NotifyCollectionChangedAction::Replace:
+            if (args.index == 0)
+                incChanged = true;
+            break;
+
+        case NotifyCollectionChangedAction::Move:
+            if (args.index == 0 || args.oldIndex == 0)
+                incChanged = true;
+            break;
+
+        case NotifyCollectionChangedAction::Reset:
+            incChanged = true;
+            break;
+    }
+
+    auto &vec = _accels.GetInternalVector();
+
+    if (vec.size() == 0 || vec[0].nSec != 0) {
+        incChanged = true;
+        vec.insert(vec.begin(), {0, 1});
+    }
+
+    _SetAccel(vec.size(), &vec[0]);
+
+    if (incChanged) {
+        RaisePropertyChanged(&SpinBox::Increment);
+    }
 }
 
 // SplitButton.cpp
@@ -7685,6 +7768,7 @@ sw::Splitter::Splitter()
               .Setter([](Splitter *self, sw::Orientation value) {
                   if (self->_orientation != value) {
                       self->_orientation = value;
+                      self->RaisePropertyChanged(&Splitter::Orientation);
                       value == Orientation::Horizontal
                           ? self->SetAlignment(HorizontalAlignment::Stretch, VerticalAlignment::Center)
                           : self->SetAlignment(HorizontalAlignment::Center, VerticalAlignment::Stretch);
@@ -7700,20 +7784,21 @@ sw::Splitter::Splitter()
                   if (self->_drawSplitterLine != value) {
                       self->_drawSplitterLine = value;
                       self->Redraw();
+                      self->RaisePropertyChanged(&Splitter::DrawSplitterLine);
                   }
               }))
 {
-    static thread_local ATOM splitterClsAtom = 0;
-
-    if (splitterClsAtom == 0) {
+    static ATOM wndClsAtom = []() -> ATOM {
         WNDCLASSEXW wc{};
         wc.cbSize        = sizeof(wc);
         wc.hInstance     = App::Instance;
         wc.lpfnWndProc   = DefWindowProcW;
         wc.lpszClassName = _SplitterClassName;
         wc.hCursor       = CursorHelper::GetCursorHandle(StandardCursor::Arrow);
-        splitterClsAtom  = RegisterClassExW(&wc);
-    }
+        return RegisterClassExW(&wc);
+    }();
+
+    (void)wndClsAtom; // 消除未使用变量警告
 
     InitControl(_SplitterClassName, NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, WS_EX_NOACTIVATE);
 
@@ -7882,6 +7967,7 @@ sw::StackPanel::StackPanel()
               .Setter([](StackPanel *self, sw::Orientation value) {
                   if (self->_stackLayout.orientation != value) {
                       self->_stackLayout.orientation = value;
+                      self->RaisePropertyChanged(&StackPanel::Orientation);
                       self->InvalidateMeasure();
                   }
               }))
@@ -7906,7 +7992,10 @@ sw::StaticControl::StaticControl()
                   return self->GetStyle(SS_NOTIFY);
               })
               .Setter([](StaticControl *self, bool value) {
-                  self->SetStyle(SS_NOTIFY, value);
+                  if (self->Notify != value) {
+                      self->SetStyle(SS_NOTIFY, value);
+                      self->RaisePropertyChanged(&StaticControl::Notify);
+                  }
               }))
 {
     this->InitControl(L"STATIC", L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, 0);
@@ -7946,7 +8035,7 @@ sw::StatusBar::StatusBar()
     this->InitControl(STATUSCLASSNAMEW, L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | CCS_NORESIZE, 0);
     this->Height = 25;
     this->SetAlignment(HorizontalAlignment::Stretch, VerticalAlignment::Bottom);
-    this->Control::SetBackColor(KnownColors::Control, false);
+    this->Control::OnSetBackColor(KnownColors::Control, false);
 }
 
 bool sw::StatusBar::SetParts(std::initializer_list<double> parts)
@@ -8003,9 +8092,9 @@ bool sw::StatusBar::GetRectAt(uint8_t index, sw::Rect &out)
     return false;
 }
 
-void sw::StatusBar::SetBackColor(Color color, bool redraw)
+void sw::StatusBar::OnSetBackColor(Color color, bool redraw)
 {
-    this->Control::SetBackColor(color, false);
+    this->Control::OnSetBackColor(color, false);
     this->SendMessageW(SB_SETBKCOLOR, 0, (COLORREF)color);
 }
 
@@ -8022,7 +8111,10 @@ sw::SysLink::SysLink()
                   return self->GetStyle(LWS_IGNORERETURN);
               })
               .Setter([](SysLink *self, bool value) {
-                  self->SetStyle(LWS_IGNORERETURN, value);
+                  if (self->IgnoreReturn != value) {
+                      self->SetStyle(LWS_IGNORERETURN, value);
+                      self->RaisePropertyChanged(&SysLink::IgnoreReturn);
+                  }
               })),
 
       AutoSize(
@@ -8034,6 +8126,7 @@ sw::SysLink::SysLink()
                   if (self->_autoSize != value) {
                       self->_autoSize = value;
                       self->_UpdateLayoutFlags();
+                      self->RaisePropertyChanged(&SysLink::AutoSize);
                       self->InvalidateMeasure();
                   }
               }))
@@ -8166,8 +8259,11 @@ sw::TabControl::TabControl()
                   return self->GetStyle(TCS_MULTILINE);
               })
               .Setter([](TabControl *self, bool value) {
-                  self->SetStyle(TCS_MULTILINE, value);
-                  self->InvalidateMeasure();
+                  if (self->MultiLine != value) {
+                      self->SetStyle(TCS_MULTILINE, value);
+                      self->RaisePropertyChanged(&TabControl::MultiLine);
+                      self->InvalidateMeasure();
+                  }
               })),
 
       AutoSize(
@@ -8178,6 +8274,7 @@ sw::TabControl::TabControl()
               .Setter([](TabControl *self, bool value) {
                   if (self->_autoSize != value) {
                       self->_autoSize = value;
+                      self->RaisePropertyChanged(&TabControl::AutoSize);
                       self->InvalidateMeasure();
                   }
               }))
@@ -8404,6 +8501,7 @@ void sw::TabControl::_SetTabAlignment(TabAlignment value)
         this->LayoutUpdateCondition &= ~sw::LayoutUpdateCondition::Supressed;
     }
 
+    this->RaisePropertyChanged(&TabControl::Alignment);
     this->InvalidateMeasure();
 }
 
@@ -8766,10 +8864,12 @@ sw::Timer::Timer()
                   return self->_interval;
               })
               .Setter([](Timer *self, uint32_t value) {
-                  self->_interval = value;
-                  if (self->_started) {
-                      self->Stop();
-                      self->Start();
+                  if (self->_interval != value) {
+                      self->_interval = value;
+                      self->RaisePropertyChanged(&Timer::Interval);
+                      if (self->_started) {
+                          self->Stop(), self->Start();
+                      }
                   }
               }))
 {
@@ -9186,7 +9286,10 @@ sw::TreeView::TreeView()
                   return self->GetStyle(TVS_CHECKBOXES);
               })
               .Setter([](TreeView *self, bool value) {
-                  self->SetStyle(TVS_CHECKBOXES, value);
+                  if (self->CheckBoxes != value) {
+                      self->SetStyle(TVS_CHECKBOXES, value);
+                      self->RaisePropertyChanged(&TreeView::CheckBoxes);
+                  }
               })),
 
       LineColor(
@@ -9196,8 +9299,11 @@ sw::TreeView::TreeView()
                   return static_cast<Color>(TreeView_GetLineColor(hwnd));
               })
               .Setter([](TreeView *self, const Color &value) {
-                  HWND hwnd = self->Handle;
-                  TreeView_SetLineColor(hwnd, static_cast<COLORREF>(value));
+                  if (self->LineColor != value) {
+                      HWND hwnd = self->Handle;
+                      TreeView_SetLineColor(hwnd, static_cast<COLORREF>(value));
+                      self->RaisePropertyChanged(&TreeView::LineColor);
+                  }
               })),
 
       IndentWidth(
@@ -9207,8 +9313,11 @@ sw::TreeView::TreeView()
                   return Dip::PxToDipX(TreeView_GetIndent(hwnd));
               })
               .Setter([](TreeView *self, double value) {
-                  HWND hwnd = self->Handle;
-                  TreeView_SetIndent(hwnd, Dip::DipToPxX(value));
+                  if (self->IndentWidth != value) {
+                      HWND hwnd = self->Handle;
+                      TreeView_SetIndent(hwnd, Dip::DipToPxX(value));
+                      self->RaisePropertyChanged(&TreeView::IndentWidth);
+                  }
               }))
 {
     InitControl(WC_TREEVIEWW, NULL, WS_VISIBLE | WS_CHILD | WS_CLIPSIBLINGS | WS_BORDER | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS, 0);
@@ -9217,17 +9326,17 @@ sw::TreeView::TreeView()
     TabStop = true;
 }
 
-void sw::TreeView::SetBackColor(Color color, bool redraw)
+void sw::TreeView::OnSetBackColor(Color color, bool redraw)
 {
-    Control::SetBackColor(color, false);
+    TBase::OnSetBackColor(color, false);
 
     HWND hwnd = Handle;
     TreeView_SetBkColor(hwnd, static_cast<COLORREF>(color));
 }
 
-void sw::TreeView::SetTextColor(Color color, bool redraw)
+void sw::TreeView::OnSetTextColor(Color color, bool redraw)
 {
-    Control::SetTextColor(color, false);
+    TBase::OnSetTextColor(color, false);
 
     HWND hwnd = Handle;
     TreeView_SetTextColor(hwnd, static_cast<COLORREF>(color));
@@ -9510,8 +9619,11 @@ sw::UIElement::UIElement()
                   return self->_backColor;
               })
               .Setter([](UIElement *self, const Color &value) {
-                  self->Transparent = false;
-                  self->SetBackColor(value, true);
+                  if (self->_transparent) {
+                      self->_transparent = false;
+                      self->RaisePropertyChanged(_PropId_Transparent);
+                  }
+                  self->OnSetBackColor(value, true);
               })),
 
       TextColor(
@@ -9520,8 +9632,11 @@ sw::UIElement::UIElement()
                   return self->_textColor;
               })
               .Setter([](UIElement *self, const Color &value) {
-                  self->InheritTextColor = false;
-                  self->SetTextColor(value, true);
+                  if (self->_inheritTextColor) {
+                      self->_inheritTextColor = false;
+                      self->RaisePropertyChanged(_PropId_InheritTextColor);
+                  }
+                  self->OnSetTextColor(value, true);
               })),
 
       Transparent(
@@ -9532,8 +9647,8 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, bool value) {
                   if (self->_transparent != value) {
                       self->_transparent = value;
-                      self->RaisePropertyChanged(_PropId_Transparent);
                       self->Redraw();
+                      self->RaisePropertyChanged(_PropId_Transparent);
                   }
               })),
 
@@ -9545,8 +9660,8 @@ sw::UIElement::UIElement()
               .Setter([](UIElement *self, bool value) {
                   if (self->_inheritTextColor != value) {
                       self->_inheritTextColor = value;
-                      self->RaisePropertyChanged(_PropId_InheritTextColor);
                       self->Redraw();
+                      self->RaisePropertyChanged(_PropId_InheritTextColor);
                   }
               })),
 
@@ -10448,24 +10563,20 @@ void sw::UIElement::ArrangeOverride(const Size &finalSize)
 {
 }
 
-void sw::UIElement::SetBackColor(Color color, bool redraw)
+void sw::UIElement::OnSetBackColor(Color color, bool redraw)
 {
     this->_backColor = color;
     this->RaisePropertyChanged(_PropId_BackColor);
 
-    if (redraw) {
-        this->Redraw();
-    }
+    if (redraw) this->Redraw();
 }
 
-void sw::UIElement::SetTextColor(Color color, bool redraw)
+void sw::UIElement::OnSetTextColor(Color color, bool redraw)
 {
     this->_textColor = color;
     this->RaisePropertyChanged(_PropId_TextColor);
 
-    if (redraw) {
-        this->Redraw();
-    }
+    if (redraw) this->Redraw();
 }
 
 bool sw::UIElement::RequestBringIntoView(const sw::Rect &screenRect)
@@ -10989,6 +11100,7 @@ sw::UniformGrid::UniformGrid()
               .Setter([](UniformGrid *self, int value) {
                   if (self->_uniformGridLayout.rows != value) {
                       self->_uniformGridLayout.rows = value;
+                      self->RaisePropertyChanged(&UniformGrid::Rows);
                       self->InvalidateMeasure();
                   }
               })),
@@ -11001,6 +11113,7 @@ sw::UniformGrid::UniformGrid()
               .Setter([](UniformGrid *self, int value) {
                   if (self->_uniformGridLayout.columns != value) {
                       self->_uniformGridLayout.columns = value;
+                      self->RaisePropertyChanged(&UniformGrid::Columns);
                       self->InvalidateMeasure();
                   }
               })),
@@ -11013,6 +11126,7 @@ sw::UniformGrid::UniformGrid()
               .Setter([](UniformGrid *self, int value) {
                   if (self->_uniformGridLayout.firstColumn != value) {
                       self->_uniformGridLayout.firstColumn = value;
+                      self->RaisePropertyChanged(&UniformGrid::FirstColumn);
                       self->InvalidateMeasure();
                   }
               }))
@@ -13610,6 +13724,7 @@ sw::WrapPanel::WrapPanel()
               .Setter([](WrapPanel *self, sw::Orientation value) {
                   if (self->_wrapLayout.orientation != value) {
                       self->_wrapLayout.orientation = value;
+                      self->RaisePropertyChanged(&WrapPanel::Orientation);
                       self->InvalidateMeasure();
                   }
               }))
