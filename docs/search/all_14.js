@@ -6,7 +6,7 @@ var searchData=
   ['tabcontrol_3',['tabcontrol',['../classsw_1_1TabControl.html',1,'sw::TabControl'],['../classsw_1_1TabControl.html#a402ae0be40a8a236d09b5c8a31c5aca1',1,'sw::TabControl::TabControl()']]],
   ['tabcontrol_5fselectedindexchanged_4',['TabControl_SelectedIndexChanged',['../namespacesw.html#ad92fec32ed92b6b581ff7a19a0097210a49cd513fa6bfffdc5493d2a8fd604258',1,'sw']]],
   ['tabstop_5',['TabStop',['../classsw_1_1UIElement.html#a2b54e00e1e41af2a634ad694da3ffa98',1,'sw::UIElement']]],
-  ['tag_6',['tag',['../classsw_1_1MenuItem.html#a71e23c18ace7346f28415ed747d80905',1,'sw::MenuItem::tag'],['../classsw_1_1FrameworkElement.html#a92483dc602362f25a0cd2a31eba472bc',1,'sw::FrameworkElement::Tag']]],
+  ['tag_6',['tag',['../classsw_1_1FrameworkElement.html#a92483dc602362f25a0cd2a31eba472bc',1,'sw::FrameworkElement::Tag'],['../classsw_1_1MenuItem.html#a71e23c18ace7346f28415ed747d80905',1,'sw::MenuItem::tag']]],
   ['tan_7',['Tan',['../namespacesw.html#aa971d1c6faca9536f660056782c49f19a1266b4e6f81e60733ec6c717e0181f60',1,'sw']]],
   ['tcallable_8',['TCallable',['../classsw_1_1CallableList.html#a2a852c7aa6b4637bbad845d97c746ad4',1,'sw::CallableList']]],
   ['tdelegate_9',['TDelegate',['../classsw_1_1Event_3_01Delegate_3_01TRet_07Args_8_8_8_08_4_01_4.html#a10a05fc88d88321878db2cde4825eaae',1,'sw::Event&lt; Delegate&lt; TRet(Args...)&gt; &gt;']]],

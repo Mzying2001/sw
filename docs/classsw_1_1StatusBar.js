@@ -3,7 +3,7 @@ var classsw_1_1StatusBar =
     [ "StatusBar", "classsw_1_1StatusBar.html#a4d8cfb5aa48d46b7420dcaffeaa3f3ef", null ],
     [ "GetRectAt", "classsw_1_1StatusBar.html#aea5639a449fd9c8f0398c42a486b6960", null ],
     [ "GetTextAt", "classsw_1_1StatusBar.html#ab37fce276662c2e016436cc0122b9fa1", null ],
-    [ "SetBackColor", "classsw_1_1StatusBar.html#a5edad75db8b47a0d137077e03c2cc9d6", null ],
+    [ "OnSetBackColor", "classsw_1_1StatusBar.html#a729779a4b514b45a44870158b2549d92", null ],
     [ "SetParts", "classsw_1_1StatusBar.html#a79c2680706994331d156c70361ea7303", null ],
     [ "SetTextAt", "classsw_1_1StatusBar.html#a82e57cdce2c813e2342f5487b9739143", null ],
     [ "PartsCount", "classsw_1_1StatusBar.html#a9680d7b905fcc4f06c3ae544a1bf3170", null ],

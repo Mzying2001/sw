@@ -94,7 +94,6 @@ var annotated_dup =
       [ "FieldId", "structsw_1_1FieldId.html", "structsw_1_1FieldId" ],
       [ "FieldsAccessor", "structsw_1_1FieldsAccessor.html", "structsw_1_1FieldsAccessor" ],
       [ "FileDialog", "classsw_1_1FileDialog.html", "classsw_1_1FileDialog" ],
-      [ "FileFilter", "classsw_1_1FileFilter.html", "classsw_1_1FileFilter" ],
       [ "FileFilterItem", "structsw_1_1FileFilterItem.html", "structsw_1_1FileFilterItem" ],
       [ "FillLayout", "classsw_1_1FillLayout.html", "classsw_1_1FillLayout" ],
       [ "FillRemainGridColumn", "structsw_1_1FillRemainGridColumn.html", "structsw_1_1FillRemainGridColumn" ],
