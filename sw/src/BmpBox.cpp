@@ -17,6 +17,7 @@ sw::BmpBox::BmpBox()
                   if (self->_sizeMode != value) {
                       self->_sizeMode = value;
                       self->Redraw();
+                      self->RaisePropertyChanged(&BmpBox::SizeMode);
                       self->InvalidateMeasure();
                   }
               }))

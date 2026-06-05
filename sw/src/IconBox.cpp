@@ -13,7 +13,10 @@ sw::IconBox::IconBox()
                   return !self->GetStyle(SS_CENTERIMAGE);
               })
               .Setter([](IconBox *self, bool value) {
-                  self->SetStyle(SS_CENTERIMAGE, !value);
+                  if (self->StretchIcon != value) {
+                      self->SetStyle(SS_CENTERIMAGE, !value);
+                      self->RaisePropertyChanged(&IconBox::StretchIcon);
+                  }
               }))
 {
     this->Rect = sw::Rect{0, 0, 50, 50};

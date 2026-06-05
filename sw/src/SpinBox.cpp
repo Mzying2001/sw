@@ -45,8 +45,11 @@ sw::SpinBox::SpinBox()
                   return ::SendMessageW(self->_hUpDown, UDM_GETBASE, 0, 0) == 16;
               })
               .Setter([](SpinBox *self, bool value) {
-                  WPARAM base = value ? 16 : 10;
-                  ::SendMessageW(self->_hUpDown, UDM_SETBASE, base, 0);
+                  if (self->Hexadecimal != value) {
+                      WPARAM base = value ? 16 : 10;
+                      ::SendMessageW(self->_hUpDown, UDM_SETBASE, base, 0);
+                      self->RaisePropertyChanged(&SpinBox::Hexadecimal);
+                  }
               })),
 
       Increment(
@@ -57,12 +60,15 @@ sw::SpinBox::SpinBox()
                   return self->_accels[0].nInc;
               })
               .Setter([](SpinBox *self, uint32_t value) {
-                  if (self->_accels.empty()) {
-                      self->_accels.push_back({0, value});
-                  } else {
-                      self->_accels[0].nInc = value;
+                  if (self->Increment != value) {
+                      if (self->_accels.empty()) {
+                          self->_accels.push_back({0, value});
+                      } else {
+                          self->_accels[0].nInc = value;
+                      }
+                      self->_SetAccel(self->_accels.size(), &self->_accels[0]);
+                      self->RaisePropertyChanged(&SpinBox::Increment);
                   }
-                  self->_SetAccel(self->_accels.size(), &self->_accels[0]);
               }))
 {
     InitTextBoxBase(WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | ES_LEFT | ES_AUTOHSCROLL | ES_AUTOVSCROLL, WS_EX_CLIENTEDGE);

@@ -9,6 +9,7 @@ sw::WrapPanel::WrapPanel()
               .Setter([](WrapPanel *self, sw::Orientation value) {
                   if (self->_wrapLayout.orientation != value) {
                       self->_wrapLayout.orientation = value;
+                      self->RaisePropertyChanged(&WrapPanel::Orientation);
                       self->InvalidateMeasure();
                   }
               }))

@@ -253,7 +253,10 @@ sw::TreeView::TreeView()
                   return self->GetStyle(TVS_CHECKBOXES);
               })
               .Setter([](TreeView *self, bool value) {
-                  self->SetStyle(TVS_CHECKBOXES, value);
+                  if (self->CheckBoxes != value) {
+                      self->SetStyle(TVS_CHECKBOXES, value);
+                      self->RaisePropertyChanged(&TreeView::CheckBoxes);
+                  }
               })),
 
       LineColor(
@@ -263,8 +266,11 @@ sw::TreeView::TreeView()
                   return static_cast<Color>(TreeView_GetLineColor(hwnd));
               })
               .Setter([](TreeView *self, const Color &value) {
-                  HWND hwnd = self->Handle;
-                  TreeView_SetLineColor(hwnd, static_cast<COLORREF>(value));
+                  if (self->LineColor != value) {
+                      HWND hwnd = self->Handle;
+                      TreeView_SetLineColor(hwnd, static_cast<COLORREF>(value));
+                      self->RaisePropertyChanged(&TreeView::LineColor);
+                  }
               })),
 
       IndentWidth(
@@ -274,8 +280,11 @@ sw::TreeView::TreeView()
                   return Dip::PxToDipX(TreeView_GetIndent(hwnd));
               })
               .Setter([](TreeView *self, double value) {
-                  HWND hwnd = self->Handle;
-                  TreeView_SetIndent(hwnd, Dip::DipToPxX(value));
+                  if (self->IndentWidth != value) {
+                      HWND hwnd = self->Handle;
+                      TreeView_SetIndent(hwnd, Dip::DipToPxX(value));
+                      self->RaisePropertyChanged(&TreeView::IndentWidth);
+                  }
               }))
 {
     InitControl(WC_TREEVIEWW, NULL, WS_VISIBLE | WS_CHILD | WS_CLIPSIBLINGS | WS_BORDER | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS, 0);

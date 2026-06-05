@@ -14,7 +14,10 @@ sw::SysLink::SysLink()
                   return self->GetStyle(LWS_IGNORERETURN);
               })
               .Setter([](SysLink *self, bool value) {
-                  self->SetStyle(LWS_IGNORERETURN, value);
+                  if (self->IgnoreReturn != value) {
+                      self->SetStyle(LWS_IGNORERETURN, value);
+                      self->RaisePropertyChanged(&SysLink::IgnoreReturn);
+                  }
               })),
 
       AutoSize(
@@ -26,6 +29,7 @@ sw::SysLink::SysLink()
                   if (self->_autoSize != value) {
                       self->_autoSize = value;
                       self->_UpdateLayoutFlags();
+                      self->RaisePropertyChanged(&SysLink::AutoSize);
                       self->InvalidateMeasure();
                   }
               }))

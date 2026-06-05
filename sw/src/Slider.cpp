@@ -44,7 +44,10 @@ sw::Slider::Slider()
                   return self->GetStyle(TBS_VERT);
               })
               .Setter([](Slider *self, bool value) {
-                  self->SetStyle(TBS_VERT, value);
+                  if (self->Vertical != value) {
+                      self->SetStyle(TBS_VERT, value);
+                      self->RaisePropertyChanged(&Slider::Vertical);
+                  }
               })),
 
       ValueTooltips(
@@ -62,6 +65,7 @@ sw::Slider::Slider()
                       self->SendMessageW(TBM_SETRANGEMIN, FALSE, minimum);
                       self->SendMessageW(TBM_SETRANGEMAX, FALSE, maximum);
                       self->SendMessageW(TBM_SETPOS, TRUE, position);
+                      self->RaisePropertyChanged(&Slider::ValueTooltips);
                   }
               }))
 {

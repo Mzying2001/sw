@@ -7,7 +7,10 @@ sw::StaticControl::StaticControl()
                   return self->GetStyle(SS_NOTIFY);
               })
               .Setter([](StaticControl *self, bool value) {
-                  self->SetStyle(SS_NOTIFY, value);
+                  if (self->Notify != value) {
+                      self->SetStyle(SS_NOTIFY, value);
+                      self->RaisePropertyChanged(&StaticControl::Notify);
+                  }
               }))
 {
     this->InitControl(L"STATIC", L"", WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, 0);

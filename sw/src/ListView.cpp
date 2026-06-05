@@ -45,10 +45,13 @@ sw::ListView::ListView()
                   return self->_GetExtendedListViewStyle() & LVS_EX_GRIDLINES;
               })
               .Setter([](ListView *self, bool value) {
-                  DWORD style;
-                  style = self->_GetExtendedListViewStyle();
-                  style = value ? (style | LVS_EX_GRIDLINES) : (style & (~LVS_EX_GRIDLINES));
-                  self->_SetExtendedListViewStyle(style);
+                  if (self->GridLines != value) {
+                      DWORD style;
+                      style = self->_GetExtendedListViewStyle();
+                      style = value ? (style | LVS_EX_GRIDLINES) : (style & (~LVS_EX_GRIDLINES));
+                      self->_SetExtendedListViewStyle(style);
+                      self->RaisePropertyChanged(&ListView::GridLines);
+                  }
               })),
 
       MultiSelect(
@@ -57,7 +60,10 @@ sw::ListView::ListView()
                   return !(self->GetStyle() & LVS_SINGLESEL);
               })
               .Setter([](ListView *self, bool value) {
-                  self->SetStyle(LVS_SINGLESEL, !value);
+                  if (self->MultiSelect != value) {
+                      self->SetStyle(LVS_SINGLESEL, !value);
+                      self->RaisePropertyChanged(&ListView::MultiSelect);
+                  }
               })),
 
       SelectedCount(
@@ -72,10 +78,13 @@ sw::ListView::ListView()
                   return self->_GetExtendedListViewStyle() & LVS_EX_CHECKBOXES;
               })
               .Setter([](ListView *self, bool value) {
-                  DWORD style;
-                  style = self->_GetExtendedListViewStyle();
-                  style = value ? (style | LVS_EX_CHECKBOXES) : (style & (~LVS_EX_CHECKBOXES));
-                  self->_SetExtendedListViewStyle(style);
+                  if (self->CheckBoxes != value) {
+                      DWORD style;
+                      style = self->_GetExtendedListViewStyle();
+                      style = value ? (style | LVS_EX_CHECKBOXES) : (style & (~LVS_EX_CHECKBOXES));
+                      self->_SetExtendedListViewStyle(style);
+                      self->RaisePropertyChanged(&ListView::CheckBoxes);
+                  }
               })),
 
       TopIndex(
@@ -90,7 +99,10 @@ sw::ListView::ListView()
                   return self->GetStyle(LVS_SHAREIMAGELISTS);
               })
               .Setter([](ListView *self, bool value) {
-                  self->SetStyle(LVS_SHAREIMAGELISTS, value);
+                  if (self->ShareImageLists != value) {
+                      self->SetStyle(LVS_SHAREIMAGELISTS, value);
+                      self->RaisePropertyChanged(&ListView::ShareImageLists);
+                  }
               })),
 
       Editable(
@@ -99,7 +111,10 @@ sw::ListView::ListView()
                   return self->GetStyle(LVS_EDITLABELS);
               })
               .Setter([](ListView *self, bool value) {
-                  self->SetStyle(LVS_EDITLABELS, value);
+                  if (self->Editable != value) {
+                      self->SetStyle(LVS_EDITLABELS, value);
+                      self->RaisePropertyChanged(&ListView::Editable);
+                  }
               }))
 {
     InitControl(

@@ -20,6 +20,7 @@ sw::Splitter::Splitter()
               .Setter([](Splitter *self, sw::Orientation value) {
                   if (self->_orientation != value) {
                       self->_orientation = value;
+                      self->RaisePropertyChanged(&Splitter::Orientation);
                       value == Orientation::Horizontal
                           ? self->SetAlignment(HorizontalAlignment::Stretch, VerticalAlignment::Center)
                           : self->SetAlignment(HorizontalAlignment::Center, VerticalAlignment::Stretch);
@@ -35,6 +36,7 @@ sw::Splitter::Splitter()
                   if (self->_drawSplitterLine != value) {
                       self->_drawSplitterLine = value;
                       self->Redraw();
+                      self->RaisePropertyChanged(&Splitter::DrawSplitterLine);
                   }
               }))
 {
