@@ -11,62 +11,6 @@ namespace
     constexpr int _FileDialogInitialBufferSize = 1024;
 }
 
-sw::FileFilter::FileFilter(std::initializer_list<FileFilterItem> filters)
-{
-    SetFilter(filters);
-}
-
-bool sw::FileFilter::AddFilter(const std::wstring &name, const std::wstring &filter, const std::wstring &defaultExt)
-{
-    if (name.empty() || filter.empty()) {
-        return false;
-    }
-
-    if (!_buffer.empty()) {
-        _buffer.pop_back();
-    }
-
-    for (auto c : name) {
-        _buffer.push_back(c);
-    }
-    _buffer.push_back(0);
-
-    for (auto c : filter) {
-        _buffer.push_back(c);
-    }
-    _buffer.push_back(0);
-    _buffer.push_back(0);
-
-    _defaultExts.emplace_back(defaultExt);
-    return true;
-}
-
-int sw::FileFilter::SetFilter(std::initializer_list<FileFilterItem> filters)
-{
-    int result = 0;
-    Clear();
-    for (auto &item : filters) {
-        result += AddFilter(item.name, item.filter, item.defaultExt);
-    }
-    return result;
-}
-
-void sw::FileFilter::Clear()
-{
-    _buffer.clear();
-    _defaultExts.clear();
-}
-
-wchar_t *sw::FileFilter::GetFilterStr()
-{
-    return _buffer.empty() ? nullptr : _buffer.data();
-}
-
-const wchar_t *sw::FileFilter::GetDefaultExt(int index)
-{
-    return (index >= 0 && index < (int)_defaultExts.size()) ? _defaultExts[index].c_str() : L"";
-}
-
 sw::FileDialog::FileDialog()
     : BufferSize(
           Property<int>::Init(this)
@@ -118,10 +62,10 @@ sw::FileDialog::FileDialog()
                   }
               })),
 
-      Filter(
-          Property<FileFilter *>::Init(this)
-              .Getter([](FileDialog *self) -> FileFilter * {
-                  return &self->_filter;
+      Filters(
+          Property<ObservableCollection<FileFilterItem> *>::Init(this)
+              .Getter([](FileDialog *self) -> ObservableCollection<FileFilterItem> * {
+                  return &self->_filters;
               })),
 
       FilterIndex(
@@ -205,11 +149,9 @@ sw::FileDialog::FileDialog()
     Title       = L"";
     InitialDir  = L"";
     FilterIndex = 0;
-}
 
-void sw::FileDialog::SetFilter(const FileFilter &filter)
-{
-    _filter = filter;
+    _filters.CollectionChanged +=
+        NotifyCollectionChangedEventHandler(*this, &FileDialog::_FiltersCollectionChangedHandler);
 }
 
 void sw::FileDialog::Close()
@@ -222,7 +164,11 @@ void sw::FileDialog::Show()
 
 OPENFILENAMEW *sw::FileDialog::GetOFN()
 {
-    _ofn.lpstrFilter = _filter.GetFilterStr();
+    if (_filterBuffer.empty()) {
+        _ofn.lpstrFilter = nullptr;
+    } else {
+        _ofn.lpstrFilter = _filterBuffer.data();
+    }
     return &_ofn;
 }
 
@@ -239,6 +185,42 @@ void sw::FileDialog::ClearBuffer()
 
 void sw::FileDialog::ProcessFileName(std::wstring &fileName)
 {
+}
+
+void sw::FileDialog::_AppendFilterToBuffer(const FileFilterItem &filter)
+{
+    auto &buffer = _filterBuffer;
+
+    if (!buffer.empty()) {
+        buffer.pop_back();
+    }
+
+    buffer.insert(buffer.end(), filter.name.begin(), filter.name.end());
+    buffer.push_back(0);
+
+    buffer.insert(buffer.end(), filter.filter.begin(), filter.filter.end());
+    buffer.push_back(0);
+    buffer.push_back(0);
+}
+
+void sw::FileDialog::_ResetFilterBuffer()
+{
+    _filterBuffer.clear();
+
+    for (auto &item : _filters.GetInternalVector()) {
+        _AppendFilterToBuffer(item);
+    }
+}
+
+void sw::FileDialog::_FiltersCollectionChangedHandler(
+    INotifyCollectionChanged &sender, NotifyCollectionChangedEventArgs &args)
+{
+    if (args.action == NotifyCollectionChangedAction::Add &&
+        args.index == _filters.Count() - 1) {
+        _AppendFilterToBuffer(_filters.GetAt(args.index));
+    } else {
+        _ResetFilterBuffer();
+    }
 }
 
 sw::OpenFileDialog::OpenFileDialog()
@@ -329,13 +311,21 @@ int sw::SaveFileDialog::ShowDialog(Window &owner)
 
 void sw::SaveFileDialog::ProcessFileName(std::wstring &fileName)
 {
-    const wchar_t *ext = Filter->GetDefaultExt(FilterIndex);
-    if (ext == nullptr || ext[0] == L'\0') return;
+    int index     = FilterIndex;
+    auto *filters = Filters.Get();
+
+    if (index < 0 || index >= filters->Count()) {
+        return;
+    }
+
+    auto &ext = filters->GetAt(index).defaultExt;
+    if (ext.empty()) return;
 
     size_t indexSlash = fileName.find_last_of(L"\\/");
     size_t indexDot   = fileName.find_last_of(L'.');
 
     static const auto npos = std::wstring::npos;
+
     if (indexDot == npos || (indexSlash != npos && indexSlash > indexDot)) {
         fileName += ext;
     }

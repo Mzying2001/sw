@@ -2,8 +2,10 @@
 
 #include "EnumBit.h"
 #include "IDialog.h"
-#include "List.h"
+#include "ObservableCollection.h"
 #include "Property.h"
+#include <string>
+#include <vector>
 #include <windows.h>
 
 namespace sw
@@ -187,64 +189,6 @@ namespace sw
     };
 
     /**
-     * @brief 文件筛选器
-     */
-    class FileFilter
-    {
-    private:
-        /**
-         * @brief 缓冲区
-         */
-        std::vector<wchar_t> _buffer;
-
-        /**
-         * @brief 默认扩展名
-         */
-        std::vector<std::wstring> _defaultExts;
-
-    public:
-        /**
-         * @brief 默认构造函数
-         */
-        FileFilter() = default;
-
-        /**
-         * @brief 初始话并设置筛选器
-         */
-        FileFilter(std::initializer_list<FileFilterItem> filters);
-
-        /**
-         * @brief 添加筛选器
-         * @param name 名称，示例：All Files
-         * @param filter 筛选器，示例：*.*
-         * @return 是否成功添加
-         */
-        bool AddFilter(const std::wstring &name, const std::wstring &filter, const std::wstring &defaultExt = L"");
-
-        /**
-         * @brief 清空现有筛选器并重新设置筛选器
-         * @param filters 筛选器列表
-         * @return 成功添加的筛选器个数
-         */
-        int SetFilter(std::initializer_list<FileFilterItem> filters);
-
-        /**
-         * @brief 清空所有已添加的筛选器
-         */
-        void Clear();
-
-        /**
-         * @brief 获取OPENFILENAMEW结构体lpstrFilter格式的字符串
-         */
-        wchar_t *GetFilterStr();
-
-        /**
-         * @brief 获取指定索引处筛选器的默认扩展名
-         */
-        const wchar_t *GetDefaultExt(int index);
-    };
-
-    /**
      * @brief “打开文件”对话框与“另存为”对话框的基类
      */
     class FileDialog : public IDialog
@@ -271,9 +215,15 @@ namespace sw
         std::wstring _initialDir;
 
         /**
-         * @brief 筛选器
+         * @brief 传给OPENFILENAMEW的筛选器字符串
+         * @note 格式如："文本1\0筛选器字符串1\0文本2\0筛选器字符串2\0\0"，最后以两个空字符结尾
          */
-        FileFilter _filter;
+        std::vector<wchar_t> _filterBuffer;
+
+        /**
+         * @brief 筛选器集合
+         */
+        ObservableCollection<FileFilterItem> _filters;
 
     public:
         /**
@@ -297,9 +247,9 @@ namespace sw
         const Property<std::wstring> InitialDir;
 
         /**
-         * @brief 筛选器
+         * @brief 筛选器集合
          */
-        const ReadOnlyProperty<FileFilter *> Filter;
+        const ReadOnlyProperty<ObservableCollection<FileFilterItem> *> Filters;
 
         /**
          * @brief 当前筛选器的索引，索引值从0开始
@@ -319,19 +269,13 @@ namespace sw
         /**
          * @brief 所有选中的文件路径
          */
-        const ReadOnlyProperty<sw::List<std::wstring>> FileNames;
+        const ReadOnlyProperty<List<std::wstring>> FileNames;
 
     public:
         /**
          * @brief 初始化FileDialog
          */
         FileDialog();
-
-        /**
-         * @brief 设置筛选器
-         * @param filter 筛选器
-         */
-        void SetFilter(const FileFilter &filter);
 
         /**
          * @brief FileDialog默认不支持该函数，调用该函数不会执行任何操作
@@ -376,6 +320,26 @@ namespace sw
          * @param fileName 获取到的文件路径，可通过修改该值改变FileName和FileNames属性获取到的内容
          */
         virtual void ProcessFileName(std::wstring &fileName);
+
+    private:
+        /**
+         * @brief 添加一个筛选器到缓冲区
+         * @param filter 要添加的筛选器
+         */
+        void _AppendFilterToBuffer(const FileFilterItem &filter);
+
+        /**
+         * @brief 重置筛选器缓冲区
+         */
+        void _ResetFilterBuffer();
+
+        /**
+         * @brief Filters集合变更事件处理函数
+         * @param sender 事件的发送者
+         * @param args 包含集合变更信息的事件参数
+         */
+        void _FiltersCollectionChangedHandler(
+            INotifyCollectionChanged &sender, NotifyCollectionChangedEventArgs &args);
     };
 
     /**
