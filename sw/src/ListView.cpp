@@ -5,12 +5,12 @@
 #include <memory>
 
 sw::ListViewColumn::ListViewColumn(const wchar_t *header, double width, ListViewColumnAlignment alignment)
-    : header(header), width(width), alignment(alignment)
+    : header(header), width(width), imageIndex(-1), alignment(alignment)
 {
 }
 
 sw::ListViewColumn::ListViewColumn(const std::wstring &header, double width, ListViewColumnAlignment alignment)
-    : header(header), width(width), alignment(alignment)
+    : header(header), width(width), imageIndex(-1), alignment(alignment)
 {
 }
 
@@ -622,6 +622,11 @@ void sw::ListView::_ApplyColumnInfo(const ListViewColumn &column, LVCOLUMNW *pLv
     pLvc->fmt     = static_cast<int>(column.alignment);
     pLvc->cx      = Dip::DipToPxX(column.width);
     pLvc->pszText = const_cast<LPWSTR>(column.header.c_str());
+
+    if (column.imageIndex >= 0) {
+        pLvc->mask |= LVCF_IMAGE;
+        pLvc->iImage = column.imageIndex;
+    }
 }
 
 bool sw::ListView::_InsertColumn(int index, const ListViewColumn &column)

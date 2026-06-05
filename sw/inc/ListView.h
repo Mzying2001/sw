@@ -37,6 +37,9 @@ namespace sw
         /// @brief 列宽度
         double width;
 
+        /// @brief 关联图像在图像列表中的索引，-1表示无图像
+        int imageIndex;
+
         /// @brief 列对齐方式
         ListViewColumnAlignment alignment;
 
