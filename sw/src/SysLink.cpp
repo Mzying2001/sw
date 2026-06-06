@@ -95,7 +95,7 @@ void sw::SysLink::OnClicked(NMLINK *pNMLink)
 
 void sw::SysLink::_UpdateTextSize()
 {
-    SIZE size;
+    SIZE size{};
     this->SendMessageW(LM_GETIDEALSIZE, INT_MAX, reinterpret_cast<LPARAM>(&size));
     this->_textSize = size;
 }
