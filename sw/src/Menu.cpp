@@ -1,4 +1,5 @@
 #include "Menu.h"
+#include <vector>
 
 sw::MenuBase::MenuBase(MenuItem *root)
     : _root(root),
@@ -30,7 +31,7 @@ bool sw::MenuBase::RaiseClickedEvent(int menuItemId)
     }
 
     MenuItem *item =
-        _root->FindChildById(menuItemId);
+        FindMenuItemById(menuItemId);
 
     if (item == nullptr) {
         return false;
@@ -42,6 +43,47 @@ bool sw::MenuBase::RaiseClickedEvent(int menuItemId)
         _itemClicked(*item, args);
     }
     return true;
+}
+
+sw::MenuItem *sw::MenuBase::FindMenuItemById(int id)
+{
+    if (_root == nullptr) {
+        return nullptr;
+    } else {
+        return _root->FindChildById(id);
+    }
+}
+
+sw::MenuItem *sw::MenuBase::FindMenuItemByTag(uint64_t tag)
+{
+    if (_root == nullptr) {
+        return nullptr;
+    } else {
+        return _root->FindChildByTag(tag);
+    }
+}
+
+sw::MenuItem *sw::MenuBase::FindMenuItemByText(const std::wstring &text)
+{
+    if (_root == nullptr) {
+        return nullptr;
+    }
+
+    std::vector<MenuItem *> stack;
+    stack.push_back(_root.get());
+
+    while (!stack.empty()) {
+        MenuItem *current = stack.back();
+        stack.pop_back();
+
+        if (current->Text == text) {
+            return current;
+        }
+        for (int i = current->GetChildCount() - 1; i >= 0; --i) {
+            stack.push_back(&current->GetChildAt(i));
+        }
+    }
+    return nullptr;
 }
 
 sw::Menu::Menu()

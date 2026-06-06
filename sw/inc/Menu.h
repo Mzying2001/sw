@@ -88,6 +88,27 @@ namespace sw
          * @return 若事件被成功触发则返回true，否则返回false
          */
         bool RaiseClickedEvent(int menuItemId);
+
+        /**
+         * @brief 查找对应ID的菜单项
+         * @param id 菜单项ID
+         * @return 指向菜单项的指针，如果未找到则返回nullptr
+         */
+        MenuItem *FindMenuItemById(int id);
+
+        /**
+         * @brief 查找对应tag的菜单项
+         * @param tag 菜单项tag
+         * @return 指向菜单项的指针，如果未找到则返回nullptr
+         */
+        MenuItem *FindMenuItemByTag(uint64_t tag);
+
+        /**
+         * @brief 查找对应文本的菜单项
+         * @param text 菜单项文本
+         * @return 指向菜单项的指针，如果未找到则返回nullptr
+         */
+        MenuItem *FindMenuItemByText(const std::wstring &text);
     };
 
     /**
