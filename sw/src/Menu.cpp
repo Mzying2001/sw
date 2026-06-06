@@ -1,22 +1,57 @@
 #include "Menu.h"
 
-sw::Menu::Menu()
-    : MenuBase(CreateMenu())
+sw::MenuBase::MenuBase(MenuItem *root)
+    : _root(root),
+
+      Root(
+          Property<MenuItem *>::Init(this)
+              .Getter([](MenuBase *self) -> MenuItem * {
+                  return self->_root.get();
+              })),
+
+      Handle(
+          Property<HMENU>::Init(this)
+              .Getter([](MenuBase *self) -> HMENU {
+                  return self->_root ? self->_root->Handle.Get() : NULL;
+              }))
 {
 }
 
-sw::Menu::Menu(std::initializer_list<MenuItem> items)
+bool sw::MenuBase::RaiseClickEvent(int menuItemId)
+{
+    if (_root == nullptr) {
+        return false;
+    }
+
+    MenuItem *item =
+        _root->FindChildById(menuItemId);
+
+    if (item == nullptr) {
+        return false;
+    }
+
+    // TODO: 触发菜单项点击事件
+    return true;
+}
+
+sw::Menu::Menu()
+    : MenuBase(MenuItem::CreateRoot(false))
+{
+}
+
+sw::Menu::Menu(std::initializer_list<MenuItemDesc> items)
     : Menu()
 {
-    this->SetItems(items);
+    Root->ResetChildren(items);
 }
 
-int sw::Menu::IndexToID(int index)
+sw::ContextMenu::ContextMenu()
+    : MenuBase(MenuItem::CreateRoot(true))
 {
-    return index;
 }
 
-int sw::Menu::IDToIndex(int id)
+sw::ContextMenu::ContextMenu(std::initializer_list<MenuItemDesc> items)
+    : ContextMenu()
 {
-    return id;
+    Root->ResetChildren(items);
 }

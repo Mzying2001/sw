@@ -157,8 +157,7 @@ LRESULT sw::NotifyIcon::WndProc(ProcMsg &refMsg)
 void sw::NotifyIcon::OnMenuCommand(int id)
 {
     if (_contextMenu) {
-        MenuItem *item = _contextMenu->GetMenuItem(id);
-        if (item) item->CallCommand();
+        _contextMenu->RaiseClickEvent(id);
     }
 }
 
@@ -243,7 +242,7 @@ bool sw::NotifyIcon::ShowContextMenu(const Point &point, sw::HorizontalAlignment
     HMENU hMenu = NULL;
 
     if (_contextMenu) {
-        hMenu = _contextMenu->GetHandle();
+        hMenu = _contextMenu->Handle;
     }
     if (hMenu == NULL) {
         return false;

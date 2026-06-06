@@ -1,6 +1,6 @@
 #include "UIElement.h"
-#include "ContextMenu.h"
 #include "Dip.h"
+#include "Menu.h"
 #include "Utils.h"
 #include "WndMsg.h"
 #include <algorithm>
@@ -502,7 +502,7 @@ bool sw::UIElement::ShowContextMenu(const Point &point, sw::HorizontalAlignment 
     HMENU hMenu = NULL;
 
     if (this->_contextMenu) {
-        hMenu = this->_contextMenu->GetHandle();
+        hMenu = this->_contextMenu->Handle;
     }
     if (hMenu == NULL) {
         return false;
@@ -1449,8 +1449,7 @@ bool sw::UIElement::OnContextMenu(bool isKeyboardMsg, const Point &mousePosition
 void sw::UIElement::OnMenuCommand(int id)
 {
     if (this->_contextMenu) {
-        MenuItem *item = this->_contextMenu->GetMenuItem(id);
-        if (item) item->CallCommand();
+        this->_contextMenu->RaiseClickEvent(id);
     }
 }
 

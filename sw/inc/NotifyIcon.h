@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Alignment.h"
-#include "ContextMenu.h"
+#include "Menu.h"
 #include "WndBase.h"
 #include <shellapi.h>
 
