@@ -15,15 +15,15 @@ namespace sw
     class MenuItemClickedEventArgs : public EventArgs
     {
     public:
-        /// @brief 被点击的菜单项
-        MenuItem *clickedItem;
+        /// @brief 菜单项所在的菜单
+        MenuBase *menu;
     };
 
     /**
      * @brief 菜单项被点击事件处理函数类型
      */
     using MenuItemClickedEventHandler =
-        EventHandler<MenuBase, MenuItemClickedEventArgs>;
+        EventHandler<MenuItem, MenuItemClickedEventArgs>;
 
     /**
      * @brief 菜单类型的基类

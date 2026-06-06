@@ -38,8 +38,8 @@ bool sw::MenuBase::RaiseClickedEvent(int menuItemId)
 
     if (_itemClicked) {
         MenuItemClickedEventArgs args{};
-        args.clickedItem = item;
-        _itemClicked(*this, args);
+        args.menu = this;
+        _itemClicked(*item, args);
     }
     return true;
 }
