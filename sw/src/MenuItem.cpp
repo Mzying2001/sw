@@ -209,7 +209,12 @@ sw::MenuItem *sw::MenuItem::AddChild(const MenuItemDesc &desc)
 {
     auto child = Create(desc);
     _SetParent(this, child);
+
     child->_ResetMenuItem();
+
+    if (child->CurrentDataContext != nullptr) {
+        child->OnCurrentDataContextChanged(nullptr);
+    }
     return child;
 }
 
@@ -219,7 +224,8 @@ sw::MenuItem *sw::MenuItem::InsertChild(int index, const MenuItemDesc &desc)
         throw std::out_of_range("Index out of range");
     }
 
-    auto child     = Create(desc);
+    auto child = Create(desc);
+
     child->_parent = this;
     subItems.insert(subItems.begin() + index, std::unique_ptr<MenuItem>(child));
 
@@ -228,6 +234,10 @@ sw::MenuItem *sw::MenuItem::InsertChild(int index, const MenuItemDesc &desc)
     } else {
         InsertMenuW(_hMenu, index, MF_STRING | MF_BYPOSITION, static_cast<UINT_PTR>(child->_id), L"");
         child->_ResetMenuItem();
+    }
+
+    if (child->CurrentDataContext != nullptr) {
+        child->OnCurrentDataContextChanged(nullptr);
     }
     return child;
 }
