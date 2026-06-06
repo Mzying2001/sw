@@ -371,15 +371,14 @@ void sw::MenuItem::_ResetMenuItem()
         DestroyMenu(hOldMenu);
     }
 
-    if (_hMenu != NULL) {
-        if (IsSeparator) {
-            InsertMenuW(_parent->_hMenu, index, MF_SEPARATOR | MF_BYPOSITION, 0, NULL);
-        } else {
-            InsertMenuW(_parent->_hMenu, index, MF_POPUP | MF_BYPOSITION, reinterpret_cast<UINT_PTR>(_hMenu), L"");
-            _UpdateMenuItem(_parent->_hMenu, index, _desc);
-        }
+    if (IsSeparator) {
+        InsertMenuW(_parent->_hMenu, index, MF_SEPARATOR | MF_BYPOSITION, 0, NULL);
     } else {
-        InsertMenuW(_parent->_hMenu, index, MF_STRING | MF_BYPOSITION, static_cast<UINT_PTR>(_id), L"");
+        if (_hMenu != NULL) {
+            InsertMenuW(_parent->_hMenu, index, MF_POPUP | MF_BYPOSITION, reinterpret_cast<UINT_PTR>(_hMenu), L"");
+        } else {
+            InsertMenuW(_parent->_hMenu, index, MF_STRING | MF_BYPOSITION, static_cast<UINT_PTR>(_id), L"");
+        }
         _UpdateMenuItem(_parent->_hMenu, index, _desc);
     }
 }
