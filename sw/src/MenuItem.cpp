@@ -95,6 +95,15 @@ sw::MenuItem::MenuItem(const MenuItemDesc &desc)
           ReadOnlyProperty<bool>::Init(this)
               .Getter([](MenuItem *self) -> bool {
                   return self->_desc.text == L"-";
+              })),
+
+      Tag(
+          Property<uint64_t>::Init(this)
+              .Getter([](MenuItem *self) -> uint64_t {
+                  return self->_desc.tag;
+              })
+              .Setter([](MenuItem *self, uint64_t value) {
+                  self->SetTag(value);
               }))
 {
     SetTag(desc.tag);
@@ -158,6 +167,22 @@ sw::MenuItem *sw::MenuItem::CreateRoot(bool isPopup)
         root->_hMenu = CreatePopupMenu();
     }
     return root;
+}
+
+void sw::MenuItem::OnTagChanged()
+{
+    TBase::OnTagChanged();
+
+    Variant tagVariant   = GetTag();
+    uint64_t newTagValue = 0;
+
+    if (tagVariant.IsType<uint64_t>()) {
+        newTagValue = tagVariant.UnsafeCast<uint64_t>();
+    }
+    if (_desc.tag != newTagValue) {
+        _desc.tag = newTagValue;
+        RaisePropertyChanged(&MenuItem::Tag);
+    }
 }
 
 sw::MenuItem *sw::MenuItem::GetParent() const
@@ -271,10 +296,7 @@ sw::MenuItem *sw::MenuItem::FindChildByTag(uint64_t tag)
         MenuItem *current = stack.back();
         stack.pop_back();
 
-        uint64_t *pTagVal;
-        Variant tagVariant = current->GetTag();
-
-        if (tagVariant.IsType(&pTagVal) && *pTagVal == tag) {
+        if (current->_desc.tag == tag) {
             return current;
         }
         for (auto &child : current->subItems) {

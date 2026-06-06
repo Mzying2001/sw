@@ -70,6 +70,11 @@ namespace sw
     {
     private:
         /**
+         * @brief 基类别名，方便调用基类函数
+         */
+        using TBase = FrameworkElement;
+
+        /**
          * @brief 菜单项描述信息
          */
         MenuItemDesc _desc{};
@@ -135,6 +140,11 @@ namespace sw
          */
         const ReadOnlyProperty<bool> IsSeparator;
 
+        /**
+         * @brief 菜单项Tag
+         */
+        const Property<uint64_t> Tag;
+
     private:
         /**
          * @brief 构造函数，使用菜单项描述信息初始化菜单项
@@ -159,6 +169,12 @@ namespace sw
          * @return 新创建的根菜单项实例
          */
         static MenuItem *CreateRoot(bool isPopup);
+
+    protected:
+        /**
+         * @brief 当Tag更改时调用此函数
+         */
+        virtual void OnTagChanged() override;
 
     public:
         /**
