@@ -1,6 +1,11 @@
 #include "MenuItem.h"
 #include <atomic>
 
+sw::MenuItemDesc::MenuItemDesc(const wchar_t *text)
+    : text(text)
+{
+}
+
 sw::MenuItemDesc::MenuItemDesc(const std::wstring &text)
     : text(text)
 {

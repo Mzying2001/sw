@@ -18,7 +18,7 @@ namespace sw
         /// @brief 菜单项标记，可用于区分不同菜单项
         uint64_t tag = 0;
 
-        /// @brief 菜单项文本
+        /// @brief 菜单项文本，若为"-"则表示该菜单项为分隔符
         std::wstring text{};
 
         /// @brief 菜单项是否可用，默认为true
@@ -35,6 +35,10 @@ namespace sw
 
         /// @brief 默认构造函数
         MenuItemDesc() = default;
+
+        /// @brief 构造指定文本的菜单项描述
+        /// @param text 菜单项文本
+        MenuItemDesc(const wchar_t *text);
 
         /// @brief 构造指定文本的菜单项描述
         /// @param text 菜单项文本
@@ -108,6 +112,8 @@ namespace sw
 
         /**
          * @brief 菜单项句柄
+         * @note 若当前菜单项不是根菜单项，菜单项句柄可能会随着内容的更改而改变，
+         *       因此不建议缓存该属性值。
          */
         const ReadOnlyProperty<HMENU> Handle;
 
