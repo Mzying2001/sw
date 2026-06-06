@@ -65,3 +65,50 @@ sw::ContextMenu::ContextMenu(std::initializer_list<MenuItemDesc> items)
 {
     Root->ResetChildren(items);
 }
+
+bool sw::ContextMenu::Show(
+    HWND hwnd, const Point &point, sw::HorizontalAlignment horz, sw::VerticalAlignment vert)
+{
+    UINT uFlags = 0;
+    HMENU hMenu = Handle;
+
+    if (hMenu == NULL) {
+        return false;
+    }
+
+    switch (horz) {
+        case sw::HorizontalAlignment::Left: {
+            uFlags |= TPM_LEFTALIGN;
+            break;
+        }
+        case sw::HorizontalAlignment::Right: {
+            uFlags |= TPM_RIGHTALIGN;
+            break;
+        }
+        case sw::HorizontalAlignment::Center:
+        case sw::HorizontalAlignment::Stretch: {
+            uFlags |= TPM_CENTERALIGN;
+            break;
+        }
+    }
+
+    switch (vert) {
+        case sw::VerticalAlignment::Top: {
+            uFlags |= TPM_TOPALIGN;
+            break;
+        }
+        case sw::VerticalAlignment::Bottom: {
+            uFlags |= TPM_BOTTOMALIGN;
+            break;
+        }
+        case sw::VerticalAlignment::Center:
+        case sw::VerticalAlignment::Stretch: {
+            uFlags |= TPM_VCENTERALIGN;
+            break;
+        }
+    }
+
+    POINT pos = point;
+    SetForegroundWindow(hwnd); // 确保菜单能正确关闭
+    return TrackPopupMenu(hMenu, uFlags, pos.x, pos.y, 0, hwnd, nullptr);
+}

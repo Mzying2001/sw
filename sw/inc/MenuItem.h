@@ -10,10 +10,6 @@
 
 namespace sw
 {
-    // 向前声明
-    class MenuItem;
-    class MenuBase;
-
     /**
      * @brief 菜单项描述结构体
      */

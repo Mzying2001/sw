@@ -1,7 +1,9 @@
 #pragma once
 
+#include "Alignment.h"
 #include "Event.h"
 #include "MenuItem.h"
+#include "Point.h"
 
 namespace sw
 {
@@ -122,5 +124,18 @@ namespace sw
          * @param items 菜单项列表
          */
         ContextMenu(std::initializer_list<MenuItemDesc> items);
+
+        /**
+         * @brief 在指定位置显示上下文菜单
+         * @param hwnd 关联的窗口句柄
+         * @param point 显示位置
+         * @param horz 水平对齐方式，默认为左对齐
+         * @param vert 垂直对齐方式，默认为顶部对齐
+         * @return 若函数成功则返回true，否则返回false
+         */
+        bool Show(
+            HWND hwnd, const Point &point,
+            sw::HorizontalAlignment horz = sw::HorizontalAlignment::Left,
+            sw::VerticalAlignment vert   = sw::VerticalAlignment::Top);
     };
 }

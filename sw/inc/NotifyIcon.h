@@ -175,18 +175,6 @@ namespace sw
          */
         void Destroy();
 
-        /**
-         * @brief 弹出上下文菜单
-         * @param point 弹出菜单在屏幕中的位置
-         * @param horz 菜单的水平方向对齐方式
-         * @param vert 菜单的垂直方向对齐方式
-         * @return 若函数成功则返回true，否则返回false
-         */
-        bool ShowContextMenu(
-            const Point &point,
-            sw::HorizontalAlignment horz = sw::HorizontalAlignment::Left,
-            sw::VerticalAlignment vert   = sw::VerticalAlignment::Bottom);
-
     private:
         /**
          * @brief 调用Shell_NotifyIcon函数

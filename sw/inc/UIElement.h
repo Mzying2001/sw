@@ -472,18 +472,6 @@ namespace sw
         int IndexOf(UIElement &element);
 
         /**
-         * @brief 弹出当前元素的上下文菜单
-         * @param point 弹出菜单在屏幕中的位置
-         * @param horz 菜单的水平方向对齐方式
-         * @param vert 菜单的垂直方向对齐方式
-         * @return 若函数成功则返回true，否则返回false
-         */
-        bool ShowContextMenu(
-            const Point &point,
-            sw::HorizontalAlignment horz = sw::HorizontalAlignment::Left,
-            sw::VerticalAlignment vert   = sw::VerticalAlignment::Top);
-
-        /**
          * @brief 移动到界面顶部
          */
         void MoveToTop();
