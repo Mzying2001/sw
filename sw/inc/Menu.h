@@ -1,9 +1,28 @@
 #pragma once
 
+#include "Event.h"
 #include "MenuItem.h"
 
 namespace sw
 {
+    class MenuBase; // 向前声明
+
+    /**
+     * @brief 菜单被点击事件参数
+     */
+    class MenuItemClickedEventArgs : public EventArgs
+    {
+    public:
+        /// @brief 被点击的菜单项
+        MenuItem *clickedItem;
+    };
+
+    /**
+     * @brief 菜单项被点击事件处理函数类型
+     */
+    using MenuItemClickedEventHandler =
+        EventHandler<MenuBase, MenuItemClickedEventArgs>;
+
     /**
      * @brief 菜单类型的基类
      */
@@ -15,7 +34,17 @@ namespace sw
          */
         std::unique_ptr<MenuItem> _root;
 
+        /**
+         * @brief 菜单项被点击事件委托
+         */
+        MenuItemClickedEventHandler _itemClicked;
+
     public:
+        /**
+         * @brief 菜单项被点击事件
+         */
+        const Event<MenuItemClickedEventHandler> ItemClicked;
+
         /**
          * @brief 根菜单项
          */
@@ -56,7 +85,7 @@ namespace sw
          * @param menuItemId 菜单项ID
          * @return 若事件被成功触发则返回true，否则返回false
          */
-        bool RaiseClickEvent(int menuItemId);
+        bool RaiseClickedEvent(int menuItemId);
     };
 
     /**

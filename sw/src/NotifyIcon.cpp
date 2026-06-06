@@ -157,7 +157,7 @@ LRESULT sw::NotifyIcon::WndProc(ProcMsg &refMsg)
 void sw::NotifyIcon::OnMenuCommand(int id)
 {
     if (_contextMenu) {
-        _contextMenu->RaiseClickEvent(id);
+        _contextMenu->RaiseClickedEvent(id);
     }
 }
 

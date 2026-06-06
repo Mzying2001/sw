@@ -1449,7 +1449,7 @@ bool sw::UIElement::OnContextMenu(bool isKeyboardMsg, const Point &mousePosition
 void sw::UIElement::OnMenuCommand(int id)
 {
     if (this->_contextMenu) {
-        this->_contextMenu->RaiseClickEvent(id);
+        this->_contextMenu->RaiseClickedEvent(id);
     }
 }
 

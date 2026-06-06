@@ -373,7 +373,7 @@ void sw::Window::OnMenuCommand(int id)
     bool handled = false;
 
     if (_menu != nullptr) {
-        handled = _menu->RaiseClickEvent(id);
+        handled = _menu->RaiseClickedEvent(id);
     }
 
     if (!handled) {

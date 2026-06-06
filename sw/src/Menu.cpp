@@ -3,6 +3,12 @@
 sw::MenuBase::MenuBase(MenuItem *root)
     : _root(root),
 
+      ItemClicked(
+          Event<MenuItemClickedEventHandler>::Init(this)
+              .Delegate([](MenuBase *self) -> MenuItemClickedEventHandler & {
+                  return self->_itemClicked;
+              })),
+
       Root(
           Property<MenuItem *>::Init(this)
               .Getter([](MenuBase *self) -> MenuItem * {
@@ -17,7 +23,7 @@ sw::MenuBase::MenuBase(MenuItem *root)
 {
 }
 
-bool sw::MenuBase::RaiseClickEvent(int menuItemId)
+bool sw::MenuBase::RaiseClickedEvent(int menuItemId)
 {
     if (_root == nullptr) {
         return false;
@@ -30,7 +36,11 @@ bool sw::MenuBase::RaiseClickEvent(int menuItemId)
         return false;
     }
 
-    // TODO: 触发菜单项点击事件
+    if (_itemClicked) {
+        MenuItemClickedEventArgs args{};
+        args.clickedItem = item;
+        _itemClicked(*this, args);
+    }
     return true;
 }
 
