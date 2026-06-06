@@ -24,8 +24,7 @@ namespace sw
      * @brief 表示一个Windows窗口，是所有窗口和控件的基类
      */
     class WndBase : public FrameworkElement,
-                    public IToString<WndBase>,
-                    public IEqualityComparable<WndBase>
+                    public IToString<WndBase>
     {
         // 部分控件可能会改变HWND，设为友元类向Control类暴露_hwnd字段
         friend class Control;
@@ -236,11 +235,6 @@ namespace sw
          * @return 若函数成功则返回UIElement指针，否则返回nullptr
          */
         virtual UIElement *ToUIElement();
-
-        /**
-         * @brief 判断当前对象与另一个WndBase是否相等
-         */
-        bool Equals(const WndBase &other) const;
 
         /**
          * @brief 获取当前对象的描述字符串
