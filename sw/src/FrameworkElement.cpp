@@ -106,8 +106,13 @@ void sw::FrameworkElement::SetTag(const Variant &tag)
 {
     if (!this->_tag.ReferenceEquals(tag)) {
         this->_tag = tag;
-        this->RaisePropertyChanged(&FrameworkElement::Tag);
+        this->OnTagChanged();
     }
+}
+
+void sw::FrameworkElement::OnTagChanged()
+{
+    this->RaisePropertyChanged(&FrameworkElement::Tag);
 }
 
 void sw::FrameworkElement::OnCurrentDataContextChanged(DynamicObject *oldDataContext)

@@ -475,15 +475,15 @@ namespace sw
     {
     public:
         /// @brief 被单击链接的id
-        wchar_t *id;
+        std::wstring id;
 
         /// @brief 被单击链接的url（即href）
-        wchar_t *url;
+        std::wstring url;
 
         /// @brief 构造函数
         /// @param id 被单击链接的id
         /// @param url 被单击链接的url（即href）
-        SysLinkClickedEventArgs(wchar_t *id, wchar_t *url) : id(id), url(url)
+        SysLinkClickedEventArgs(const std::wstring &id, const std::wstring &url) : id(id), url(url)
         {
         }
     };

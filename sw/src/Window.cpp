@@ -1,6 +1,5 @@
 #include "Window.h"
 #include "App.h"
-#include "ContextMenu.h"
 #include "Menu.h"
 #include "Screen.h"
 #include "Utils.h"
@@ -136,7 +135,7 @@ sw::Window::Window()
               })
               .Setter([](Window *self, sw::Menu *value) {
                   self->_menu = value;
-                  SetMenu(self->Handle, value != nullptr ? value->GetHandle() : NULL);
+                  SetMenu(self->Handle, value != nullptr ? value->Handle.Get() : NULL);
               })),
 
       IsModal(
@@ -371,13 +370,14 @@ bool sw::Window::OnPaint()
 
 void sw::Window::OnMenuCommand(int id)
 {
-    if (ContextMenu::IsContextMenuID(id)) {
-        TBase::OnMenuCommand(id);
-        return;
+    bool handled = false;
+
+    if (_menu != nullptr) {
+        handled = _menu->RaiseClickedEvent(id);
     }
-    if (_menu) {
-        MenuItem *item = _menu->GetMenuItem(id);
-        if (item) item->CallCommand();
+
+    if (!handled) {
+        TBase::OnMenuCommand(id);
     }
 }
 

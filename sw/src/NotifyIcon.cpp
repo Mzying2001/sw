@@ -157,8 +157,7 @@ LRESULT sw::NotifyIcon::WndProc(ProcMsg &refMsg)
 void sw::NotifyIcon::OnMenuCommand(int id)
 {
     if (_contextMenu) {
-        MenuItem *item = _contextMenu->GetMenuItem(id);
-        if (item) item->CallCommand();
+        _contextMenu->RaiseClickedEvent(id);
     }
 }
 
@@ -212,8 +211,8 @@ void sw::NotifyIcon::OnContextMenuOpening(const Point &mousePos)
         handled = args.handled;
     }
 
-    if (!handled) {
-        ShowContextMenu(mousePos);
+    if (_contextMenu != nullptr && !handled) {
+        _contextMenu->Show(Handle, mousePos);
     }
 }
 
@@ -235,56 +234,6 @@ bool sw::NotifyIcon::Hide()
 void sw::NotifyIcon::Destroy()
 {
     DestroyWindow(Handle);
-}
-
-bool sw::NotifyIcon::ShowContextMenu(const Point &point, sw::HorizontalAlignment horz, sw::VerticalAlignment vert)
-{
-    UINT uFlags = 0;
-    HMENU hMenu = NULL;
-
-    if (_contextMenu) {
-        hMenu = _contextMenu->GetHandle();
-    }
-    if (hMenu == NULL) {
-        return false;
-    }
-
-    switch (horz) {
-        case sw::HorizontalAlignment::Left: {
-            uFlags |= TPM_LEFTALIGN;
-            break;
-        }
-        case sw::HorizontalAlignment::Right: {
-            uFlags |= TPM_RIGHTALIGN;
-            break;
-        }
-        case sw::HorizontalAlignment::Center:
-        case sw::HorizontalAlignment::Stretch: {
-            uFlags |= TPM_CENTERALIGN;
-            break;
-        }
-    }
-
-    switch (vert) {
-        case sw::VerticalAlignment::Top: {
-            uFlags |= TPM_TOPALIGN;
-            break;
-        }
-        case sw::VerticalAlignment::Bottom: {
-            uFlags |= TPM_BOTTOMALIGN;
-            break;
-        }
-        case sw::VerticalAlignment::Center:
-        case sw::VerticalAlignment::Stretch: {
-            uFlags |= TPM_VCENTERALIGN;
-            break;
-        }
-    }
-
-    POINT pos = point;
-    HWND hwnd = Handle;
-    SetForegroundWindow(hwnd); // 没这句的话菜单无法正确关闭
-    return TrackPopupMenu(hMenu, uFlags, pos.x, pos.y, 0, hwnd, nullptr);
 }
 
 bool sw::NotifyIcon::_ShellNotifyIcon(DWORD dwMessage)

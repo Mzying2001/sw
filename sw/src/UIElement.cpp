@@ -1,6 +1,6 @@
 #include "UIElement.h"
-#include "ContextMenu.h"
 #include "Dip.h"
+#include "Menu.h"
 #include "Utils.h"
 #include "WndMsg.h"
 #include <algorithm>
@@ -494,56 +494,6 @@ int sw::UIElement::IndexOf(UIElement *element)
 int sw::UIElement::IndexOf(UIElement &element)
 {
     return this->IndexOf(&element);
-}
-
-bool sw::UIElement::ShowContextMenu(const Point &point, sw::HorizontalAlignment horz, sw::VerticalAlignment vert)
-{
-    UINT uFlags = 0;
-    HMENU hMenu = NULL;
-
-    if (this->_contextMenu) {
-        hMenu = this->_contextMenu->GetHandle();
-    }
-    if (hMenu == NULL) {
-        return false;
-    }
-
-    switch (horz) {
-        case sw::HorizontalAlignment::Left: {
-            uFlags |= TPM_LEFTALIGN;
-            break;
-        }
-        case sw::HorizontalAlignment::Right: {
-            uFlags |= TPM_RIGHTALIGN;
-            break;
-        }
-        case sw::HorizontalAlignment::Center:
-        case sw::HorizontalAlignment::Stretch: {
-            uFlags |= TPM_CENTERALIGN;
-            break;
-        }
-    }
-
-    switch (vert) {
-        case sw::VerticalAlignment::Top: {
-            uFlags |= TPM_TOPALIGN;
-            break;
-        }
-        case sw::VerticalAlignment::Bottom: {
-            uFlags |= TPM_BOTTOMALIGN;
-            break;
-        }
-        case sw::VerticalAlignment::Center:
-        case sw::VerticalAlignment::Stretch: {
-            uFlags |= TPM_VCENTERALIGN;
-            break;
-        }
-    }
-
-    POINT pos = point;
-    HWND hwnd = this->Handle;
-    SetForegroundWindow(hwnd); // 确保菜单能正确关闭
-    return TrackPopupMenu(hMenu, uFlags, pos.x, pos.y, 0, hwnd, nullptr);
 }
 
 void sw::UIElement::MoveToTop()
@@ -1439,8 +1389,9 @@ bool sw::UIElement::OnContextMenu(bool isKeyboardMsg, const Point &mousePosition
     ShowContextMenuEventArgs args(isKeyboardMsg, mousePosition);
     this->RaiseRoutedEvent(args);
 
-    if (!args.cancel) {
-        this->ShowContextMenu(isKeyboardMsg ? this->PointToScreen({0, 0}) : mousePosition);
+    if (this->_contextMenu != nullptr && !args.cancel) {
+        Point pos = isKeyboardMsg ? this->PointToScreen({0, 0}) : mousePosition;
+        this->_contextMenu->Show(Handle, pos);
     }
 
     return true;
@@ -1449,8 +1400,7 @@ bool sw::UIElement::OnContextMenu(bool isKeyboardMsg, const Point &mousePosition
 void sw::UIElement::OnMenuCommand(int id)
 {
     if (this->_contextMenu) {
-        MenuItem *item = this->_contextMenu->GetMenuItem(id);
-        if (item) item->CallCommand();
+        this->_contextMenu->RaiseClickedEvent(id);
     }
 }
 
