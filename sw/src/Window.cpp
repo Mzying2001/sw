@@ -51,7 +51,10 @@ sw::Window::Window()
                   return self->_startupLocation;
               })
               .Setter([](Window *self, WindowStartupLocation value) {
-                  self->_startupLocation = value;
+                  if (self->_startupLocation != value) {
+                      self->_startupLocation = value;
+                      self->RaisePropertyChanged(&Window::StartupLocation);
+                  }
               })),
 
       State(
@@ -67,18 +70,21 @@ sw::Window::Window()
                   }
               })
               .Setter([](Window *self, WindowState value) {
-                  HWND hwnd = self->Handle;
+                  if (self->State == value) {
+                      return;
+                  }
                   switch (value) {
                       case WindowState::Normal:
-                          ShowWindow(hwnd, SW_RESTORE);
+                          ShowWindow(self->Handle, SW_RESTORE);
                           break;
                       case WindowState::Minimized:
-                          ShowWindow(hwnd, SW_MINIMIZE);
+                          ShowWindow(self->Handle, SW_MINIMIZE);
                           break;
                       case WindowState::Maximized:
-                          ShowWindow(hwnd, SW_MAXIMIZE);
+                          ShowWindow(self->Handle, SW_MAXIMIZE);
                           break;
                   }
+                  self->RaisePropertyChanged(&Window::State);
               })),
 
       SizeBox(
@@ -87,7 +93,10 @@ sw::Window::Window()
                   return self->GetStyle(WS_SIZEBOX);
               })
               .Setter([](Window *self, bool value) {
-                  self->SetStyle(WS_SIZEBOX, value);
+                  if (self->SizeBox != value) {
+                      self->SetStyle(WS_SIZEBOX, value);
+                      self->RaisePropertyChanged(&Window::SizeBox);
+                  }
               })),
 
       MaximizeBox(
@@ -96,7 +105,10 @@ sw::Window::Window()
                   return self->GetStyle(WS_MAXIMIZEBOX);
               })
               .Setter([](Window *self, bool value) {
-                  self->SetStyle(WS_MAXIMIZEBOX, value);
+                  if (self->MaximizeBox != value) {
+                      self->SetStyle(WS_MAXIMIZEBOX, value);
+                      self->RaisePropertyChanged(&Window::MaximizeBox);
+                  }
               })),
 
       MinimizeBox(
@@ -105,7 +117,10 @@ sw::Window::Window()
                   return self->GetStyle(WS_MINIMIZEBOX);
               })
               .Setter([](Window *self, bool value) {
-                  self->SetStyle(WS_MINIMIZEBOX, value);
+                  if (self->MinimizeBox != value) {
+                      self->SetStyle(WS_MINIMIZEBOX, value);
+                      self->RaisePropertyChanged(&Window::MinimizeBox);
+                  }
               })),
 
       Topmost(
@@ -114,9 +129,11 @@ sw::Window::Window()
                   return self->GetExtendedStyle(WS_EX_TOPMOST);
               })
               .Setter([](Window *self, bool value) {
-                  /*SetExtendedStyle(WS_EX_TOPMOST, value);*/
-                  HWND hWndInsertAfter = value ? HWND_TOPMOST : HWND_NOTOPMOST;
-                  SetWindowPos(self->Handle, hWndInsertAfter, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+                  if (self->Topmost != value) {
+                      HWND hWndInsertAfter = value ? HWND_TOPMOST : HWND_NOTOPMOST;
+                      SetWindowPos(self->Handle, hWndInsertAfter, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+                      self->RaisePropertyChanged(&Window::Topmost);
+                  }
               })),
 
       ToolWindow(
@@ -125,7 +142,10 @@ sw::Window::Window()
                   return self->GetExtendedStyle(WS_EX_TOOLWINDOW);
               })
               .Setter([](Window *self, bool value) {
-                  self->SetExtendedStyle(WS_EX_TOOLWINDOW, value);
+                  if (self->ToolWindow != value) {
+                      self->SetExtendedStyle(WS_EX_TOOLWINDOW, value);
+                      self->RaisePropertyChanged(&Window::ToolWindow);
+                  }
               })),
 
       Menu(
@@ -134,8 +154,11 @@ sw::Window::Window()
                   return self->_menu;
               })
               .Setter([](Window *self, sw::Menu *value) {
-                  self->_menu = value;
-                  SetMenu(self->Handle, value != nullptr ? value->Handle.Get() : NULL);
+                  if (self->_menu != value) {
+                      self->_menu = value;
+                      SetMenu(self->Handle, value != nullptr ? value->Handle.Get() : NULL);
+                      self->RaisePropertyChanged(&Window::Menu);
+                  }
               })),
 
       IsModal(
@@ -151,8 +174,11 @@ sw::Window::Window()
                   return _GetWindowPtr(hOwner);
               })
               .Setter([](Window *self, Window *value) {
-                  HWND hOwner = value ? value->Handle.Get() : NULL;
-                  SetWindowLongPtrW(self->Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(hOwner));
+                  if (self->Owner != value) {
+                      HWND hOwner = value ? value->Handle.Get() : NULL;
+                      SetWindowLongPtrW(self->Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(hOwner));
+                      self->RaisePropertyChanged(&Window::Owner);
+                  }
               })),
 
       IsLayered(
@@ -161,7 +187,10 @@ sw::Window::Window()
                   return self->GetExtendedStyle(WS_EX_LAYERED);
               })
               .Setter([](Window *self, bool value) {
-                  self->SetExtendedStyle(WS_EX_LAYERED, value);
+                  if (self->IsLayered != value) {
+                      self->SetExtendedStyle(WS_EX_LAYERED, value);
+                      self->RaisePropertyChanged(&Window::IsLayered);
+                  }
               })),
 
       Opacity(
@@ -171,8 +200,11 @@ sw::Window::Window()
                   return GetLayeredWindowAttributes(self->Handle, NULL, &result, NULL) ? (result / 255.0) : 1.0;
               })
               .Setter([](Window *self, double value) {
-                  double opacity = Utils::Min(1.0, Utils::Max(0.0, value));
-                  SetLayeredWindowAttributes(self->Handle, 0, (BYTE)std::lround(255 * opacity), LWA_ALPHA);
+                  if (self->Opacity != value) {
+                      double opacity = Utils::Min(1.0, Utils::Max(0.0, value));
+                      SetLayeredWindowAttributes(self->Handle, 0, (BYTE)std::lround(255 * opacity), LWA_ALPHA);
+                      self->RaisePropertyChanged(&Window::Opacity);
+                  }
               })),
 
       Borderless(
@@ -184,6 +216,7 @@ sw::Window::Window()
                   if (self->_isBorderless != value) {
                       self->_isBorderless = value;
                       self->SetStyle(WS_CAPTION | WS_THICKFRAME, !value);
+                      self->RaisePropertyChanged(&Window::Borderless);
                   }
               })),
 
@@ -193,7 +226,10 @@ sw::Window::Window()
                   return self->_dialogResult;
               })
               .Setter([](Window *self, int value) {
-                  self->_dialogResult = value;
+                  if (self->_dialogResult != value) {
+                      self->_dialogResult = value;
+                      self->RaisePropertyChanged(&Window::DialogResult);
+                  }
                   self->Close();
               })),
 
@@ -548,7 +584,12 @@ bool sw::Window::DisableLayout()
     if (!CheckAccess()) {
         return false; // 只能在创建窗口的线程调用
     }
+
     ++_disableLayoutCount;
+
+    if (_disableLayoutCount == 1) {
+        RaisePropertyChanged(&Window::IsLayoutDisabled);
+    }
     return true;
 }
 
@@ -558,13 +599,20 @@ bool sw::Window::EnableLayout(bool reset)
         return false; // 只能在创建窗口的线程调用
     }
 
+    bool oldValue = _IsLayoutDisabled();
+
     if (reset) {
         _disableLayoutCount = 0;
     } else {
         _disableLayoutCount = Utils::Max(0, _disableLayoutCount - 1);
     }
 
-    if (!_IsLayoutDisabled()) {
+    bool newValue = _IsLayoutDisabled();
+
+    if (oldValue != newValue) {
+        RaisePropertyChanged(&Window::IsLayoutDisabled);
+    }
+    if (!newValue) {
         UpdateLayout();
     }
     return true;

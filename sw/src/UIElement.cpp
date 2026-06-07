@@ -32,6 +32,7 @@ namespace
     const sw::FieldId _PropId_MaxHeight           = sw::Reflection::GetFieldId(&sw::UIElement::MaxHeight);
     const sw::FieldId _PropId_LogicalRect         = sw::Reflection::GetFieldId(&sw::UIElement::LogicalRect);
     const sw::FieldId _PropId_IsHitTestVisible    = sw::Reflection::GetFieldId(&sw::UIElement::IsHitTestVisible);
+    const sw::FieldId _PropId_IsFocusedViaTab     = sw::Reflection::GetFieldId(&sw::UIElement::IsFocusedViaTab);
 }
 
 sw::UIElement::UIElement()
@@ -1113,6 +1114,7 @@ void sw::UIElement::OnTabStop()
 {
     // 标记为通过Tab键获得焦点
     this->_focusedViaTab = true;
+    this->RaisePropertyChanged(_PropId_IsFocusedViaTab);
 
     // 设置焦点并滚动到可见区域
     this->Focused = true;
@@ -1294,6 +1296,7 @@ bool sw::UIElement::OnKillFocus(HWND hNextFocus)
 {
     this->WndBase::OnKillFocus(hNextFocus);
     this->_focusedViaTab = false;
+    this->RaisePropertyChanged(_PropId_IsFocusedViaTab);
 
     TypedRoutedEventArgs<UIElement_LostFocus> args;
     this->RaiseRoutedEvent(args);
