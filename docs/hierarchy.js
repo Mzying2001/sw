@@ -32,7 +32,12 @@ var hierarchy =
       [ "sw::BoxedObject< T, typename std::enable_if<!std::is_base_of< DynamicObject, T >::value >::type >", "classsw_1_1BoxedObject_3_01T_00_01typename_01std_1_1enable__if_3_9std_1_1is__base__of_3_01Dynami0b7f9f3c76f32dfd4a67d3da638a9e5e.html", null ],
       [ "sw::ObservableObject", "classsw_1_1ObservableObject.html", [
         [ "sw::ObservableCollection< std::wstring >", "classsw_1_1ObservableCollection.html", null ],
+        [ "sw::ObservableCollection< sw::FileFilterItem >", "classsw_1_1ObservableCollection.html", null ],
+        [ "sw::ObservableCollection< sw::GridRow >", "classsw_1_1ObservableCollection.html", null ],
+        [ "sw::ObservableCollection< sw::GridColumn >", "classsw_1_1ObservableCollection.html", null ],
         [ "sw::ObservableCollection< sw::ListViewItem >", "classsw_1_1ObservableCollection.html", null ],
+        [ "sw::ObservableCollection< sw::ListViewColumn >", "classsw_1_1ObservableCollection.html", null ],
+        [ "sw::ObservableCollection< UDACCEL >", "classsw_1_1ObservableCollection.html", null ],
         [ "sw::FrameworkElement", "classsw_1_1FrameworkElement.html", [
           [ "sw::WndBase", "classsw_1_1WndBase.html", [
             [ "sw::NotifyIcon", "classsw_1_1NotifyIcon.html", null ],
@@ -216,7 +221,6 @@ var hierarchy =
       [ "sw::_IsExplicitlyConvertable< TFrom, TTo, typename >", "structsw_1_1__IsExplicitlyConvertable.html", null ]
     ] ],
     [ "sw::FieldsAccessor< T >", "structsw_1_1FieldsAccessor.html", null ],
-    [ "sw::FileFilter", "classsw_1_1FileFilter.html", null ],
     [ "sw::FileFilterItem", "structsw_1_1FileFilterItem.html", null ],
     [ "sw::Font", "classsw_1_1Font.html", null ],
     [ "sw::GridColumn", "structsw_1_1GridColumn.html", [
@@ -287,16 +291,27 @@ var hierarchy =
     ] ],
     [ "sw::IList", "classsw_1_1IList.html", [
       [ "sw::IListT< std::wstring >", "classsw_1_1IListT.html", null ],
+      [ "sw::IListT< sw::FileFilterItem >", "classsw_1_1IListT.html", null ],
       [ "sw::IListT< sw::GridRow >", "classsw_1_1IListT.html", null ],
       [ "sw::IListT< sw::GridColumn >", "classsw_1_1IListT.html", null ],
       [ "sw::IListT< sw::ListViewItem >", "classsw_1_1IListT.html", null ],
+      [ "sw::IListT< sw::ListViewColumn >", "classsw_1_1IListT.html", null ],
+      [ "sw::IListT< UDACCEL >", "classsw_1_1IListT.html", null ],
       [ "sw::IListT< T >", "classsw_1_1IListT.html", [
         [ "sw::List< std::wstring >", "classsw_1_1List.html", null ],
+        [ "sw::List< sw::FileFilterItem >", "classsw_1_1List.html", null ],
         [ "sw::List< sw::GridRow >", "classsw_1_1List.html", null ],
         [ "sw::List< sw::GridColumn >", "classsw_1_1List.html", null ],
         [ "sw::List< sw::ListViewItem >", "classsw_1_1List.html", null ],
+        [ "sw::List< sw::ListViewColumn >", "classsw_1_1List.html", null ],
+        [ "sw::List< UDACCEL >", "classsw_1_1List.html", null ],
         [ "sw::ObservableCollection< std::wstring >", "classsw_1_1ObservableCollection.html", null ],
+        [ "sw::ObservableCollection< sw::FileFilterItem >", "classsw_1_1ObservableCollection.html", null ],
+        [ "sw::ObservableCollection< sw::GridRow >", "classsw_1_1ObservableCollection.html", null ],
+        [ "sw::ObservableCollection< sw::GridColumn >", "classsw_1_1ObservableCollection.html", null ],
         [ "sw::ObservableCollection< sw::ListViewItem >", "classsw_1_1ObservableCollection.html", null ],
+        [ "sw::ObservableCollection< sw::ListViewColumn >", "classsw_1_1ObservableCollection.html", null ],
+        [ "sw::ObservableCollection< UDACCEL >", "classsw_1_1ObservableCollection.html", null ],
         [ "sw::List< T >", "classsw_1_1List.html", null ],
         [ "sw::ObservableCollection< T >", "classsw_1_1ObservableCollection.html", null ]
       ] ]
@@ -304,7 +319,12 @@ var hierarchy =
     [ "sw::ImageList", "classsw_1_1ImageList.html", null ],
     [ "sw::INotifyCollectionChanged", "classsw_1_1INotifyCollectionChanged.html", [
       [ "sw::ObservableCollection< std::wstring >", "classsw_1_1ObservableCollection.html", null ],
+      [ "sw::ObservableCollection< sw::FileFilterItem >", "classsw_1_1ObservableCollection.html", null ],
+      [ "sw::ObservableCollection< sw::GridRow >", "classsw_1_1ObservableCollection.html", null ],
+      [ "sw::ObservableCollection< sw::GridColumn >", "classsw_1_1ObservableCollection.html", null ],
       [ "sw::ObservableCollection< sw::ListViewItem >", "classsw_1_1ObservableCollection.html", null ],
+      [ "sw::ObservableCollection< sw::ListViewColumn >", "classsw_1_1ObservableCollection.html", null ],
+      [ "sw::ObservableCollection< UDACCEL >", "classsw_1_1ObservableCollection.html", null ],
       [ "sw::ObservableCollection< T >", "classsw_1_1ObservableCollection.html", null ]
     ] ],
     [ "sw::INotifyObjectDead", "classsw_1_1INotifyObjectDead.html", [
@@ -326,11 +346,19 @@ var hierarchy =
     ] ],
     [ "sw::IToString< TDerived >", "classsw_1_1IToString.html", [
       [ "sw::List< std::wstring >", "classsw_1_1List.html", null ],
+      [ "sw::List< sw::FileFilterItem >", "classsw_1_1List.html", null ],
       [ "sw::List< sw::GridRow >", "classsw_1_1List.html", null ],
       [ "sw::List< sw::GridColumn >", "classsw_1_1List.html", null ],
       [ "sw::List< sw::ListViewItem >", "classsw_1_1List.html", null ],
+      [ "sw::List< sw::ListViewColumn >", "classsw_1_1List.html", null ],
+      [ "sw::List< UDACCEL >", "classsw_1_1List.html", null ],
       [ "sw::ObservableCollection< std::wstring >", "classsw_1_1ObservableCollection.html", null ],
-      [ "sw::ObservableCollection< sw::ListViewItem >", "classsw_1_1ObservableCollection.html", null ]
+      [ "sw::ObservableCollection< sw::FileFilterItem >", "classsw_1_1ObservableCollection.html", null ],
+      [ "sw::ObservableCollection< sw::GridRow >", "classsw_1_1ObservableCollection.html", null ],
+      [ "sw::ObservableCollection< sw::GridColumn >", "classsw_1_1ObservableCollection.html", null ],
+      [ "sw::ObservableCollection< sw::ListViewItem >", "classsw_1_1ObservableCollection.html", null ],
+      [ "sw::ObservableCollection< sw::ListViewColumn >", "classsw_1_1ObservableCollection.html", null ],
+      [ "sw::ObservableCollection< UDACCEL >", "classsw_1_1ObservableCollection.html", null ]
     ] ],
     [ "sw::IToString< Color >", "classsw_1_1IToString.html", [
       [ "sw::Color", "structsw_1_1Color.html", null ]
@@ -339,17 +367,25 @@ var hierarchy =
       [ "sw::FieldId", "structsw_1_1FieldId.html", null ]
     ] ],
     [ "sw::IToString< List< std::wstring > >", "classsw_1_1IToString.html", null ],
+    [ "sw::IToString< List< sw::FileFilterItem > >", "classsw_1_1IToString.html", null ],
     [ "sw::IToString< List< sw::GridColumn > >", "classsw_1_1IToString.html", null ],
     [ "sw::IToString< List< sw::GridRow > >", "classsw_1_1IToString.html", null ],
+    [ "sw::IToString< List< sw::ListViewColumn > >", "classsw_1_1IToString.html", null ],
     [ "sw::IToString< List< sw::ListViewItem > >", "classsw_1_1IToString.html", null ],
     [ "sw::IToString< List< T > >", "classsw_1_1IToString.html", [
       [ "sw::List< T >", "classsw_1_1List.html", null ]
     ] ],
+    [ "sw::IToString< List< UDACCEL > >", "classsw_1_1IToString.html", null ],
     [ "sw::IToString< ObservableCollection< std::wstring > >", "classsw_1_1IToString.html", null ],
+    [ "sw::IToString< ObservableCollection< sw::FileFilterItem > >", "classsw_1_1IToString.html", null ],
+    [ "sw::IToString< ObservableCollection< sw::GridColumn > >", "classsw_1_1IToString.html", null ],
+    [ "sw::IToString< ObservableCollection< sw::GridRow > >", "classsw_1_1IToString.html", null ],
+    [ "sw::IToString< ObservableCollection< sw::ListViewColumn > >", "classsw_1_1IToString.html", null ],
     [ "sw::IToString< ObservableCollection< sw::ListViewItem > >", "classsw_1_1IToString.html", null ],
     [ "sw::IToString< ObservableCollection< T > >", "classsw_1_1IToString.html", [
       [ "sw::ObservableCollection< T >", "classsw_1_1ObservableCollection.html", null ]
     ] ],
+    [ "sw::IToString< ObservableCollection< UDACCEL > >", "classsw_1_1IToString.html", null ],
     [ "sw::IToString< Point >", "classsw_1_1IToString.html", [
       [ "sw::Point", "structsw_1_1Point.html", null ]
     ] ],
@@ -531,16 +567,20 @@ var hierarchy =
       [ "sw::ReadOnlyProperty< sw::ObservableCollection< std::wstring > * >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< int >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< double >", "classsw_1_1ReadOnlyProperty.html", null ],
-      [ "sw::ReadOnlyProperty< sw::FileFilter * >", "classsw_1_1ReadOnlyProperty.html", null ],
+      [ "sw::ReadOnlyProperty< sw::ObservableCollection< sw::FileFilterItem > * >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::List< std::wstring > >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::DynamicObject * >", "classsw_1_1ReadOnlyProperty.html", null ],
+      [ "sw::ReadOnlyProperty< sw::ObservableCollection< sw::GridRow > * >", "classsw_1_1ReadOnlyProperty.html", null ],
+      [ "sw::ReadOnlyProperty< sw::ObservableCollection< sw::GridColumn > * >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< HICON >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::Variant >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::ObservableCollection< sw::ListViewItem > * >", "classsw_1_1ReadOnlyProperty.html", null ],
+      [ "sw::ReadOnlyProperty< sw::ObservableCollection< sw::ListViewColumn > * >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< MsgBoxResult >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::Rect >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::Size >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::Point >", "classsw_1_1ReadOnlyProperty.html", null ],
+      [ "sw::ReadOnlyProperty< sw::ObservableCollection< UDACCEL > * >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::TreeViewNode >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::Window * >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< HWND >", "classsw_1_1ReadOnlyProperty.html", null ]
@@ -575,7 +615,6 @@ var hierarchy =
     [ "sw::PropertyBase< sw::Color, Property< sw::Color > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::ContextMenu *, Property< sw::ContextMenu * > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::DynamicObject *, ReadOnlyProperty< sw::DynamicObject * > >", "classsw_1_1PropertyBase.html", null ],
-    [ "sw::PropertyBase< sw::FileFilter *, ReadOnlyProperty< sw::FileFilter * > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::Font, Property< sw::Font > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::FontWeight, Property< sw::FontWeight > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::HorizontalAlignment, Property< sw::HorizontalAlignment > >", "classsw_1_1PropertyBase.html", null ],
@@ -586,7 +625,12 @@ var hierarchy =
     [ "sw::PropertyBase< sw::List< std::wstring >, ReadOnlyProperty< sw::List< std::wstring > > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::Menu *, Property< sw::Menu * > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::ObservableCollection< std::wstring > *, ReadOnlyProperty< sw::ObservableCollection< std::wstring > * > >", "classsw_1_1PropertyBase.html", null ],
+    [ "sw::PropertyBase< sw::ObservableCollection< sw::FileFilterItem > *, ReadOnlyProperty< sw::ObservableCollection< sw::FileFilterItem > * > >", "classsw_1_1PropertyBase.html", null ],
+    [ "sw::PropertyBase< sw::ObservableCollection< sw::GridColumn > *, ReadOnlyProperty< sw::ObservableCollection< sw::GridColumn > * > >", "classsw_1_1PropertyBase.html", null ],
+    [ "sw::PropertyBase< sw::ObservableCollection< sw::GridRow > *, ReadOnlyProperty< sw::ObservableCollection< sw::GridRow > * > >", "classsw_1_1PropertyBase.html", null ],
+    [ "sw::PropertyBase< sw::ObservableCollection< sw::ListViewColumn > *, ReadOnlyProperty< sw::ObservableCollection< sw::ListViewColumn > * > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::ObservableCollection< sw::ListViewItem > *, ReadOnlyProperty< sw::ObservableCollection< sw::ListViewItem > * > >", "classsw_1_1PropertyBase.html", null ],
+    [ "sw::PropertyBase< sw::ObservableCollection< UDACCEL > *, ReadOnlyProperty< sw::ObservableCollection< UDACCEL > * > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::Orientation, Property< sw::Orientation > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::Point, ReadOnlyProperty< sw::Point > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::Rect, Property< sw::Rect > >", "classsw_1_1PropertyBase.html", null ],

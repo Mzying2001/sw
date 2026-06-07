@@ -4,7 +4,7 @@ var searchData=
   ['iconhandle_1',['IconHandle',['../classsw_1_1IconBox.html#a86e82265ade73734e49489ffd7a97769',1,'sw::IconBox']]],
   ['id_2',['id',['../classsw_1_1SysLinkClickedEventArgs.html#aff11dec9b762d3ad7f1e58ffe3af477b',1,'sw::SysLinkClickedEventArgs']]],
   ['ignorereturn_3',['IgnoreReturn',['../classsw_1_1SysLink.html#a117ea396b1e35951b45c8758fa3ad1d2',1,'sw::SysLink']]],
-  ['imageindex_4',['imageIndex',['../structsw_1_1ListViewItem.html#a07f8b1fb08266c08a0c5a67ba9cabb41',1,'sw::ListViewItem']]],
+  ['imageindex_4',['imageindex',['../structsw_1_1ListViewColumn.html#ad0a3d17508f3177593239f40712eef05',1,'sw::ListViewColumn::imageIndex'],['../structsw_1_1ListViewItem.html#a07f8b1fb08266c08a0c5a67ba9cabb41',1,'sw::ListViewItem::imageIndex']]],
   ['increment_5',['Increment',['../classsw_1_1SpinBox.html#a8e8ca4573e2ffd67bb28e9fb60f249b4',1,'sw::SpinBox']]],
   ['indentwidth_6',['IndentWidth',['../classsw_1_1TreeView.html#a00d5bdbd42a6913be267b8dcfb02c283',1,'sw::TreeView']]],
   ['index_7',['index',['../classsw_1_1NotifyCollectionChangedEventArgs.html#af1f6eb878468010818a0dd02922ee090',1,'sw::NotifyCollectionChangedEventArgs::index'],['../classsw_1_1ListViewItemEventArgs.html#ac33d75385512a7a324268af9a503b37b',1,'sw::ListViewItemEventArgs::index']]],
