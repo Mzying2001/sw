@@ -255,12 +255,11 @@ bool sw::MenuItem::RemoveChildAt(int index)
         return false;
     }
 
+    DeleteMenu(_hMenu, index, MF_BYPOSITION);
     _subItems.erase(_subItems.begin() + index);
 
-    if (_subItems.size() == 0) {
+    if (_subItems.empty() && !_isRoot) {
         _ResetMenuItem();
-    } else {
-        RemoveMenu(_hMenu, index, MF_BYPOSITION);
     }
     return true;
 }
@@ -273,6 +272,14 @@ bool sw::MenuItem::RemoveChild(MenuItem *child)
 
 void sw::MenuItem::ClearChildren()
 {
+    if (_hMenu == NULL && _subItems.empty()) {
+        return;
+    }
+    if (_hMenu != NULL) {
+        for (int i = GetMenuItemCount(_hMenu) - 1; i >= 0; --i) {
+            DeleteMenu(_hMenu, i, MF_BYPOSITION);
+        }
+    }
     _subItems.clear();
     _ResetMenuItem();
 }
