@@ -57,9 +57,6 @@
     <ClInclude Include="..\sw\inc\CommandLink.h">
       <Filter>inc</Filter>
     </ClInclude>
-    <ClInclude Include="..\sw\inc\ContextMenu.h">
-      <Filter>inc</Filter>
-    </ClInclude>
     <ClInclude Include="..\sw\inc\Control.h">
       <Filter>inc</Filter>
     </ClInclude>
@@ -214,9 +211,6 @@
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\Menu.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sw\inc\MenuBase.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="..\sw\inc\MenuItem.h">
@@ -407,9 +401,6 @@
     <ClCompile Include="..\sw\src\CommandLink.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\sw\src\ContextMenu.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\sw\src\Control.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -498,9 +489,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\Menu.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sw\src\MenuBase.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\sw\src\MenuItem.cpp">

@@ -305,7 +305,6 @@
     <ClInclude Include="..\sw\inc\ColorDialog.h" />
     <ClInclude Include="..\sw\inc\ComboBox.h" />
     <ClInclude Include="..\sw\inc\CommandLink.h" />
-    <ClInclude Include="..\sw\inc\ContextMenu.h" />
     <ClInclude Include="..\sw\inc\Control.h" />
     <ClInclude Include="..\sw\inc\Converters.h" />
     <ClInclude Include="..\sw\inc\Cursor.h" />
@@ -358,7 +357,6 @@
     <ClInclude Include="..\sw\inc\ListView.h" />
     <ClInclude Include="..\sw\inc\Macros.h" />
     <ClInclude Include="..\sw\inc\Menu.h" />
-    <ClInclude Include="..\sw\inc\MenuBase.h" />
     <ClInclude Include="..\sw\inc\MenuItem.h" />
     <ClInclude Include="..\sw\inc\MonthCalendar.h" />
     <ClInclude Include="..\sw\inc\MsgBox.h" />
@@ -423,7 +421,6 @@
     <ClCompile Include="..\sw\src\ColorDialog.cpp" />
     <ClCompile Include="..\sw\src\ComboBox.cpp" />
     <ClCompile Include="..\sw\src\CommandLink.cpp" />
-    <ClCompile Include="..\sw\src\ContextMenu.cpp" />
     <ClCompile Include="..\sw\src\Control.cpp" />
     <ClCompile Include="..\sw\src\Cursor.cpp" />
     <ClCompile Include="..\sw\src\DateTimePicker.cpp" />
@@ -454,7 +451,6 @@
     <ClCompile Include="..\sw\src\ListBox.cpp" />
     <ClCompile Include="..\sw\src\ListView.cpp" />
     <ClCompile Include="..\sw\src\Menu.cpp" />
-    <ClCompile Include="..\sw\src\MenuBase.cpp" />
     <ClCompile Include="..\sw\src\MenuItem.cpp" />
     <ClCompile Include="..\sw\src\MonthCalendar.cpp" />
     <ClCompile Include="..\sw\src\MsgBox.cpp" />

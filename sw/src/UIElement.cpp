@@ -1,6 +1,6 @@
 #include "UIElement.h"
-#include "ContextMenu.h"
 #include "Dip.h"
+#include "Menu.h"
 #include "Utils.h"
 #include "WndMsg.h"
 #include <algorithm>
@@ -32,6 +32,7 @@ namespace
     const sw::FieldId _PropId_MaxHeight           = sw::Reflection::GetFieldId(&sw::UIElement::MaxHeight);
     const sw::FieldId _PropId_LogicalRect         = sw::Reflection::GetFieldId(&sw::UIElement::LogicalRect);
     const sw::FieldId _PropId_IsHitTestVisible    = sw::Reflection::GetFieldId(&sw::UIElement::IsHitTestVisible);
+    const sw::FieldId _PropId_IsFocusedViaTab     = sw::Reflection::GetFieldId(&sw::UIElement::IsFocusedViaTab);
 }
 
 sw::UIElement::UIElement()
@@ -496,56 +497,6 @@ int sw::UIElement::IndexOf(UIElement &element)
     return this->IndexOf(&element);
 }
 
-bool sw::UIElement::ShowContextMenu(const Point &point, sw::HorizontalAlignment horz, sw::VerticalAlignment vert)
-{
-    UINT uFlags = 0;
-    HMENU hMenu = NULL;
-
-    if (this->_contextMenu) {
-        hMenu = this->_contextMenu->GetHandle();
-    }
-    if (hMenu == NULL) {
-        return false;
-    }
-
-    switch (horz) {
-        case sw::HorizontalAlignment::Left: {
-            uFlags |= TPM_LEFTALIGN;
-            break;
-        }
-        case sw::HorizontalAlignment::Right: {
-            uFlags |= TPM_RIGHTALIGN;
-            break;
-        }
-        case sw::HorizontalAlignment::Center:
-        case sw::HorizontalAlignment::Stretch: {
-            uFlags |= TPM_CENTERALIGN;
-            break;
-        }
-    }
-
-    switch (vert) {
-        case sw::VerticalAlignment::Top: {
-            uFlags |= TPM_TOPALIGN;
-            break;
-        }
-        case sw::VerticalAlignment::Bottom: {
-            uFlags |= TPM_BOTTOMALIGN;
-            break;
-        }
-        case sw::VerticalAlignment::Center:
-        case sw::VerticalAlignment::Stretch: {
-            uFlags |= TPM_VCENTERALIGN;
-            break;
-        }
-    }
-
-    POINT pos = point;
-    HWND hwnd = this->Handle;
-    SetForegroundWindow(hwnd); // 确保菜单能正确关闭
-    return TrackPopupMenu(hMenu, uFlags, pos.x, pos.y, 0, hwnd, nullptr);
-}
-
 void sw::UIElement::MoveToTop()
 {
     UIElement *parent = this->_parent;
@@ -796,14 +747,25 @@ void sw::UIElement::Measure(const Size &availableSize)
         return; // 若布局未失效且可用尺寸没有变化，则无需重新测量
     }
 
-    Size measureSize    = availableSize;
+    Size measureSize = availableSize;
+
     Thickness &margin   = this->_margin;
     sw::Rect windowRect = this->Rect;
     sw::Rect clientRect = this->ClientRect;
 
+    double frameWidth  = windowRect.width - clientRect.width;
+    double frameHeight = windowRect.height - clientRect.height;
+
+    // 考虑边距
+    measureSize.width -= margin.left + margin.right;
+    measureSize.height -= margin.top + margin.bottom;
+
+    // 限制可用尺寸在最小和最大尺寸之间
+    this->ClampDesireSize(measureSize);
+
     // 考虑边框
-    measureSize.width -= (windowRect.width - clientRect.width) + margin.left + margin.right;
-    measureSize.height -= (windowRect.height - clientRect.height) + margin.top + margin.bottom;
+    measureSize.width -= frameWidth;
+    measureSize.height -= frameHeight;
 
     // 由子类实现MeasureOverride函数来计算内容所需的尺寸
     this->_desireSize = this->MeasureOverride(measureSize);
@@ -1152,6 +1114,7 @@ void sw::UIElement::OnTabStop()
 {
     // 标记为通过Tab键获得焦点
     this->_focusedViaTab = true;
+    this->RaisePropertyChanged(_PropId_IsFocusedViaTab);
 
     // 设置焦点并滚动到可见区域
     this->Focused = true;
@@ -1333,6 +1296,7 @@ bool sw::UIElement::OnKillFocus(HWND hNextFocus)
 {
     this->WndBase::OnKillFocus(hNextFocus);
     this->_focusedViaTab = false;
+    this->RaisePropertyChanged(_PropId_IsFocusedViaTab);
 
     TypedRoutedEventArgs<UIElement_LostFocus> args;
     this->RaiseRoutedEvent(args);
@@ -1439,8 +1403,9 @@ bool sw::UIElement::OnContextMenu(bool isKeyboardMsg, const Point &mousePosition
     ShowContextMenuEventArgs args(isKeyboardMsg, mousePosition);
     this->RaiseRoutedEvent(args);
 
-    if (!args.cancel) {
-        this->ShowContextMenu(isKeyboardMsg ? this->PointToScreen({0, 0}) : mousePosition);
+    if (this->_contextMenu != nullptr && !args.cancel) {
+        Point pos = isKeyboardMsg ? this->PointToScreen({0, 0}) : mousePosition;
+        this->_contextMenu->Show(Handle, pos);
     }
 
     return true;
@@ -1449,8 +1414,7 @@ bool sw::UIElement::OnContextMenu(bool isKeyboardMsg, const Point &mousePosition
 void sw::UIElement::OnMenuCommand(int id)
 {
     if (this->_contextMenu) {
-        MenuItem *item = this->_contextMenu->GetMenuItem(id);
-        if (item) item->CallCommand();
+        this->_contextMenu->RaiseClickedEvent(id);
     }
 }
 

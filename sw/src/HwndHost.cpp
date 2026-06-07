@@ -7,7 +7,10 @@ sw::HwndHost::HwndHost()
                   return self->_fillContent;
               })
               .Setter([](HwndHost *self, bool value) {
-                  self->_fillContent = value;
+                  if (self->_fillContent != value) {
+                      self->_fillContent = value;
+                      self->RaisePropertyChanged(&HwndHost::FillContent);
+                  }
               })),
 
       SyncFont(
@@ -16,7 +19,10 @@ sw::HwndHost::HwndHost()
                   return self->_syncFont;
               })
               .Setter([](HwndHost *self, bool value) {
-                  self->_syncFont = value;
+                  if (self->_syncFont != value) {
+                      self->_syncFont = value;
+                      self->RaisePropertyChanged(&HwndHost::SyncFont);
+                  }
               }))
 {
     this->Rect = sw::Rect{0, 0, 100, 100};
@@ -47,7 +53,7 @@ void sw::HwndHost::FontChanged(HFONT hfont)
     if (this->_hWindowCore != NULL) {
         this->_SyncFont(hfont);
     }
-    this->StaticControl::FontChanged(hfont);
+    this->TBase::FontChanged(hfont);
 }
 
 bool sw::HwndHost::OnSize(const Size &newClientSize)
@@ -55,14 +61,14 @@ bool sw::HwndHost::OnSize(const Size &newClientSize)
     if (this->_hWindowCore != NULL) {
         this->_SyncSize(newClientSize);
     }
-    return this->StaticControl::OnSize(newClientSize);
+    return this->TBase::OnSize(newClientSize);
 }
 
 bool sw::HwndHost::OnDestroy()
 {
     this->DestroyWindowCore(this->_hWindowCore);
     this->_hWindowCore = NULL;
-    return this->StaticControl::OnDestroy();
+    return this->TBase::OnDestroy();
 }
 
 void sw::HwndHost::_SyncSize(const SIZE &newSize)

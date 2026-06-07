@@ -11,6 +11,11 @@ namespace sw
     {
     private:
         /**
+         * @brief 基类别名，方便调用基类函数
+         */
+        using TBase = StaticControl;
+
+        /**
          * @brief 托管的句柄
          */
         HWND _hWindowCore{NULL};

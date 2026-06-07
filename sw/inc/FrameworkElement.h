@@ -161,6 +161,11 @@ namespace sw
 
     protected:
         /**
+         * @brief 当Tag更改时调用此函数
+         */
+        virtual void OnTagChanged();
+
+        /**
          * @brief 当CurrentDataContext更改时调用此函数
          * @param oldDataContext 旧的数据上下文值
          */

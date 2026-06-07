@@ -1,125 +1,304 @@
 #pragma once
 
-#include "Delegate.h"
-#include "ITag.h"
-#include <windows.h>
+#include "FrameworkElement.h"
+#include "List.h"
+#include <cstdint>
 #include <initializer_list>
 #include <memory>
 #include <string>
-#include <vector>
+#include <windows.h>
 
 namespace sw
 {
-    class MenuItem; // 向前声明
-
     /**
-     * @brief 菜单项关联的回调函数类型
+     * @brief 菜单项描述结构体
      */
-    using MenuItemCommand = Action<MenuItem &>;
-
-    /**
-     * @brief 菜单项
-     */
-    class MenuItem : public ITag<uint64_t>
+    struct MenuItemDesc //
     {
+        /// @brief 菜单项标记，可用于区分不同菜单项
+        uint64_t tag = 0;
+
+        /// @brief 菜单项文本，若为"-"且没有子项则被视为分隔符
+        std::wstring text{};
+
+        /// @brief 菜单项是否可用，默认为true
+        bool enabled = true;
+
+        /// @brief 菜单项是否选中，默认为false
+        bool checked = false;
+
+        /// @brief 菜单项位图句柄，默认为NULL
+        HBITMAP hBitmap = NULL;
+
+        /// @brief 子菜单项列表
+        List<MenuItemDesc> subItems{};
+
+        /// @brief 默认构造函数
+        MenuItemDesc() = default;
+
+        /// @brief 构造指定文本的菜单项描述
+        /// @param text 菜单项文本
+        MenuItemDesc(const wchar_t *text);
+
+        /// @brief 构造指定文本的菜单项描述
+        /// @param text 菜单项文本
+        MenuItemDesc(const std::wstring &text);
+
+        /// @brief 构造指定文本和子项的菜单项描述
+        /// @param text 菜单项文本
+        /// @param subItems 子菜单项列表
+        MenuItemDesc(const std::wstring &text,
+                     std::initializer_list<MenuItemDesc> subItems);
+
+        /// @brief 构造指定标记和文本的菜单项描述
+        /// @param tag 菜单项标记
+        /// @param text 菜单项文本
+        MenuItemDesc(uint64_t tag, const std::wstring &text);
+
+        /// @brief 构造指定标记、文本和子项的菜单项描述
+        /// @param tag 菜单项标记
+        /// @param text 菜单项文本
+        /// @param subItems 子菜单项列表
+        MenuItemDesc(uint64_t tag, const std::wstring &text,
+                     std::initializer_list<MenuItemDesc> subItems);
+    };
+
+    /**
+     * @brief 菜单项类
+     */
+    class MenuItem : public FrameworkElement
+    {
+    private:
+        /**
+         * @brief 基类别名，方便调用基类函数
+         */
+        using TBase = FrameworkElement;
+
+        /**
+         * @brief 菜单项描述信息
+         */
+        MenuItemDesc _desc{};
+
+        /**
+         * @brief 菜单项句柄
+         */
+        HMENU _hMenu = NULL;
+
+        /**
+         * @brief 菜单项ID
+         */
+        int _id = -1;
+
+        /**
+         * @brief 是否为根菜单项
+         */
+        bool _isRoot = false;
+
+        /**
+         * @brief 父菜单项指针
+         */
+        MenuItem *_parent = nullptr;
+
+        /**
+         * @brief 子菜单项列表
+         */
+        std::vector<std::unique_ptr<MenuItem>> _subItems{};
+
     public:
         /**
-         * @brief 储存用户自定义信息
+         * @brief 菜单项Id
          */
-        uint64_t tag;
+        const ReadOnlyProperty<int> Id;
 
         /**
-         * @brief 菜单项的文本，当值为“-”时表示当前项为分隔条
+         * @brief 菜单项句柄
+         * @note 若当前菜单项不是根菜单项，菜单项句柄可能会随着内容的更改而改变，
+         *       因此不建议缓存该属性值。
          */
-        std::wstring text;
+        const ReadOnlyProperty<HMENU> Handle;
 
         /**
-         * @brief 菜单项被单击时调用的函数
+         * @brief 菜单项文本
+         * @note 若菜单项文本为"-"且没有子项则被视为分隔符，此时IsSeparator属性将返回true。
          */
-        MenuItemCommand command;
+        const Property<std::wstring> Text;
 
         /**
-         * @brief 子项
+         * @brief 菜单项是否可用
          */
-        std::vector<std::shared_ptr<MenuItem>> subItems{};
-
-    public:
-        /**
-         * @brief 构造一个MenuItem，并设置文本
-         * @param text 菜单项的文本
-         */
-        MenuItem(const std::wstring &text);
+        const Property<bool> Enabled;
 
         /**
-         * @brief 构造一个MenuItem，并设置其回调函数
-         * @param text 菜单项的文本
-         * @param command 被单击时调用的函数
+         * @brief 菜单项是否选中
          */
-        MenuItem(const std::wstring &text, const MenuItemCommand &command);
+        const Property<bool> IsChecked;
 
         /**
-         * @brief 构造一个MenuItem，并设置其子项
-         * @param text 菜单下的文本
-         * @param subItems 子项列表
+         * @brief 菜单项位图
          */
-        MenuItem(const std::wstring &text, std::initializer_list<MenuItem> subItems);
+        const Property<HBITMAP> Bitmap;
 
         /**
-         * @brief 构造一个MenuItem，并设置tag及文本
-         * @param text 菜单项的文本
+         * @brief 菜单项是否为分隔符
          */
-        MenuItem(uint64_t tag, const std::wstring &text);
+        const ReadOnlyProperty<bool> IsSeparator;
 
         /**
-         * @brief 构造一个MenuItem，并设置tag及回调函数
-         * @param text 菜单项的文本
-         * @param command 被单击时调用的函数
+         * @brief 菜单项Tag
          */
-        MenuItem(uint64_t tag, const std::wstring &text, const MenuItemCommand &command);
+        const Property<uint64_t> Tag;
 
+    private:
         /**
-         * @brief 构造一个MenuItem，设置成员函数为回调函数
-         * @tparam T 成员函数所在的类
-         * @param obj 成员函数所在的对象
-         * @param handler 处理函数
+         * @brief 构造函数，使用菜单项描述信息初始化菜单项
+         * @param desc 菜单项描述信息
          */
-        template <typename T>
-        MenuItem(const std::wstring &text, T &obj, void (T::*handler)(MenuItem &))
-            : MenuItem(0, text, obj, handler)
-        {
-        }
-
-        /**
-         * @brief 构造一个MenuItem，设置成员函数为回调函数
-         * @tparam T 成员函数所在的类
-         * @param obj 成员函数所在的对象
-         * @param handler 处理函数
-         */
-        template <typename T>
-        MenuItem(uint64_t tag, const std::wstring &text, T &obj, void (T::*handler)(MenuItem &))
-            : MenuItem(tag, text, MenuItemCommand(obj, handler))
-        {
-        }
+        MenuItem(const MenuItemDesc &desc);
 
     public:
         /**
-         * @brief 获取一个值，表示当前菜单项是否为分隔条
+         * @brief 析构函数
          */
-        bool IsSeparator() const;
+        virtual ~MenuItem();
 
         /**
-         * @brief 调用command
+         * @brief 创建一个新的菜单项实例
+         * @param desc 菜单项描述信息
          */
-        void CallCommand();
+        static MenuItem *Create(const MenuItemDesc &desc);
 
         /**
-         * @brief 获取Tag
+         * @brief 创建一个新的根菜单项实例
+         * @return 新创建的根菜单项实例
          */
-        virtual uint64_t GetTag() const override;
+        static MenuItem *CreateRoot(bool isPopup);
+
+    protected:
+        /**
+         * @brief 当Tag更改时调用此函数
+         */
+        virtual void OnTagChanged() override;
+
+    public:
+        /**
+         * @brief 获取逻辑树中的父元素
+         * @return 父元素指针，如果没有父元素则返回nullptr
+         */
+        virtual MenuItem *GetParent() const override final;
 
         /**
-         * @brief 设置Tag
+         * @brief 获取逻辑树中的子元素数量
+         * @return 子元素数量
          */
-        virtual void SetTag(uint64_t tag) override;
+        virtual int GetChildCount() const override final;
+
+        /**
+         * @brief 获取逻辑树中指定索引处的子元素
+         * @param index 子元素索引
+         * @throw std::out_of_range 如果索引超出范围
+         */
+        virtual MenuItem &GetChildAt(int index) const override final;
+
+        /**
+         * @brief 向当前菜单项添加一个子菜单项
+         * @param desc 子菜单项的描述信息
+         * @return 新增的子菜单项实例
+         */
+        MenuItem *AddChild(const MenuItemDesc &desc);
+
+        /**
+         * @brief 向当前菜单项的指定索引处插入一个子菜单项
+         * @param index 插入位置的子菜单项索引
+         * @param desc 子菜单项的描述信息
+         * @return 新增的子菜单项实例
+         * @throw std::out_of_range 如果索引超出范围
+         */
+        MenuItem *InsertChild(int index, const MenuItemDesc &desc);
+
+        /**
+         * @brief 移除指定索引处的子菜单项
+         * @param index 子菜单项索引
+         * @return 若函数成功则返回true，否则返回false
+         */
+        bool RemoveChildAt(int index);
+
+        /**
+         * @brief 移除指定子菜单项
+         * @param child 子菜单项指针
+         * @return 若函数成功则返回true，否则返回false
+         */
+        bool RemoveChild(MenuItem *child);
+
+        /**
+         * @brief 移除所有子菜单项
+         */
+        void ClearChildren();
+
+        /**
+         * @brief 获取指定子菜单项在当前菜单项中的索引
+         * @param child 子菜单项指针
+         * @return 子菜单项索引，如果未找到则返回-1
+         */
+        int IndexOf(MenuItem *child) const;
+
+        /**
+         * @brief 重置子菜单项列表
+         * @param descs 新的子菜单项描述信息列表
+         */
+        void ResetChildren(std::initializer_list<MenuItemDesc> descs);
+
+        /**
+         * @brief 查找对应ID的子菜单项
+         * @param id 子菜单项ID
+         * @return 指向子菜单项的指针，如果未找到则返回nullptr
+         */
+        MenuItem *FindChildById(int id);
+
+        /**
+         * @brief 查找对应tag的子菜单项
+         * @param tag 子菜单项tag
+         * @return 指向子菜单项的指针，如果未找到则返回nullptr
+         */
+        MenuItem *FindChildByTag(uint64_t tag);
+
+    private:
+        /**
+         * @brief 重建菜单项
+         */
+        void _ResetMenuItem();
+
+        /**
+         * @brief 更新菜单项状态
+         */
+        void _UpdateState();
+
+        /**
+         * @brief 插入子菜单到指定父菜单项的指定位置
+         * @param parent 父菜单项指针
+         * @param child 子菜单项指针
+         * @param index 子菜单项索引，默认为-1表示添加到末尾
+         */
+        static void _SetParent(MenuItem *parent, MenuItem *child, int index = -1);
+
+        /**
+         * @brief 生成一个新的菜单项ID
+         * @return 新的菜单项ID
+         */
+        static int _GenerateMenuItemID();
+
+        /**
+         * @brief 根据菜单项描述信息填充MENUITEMINFOW结构体
+         * @param desc 菜单项描述信息
+         * @param pMii 待填充的MENUITEMINFOW结构体指针
+         */
+        static void _ApplyMenuDesc(const MenuItemDesc &desc, MENUITEMINFOW *pMii);
+
+        /**
+         * @brief 根据菜单项描述信息和菜单句柄应用菜单项属性
+         * @param hParentMenu 菜单项所在菜单的句柄
+         * @param index 菜单项在父菜单中的索引
+         * @param desc 菜单项描述信息
+         */
+        static void _UpdateMenuItem(HMENU hParentMenu, int index, const MenuItemDesc &desc);
     };
 }

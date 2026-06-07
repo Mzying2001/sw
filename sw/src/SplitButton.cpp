@@ -1,4 +1,5 @@
 #include "SplitButton.h"
+#include "Menu.h"
 
 sw::SplitButton::SplitButton()
 {
@@ -7,9 +8,15 @@ sw::SplitButton::SplitButton()
 
 bool sw::SplitButton::ShowDropDownMenu()
 {
-    sw::Rect clientRect = ClientRect;
+    sw::Rect clientRect   = ClientRect;
+    sw::ContextMenu *menu = ContextMenu;
 
-    return ShowContextMenu(
+    if (menu == nullptr) {
+        return false;
+    }
+
+    return menu->Show(
+        Handle,
         PointToScreen({clientRect.width, clientRect.height}),
         HorizontalAlignment::Right, VerticalAlignment::Top);
 }

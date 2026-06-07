@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Alignment.h"
-#include "ContextMenu.h"
+#include "Menu.h"
 #include "WndBase.h"
 #include <shellapi.h>
 
@@ -174,18 +174,6 @@ namespace sw
          * @note 调用该函数后不应继续使用当前对象
          */
         void Destroy();
-
-        /**
-         * @brief 弹出上下文菜单
-         * @param point 弹出菜单在屏幕中的位置
-         * @param horz 菜单的水平方向对齐方式
-         * @param vert 菜单的垂直方向对齐方式
-         * @return 若函数成功则返回true，否则返回false
-         */
-        bool ShowContextMenu(
-            const Point &point,
-            sw::HorizontalAlignment horz = sw::HorizontalAlignment::Left,
-            sw::VerticalAlignment vert   = sw::VerticalAlignment::Bottom);
 
     private:
         /**

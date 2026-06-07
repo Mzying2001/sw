@@ -89,8 +89,13 @@ void sw::IconBox::_SetIcon(HICON hIcon)
 {
     HICON hOldIcon = this->_hIcon;
 
+    if (hIcon == hOldIcon) {
+        return;
+    }
+
     this->_hIcon = hIcon;
     this->SendMessageW(STM_SETICON, reinterpret_cast<WPARAM>(hIcon), 0);
+    this->RaisePropertyChanged(&IconBox::IconHandle);
 
     if (hOldIcon != NULL) {
         DestroyIcon(hOldIcon);

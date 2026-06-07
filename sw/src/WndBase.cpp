@@ -323,11 +323,6 @@ sw::UIElement *sw::WndBase::ToUIElement()
     return nullptr;
 }
 
-bool sw::WndBase::Equals(const WndBase &other) const
-{
-    return this == &other;
-}
-
 std::wstring sw::WndBase::ToString() const
 {
     return L"WndBase{ClassName=" + this->ClassName + L", Handle=" + std::to_wstring(reinterpret_cast<uintptr_t>(this->_hwnd)) + L"}";

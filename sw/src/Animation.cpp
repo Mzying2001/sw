@@ -7,7 +7,10 @@ sw::Animation::Animation()
                   return self->GetStyle(ACS_CENTER);
               })
               .Setter([](Animation *self, bool value) {
-                  self->SetStyle(ACS_CENTER, value);
+                  if (self->Center != value) {
+                      self->SetStyle(ACS_CENTER, value);
+                      self->RaisePropertyChanged(&Animation::Center);
+                  }
               })),
 
       AutoPlay(
@@ -16,7 +19,10 @@ sw::Animation::Animation()
                   return self->GetStyle(ACS_AUTOPLAY);
               })
               .Setter([](Animation *self, bool value) {
-                  self->SetStyle(ACS_AUTOPLAY, value);
+                  if (self->AutoPlay != value) {
+                      self->SetStyle(ACS_AUTOPLAY, value);
+                      self->RaisePropertyChanged(&Animation::AutoPlay);
+                  }
               })),
 
       IsPlaying(
@@ -46,7 +52,12 @@ bool sw::Animation::Open(const wchar_t *fileName)
 
 bool sw::Animation::Play(int times, int beginFrame, int endFrame)
 {
-    return this->SendMessageW(ACM_PLAY, (WPARAM)times, MAKELPARAM(beginFrame, endFrame));
+    bool result = this->SendMessageW(ACM_PLAY, (WPARAM)times, MAKELPARAM(beginFrame, endFrame));
+
+    if (result) {
+        this->RaisePropertyChanged(&Animation::IsPlaying);
+    }
+    return result;
 }
 
 bool sw::Animation::Play(int times)
@@ -56,5 +67,10 @@ bool sw::Animation::Play(int times)
 
 bool sw::Animation::Stop()
 {
-    return this->SendMessageW(ACM_STOP, 0, 0);
+    bool result = this->SendMessageW(ACM_STOP, 0, 0);
+
+    if (result) {
+        this->RaisePropertyChanged(&Animation::IsPlaying);
+    }
+    return result;
 }
