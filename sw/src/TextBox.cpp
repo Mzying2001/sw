@@ -11,7 +11,9 @@ sw::TextBox::TextBox()
                       return;
                   }
                   self->_autoWrap = value;
-                  if (self->MultiLine && self->GetStyle(ES_AUTOHSCROLL) == value) {
+                  self->RaisePropertyChanged(&TextBox::AutoWrap);
+                  if (self->MultiLine &&
+                      self->GetStyle(ES_AUTOHSCROLL) == value) {
                       self->SetStyle(ES_AUTOHSCROLL, !value);
                       self->ResetHandle();
                   }
@@ -27,6 +29,7 @@ sw::TextBox::TextBox()
                       self->SetStyle(ES_MULTILINE, value);
                       self->SetStyle(ES_AUTOHSCROLL, !(value && self->_autoWrap));
                       self->ResetHandle();
+                      self->RaisePropertyChanged(&TextBox::MultiLine);
                   }
               })),
 
@@ -39,6 +42,7 @@ sw::TextBox::TextBox()
                   if (self->HorizontalScrollBar != value) {
                       self->SetStyle(WS_HSCROLL, value);
                       self->ResetHandle();
+                      self->RaisePropertyChanged(&TextBox::HorizontalScrollBar);
                   }
               })),
 
@@ -51,6 +55,7 @@ sw::TextBox::TextBox()
                   if (self->VerticalScrollBar != value) {
                       self->SetStyle(WS_VSCROLL, value);
                       self->ResetHandle();
+                      self->RaisePropertyChanged(&TextBox::VerticalScrollBar);
                   }
               }))
 {

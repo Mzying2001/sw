@@ -186,9 +186,14 @@ void sw::BmpBox::_SetBmp(HBITMAP hBitmap)
 {
     HBITMAP hOldBitmap = this->_hBitmap;
 
+    if (hOldBitmap == hBitmap) {
+        return;
+    }
+
     this->_hBitmap = hBitmap;
     this->_UpdateBmpSize();
     this->Redraw();
+    this->RaisePropertyChanged(&BmpBox::BmpHandle);
 
     if (this->_sizeMode == BmpBoxSizeMode::AutoSize) {
         this->InvalidateMeasure();

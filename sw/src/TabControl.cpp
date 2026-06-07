@@ -143,7 +143,7 @@ void sw::TabControl::OnAddedChild(UIElement &element)
     this->_InsertItem(index, item);
     ShowWindow(element.Handle, index == this->SelectedIndex ? SW_SHOW : SW_HIDE);
 
-    this->UIElement::OnAddedChild(element);
+    this->TBase::OnAddedChild(element);
 }
 
 void sw::TabControl::OnRemovedChild(UIElement &element)
@@ -156,7 +156,7 @@ void sw::TabControl::OnRemovedChild(UIElement &element)
         this->UpdateTab();
         this->_UpdateChildVisible(false);
     }
-    this->UIElement::OnRemovedChild(element);
+    this->TBase::OnRemovedChild(element);
 }
 
 sw::Size sw::TabControl::MeasureOverride(const Size &availableSize)
@@ -164,7 +164,7 @@ sw::Size sw::TabControl::MeasureOverride(const Size &availableSize)
     UIElement *selectedItem = this->_GetSelectedItem();
 
     if (!this->_autoSize || selectedItem == nullptr) {
-        return this->UIElement::MeasureOverride(availableSize);
+        return this->TBase::MeasureOverride(availableSize);
     }
 
     bool isWidthInf  = std::isinf(availableSize.width);
@@ -217,7 +217,7 @@ bool sw::TabControl::OnNotified(NMHDR *pNMHDR, LRESULT &result)
     if (pNMHDR->code == TCN_SELCHANGE) {
         this->OnSelectedIndexChanged();
     }
-    return this->Control::OnNotified(pNMHDR, result);
+    return this->TBase::OnNotified(pNMHDR, result);
 }
 
 void sw::TabControl::OnSelectedIndexChanged()
