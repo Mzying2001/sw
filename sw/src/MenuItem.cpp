@@ -247,8 +247,14 @@ bool sw::MenuItem::RemoveChildAt(int index)
     if (index < 0 || index >= static_cast<int>(_subItems.size())) {
         return false;
     }
+
     _subItems.erase(_subItems.begin() + index);
-    _ResetMenuItem();
+
+    if (_subItems.size() == 0) {
+        _ResetMenuItem();
+    } else {
+        RemoveMenu(_hMenu, index, MF_BYPOSITION);
+    }
     return true;
 }
 
