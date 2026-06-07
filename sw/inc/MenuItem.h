@@ -18,7 +18,7 @@ namespace sw
         /// @brief 菜单项标记，可用于区分不同菜单项
         uint64_t tag = 0;
 
-        /// @brief 菜单项文本，若为"-"则表示该菜单项为分隔符
+        /// @brief 菜单项文本，若为"-"且没有子项则被视为分隔符
         std::wstring text{};
 
         /// @brief 菜单项是否可用，默认为true
@@ -119,6 +119,7 @@ namespace sw
 
         /**
          * @brief 菜单项文本
+         * @note 若菜单项文本为"-"且没有子项则被视为分隔符，此时IsSeparator属性将返回true。
          */
         const Property<std::wstring> Text;
 

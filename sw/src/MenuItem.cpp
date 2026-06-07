@@ -50,10 +50,16 @@ sw::MenuItem::MenuItem(const MenuItemDesc &desc)
               })
               .Setter([](MenuItem *self, const std::wstring &value) {
                   if (self->_desc.text != value) {
+                      bool isSeparator = self->IsSeparator;
                       self->_desc.text = value;
-                      self->_UpdateState();
-                      self->RaisePropertyChanged(&MenuItem::Text);
-                      self->RaisePropertyChanged(&MenuItem::IsSeparator);
+                      if (self->IsSeparator == isSeparator) {
+                          self->_UpdateState();
+                          self->RaisePropertyChanged(&MenuItem::Text);
+                      } else {
+                          self->_ResetMenuItem();
+                          self->RaisePropertyChanged(&MenuItem::Text);
+                          self->RaisePropertyChanged(&MenuItem::IsSeparator);
+                      }
                   }
               })),
 
@@ -99,7 +105,8 @@ sw::MenuItem::MenuItem(const MenuItemDesc &desc)
       IsSeparator(
           ReadOnlyProperty<bool>::Init(this)
               .Getter([](MenuItem *self) -> bool {
-                  return self->_desc.text == L"-";
+                  return self->_subItems.empty() &&
+                         self->_desc.text == L"-";
               })),
 
       Tag(
