@@ -746,14 +746,25 @@ void sw::UIElement::Measure(const Size &availableSize)
         return; // 若布局未失效且可用尺寸没有变化，则无需重新测量
     }
 
-    Size measureSize    = availableSize;
+    Size measureSize = availableSize;
+
     Thickness &margin   = this->_margin;
     sw::Rect windowRect = this->Rect;
     sw::Rect clientRect = this->ClientRect;
 
+    double frameWidth  = windowRect.width - clientRect.width;
+    double frameHeight = windowRect.height - clientRect.height;
+
+    // 考虑边距
+    measureSize.width -= margin.left + margin.right;
+    measureSize.height -= margin.top + margin.bottom;
+
+    // 限制可用尺寸在最小和最大尺寸之间
+    this->ClampDesireSize(measureSize);
+
     // 考虑边框
-    measureSize.width -= (windowRect.width - clientRect.width) + margin.left + margin.right;
-    measureSize.height -= (windowRect.height - clientRect.height) + margin.top + margin.bottom;
+    measureSize.width -= frameWidth;
+    measureSize.height -= frameHeight;
 
     // 由子类实现MeasureOverride函数来计算内容所需的尺寸
     this->_desireSize = this->MeasureOverride(measureSize);
