@@ -6,7 +6,6 @@ var classsw_1_1WndBase =
     [ "CheckAccess", "classsw_1_1WndBase.html#a836b8e4ecce85ebea7e63b46b3941e66", null ],
     [ "Close", "classsw_1_1WndBase.html#a436818f8ad91446f86b42081dd1a7358", null ],
     [ "DefaultWndProc", "classsw_1_1WndBase.html#aa551d992e7037ada1d07ad9a1504dc82", null ],
-    [ "Equals", "classsw_1_1WndBase.html#a1113d1e6b686215fb8f7f5aa5361aa45", null ],
     [ "FontChanged", "classsw_1_1WndBase.html#ac34494921eed0f67a053a9393d78bcf9", null ],
     [ "GetChildAt", "classsw_1_1WndBase.html#ad15561758e0e4812d9c252281ca165b7", null ],
     [ "GetChildCount", "classsw_1_1WndBase.html#a49dd7d6640b49ba6cf7978829a402dc7", null ],

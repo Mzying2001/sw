@@ -165,6 +165,8 @@ var annotated_dup =
       [ "Menu", "classsw_1_1Menu.html", "classsw_1_1Menu" ],
       [ "MenuBase", "classsw_1_1MenuBase.html", "classsw_1_1MenuBase" ],
       [ "MenuItem", "classsw_1_1MenuItem.html", "classsw_1_1MenuItem" ],
+      [ "MenuItemClickedEventArgs", "classsw_1_1MenuItemClickedEventArgs.html", "classsw_1_1MenuItemClickedEventArgs" ],
+      [ "MenuItemDesc", "structsw_1_1MenuItemDesc.html", "structsw_1_1MenuItemDesc" ],
       [ "MonthCalendar", "classsw_1_1MonthCalendar.html", "classsw_1_1MonthCalendar" ],
       [ "MonthCalendarTimeChangedEventArgs", "classsw_1_1MonthCalendarTimeChangedEventArgs.html", null ],
       [ "MouseButtonDownEventArgs", "classsw_1_1MouseButtonDownEventArgs.html", null ],

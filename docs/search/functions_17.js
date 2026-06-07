@@ -24,11 +24,12 @@ var searchData=
   ['_7eitag_21',['~ITag',['../classsw_1_1ITag.html#ab8f9ee5b36bc52c8a667c9d4c26e62f3',1,'sw::ITag']]],
   ['_7eivalueconverter_22',['~IValueConverter',['../classsw_1_1IValueConverter.html#a367d7f7f5ce62a15ee90662bd3fe9566',1,'sw::IValueConverter']]],
   ['_7elayouthost_23',['~LayoutHost',['../classsw_1_1LayoutHost.html#af189443e74b7e51f9ec3735658d6a667',1,'sw::LayoutHost']]],
-  ['_7emenubase_24',['~MenuBase',['../classsw_1_1MenuBase.html#a5e53085e7078b090cabf8998d6146831',1,'sw::MenuBase']]],
-  ['_7enotifyicon_25',['~NotifyIcon',['../classsw_1_1NotifyIcon.html#a13fe1b17367e72802d5f3b5bc2a6b218',1,'sw::NotifyIcon']]],
-  ['_7eobservableobject_26',['~ObservableObject',['../classsw_1_1ObservableObject.html#a1d16c9dddfbb1e69c1904836fb8fbd58',1,'sw::ObservableObject']]],
-  ['_7etextboxbase_27',['~TextBoxBase',['../classsw_1_1TextBoxBase.html#a2fb455bb1ed2c1b3f3c12a82a5a4b720',1,'sw::TextBoxBase']]],
-  ['_7euielement_28',['~UIElement',['../classsw_1_1UIElement.html#acbe28513919da89bf3f9a5102d6353c3',1,'sw::UIElement']]],
-  ['_7ewindow_29',['~Window',['../classsw_1_1Window.html#ad41fe170a165828b52d47fc2ee009106',1,'sw::Window']]],
-  ['_7ewndbase_30',['~WndBase',['../classsw_1_1WndBase.html#a6c99714fa3f313e7535936585f63b9cb',1,'sw::WndBase']]]
+  ['_7emenubase_24',['~MenuBase',['../classsw_1_1MenuBase.html#ada80ba5f2bae6a5d5ef1ab67cdf722c2',1,'sw::MenuBase']]],
+  ['_7emenuitem_25',['~MenuItem',['../classsw_1_1MenuItem.html#adad01522cedea9942f0cf0abeb8f138c',1,'sw::MenuItem']]],
+  ['_7enotifyicon_26',['~NotifyIcon',['../classsw_1_1NotifyIcon.html#a13fe1b17367e72802d5f3b5bc2a6b218',1,'sw::NotifyIcon']]],
+  ['_7eobservableobject_27',['~ObservableObject',['../classsw_1_1ObservableObject.html#a1d16c9dddfbb1e69c1904836fb8fbd58',1,'sw::ObservableObject']]],
+  ['_7etextboxbase_28',['~TextBoxBase',['../classsw_1_1TextBoxBase.html#a2fb455bb1ed2c1b3f3c12a82a5a4b720',1,'sw::TextBoxBase']]],
+  ['_7euielement_29',['~UIElement',['../classsw_1_1UIElement.html#acbe28513919da89bf3f9a5102d6353c3',1,'sw::UIElement']]],
+  ['_7ewindow_30',['~Window',['../classsw_1_1Window.html#ad41fe170a165828b52d47fc2ee009106',1,'sw::Window']]],
+  ['_7ewndbase_31',['~WndBase',['../classsw_1_1WndBase.html#a6c99714fa3f313e7535936585f63b9cb',1,'sw::WndBase']]]
 ];

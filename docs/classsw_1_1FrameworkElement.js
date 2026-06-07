@@ -10,6 +10,7 @@ var classsw_1_1FrameworkElement =
     [ "GetParent", "classsw_1_1FrameworkElement.html#a23138cc545d5e59fbf33bc5a8b8fd793", null ],
     [ "GetTag", "classsw_1_1FrameworkElement.html#adc0bbadfeb9bd1d68784ced4c00b0f86", null ],
     [ "OnCurrentDataContextChanged", "classsw_1_1FrameworkElement.html#ada3637defc1ce688e1ae47c5b1fed690", null ],
+    [ "OnTagChanged", "classsw_1_1FrameworkElement.html#ad7ac9f0644114d98c899b13ebb84b109", null ],
     [ "RemoveBinding", "classsw_1_1FrameworkElement.html#ac87af2432d6df2aedf88727f7dd5bebb", null ],
     [ "RemoveBinding", "classsw_1_1FrameworkElement.html#ac3b2f0fccb156fbca19bd21634f264cc", null ],
     [ "SetTag", "classsw_1_1FrameworkElement.html#affafa4ddbb26b66517384bf6e3b1ecb0", null ],

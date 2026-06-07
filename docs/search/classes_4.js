@@ -9,7 +9,7 @@ var searchData=
   ['delegate_3c_20inotifycollectionchanged_2c_20notifycollectionchangedeventargs_20_3e_6',['Delegate&lt; INotifyCollectionChanged, NotifyCollectionChangedEventArgs &gt;',['../classsw_1_1Delegate.html',1,'sw']]],
   ['delegate_3c_20inotifyobjectdead_20_3e_7',['Delegate&lt; INotifyObjectDead &gt;',['../classsw_1_1Delegate.html',1,'sw']]],
   ['delegate_3c_20inotifypropertychanged_2c_20propertychangedeventargs_20_3e_8',['Delegate&lt; INotifyPropertyChanged, PropertyChangedEventArgs &gt;',['../classsw_1_1Delegate.html',1,'sw']]],
-  ['delegate_3c_20menuitem_20_26_20_3e_9',['Delegate&lt; MenuItem &amp; &gt;',['../classsw_1_1Delegate.html',1,'sw']]],
+  ['delegate_3c_20menuitem_2c_20menuitemclickedeventargs_20_3e_9',['Delegate&lt; MenuItem, MenuItemClickedEventArgs &gt;',['../classsw_1_1Delegate.html',1,'sw']]],
   ['delegate_3c_20notifyicon_2c_20notifyiconmouseeventargs_20_3e_10',['Delegate&lt; NotifyIcon, NotifyIconMouseEventArgs &gt;',['../classsw_1_1Delegate.html',1,'sw']]],
   ['delegate_3c_20sw_3a_3auielement_20_26_2c_20teventargs_20_26_20_3e_11',['Delegate&lt; sw::UIElement &amp;, TEventArgs &amp; &gt;',['../classsw_1_1Delegate.html',1,'sw']]],
   ['delegate_3c_20timer_20_3e_12',['Delegate&lt; Timer &gt;',['../classsw_1_1Delegate.html',1,'sw']]],

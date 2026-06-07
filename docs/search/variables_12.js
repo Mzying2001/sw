@@ -25,6 +25,6 @@ var searchData=
   ['stretchicon_22',['StretchIcon',['../classsw_1_1IconBox.html#a5d2016c9ce58815053fcaccb7b2ae8a2',1,'sw::IconBox']]],
   ['strikeout_23',['strikeOut',['../classsw_1_1Font.html#a14ae471a9508e23aad832f3060bbcb85',1,'sw::Font']]],
   ['subindex_24',['subIndex',['../classsw_1_1ListViewSubItemEventArgs.html#aa604df8522b9bd1ed45a984effa592be',1,'sw::ListViewSubItemEventArgs']]],
-  ['subitems_25',['subitems',['../structsw_1_1ListViewItem.html#ab2d2963279ba0a65df1329be4e381540',1,'sw::ListViewItem::subItems'],['../classsw_1_1MenuItem.html#ac8e01802bb6cc6f1336025819050f3c4',1,'sw::MenuItem::subItems']]],
+  ['subitems_25',['subitems',['../structsw_1_1ListViewItem.html#ab2d2963279ba0a65df1329be4e381540',1,'sw::ListViewItem::subItems'],['../structsw_1_1MenuItemDesc.html#a7ae196c9b1acf125aa0311ba49e50a10',1,'sw::MenuItemDesc::subItems']]],
   ['syncfont_26',['SyncFont',['../classsw_1_1HwndHost.html#af3ea0920e77a1a6573dac901cf867c2b',1,'sw::HwndHost']]]
 ];

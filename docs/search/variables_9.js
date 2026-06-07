@@ -2,7 +2,7 @@ var searchData=
 [
   ['icon_0',['Icon',['../classsw_1_1NotifyIcon.html#a377bc226da2c591c1e25acd84dc1bf72',1,'sw::NotifyIcon']]],
   ['iconhandle_1',['IconHandle',['../classsw_1_1IconBox.html#a86e82265ade73734e49489ffd7a97769',1,'sw::IconBox']]],
-  ['id_2',['id',['../classsw_1_1SysLinkClickedEventArgs.html#aff11dec9b762d3ad7f1e58ffe3af477b',1,'sw::SysLinkClickedEventArgs']]],
+  ['id_2',['id',['../classsw_1_1MenuItem.html#a7b4b0389e4c00263e8d977288b33f259',1,'sw::MenuItem::Id'],['../classsw_1_1SysLinkClickedEventArgs.html#a9af5eccaf1eaca462799a51876c14f91',1,'sw::SysLinkClickedEventArgs::id']]],
   ['ignorereturn_3',['IgnoreReturn',['../classsw_1_1SysLink.html#a117ea396b1e35951b45c8758fa3ad1d2',1,'sw::SysLink']]],
   ['imageindex_4',['imageindex',['../structsw_1_1ListViewColumn.html#ad0a3d17508f3177593239f40712eef05',1,'sw::ListViewColumn::imageIndex'],['../structsw_1_1ListViewItem.html#a07f8b1fb08266c08a0c5a67ba9cabb41',1,'sw::ListViewItem::imageIndex']]],
   ['increment_5',['Increment',['../classsw_1_1SpinBox.html#a8e8ca4573e2ffd67bb28e9fb60f249b4',1,'sw::SpinBox']]],
@@ -15,7 +15,7 @@ var searchData=
   ['instance_12',['Instance',['../classsw_1_1App.html#a5a6949cf6702559276151c987a2f5c5c',1,'sw::App']]],
   ['interval_13',['Interval',['../classsw_1_1Timer.html#a8b54a41bef889018f876615841e87589',1,'sw::Timer']]],
   ['isblank_14',['IsBlank',['../classsw_1_1IPAddressControl.html#a9d66f52a8aba8db5543ee9e09a6711a6',1,'sw::IPAddressControl']]],
-  ['ischecked_15',['IsChecked',['../classsw_1_1CheckableButton.html#a52e1547dc73eb7b8f6cd4ecb523e7f56',1,'sw::CheckableButton']]],
+  ['ischecked_15',['ischecked',['../classsw_1_1CheckableButton.html#a52e1547dc73eb7b8f6cd4ecb523e7f56',1,'sw::CheckableButton::IsChecked'],['../classsw_1_1MenuItem.html#a30046142f4571b6b0f4c3839640468da',1,'sw::MenuItem::IsChecked']]],
   ['iscontrol_16',['IsControl',['../classsw_1_1WndBase.html#a4b72c64e192b49d1ace945e96c2368ab',1,'sw::WndBase']]],
   ['isdestroyed_17',['IsDestroyed',['../classsw_1_1WndBase.html#a54aa973b24b4bc4b681ac2c21a50d204',1,'sw::WndBase']]],
   ['iseditable_18',['IsEditable',['../classsw_1_1ComboBox.html#aa495a8136f05548a3e26bdf3e0612a8f',1,'sw::ComboBox']]],
@@ -31,9 +31,11 @@ var searchData=
   ['ismodal_28',['IsModal',['../classsw_1_1Window.html#a709b4ecc32fb2dccb7c12dd24078aed8',1,'sw::Window']]],
   ['ismousecaptured_29',['IsMouseCaptured',['../classsw_1_1WndBase.html#a6519a02519ba71182d53eb063b2b01cf',1,'sw::WndBase']]],
   ['isplaying_30',['IsPlaying',['../classsw_1_1Animation.html#a2b255ea3d4b90630726ecb47b1b08eb1',1,'sw::Animation']]],
-  ['italic_31',['italic',['../classsw_1_1Font.html#aa7ea90de17d56a063c395cf015baf11f',1,'sw::Font']]],
-  ['itemheight_32',['ItemHeight',['../classsw_1_1ListBox.html#aead175c0a1da369cbe7b8d686d62ff2d',1,'sw::ListBox']]],
-  ['items_33',['items',['../classsw_1_1ComboBox.html#ad458375244726ae62bf2329e025de5e2',1,'sw::ComboBox::Items'],['../classsw_1_1ListBox.html#aa1e749e11a13dc2fd016b35c8c84c47a',1,'sw::ListBox::Items'],['../classsw_1_1ListView.html#a82fa7d162f79cc4ccf5a34d638fefcc8',1,'sw::ListView::Items']]],
-  ['itemscount_34',['ItemsCount',['../classsw_1_1ItemsControl.html#ad09bab1e5b3a3f51c3b106951c519a98',1,'sw::ItemsControl']]],
-  ['itemssource_35',['itemssource',['../classsw_1_1ItemsControl.html#a5811744c76c8366217a308f48573539e',1,'sw::ItemsControl::itemsSource'],['../classsw_1_1ItemsControl.html#ad805f59deddd47e396b3ac3ad79ba8d9',1,'sw::ItemsControl::ItemsSource']]]
+  ['isseparator_31',['IsSeparator',['../classsw_1_1MenuItem.html#aa34f9bb01249c6466bdec773951fe246',1,'sw::MenuItem']]],
+  ['italic_32',['italic',['../classsw_1_1Font.html#aa7ea90de17d56a063c395cf015baf11f',1,'sw::Font']]],
+  ['itemclicked_33',['ItemClicked',['../classsw_1_1MenuBase.html#a096e023fe95f0671d58bf9f500fd789e',1,'sw::MenuBase']]],
+  ['itemheight_34',['ItemHeight',['../classsw_1_1ListBox.html#aead175c0a1da369cbe7b8d686d62ff2d',1,'sw::ListBox']]],
+  ['items_35',['items',['../classsw_1_1ComboBox.html#ad458375244726ae62bf2329e025de5e2',1,'sw::ComboBox::Items'],['../classsw_1_1ListBox.html#aa1e749e11a13dc2fd016b35c8c84c47a',1,'sw::ListBox::Items'],['../classsw_1_1ListView.html#a82fa7d162f79cc4ccf5a34d638fefcc8',1,'sw::ListView::Items']]],
+  ['itemscount_36',['ItemsCount',['../classsw_1_1ItemsControl.html#ad09bab1e5b3a3f51c3b106951c519a98',1,'sw::ItemsControl']]],
+  ['itemssource_37',['itemssource',['../classsw_1_1ItemsControl.html#ad805f59deddd47e396b3ac3ad79ba8d9',1,'sw::ItemsControl::ItemsSource'],['../classsw_1_1ItemsControl.html#a5811744c76c8366217a308f48573539e',1,'sw::ItemsControl::itemsSource']]]
 ];

@@ -106,7 +106,6 @@ var classsw_1_1UIElement =
     [ "SetCursor", "classsw_1_1UIElement.html#a0ce7edc8a920e950a9a75cf1a84ea627", null ],
     [ "SetCursor", "classsw_1_1UIElement.html#a848d8b2ee3267758e9a784be75b65e46", null ],
     [ "SetParent", "classsw_1_1UIElement.html#ad685138138402ddd8a5fde67bbb85a45", null ],
-    [ "ShowContextMenu", "classsw_1_1UIElement.html#a6cf5a64206d296adf153e4d48db9e4ed", null ],
     [ "ToUIElement", "classsw_1_1UIElement.html#a0e0e76a77ca681df2992b06e13380a04", null ],
     [ "UnregisterRoutedEvent", "classsw_1_1UIElement.html#a0cbfb44f8280a3e5e01b71906e588d69", null ],
     [ "UpdateChildrenZOrder", "classsw_1_1UIElement.html#aa33bc2dbdc45763086f61e649aec008e", null ],
