@@ -284,10 +284,37 @@ int sw::MenuItem::IndexOf(MenuItem *child) const
 
 void sw::MenuItem::ResetChildren(std::initializer_list<MenuItemDesc> descs)
 {
-    ClearChildren();
+    if (descs.size() == 0) {
+        ClearChildren();
+        return;
+    }
+
+    _subItems.clear();
 
     for (auto &desc : descs) {
-        AddChild(desc);
+        auto child = Create(desc);
+        _SetParent(this, child);
+    }
+
+    bool resetMenu   = true;
+    auto dataContext = CurrentDataContext.Get();
+
+    if (_hMenu == NULL) {
+        resetMenu = false;
+        _ResetMenuItem();
+    } else {
+        for (int i = GetMenuItemCount(_hMenu) - 1; i >= 0; --i) {
+            DeleteMenu(_hMenu, i, MF_BYPOSITION);
+        }
+    }
+
+    for (auto &child : _subItems) {
+        if (resetMenu) {
+            child->_ResetMenuItem();
+        }
+        if (dataContext != nullptr) {
+            child->OnCurrentDataContextChanged(nullptr);
+        }
     }
 }
 
