@@ -273,11 +273,12 @@ namespace sw
         void _UpdateState();
 
         /**
-         * @brief 设置父菜单项指针
+         * @brief 插入子菜单到指定父菜单项的指定位置
          * @param parent 父菜单项指针
          * @param child 子菜单项指针
+         * @param index 子菜单项索引，默认为-1表示添加到末尾
          */
-        static void _SetParent(MenuItem *parent, MenuItem *child);
+        static void _SetParent(MenuItem *parent, MenuItem *child, int index = -1);
 
         /**
          * @brief 生成一个新的菜单项ID

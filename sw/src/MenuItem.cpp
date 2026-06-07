@@ -234,9 +234,7 @@ sw::MenuItem *sw::MenuItem::InsertChild(int index, const MenuItemDesc &desc)
     }
 
     auto child = Create(desc);
-
-    child->_parent = this;
-    _subItems.insert(_subItems.begin() + index, std::unique_ptr<MenuItem>(child));
+    _SetParent(this, child, index);
 
     if (_hMenu == NULL) {
         _ResetMenuItem();
@@ -448,10 +446,15 @@ void sw::MenuItem::_UpdateState()
     }
 }
 
-void sw::MenuItem::_SetParent(MenuItem *parent, MenuItem *child)
+void sw::MenuItem::_SetParent(MenuItem *parent, MenuItem *child, int index)
 {
     child->_parent = parent;
-    parent->_subItems.emplace_back(child);
+
+    if (index == -1) {
+        parent->_subItems.emplace_back(child);
+    } else {
+        parent->_subItems.insert(parent->_subItems.begin() + index, std::unique_ptr<MenuItem>(child));
+    }
 }
 
 int sw::MenuItem::_GenerateMenuItemID()
