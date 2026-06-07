@@ -421,7 +421,8 @@ int sw::MenuItem::_GenerateMenuItemID()
 void sw::MenuItem::_ApplyMenuDesc(const MenuItemDesc &desc, MENUITEMINFOW *pMii)
 {
     pMii->cbSize     = sizeof(MENUITEMINFOW);
-    pMii->fMask      = MIIM_STRING | MIIM_STATE;
+    pMii->fMask      = MIIM_STRING | MIIM_STATE | MIIM_BITMAP;
+    pMii->hbmpItem   = desc.hBitmap;
     pMii->dwTypeData = const_cast<LPWSTR>(desc.text.c_str());
 
     if (desc.checked) {
@@ -429,10 +430,6 @@ void sw::MenuItem::_ApplyMenuDesc(const MenuItemDesc &desc, MENUITEMINFOW *pMii)
     }
     if (!desc.enabled) {
         pMii->fState |= MFS_DISABLED;
-    }
-    if (desc.hBitmap != NULL) {
-        pMii->fMask |= MIIM_BITMAP;
-        pMii->hbmpItem = desc.hBitmap;
     }
 }
 
