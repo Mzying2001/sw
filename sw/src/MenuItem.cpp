@@ -197,12 +197,12 @@ sw::MenuItem *sw::MenuItem::GetParent() const
 
 int sw::MenuItem::GetChildCount() const
 {
-    return static_cast<int>(subItems.size());
+    return static_cast<int>(_subItems.size());
 }
 
 sw::MenuItem &sw::MenuItem::GetChildAt(int index) const
 {
-    return *subItems.at(index);
+    return *_subItems.at(index);
 }
 
 sw::MenuItem *sw::MenuItem::AddChild(const MenuItemDesc &desc)
@@ -220,14 +220,14 @@ sw::MenuItem *sw::MenuItem::AddChild(const MenuItemDesc &desc)
 
 sw::MenuItem *sw::MenuItem::InsertChild(int index, const MenuItemDesc &desc)
 {
-    if (index < 0 || index > static_cast<int>(subItems.size())) {
-        throw std::out_of_range("Index out of range");
+    if (index < 0 || index > static_cast<int>(_subItems.size())) {
+        throw std::out_of_range("Index out of range in InsertChild");
     }
 
     auto child = Create(desc);
 
     child->_parent = this;
-    subItems.insert(subItems.begin() + index, std::unique_ptr<MenuItem>(child));
+    _subItems.insert(_subItems.begin() + index, std::unique_ptr<MenuItem>(child));
 
     if (_hMenu == NULL) {
         _ResetMenuItem();
@@ -244,10 +244,10 @@ sw::MenuItem *sw::MenuItem::InsertChild(int index, const MenuItemDesc &desc)
 
 bool sw::MenuItem::RemoveChildAt(int index)
 {
-    if (index < 0 || index >= static_cast<int>(subItems.size())) {
+    if (index < 0 || index >= static_cast<int>(_subItems.size())) {
         return false;
     }
-    subItems.erase(subItems.begin() + index);
+    _subItems.erase(_subItems.begin() + index);
     _ResetMenuItem();
     return true;
 }
@@ -260,15 +260,15 @@ bool sw::MenuItem::RemoveChild(MenuItem *child)
 
 void sw::MenuItem::ClearChildren()
 {
-    subItems.clear();
+    _subItems.clear();
     _ResetMenuItem();
 }
 
 int sw::MenuItem::IndexOf(MenuItem *child) const
 {
-    for (auto &p : subItems) {
+    for (auto &p : _subItems) {
         if (p.get() == child) {
-            return static_cast<int>(&p - &subItems[0]);
+            return static_cast<int>(&p - &_subItems[0]);
         }
     }
     return -1;
@@ -295,7 +295,7 @@ sw::MenuItem *sw::MenuItem::FindChildById(int id)
         if (current->_id == id) {
             return current;
         }
-        for (auto &child : current->subItems) {
+        for (auto &child : current->_subItems) {
             stack.push_back(child.get());
         }
     }
@@ -314,7 +314,7 @@ sw::MenuItem *sw::MenuItem::FindChildByTag(uint64_t tag)
         if (current->_desc.tag == tag) {
             return current;
         }
-        for (auto &child : current->subItems) {
+        for (auto &child : current->_subItems) {
             stack.push_back(child.get());
         }
     }
@@ -338,8 +338,8 @@ void sw::MenuItem::_ResetMenuItem()
 
     std::vector<_UpdateMenuItemStackItem> stack;
 
-    for (int i = static_cast<int>(subItems.size()) - 1; i >= 0; --i) {
-        stack.push_back({/*parent*/ this, /*index*/ i, /*item*/ subItems[i].get()});
+    for (int i = static_cast<int>(_subItems.size()) - 1; i >= 0; --i) {
+        stack.push_back({/*parent*/ this, /*index*/ i, /*item*/ _subItems[i].get()});
     }
 
     if (_hMenu == NULL && !stack.empty()) {
@@ -354,7 +354,7 @@ void sw::MenuItem::_ResetMenuItem()
 
         HMENU hParentMenu = parent->_hMenu;
 
-        if (item->subItems.empty()) {
+        if (item->_subItems.empty()) {
             item->_hMenu = NULL;
             if (item->IsSeparator) {
                 AppendMenuW(hParentMenu, MF_SEPARATOR, 0, NULL);
@@ -368,8 +368,8 @@ void sw::MenuItem::_ResetMenuItem()
             _UpdateMenuItem(hParentMenu, index, item->_desc);
         }
 
-        for (int i = static_cast<int>(item->subItems.size()) - 1; i >= 0; --i) {
-            stack.push_back({/*parent*/ item, /*index*/ i, /*item*/ item->subItems[i].get()});
+        for (int i = static_cast<int>(item->_subItems.size()) - 1; i >= 0; --i) {
+            stack.push_back({/*parent*/ item, /*index*/ i, /*item*/ item->_subItems[i].get()});
         }
     }
 
@@ -409,7 +409,7 @@ void sw::MenuItem::_UpdateState()
 void sw::MenuItem::_SetParent(MenuItem *parent, MenuItem *child)
 {
     child->_parent = parent;
-    parent->subItems.emplace_back(child);
+    parent->_subItems.emplace_back(child);
 }
 
 int sw::MenuItem::_GenerateMenuItemID()

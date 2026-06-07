@@ -102,7 +102,7 @@ namespace sw
         /**
          * @brief 子菜单项列表
          */
-        std::vector<std::unique_ptr<MenuItem>> subItems{};
+        std::vector<std::unique_ptr<MenuItem>> _subItems{};
 
     public:
         /**
