@@ -6447,125 +6447,6 @@ namespace sw
     };
 }
 
-// MenuItem.h
-
-
-namespace sw
-{
-    class MenuItem; // 向前声明
-
-    /**
-     * @brief 菜单项关联的回调函数类型
-     */
-    using MenuItemCommand = Action<MenuItem &>;
-
-    /**
-     * @brief 菜单项
-     */
-    class MenuItem : public ITag<uint64_t>
-    {
-    public:
-        /**
-         * @brief 储存用户自定义信息
-         */
-        uint64_t tag;
-
-        /**
-         * @brief 菜单项的文本，当值为“-”时表示当前项为分隔条
-         */
-        std::wstring text;
-
-        /**
-         * @brief 菜单项被单击时调用的函数
-         */
-        MenuItemCommand command;
-
-        /**
-         * @brief 子项
-         */
-        std::vector<std::shared_ptr<MenuItem>> subItems{};
-
-    public:
-        /**
-         * @brief 构造一个MenuItem，并设置文本
-         * @param text 菜单项的文本
-         */
-        MenuItem(const std::wstring &text);
-
-        /**
-         * @brief 构造一个MenuItem，并设置其回调函数
-         * @param text 菜单项的文本
-         * @param command 被单击时调用的函数
-         */
-        MenuItem(const std::wstring &text, const MenuItemCommand &command);
-
-        /**
-         * @brief 构造一个MenuItem，并设置其子项
-         * @param text 菜单下的文本
-         * @param subItems 子项列表
-         */
-        MenuItem(const std::wstring &text, std::initializer_list<MenuItem> subItems);
-
-        /**
-         * @brief 构造一个MenuItem，并设置tag及文本
-         * @param text 菜单项的文本
-         */
-        MenuItem(uint64_t tag, const std::wstring &text);
-
-        /**
-         * @brief 构造一个MenuItem，并设置tag及回调函数
-         * @param text 菜单项的文本
-         * @param command 被单击时调用的函数
-         */
-        MenuItem(uint64_t tag, const std::wstring &text, const MenuItemCommand &command);
-
-        /**
-         * @brief 构造一个MenuItem，设置成员函数为回调函数
-         * @tparam T 成员函数所在的类
-         * @param obj 成员函数所在的对象
-         * @param handler 处理函数
-         */
-        template <typename T>
-        MenuItem(const std::wstring &text, T &obj, void (T::*handler)(MenuItem &))
-            : MenuItem(0, text, obj, handler)
-        {
-        }
-
-        /**
-         * @brief 构造一个MenuItem，设置成员函数为回调函数
-         * @tparam T 成员函数所在的类
-         * @param obj 成员函数所在的对象
-         * @param handler 处理函数
-         */
-        template <typename T>
-        MenuItem(uint64_t tag, const std::wstring &text, T &obj, void (T::*handler)(MenuItem &))
-            : MenuItem(tag, text, MenuItemCommand(obj, handler))
-        {
-        }
-
-    public:
-        /**
-         * @brief 获取一个值，表示当前菜单项是否为分隔条
-         */
-        bool IsSeparator() const;
-
-        /**
-         * @brief 调用command
-         */
-        void CallCommand();
-
-        /**
-         * @brief 获取Tag
-         */
-        virtual uint64_t GetTag() const override;
-
-        /**
-         * @brief 设置Tag
-         */
-        virtual void SetTag(uint64_t tag) override;
-    };
-}
-
 // Rect.h
 
 
@@ -9525,266 +9406,6 @@ namespace sw
     };
 }
 
-// MenuBase.h
-
-
-namespace sw
-{
-    /**
-     * @brief 菜单类型的基类
-     */
-    class MenuBase
-    {
-    private:
-        /**
-         * @brief 包含子项的菜单项的句柄信息
-         */
-        struct _PopupMenuInfo {
-            std::shared_ptr<MenuItem> pItem; // 菜单项
-            HMENU hSelf;                     // 菜单句柄
-        };
-
-        /**
-         * @brief 记录菜单项的依赖关系
-         */
-        struct _MenuItemDependencyInfo {
-            HMENU hParent; // 所在菜单的句柄
-            HMENU hSelf;   // 若本身含有子项，则此项为本身的菜单句柄，否则为NULL
-            int index;     // 所在菜单中的索引
-        };
-
-    private:
-        /**
-         * @brief 菜单句柄，使用InitMenuBase函数设置该值
-         */
-        HMENU _hMenu = NULL;
-
-        /**
-         * @brief 菜单所直接包含的菜单项集合（即第一级菜单项）
-         */
-        std::vector<std::shared_ptr<MenuItem>> _items;
-
-        /**
-         * @brief 记录包含子项的菜单项的句柄信息
-         */
-        std::vector<_PopupMenuInfo> _popupMenus;
-
-        /**
-         * @brief 记录每个菜单项的ID，可通过菜单项所在索引获取ID（调用IndexToID）
-         */
-        std::vector<std::shared_ptr<MenuItem>> _ids;
-
-        /**
-         * @brief 记录每个菜单项直接依赖关系的map
-         */
-        std::unordered_map<MenuItem *, _MenuItemDependencyInfo> _dependencyInfoMap;
-
-    protected:
-        /**
-         * @brief 初始化菜单
-         */
-        MenuBase(HMENU hMenu);
-
-        MenuBase(const MenuBase &)            = delete; // 删除拷贝构造函数
-        MenuBase(MenuBase &&)                 = delete; // 删除移动构造函数
-        MenuBase &operator=(const MenuBase &) = delete; // 删除拷贝赋值运算符
-        MenuBase &operator=(MenuBase &&)      = delete; // 删除移动赋值运算符
-
-    public:
-        /**
-         * @brief 释放资源
-         */
-        virtual ~MenuBase();
-
-        /**
-         * @brief 获取菜单句柄
-         */
-        HMENU GetHandle();
-
-        /**
-         * @brief 更新菜单，该操作会导致菜单项的Enabled、Checked等恢复到初始状态
-         */
-        void Update();
-
-        /**
-         * @brief 初始化菜单并添加菜单项
-         */
-        void SetItems(std::initializer_list<MenuItem> items);
-
-        /**
-         * @brief 重新设置当前菜单中某个菜单项的子项
-         * @param item 要修改的菜单项，当该项原先不含有子项时将会调用Update更新整个菜单
-         * @param subItems 新的子项列表
-         * @return 返回一个bool值，表示操作是否成功
-         */
-        bool SetSubItems(MenuItem &item, std::initializer_list<MenuItem> subItems);
-
-        /**
-         * @brief 添加新的菜单项到菜单
-         * @param item 新的菜单项
-         */
-        void AddItem(const MenuItem &item);
-
-        /**
-         * @brief 向当前菜单中的某个菜单项添加新的子项
-         * @param item 要添加子项的菜单项，当该项原本不含有子项时将会调用Update更新整个菜单
-         * @param subItem 要添加的子菜单项
-         * @return 返回一个bool值，表示操作是否成功
-         */
-        bool AddSubItem(MenuItem &item, const MenuItem &subItem);
-
-        /**
-         * @brief 移除当前菜单中的某个子项
-         * @param item 要移除的菜单项
-         * @return 返回一个bool值，表示操作是否成功
-         */
-        bool RemoveItem(MenuItem &item);
-
-        /**
-         * @brief 通过id获取菜单项
-         * @param id 要获取菜单项的id
-         * @return 若函数成功则返回菜单项的指针，否则返回nullptr
-         */
-        MenuItem *GetMenuItem(int id);
-
-        /**
-         * @brief 通过句柄获取菜单项
-         * @param hMenu 要获取菜单项的菜单句柄
-         * @return 若函数成功则返回菜单项的指针，否则返回nullptr
-         */
-        MenuItem *GetMenuItem(HMENU hMenu);
-
-        /**
-         * @brief 通过索引来获取菜单项
-         * @param path 要找项所在下索引
-         * @return 若函数成功则返回菜单项的指针，否则返回nullptr
-         */
-        MenuItem *GetMenuItem(std::initializer_list<int> path);
-
-        /**
-         * @brief 通过菜单项的text来获取菜单项
-         * @param path 每层要找的text
-         * @return 若函数成功则返回菜单项的指针，否则返回nullptr
-         */
-        MenuItem *GetMenuItem(std::initializer_list<std::wstring> path);
-
-        /**
-         * @brief 通过tag值获取菜单项
-         * @param tag 指定的tag
-         * @return 若函数成功则返回菜单项的指针，否则返回nullptr
-         */
-        MenuItem *GetMenuItemByTag(uint64_t tag);
-
-        /**
-         * @brief 获取当前菜单中指定菜单项的直接父菜单项
-         * @param item 要查询的子菜单项
-         * @return 若函数成功则返回指向直接父菜单项的指针，否则返回nullptr
-         */
-        MenuItem *GetParent(MenuItem &item);
-
-        /**
-         * @brief 获取一个值，表示菜单项是否可用
-         * @param item 要获取的菜单项
-         * @param out 输出值
-         * @return 函数是否成功
-         */
-        bool GetEnabled(MenuItem &item, bool &out);
-
-        /**
-         * @brief 设置菜单项是否可用
-         * @param item 要修改的菜单项
-         * @param value 设置的值
-         * @return 修改是否成功
-         */
-        bool SetEnabled(MenuItem &item, bool value);
-
-        /**
-         * @brief 获取一个值，表示菜单项是否选中
-         * @param item 要获取的菜单项
-         * @param out 输出值
-         * @return 函数是否成功
-         */
-        bool GetChecked(MenuItem &item, bool &out);
-
-        /**
-         * @brief 设置菜单项是否选中
-         * @param item 要修改的菜单项
-         * @param value 设置的值
-         * @return 修改是否成功
-         */
-        bool SetChecked(MenuItem &item, bool value);
-
-        /**
-         * @brief 设置菜单项文本
-         * @param item 要修改的菜单项
-         * @param value 设置的值
-         * @return 修改是否成功
-         */
-        bool SetText(MenuItem &item, const std::wstring &value);
-
-        /**
-         * @brief 设置菜单项要显示的位图
-         * @param item 要修改的菜单项
-         * @param hBitmap 要设置的位图句柄
-         * @return 修改是否成功
-         */
-        bool SetBitmap(MenuItem &item, HBITMAP hBitmap);
-
-        /**
-         * @brief 设置菜单不同选中状态下显示的位图
-         * @param item 要修改的菜单项
-         * @param hBmpUnchecked 未选中时显示的位图
-         * @param hBmpChecked 选中时显示的位图
-         * @return 修改是否成功
-         */
-        bool SetCheckBitmap(MenuItem &item, HBITMAP hBmpUnchecked, HBITMAP hBmpChecked);
-
-    private:
-        /**
-         * @brief 清除已添加的所有菜单项
-         */
-        void _ClearAddedItems();
-
-        /**
-         * @brief 添加菜单项到指定句柄
-         * @param hMenu 要添加子项的菜单句柄
-         * @param pItem 要添加的菜单项
-         * @param index 菜单项在父菜单中的索引
-         */
-        void _AppendMenuItem(HMENU hMenu, std::shared_ptr<MenuItem> pItem, int index);
-
-        /**
-         * @brief 获取菜单项的依赖信息
-         * @param item 要获取信息的菜单项
-         * @return 若函数成功则返回指向_MenuItemDependencyInfo的指针，否则返回nullptr
-         */
-        _MenuItemDependencyInfo *_GetMenuItemDependencyInfo(MenuItem &item);
-
-        /**
-         * @brief 通过tag值获取菜单项
-         * @param items 查找的vector
-         * @param tag 指定的tag
-         * @return 若函数成功则返回菜单项的指针，否则返回nullptr
-         */
-        MenuItem *_GetMenuItemByTag(std::vector<std::shared_ptr<MenuItem>> &items, uint64_t tag);
-
-    protected:
-        /**
-         * @brief 根据索引获取ID
-         * @param index 索引
-         * @return 菜单项的ID
-         */
-        virtual int IndexToID(int index) = 0;
-
-        /**
-         * @brief 根据ID获取索引
-         * @param id 菜单项的ID
-         * @return 索引
-         */
-        virtual int IDToIndex(int id) = 0;
-    };
-}
-
 // RoutedEventArgs.h
 
 
@@ -10256,15 +9877,15 @@ namespace sw
     {
     public:
         /// @brief 被单击链接的id
-        wchar_t *id;
+        std::wstring id;
 
         /// @brief 被单击链接的url（即href）
-        wchar_t *url;
+        std::wstring url;
 
         /// @brief 构造函数
         /// @param id 被单击链接的id
         /// @param url 被单击链接的url（即href）
-        SysLinkClickedEventArgs(wchar_t *id, wchar_t *url) : id(id), url(url)
+        SysLinkClickedEventArgs(const std::wstring &id, const std::wstring &url) : id(id), url(url)
         {
         }
     };
@@ -11093,51 +10714,6 @@ namespace sw
     };
 }
 
-// ContextMenu.h
-
-
-namespace sw
-{
-    /**
-     * @brief 上下文菜单
-     */
-    class ContextMenu : public MenuBase
-    {
-    public:
-        /**
-         * @brief 初始化上下文菜单
-         */
-        ContextMenu();
-
-        /**
-         * @brief 初始化上下文菜单并设置菜单项
-         */
-        ContextMenu(std::initializer_list<MenuItem> items);
-
-        /**
-         * @brief 判断ID是否为上下文菜单项的ID
-         * @param id 要判断的ID
-         * @return ID是否为上下文菜单项的ID
-         */
-        static bool IsContextMenuID(int id);
-
-    protected:
-        /**
-         * @brief 根据索引获取ID
-         * @param index 索引
-         * @return 菜单项的ID
-         */
-        virtual int IndexToID(int index) override;
-
-        /**
-         * @brief 根据ID获取索引
-         * @param id 菜单项的ID
-         * @return 索引
-         */
-        virtual int IDToIndex(int id) override;
-    };
-}
-
 // IList.h
 
 
@@ -11865,44 +11441,6 @@ namespace sw
     }
 
 /*================================================================================*/
-
-// Menu.h
-
-
-namespace sw
-{
-    /**
-     * @brief 菜单
-     */
-    class Menu : public MenuBase
-    {
-    public:
-        /**
-         * @brief 初始化菜单
-         */
-        Menu();
-
-        /**
-         * @brief 初始化菜单并设置菜单项
-         */
-        Menu(std::initializer_list<MenuItem> items);
-
-    protected:
-        /**
-         * @brief 根据索引获取ID
-         * @param index 索引
-         * @return 菜单项的ID
-         */
-        virtual int IndexToID(int index) override;
-
-        /**
-         * @brief 根据ID获取索引
-         * @param id 菜单项的ID
-         * @return 索引
-         */
-        virtual int IDToIndex(int id) override;
-    };
-}
 
 // ObservableObject.h
 
@@ -14685,6 +14223,11 @@ namespace sw
 
     protected:
         /**
+         * @brief 当Tag更改时调用此函数
+         */
+        virtual void OnTagChanged();
+
+        /**
          * @brief 当CurrentDataContext更改时调用此函数
          * @param oldDataContext 旧的数据上下文值
          */
@@ -15228,6 +14771,304 @@ namespace sw
     };
 }
 
+// MenuItem.h
+
+
+namespace sw
+{
+    /**
+     * @brief 菜单项描述结构体
+     */
+    struct MenuItemDesc //
+    {
+        /// @brief 菜单项标记，可用于区分不同菜单项
+        uint64_t tag = 0;
+
+        /// @brief 菜单项文本，若为"-"且没有子项则被视为分隔符
+        std::wstring text{};
+
+        /// @brief 菜单项是否可用，默认为true
+        bool enabled = true;
+
+        /// @brief 菜单项是否选中，默认为false
+        bool checked = false;
+
+        /// @brief 菜单项位图句柄，默认为NULL
+        HBITMAP hBitmap = NULL;
+
+        /// @brief 子菜单项列表
+        List<MenuItemDesc> subItems{};
+
+        /// @brief 默认构造函数
+        MenuItemDesc() = default;
+
+        /// @brief 构造指定文本的菜单项描述
+        /// @param text 菜单项文本
+        MenuItemDesc(const wchar_t *text);
+
+        /// @brief 构造指定文本的菜单项描述
+        /// @param text 菜单项文本
+        MenuItemDesc(const std::wstring &text);
+
+        /// @brief 构造指定文本和子项的菜单项描述
+        /// @param text 菜单项文本
+        /// @param subItems 子菜单项列表
+        MenuItemDesc(const std::wstring &text,
+                     std::initializer_list<MenuItemDesc> subItems);
+
+        /// @brief 构造指定标记和文本的菜单项描述
+        /// @param tag 菜单项标记
+        /// @param text 菜单项文本
+        MenuItemDesc(uint64_t tag, const std::wstring &text);
+
+        /// @brief 构造指定标记、文本和子项的菜单项描述
+        /// @param tag 菜单项标记
+        /// @param text 菜单项文本
+        /// @param subItems 子菜单项列表
+        MenuItemDesc(uint64_t tag, const std::wstring &text,
+                     std::initializer_list<MenuItemDesc> subItems);
+    };
+
+    /**
+     * @brief 菜单项类
+     */
+    class MenuItem : public FrameworkElement
+    {
+    private:
+        /**
+         * @brief 基类别名，方便调用基类函数
+         */
+        using TBase = FrameworkElement;
+
+        /**
+         * @brief 菜单项描述信息
+         */
+        MenuItemDesc _desc{};
+
+        /**
+         * @brief 菜单项句柄
+         */
+        HMENU _hMenu = NULL;
+
+        /**
+         * @brief 菜单项ID
+         */
+        int _id = -1;
+
+        /**
+         * @brief 是否为根菜单项
+         */
+        bool _isRoot = false;
+
+        /**
+         * @brief 父菜单项指针
+         */
+        MenuItem *_parent = nullptr;
+
+        /**
+         * @brief 子菜单项列表
+         */
+        std::vector<std::unique_ptr<MenuItem>> _subItems{};
+
+    public:
+        /**
+         * @brief 菜单项Id
+         */
+        const ReadOnlyProperty<int> Id;
+
+        /**
+         * @brief 菜单项句柄
+         * @note 若当前菜单项不是根菜单项，菜单项句柄可能会随着内容的更改而改变，
+         *       因此不建议缓存该属性值。
+         */
+        const ReadOnlyProperty<HMENU> Handle;
+
+        /**
+         * @brief 菜单项文本
+         * @note 若菜单项文本为"-"且没有子项则被视为分隔符，此时IsSeparator属性将返回true。
+         */
+        const Property<std::wstring> Text;
+
+        /**
+         * @brief 菜单项是否可用
+         */
+        const Property<bool> Enabled;
+
+        /**
+         * @brief 菜单项是否选中
+         */
+        const Property<bool> IsChecked;
+
+        /**
+         * @brief 菜单项位图
+         */
+        const Property<HBITMAP> Bitmap;
+
+        /**
+         * @brief 菜单项是否为分隔符
+         */
+        const ReadOnlyProperty<bool> IsSeparator;
+
+        /**
+         * @brief 菜单项Tag
+         */
+        const Property<uint64_t> Tag;
+
+    private:
+        /**
+         * @brief 构造函数，使用菜单项描述信息初始化菜单项
+         * @param desc 菜单项描述信息
+         */
+        MenuItem(const MenuItemDesc &desc);
+
+    public:
+        /**
+         * @brief 析构函数
+         */
+        virtual ~MenuItem();
+
+        /**
+         * @brief 创建一个新的菜单项实例
+         * @param desc 菜单项描述信息
+         */
+        static MenuItem *Create(const MenuItemDesc &desc);
+
+        /**
+         * @brief 创建一个新的根菜单项实例
+         * @return 新创建的根菜单项实例
+         */
+        static MenuItem *CreateRoot(bool isPopup);
+
+    protected:
+        /**
+         * @brief 当Tag更改时调用此函数
+         */
+        virtual void OnTagChanged() override;
+
+    public:
+        /**
+         * @brief 获取逻辑树中的父元素
+         * @return 父元素指针，如果没有父元素则返回nullptr
+         */
+        virtual MenuItem *GetParent() const override final;
+
+        /**
+         * @brief 获取逻辑树中的子元素数量
+         * @return 子元素数量
+         */
+        virtual int GetChildCount() const override final;
+
+        /**
+         * @brief 获取逻辑树中指定索引处的子元素
+         * @param index 子元素索引
+         * @throw std::out_of_range 如果索引超出范围
+         */
+        virtual MenuItem &GetChildAt(int index) const override final;
+
+        /**
+         * @brief 向当前菜单项添加一个子菜单项
+         * @param desc 子菜单项的描述信息
+         * @return 新增的子菜单项实例
+         */
+        MenuItem *AddChild(const MenuItemDesc &desc);
+
+        /**
+         * @brief 向当前菜单项的指定索引处插入一个子菜单项
+         * @param index 插入位置的子菜单项索引
+         * @param desc 子菜单项的描述信息
+         * @return 新增的子菜单项实例
+         * @throw std::out_of_range 如果索引超出范围
+         */
+        MenuItem *InsertChild(int index, const MenuItemDesc &desc);
+
+        /**
+         * @brief 移除指定索引处的子菜单项
+         * @param index 子菜单项索引
+         * @return 若函数成功则返回true，否则返回false
+         */
+        bool RemoveChildAt(int index);
+
+        /**
+         * @brief 移除指定子菜单项
+         * @param child 子菜单项指针
+         * @return 若函数成功则返回true，否则返回false
+         */
+        bool RemoveChild(MenuItem *child);
+
+        /**
+         * @brief 移除所有子菜单项
+         */
+        void ClearChildren();
+
+        /**
+         * @brief 获取指定子菜单项在当前菜单项中的索引
+         * @param child 子菜单项指针
+         * @return 子菜单项索引，如果未找到则返回-1
+         */
+        int IndexOf(MenuItem *child) const;
+
+        /**
+         * @brief 重置子菜单项列表
+         * @param descs 新的子菜单项描述信息列表
+         */
+        void ResetChildren(std::initializer_list<MenuItemDesc> descs);
+
+        /**
+         * @brief 查找对应ID的子菜单项
+         * @param id 子菜单项ID
+         * @return 指向子菜单项的指针，如果未找到则返回nullptr
+         */
+        MenuItem *FindChildById(int id);
+
+        /**
+         * @brief 查找对应tag的子菜单项
+         * @param tag 子菜单项tag
+         * @return 指向子菜单项的指针，如果未找到则返回nullptr
+         */
+        MenuItem *FindChildByTag(uint64_t tag);
+
+    private:
+        /**
+         * @brief 重建菜单项
+         */
+        void _ResetMenuItem();
+
+        /**
+         * @brief 更新菜单项状态
+         */
+        void _UpdateState();
+
+        /**
+         * @brief 插入子菜单到指定父菜单项的指定位置
+         * @param parent 父菜单项指针
+         * @param child 子菜单项指针
+         * @param index 子菜单项索引，默认为-1表示添加到末尾
+         */
+        static void _SetParent(MenuItem *parent, MenuItem *child, int index = -1);
+
+        /**
+         * @brief 生成一个新的菜单项ID
+         * @return 新的菜单项ID
+         */
+        static int _GenerateMenuItemID();
+
+        /**
+         * @brief 根据菜单项描述信息填充MENUITEMINFOW结构体
+         * @param desc 菜单项描述信息
+         * @param pMii 待填充的MENUITEMINFOW结构体指针
+         */
+        static void _ApplyMenuDesc(const MenuItemDesc &desc, MENUITEMINFOW *pMii);
+
+        /**
+         * @brief 根据菜单项描述信息和菜单句柄应用菜单项属性
+         * @param hParentMenu 菜单项所在菜单的句柄
+         * @param index 菜单项在父菜单中的索引
+         * @param desc 菜单项描述信息
+         */
+        static void _UpdateMenuItem(HMENU hParentMenu, int index, const MenuItemDesc &desc);
+    };
+}
+
 // WndBase.h
 
 
@@ -15239,8 +15080,7 @@ namespace sw
      * @brief 表示一个Windows窗口，是所有窗口和控件的基类
      */
     class WndBase : public FrameworkElement,
-                    public IToString<WndBase>,
-                    public IEqualityComparable<WndBase>
+                    public IToString<WndBase>
     {
         // 部分控件可能会改变HWND，设为友元类向Control类暴露_hwnd字段
         friend class Control;
@@ -15451,11 +15291,6 @@ namespace sw
          * @return 若函数成功则返回UIElement指针，否则返回nullptr
          */
         virtual UIElement *ToUIElement();
-
-        /**
-         * @brief 判断当前对象与另一个WndBase是否相等
-         */
-        bool Equals(const WndBase &other) const;
 
         /**
          * @brief 获取当前对象的描述字符串
@@ -16155,6 +15990,165 @@ namespace sw
     };
 }
 
+// Menu.h
+
+
+namespace sw
+{
+    class MenuBase; // 向前声明
+
+    /**
+     * @brief 菜单被点击事件参数
+     */
+    class MenuItemClickedEventArgs : public EventArgs
+    {
+    public:
+        /// @brief 菜单项所在的菜单
+        MenuBase *menu;
+    };
+
+    /**
+     * @brief 菜单项被点击事件处理函数类型
+     */
+    using MenuItemClickedEventHandler =
+        EventHandler<MenuItem, MenuItemClickedEventArgs>;
+
+    /**
+     * @brief 菜单类型的基类
+     */
+    class MenuBase
+    {
+    private:
+        /**
+         * @brief 根菜单项
+         */
+        std::unique_ptr<MenuItem> _root;
+
+        /**
+         * @brief 菜单项被点击事件委托
+         */
+        MenuItemClickedEventHandler _itemClicked;
+
+    public:
+        /**
+         * @brief 菜单项被点击事件
+         */
+        const Event<MenuItemClickedEventHandler> ItemClicked;
+
+        /**
+         * @brief 根菜单项
+         */
+        const ReadOnlyProperty<MenuItem *> Root;
+
+        /**
+         * @brief 菜单句柄
+         */
+        const ReadOnlyProperty<HMENU> Handle;
+
+    protected:
+        /**
+         * @brief 创建菜单实例
+         */
+        MenuBase(MenuItem *root);
+
+    public:
+        /**
+         * @brief 析构函数
+         */
+        virtual ~MenuBase() = default;
+
+        // 删除拷贝构造函数
+        MenuBase(const MenuBase &) = delete;
+
+        // 删除移动构造函数
+        MenuBase(MenuBase &&) = delete;
+
+        // 删除拷贝赋值运算符
+        MenuBase &operator=(const MenuBase &) = delete;
+
+        // 删除移动赋值运算符
+        MenuBase &operator=(MenuBase &&) = delete;
+
+    public:
+        /**
+         * @brief 触发菜单项点击事件
+         * @param menuItemId 菜单项ID
+         * @return 若事件被成功触发则返回true，否则返回false
+         */
+        bool RaiseClickedEvent(int menuItemId);
+
+        /**
+         * @brief 查找对应ID的菜单项
+         * @param id 菜单项ID
+         * @return 指向菜单项的指针，如果未找到则返回nullptr
+         */
+        MenuItem *FindMenuItemById(int id);
+
+        /**
+         * @brief 查找对应tag的菜单项
+         * @param tag 菜单项tag
+         * @return 指向菜单项的指针，如果未找到则返回nullptr
+         */
+        MenuItem *FindMenuItemByTag(uint64_t tag);
+
+        /**
+         * @brief 查找对应文本的菜单项
+         * @param text 菜单项文本
+         * @return 指向菜单项的指针，如果未找到则返回nullptr
+         */
+        MenuItem *FindMenuItemByText(const std::wstring &text);
+    };
+
+    /**
+     * @brief 窗口菜单
+     */
+    class Menu : public MenuBase
+    {
+    public:
+        /**
+         * @brief 初始化窗口菜单
+         */
+        Menu();
+
+        /**
+         * @brief 初始化窗口菜单并设置菜单项
+         * @param items 菜单项列表
+         */
+        Menu(std::initializer_list<MenuItemDesc> items);
+    };
+
+    /**
+     * @brief 上下文菜单
+     */
+    class ContextMenu : public MenuBase
+    {
+    public:
+        /**
+         * @brief 初始化上下文菜单
+         */
+        ContextMenu();
+
+        /**
+         * @brief 初始化上下文菜单并设置菜单项
+         * @param items 菜单项列表
+         */
+        ContextMenu(std::initializer_list<MenuItemDesc> items);
+
+        /**
+         * @brief 在指定位置显示上下文菜单
+         * @param hwnd 关联的窗口句柄
+         * @param point 显示位置
+         * @param horz 水平对齐方式，默认为左对齐
+         * @param vert 垂直对齐方式，默认为顶部对齐
+         * @return 若函数成功则返回true，否则返回false
+         */
+        bool Show(
+            HWND hwnd, const Point &point,
+            sw::HorizontalAlignment horz = sw::HorizontalAlignment::Left,
+            sw::VerticalAlignment vert   = sw::VerticalAlignment::Top);
+    };
+}
+
 // MsgBox.h
 
 
@@ -16372,224 +16366,6 @@ namespace sw
          * @brief 显示一个含“问题”图标的消息框，将当前活动窗体作为Owner
          */
         static MsgBoxResultHelper ShowQuestion(const std::wstring &text = L"", const std::wstring &caption = L"", MsgBoxButton button = MsgBoxButton::YesNo);
-    };
-}
-
-// NotifyIcon.h
-
-
-namespace sw
-{
-    class NotifyIcon; // 前向声明
-
-    /**
-     * @brief 通知图标鼠标事件参数
-     */
-    struct NotifyIconMouseEventArgs : EventArgs {
-        /**
-         * @brief 鼠标位置
-         */
-        Point mousePosition;
-
-        /**
-         * @brief 是否已处理该事件，默认为false
-         */
-        bool handled = false;
-    };
-
-    /**
-     * @brief 通知图标鼠标事件处理函数类型
-     */
-    using NotifyIconMouseEventHandler =
-        EventHandler<NotifyIcon, NotifyIconMouseEventArgs>;
-
-    /**
-     * @brief 系统托盘通知图标
-     */
-    class NotifyIcon : public WndBase
-    {
-    private:
-        /**
-         * @brief 基类
-         */
-        using TBase = WndBase;
-
-        /**
-         * @brief 通知图标数据
-         */
-        NOTIFYICONDATAW _nid{};
-
-        /**
-         * @brief 右键菜单
-         */
-        sw::ContextMenu *_contextMenu = nullptr;
-
-        /**
-         * @brief 图标单击事件委托
-         */
-        NotifyIconMouseEventHandler _clicked;
-
-        /**
-         * @brief 图标双击事件委托
-         */
-        NotifyIconMouseEventHandler _doubleClicked;
-
-        /**
-         * @brief 正在打开上下文菜单事件委托
-         */
-        NotifyIconMouseEventHandler _contextMenuOpening;
-
-    public:
-        /**
-         * @brief 当图标被单击时触发该事件
-         */
-        const Event<NotifyIconMouseEventHandler> Clicked;
-
-        /**
-         * @brief 当图标被双击时触发该事件
-         */
-        const Event<NotifyIconMouseEventHandler> DoubleClicked;
-
-        /**
-         * @brief 打开上下文菜单前触发该事件
-         */
-        const Event<NotifyIconMouseEventHandler> ContextMenuOpening;
-
-        /**
-         * @brief 图标
-         */
-        const Property<HICON> Icon;
-
-        /**
-         * @brief 图标的提示文本
-         */
-        const Property<std::wstring> ToolTip;
-
-        /**
-         * @brief 图标是否可见
-         */
-        const Property<bool> Visible;
-
-        /**
-         * @brief 右键菜单
-         */
-        const Property<sw::ContextMenu *> ContextMenu;
-
-        /**
-         * @brief 图标在屏幕上的位置和尺寸
-         */
-        const ReadOnlyProperty<sw::Rect> Rect;
-
-    public:
-        /**
-         * @brief 初始化通知图标
-         */
-        NotifyIcon();
-
-        /**
-         * @brief 析构函数
-         */
-        ~NotifyIcon();
-
-    protected:
-        /**
-         * @brief 对WndProc的封装
-         */
-        virtual LRESULT WndProc(ProcMsg &refMsg) override;
-
-        /**
-         * @brief 当WM_COMMAND接收到菜单命令时调用该函数
-         * @param id 菜单id
-         */
-        virtual void OnMenuCommand(int id) override;
-
-        /**
-         * @brief 处理通知图标消息
-         */
-        virtual void OnNotyfyIconMessage(WPARAM wParam, LPARAM lParam);
-
-        /**
-         * @brief 鼠标单击图标时调用该函数
-         * @param mousePos 鼠标位置
-         */
-        virtual void OnClicked(const Point &mousePos);
-
-        /**
-         * @brief 鼠标双击图标时调用该函数
-         * @param mousePos 鼠标位置
-         */
-        virtual void OnDoubleClicked(const Point &mousePos);
-
-        /**
-         * @brief 打开上下文菜单前调用该函数
-         * @param mousePos 鼠标位置
-         */
-        virtual void OnContextMenuOpening(const Point &mousePos);
-
-        /**
-         * @brief 获取通知图标数据
-         */
-        NOTIFYICONDATAW &GetNotifyIconData();
-
-    public:
-        /**
-         * @brief 显示通知图标
-         */
-        bool Show();
-
-        /**
-         * @brief 隐藏通知图标
-         */
-        bool Hide();
-
-        /**
-         * @brief 销毁通知图标
-         * @note 调用该函数后不应继续使用当前对象
-         */
-        void Destroy();
-
-        /**
-         * @brief 弹出上下文菜单
-         * @param point 弹出菜单在屏幕中的位置
-         * @param horz 菜单的水平方向对齐方式
-         * @param vert 菜单的垂直方向对齐方式
-         * @return 若函数成功则返回true，否则返回false
-         */
-        bool ShowContextMenu(
-            const Point &point,
-            sw::HorizontalAlignment horz = sw::HorizontalAlignment::Left,
-            sw::VerticalAlignment vert   = sw::VerticalAlignment::Bottom);
-
-    private:
-        /**
-         * @brief 调用Shell_NotifyIcon函数
-         */
-        bool _ShellNotifyIcon(DWORD dwMessage);
-
-        /**
-         * @brief 添加图标
-         */
-        bool _AddIcon();
-
-        /**
-         * @brief 删除图标
-         */
-        bool _DeleteIcon();
-
-        /**
-         * @brief 修改图标
-         */
-        bool _ModifyIcon();
-
-        /**
-         * @brief 设置图标状态
-         */
-        bool _ModifyState(DWORD dwState, DWORD dwStateMask);
-
-        /**
-         * @brief 获取默认图标
-         */
-        HICON _GetDefaultIcon();
     };
 }
 
@@ -17245,18 +17021,6 @@ namespace sw
          * @return 若找到指定元素则返回对应的索引，否则返回-1
          */
         int IndexOf(UIElement &element);
-
-        /**
-         * @brief 弹出当前元素的上下文菜单
-         * @param point 弹出菜单在屏幕中的位置
-         * @param horz 菜单的水平方向对齐方式
-         * @param vert 菜单的垂直方向对齐方式
-         * @return 若函数成功则返回true，否则返回false
-         */
-        bool ShowContextMenu(
-            const Point &point,
-            sw::HorizontalAlignment horz = sw::HorizontalAlignment::Left,
-            sw::VerticalAlignment vert   = sw::VerticalAlignment::Top);
 
         /**
          * @brief 移动到界面顶部
@@ -19033,6 +18797,212 @@ namespace sw
     extern template class Layer<UIElement>;
 }
 
+// NotifyIcon.h
+
+
+namespace sw
+{
+    class NotifyIcon; // 前向声明
+
+    /**
+     * @brief 通知图标鼠标事件参数
+     */
+    struct NotifyIconMouseEventArgs : EventArgs {
+        /**
+         * @brief 鼠标位置
+         */
+        Point mousePosition;
+
+        /**
+         * @brief 是否已处理该事件，默认为false
+         */
+        bool handled = false;
+    };
+
+    /**
+     * @brief 通知图标鼠标事件处理函数类型
+     */
+    using NotifyIconMouseEventHandler =
+        EventHandler<NotifyIcon, NotifyIconMouseEventArgs>;
+
+    /**
+     * @brief 系统托盘通知图标
+     */
+    class NotifyIcon : public WndBase
+    {
+    private:
+        /**
+         * @brief 基类
+         */
+        using TBase = WndBase;
+
+        /**
+         * @brief 通知图标数据
+         */
+        NOTIFYICONDATAW _nid{};
+
+        /**
+         * @brief 右键菜单
+         */
+        sw::ContextMenu *_contextMenu = nullptr;
+
+        /**
+         * @brief 图标单击事件委托
+         */
+        NotifyIconMouseEventHandler _clicked;
+
+        /**
+         * @brief 图标双击事件委托
+         */
+        NotifyIconMouseEventHandler _doubleClicked;
+
+        /**
+         * @brief 正在打开上下文菜单事件委托
+         */
+        NotifyIconMouseEventHandler _contextMenuOpening;
+
+    public:
+        /**
+         * @brief 当图标被单击时触发该事件
+         */
+        const Event<NotifyIconMouseEventHandler> Clicked;
+
+        /**
+         * @brief 当图标被双击时触发该事件
+         */
+        const Event<NotifyIconMouseEventHandler> DoubleClicked;
+
+        /**
+         * @brief 打开上下文菜单前触发该事件
+         */
+        const Event<NotifyIconMouseEventHandler> ContextMenuOpening;
+
+        /**
+         * @brief 图标
+         */
+        const Property<HICON> Icon;
+
+        /**
+         * @brief 图标的提示文本
+         */
+        const Property<std::wstring> ToolTip;
+
+        /**
+         * @brief 图标是否可见
+         */
+        const Property<bool> Visible;
+
+        /**
+         * @brief 右键菜单
+         */
+        const Property<sw::ContextMenu *> ContextMenu;
+
+        /**
+         * @brief 图标在屏幕上的位置和尺寸
+         */
+        const ReadOnlyProperty<sw::Rect> Rect;
+
+    public:
+        /**
+         * @brief 初始化通知图标
+         */
+        NotifyIcon();
+
+        /**
+         * @brief 析构函数
+         */
+        ~NotifyIcon();
+
+    protected:
+        /**
+         * @brief 对WndProc的封装
+         */
+        virtual LRESULT WndProc(ProcMsg &refMsg) override;
+
+        /**
+         * @brief 当WM_COMMAND接收到菜单命令时调用该函数
+         * @param id 菜单id
+         */
+        virtual void OnMenuCommand(int id) override;
+
+        /**
+         * @brief 处理通知图标消息
+         */
+        virtual void OnNotyfyIconMessage(WPARAM wParam, LPARAM lParam);
+
+        /**
+         * @brief 鼠标单击图标时调用该函数
+         * @param mousePos 鼠标位置
+         */
+        virtual void OnClicked(const Point &mousePos);
+
+        /**
+         * @brief 鼠标双击图标时调用该函数
+         * @param mousePos 鼠标位置
+         */
+        virtual void OnDoubleClicked(const Point &mousePos);
+
+        /**
+         * @brief 打开上下文菜单前调用该函数
+         * @param mousePos 鼠标位置
+         */
+        virtual void OnContextMenuOpening(const Point &mousePos);
+
+        /**
+         * @brief 获取通知图标数据
+         */
+        NOTIFYICONDATAW &GetNotifyIconData();
+
+    public:
+        /**
+         * @brief 显示通知图标
+         */
+        bool Show();
+
+        /**
+         * @brief 隐藏通知图标
+         */
+        bool Hide();
+
+        /**
+         * @brief 销毁通知图标
+         * @note 调用该函数后不应继续使用当前对象
+         */
+        void Destroy();
+
+    private:
+        /**
+         * @brief 调用Shell_NotifyIcon函数
+         */
+        bool _ShellNotifyIcon(DWORD dwMessage);
+
+        /**
+         * @brief 添加图标
+         */
+        bool _AddIcon();
+
+        /**
+         * @brief 删除图标
+         */
+        bool _DeleteIcon();
+
+        /**
+         * @brief 修改图标
+         */
+        bool _ModifyIcon();
+
+        /**
+         * @brief 设置图标状态
+         */
+        bool _ModifyState(DWORD dwState, DWORD dwStateMask);
+
+        /**
+         * @brief 获取默认图标
+         */
+        HICON _GetDefaultIcon();
+    };
+}
+
 // Animation.h
 
 
@@ -20096,6 +20066,11 @@ namespace sw
     class TabControl : public Control
     {
     private:
+        /**
+         * @brief 基类别名，方便调用基类函数
+         */
+        using TBase = Control;
+
         /**
          * @brief 是否自动调整大小
          */
@@ -22032,6 +22007,11 @@ namespace sw
     class HwndHost : public StaticControl
     {
     private:
+        /**
+         * @brief 基类别名，方便调用基类函数
+         */
+        using TBase = StaticControl;
+
         /**
          * @brief 托管的句柄
          */

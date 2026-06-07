@@ -90,18 +90,18 @@ $(document).ready(function(){initNavTree('classsw_1_1MenuBase.html',''); initRes
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">类</a> &#124;
 <a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-attribs">Public 属性</a> &#124;
 <a href="#pro-methods">Protected 成员函数</a> &#124;
 <a href="classsw_1_1MenuBase-members.html">所有成员列表</a>  </div>
-  <div class="headertitle"><div class="title">sw::MenuBase类 参考<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
+  <div class="headertitle"><div class="title">sw::MenuBase类 参考</div></div>
 </div><!--header-->
 <div class="contents">
 
 <p>菜单类型的基类  
  <a href="classsw_1_1MenuBase.html#details">更多...</a></p>
 
-<p><code>#include &lt;<a class="el" href="MenuBase_8h_source.html">MenuBase.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="Menu_8h_source.html">Menu.h</a>&gt;</code></p>
 <div class="dynheader">
 类 sw::MenuBase 继承关系图:</div>
 <div class="dyncontent">
@@ -109,86 +109,16 @@ $(document).ready(function(){initNavTree('classsw_1_1MenuBase.html',''); initRes
   <img src="classsw_1_1MenuBase.png" usemap="#sw::MenuBase_map" alt=""/>
   <map id="sw::MenuBase_map" name="sw::MenuBase_map">
 <area href="classsw_1_1ContextMenu.html" title="上下文菜单" alt="sw::ContextMenu" shape="rect" coords="0,56,107,80"/>
-<area href="classsw_1_1Menu.html" title="菜单" alt="sw::Menu" shape="rect" coords="117,56,224,80"/>
+<area href="classsw_1_1Menu.html" title="窗口菜单" alt="sw::Menu" shape="rect" coords="117,56,224,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
-<tr class="memitem:a5e53085e7078b090cabf8998d6146831" id="r_a5e53085e7078b090cabf8998d6146831"><td class="memItemLeft" align="right" valign="top"><a id="a5e53085e7078b090cabf8998d6146831" name="a5e53085e7078b090cabf8998d6146831"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">virtual</a>&#160;</td><td class="memItemRight" valign="bottom"><b>~MenuBase</b> ()</td></tr>
-<tr class="memdesc:a5e53085e7078b090cabf8998d6146831"><td class="mdescLeft">&#160;</td><td class="mdescRight">释放资源 <br /></td></tr>
-<tr class="separator:a5e53085e7078b090cabf8998d6146831"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f18755d0245d1e8c536438b5ec99093" id="r_a7f18755d0245d1e8c536438b5ec99093"><td class="memItemLeft" align="right" valign="top"><a id="a7f18755d0245d1e8c536438b5ec99093" name="a7f18755d0245d1e8c536438b5ec99093"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">HMENU</a>&#160;</td><td class="memItemRight" valign="bottom"><b>GetHandle</b> ()</td></tr>
-<tr class="memdesc:a7f18755d0245d1e8c536438b5ec99093"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取菜单句柄 <br /></td></tr>
-<tr class="separator:a7f18755d0245d1e8c536438b5ec99093"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5e31e8a7e3f1744fec35acfdce47b2e" id="r_aa5e31e8a7e3f1744fec35acfdce47b2e"><td class="memItemLeft" align="right" valign="top"><a id="aa5e31e8a7e3f1744fec35acfdce47b2e" name="aa5e31e8a7e3f1744fec35acfdce47b2e"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Update</b> ()</td></tr>
-<tr class="memdesc:aa5e31e8a7e3f1744fec35acfdce47b2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新菜单，该操作会导致菜单项的Enabled、Checked等恢复到初始状态 <br /></td></tr>
-<tr class="separator:aa5e31e8a7e3f1744fec35acfdce47b2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1aec7eb5fee274eed8a9a49179383a94" id="r_a1aec7eb5fee274eed8a9a49179383a94"><td class="memItemLeft" align="right" valign="top"><a id="a1aec7eb5fee274eed8a9a49179383a94" name="a1aec7eb5fee274eed8a9a49179383a94"></a>
-<a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SetItems</b> (std::initializer_list&lt; <a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &gt; <a class="el" href="classsw_1_1IValueConverter.html">items</a>)</td></tr>
-<tr class="memdesc:a1aec7eb5fee274eed8a9a49179383a94"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化菜单并添加菜单项 <br /></td></tr>
-<tr class="separator:a1aec7eb5fee274eed8a9a49179383a94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f4d2832b6bcc759e291a99278b3eb12" id="r_a2f4d2832b6bcc759e291a99278b3eb12"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#a2f4d2832b6bcc759e291a99278b3eb12">SetSubItems</a> (<a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">item</a>, std::initializer_list&lt; <a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &gt; subItems)</td></tr>
-<tr class="memdesc:a2f4d2832b6bcc759e291a99278b3eb12"><td class="mdescLeft">&#160;</td><td class="mdescRight">重新设置当前菜单中某个菜单项的子项  <br /></td></tr>
-<tr class="separator:a2f4d2832b6bcc759e291a99278b3eb12"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a300bc76b5be03814cb8fa534a3a74cfe" id="r_a300bc76b5be03814cb8fa534a3a74cfe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#a300bc76b5be03814cb8fa534a3a74cfe">AddItem</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">item</a>)</td></tr>
-<tr class="memdesc:a300bc76b5be03814cb8fa534a3a74cfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加新的菜单项到菜单  <br /></td></tr>
-<tr class="separator:a300bc76b5be03814cb8fa534a3a74cfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa48a89a167974e8a7397ffe6058c475f" id="r_aa48a89a167974e8a7397ffe6058c475f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#aa48a89a167974e8a7397ffe6058c475f">AddSubItem</a> (<a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">item</a>, <a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">subItem</a>)</td></tr>
-<tr class="memdesc:aa48a89a167974e8a7397ffe6058c475f"><td class="mdescLeft">&#160;</td><td class="mdescRight">向当前菜单中的某个菜单项添加新的子项  <br /></td></tr>
-<tr class="separator:aa48a89a167974e8a7397ffe6058c475f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75c96dd59694d38a9ea59e3973cd5bea" id="r_a75c96dd59694d38a9ea59e3973cd5bea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#a75c96dd59694d38a9ea59e3973cd5bea">RemoveItem</a> (<a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">item</a>)</td></tr>
-<tr class="memdesc:a75c96dd59694d38a9ea59e3973cd5bea"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除当前菜单中的某个子项  <br /></td></tr>
-<tr class="separator:a75c96dd59694d38a9ea59e3973cd5bea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47fe9d419c9c50459389c46b410849d8" id="r_a47fe9d419c9c50459389c46b410849d8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#a47fe9d419c9c50459389c46b410849d8">GetMenuItem</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> id)</td></tr>
-<tr class="memdesc:a47fe9d419c9c50459389c46b410849d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过id获取菜单项  <br /></td></tr>
-<tr class="separator:a47fe9d419c9c50459389c46b410849d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abfdedfa5a056bc6fcecbfd4e8b1c42a7" id="r_abfdedfa5a056bc6fcecbfd4e8b1c42a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#abfdedfa5a056bc6fcecbfd4e8b1c42a7">GetMenuItem</a> (<a class="el" href="classsw_1_1IValueConverter.html">HMENU</a> <a class="el" href="classsw_1_1IValueConverter.html">hMenu</a>)</td></tr>
-<tr class="memdesc:abfdedfa5a056bc6fcecbfd4e8b1c42a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过句柄获取菜单项  <br /></td></tr>
-<tr class="separator:abfdedfa5a056bc6fcecbfd4e8b1c42a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a207341719edb495ca22be7090b3a8b37" id="r_a207341719edb495ca22be7090b3a8b37"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#a207341719edb495ca22be7090b3a8b37">GetMenuItem</a> (std::initializer_list&lt; <a class="el" href="classsw_1_1IValueConverter.html">int</a> &gt; <a class="el" href="classsw_1_1IValueConverter.html">path</a>)</td></tr>
-<tr class="memdesc:a207341719edb495ca22be7090b3a8b37"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过索引来获取菜单项  <br /></td></tr>
-<tr class="separator:a207341719edb495ca22be7090b3a8b37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09259eb19e71878bd77f4d3dece7fed8" id="r_a09259eb19e71878bd77f4d3dece7fed8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#a09259eb19e71878bd77f4d3dece7fed8">GetMenuItem</a> (std::initializer_list&lt; std::wstring &gt; <a class="el" href="classsw_1_1IValueConverter.html">path</a>)</td></tr>
-<tr class="memdesc:a09259eb19e71878bd77f4d3dece7fed8"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过菜单项的text来获取菜单项  <br /></td></tr>
-<tr class="separator:a09259eb19e71878bd77f4d3dece7fed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1df38ffd7053c561bc746e5830672295" id="r_a1df38ffd7053c561bc746e5830672295"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#a1df38ffd7053c561bc746e5830672295">GetMenuItemByTag</a> (<a class="el" href="classsw_1_1IValueConverter.html">uint64_t</a> tag)</td></tr>
-<tr class="memdesc:a1df38ffd7053c561bc746e5830672295"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过tag值获取菜单项  <br /></td></tr>
-<tr class="separator:a1df38ffd7053c561bc746e5830672295"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1cb75444ab44b6b4dc3599634b30b07e" id="r_a1cb75444ab44b6b4dc3599634b30b07e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#a1cb75444ab44b6b4dc3599634b30b07e">GetParent</a> (<a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">item</a>)</td></tr>
-<tr class="memdesc:a1cb75444ab44b6b4dc3599634b30b07e"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前菜单中指定菜单项的直接父菜单项  <br /></td></tr>
-<tr class="separator:a1cb75444ab44b6b4dc3599634b30b07e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab610a8a98e4bf6f199fe7706dbb57f4d" id="r_ab610a8a98e4bf6f199fe7706dbb57f4d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#ab610a8a98e4bf6f199fe7706dbb57f4d">GetEnabled</a> (<a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">item</a>, <a class="el" href="classsw_1_1IValueConverter.html">bool</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">out</a>)</td></tr>
-<tr class="memdesc:ab610a8a98e4bf6f199fe7706dbb57f4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取一个值，表示菜单项是否可用  <br /></td></tr>
-<tr class="separator:ab610a8a98e4bf6f199fe7706dbb57f4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a537663148790e0516c1a2aca7b02afd1" id="r_a537663148790e0516c1a2aca7b02afd1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#a537663148790e0516c1a2aca7b02afd1">SetEnabled</a> (<a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">item</a>, <a class="el" href="classsw_1_1IValueConverter.html">bool</a> value)</td></tr>
-<tr class="memdesc:a537663148790e0516c1a2aca7b02afd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置菜单项是否可用  <br /></td></tr>
-<tr class="separator:a537663148790e0516c1a2aca7b02afd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a631549b5be6a41f8a24342a880826d" id="r_a2a631549b5be6a41f8a24342a880826d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#a2a631549b5be6a41f8a24342a880826d">GetChecked</a> (<a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">item</a>, <a class="el" href="classsw_1_1IValueConverter.html">bool</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">out</a>)</td></tr>
-<tr class="memdesc:a2a631549b5be6a41f8a24342a880826d"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取一个值，表示菜单项是否选中  <br /></td></tr>
-<tr class="separator:a2a631549b5be6a41f8a24342a880826d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a114b4fe9eb2cd543c605479198d67517" id="r_a114b4fe9eb2cd543c605479198d67517"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#a114b4fe9eb2cd543c605479198d67517">SetChecked</a> (<a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">item</a>, <a class="el" href="classsw_1_1IValueConverter.html">bool</a> value)</td></tr>
-<tr class="memdesc:a114b4fe9eb2cd543c605479198d67517"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置菜单项是否选中  <br /></td></tr>
-<tr class="separator:a114b4fe9eb2cd543c605479198d67517"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f9fb3eda715d2c71e3e4a1b0562bac8" id="r_a9f9fb3eda715d2c71e3e4a1b0562bac8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#a9f9fb3eda715d2c71e3e4a1b0562bac8">SetText</a> (<a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">item</a>, <a class="el" href="classsw_1_1IValueConverter.html">const</a> std::wstring &amp;value)</td></tr>
-<tr class="memdesc:a9f9fb3eda715d2c71e3e4a1b0562bac8"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置菜单项文本  <br /></td></tr>
-<tr class="separator:a9f9fb3eda715d2c71e3e4a1b0562bac8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9660cec7666003c520171dc44e85c13" id="r_ad9660cec7666003c520171dc44e85c13"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#ad9660cec7666003c520171dc44e85c13">SetBitmap</a> (<a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">item</a>, <a class="el" href="classsw_1_1IValueConverter.html">HBITMAP</a> <a class="el" href="classsw_1_1IValueConverter.html">hBitmap</a>)</td></tr>
-<tr class="memdesc:ad9660cec7666003c520171dc44e85c13"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置菜单项要显示的位图  <br /></td></tr>
-<tr class="separator:ad9660cec7666003c520171dc44e85c13"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7795d9c4dd7dca16341249fab6f9cfb9" id="r_a7795d9c4dd7dca16341249fab6f9cfb9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#a7795d9c4dd7dca16341249fab6f9cfb9">SetCheckBitmap</a> (<a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;<a class="el" href="classsw_1_1IValueConverter.html">item</a>, <a class="el" href="classsw_1_1IValueConverter.html">HBITMAP</a> <a class="el" href="classsw_1_1IValueConverter.html">hBmpUnchecked</a>, <a class="el" href="classsw_1_1IValueConverter.html">HBITMAP</a> <a class="el" href="classsw_1_1IValueConverter.html">hBmpChecked</a>)</td></tr>
-<tr class="memdesc:a7795d9c4dd7dca16341249fab6f9cfb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置菜单不同选中状态下显示的位图  <br /></td></tr>
-<tr class="separator:a7795d9c4dd7dca16341249fab6f9cfb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
-Protected 成员函数</h2></td></tr>
-<tr class="memitem:ad43a6100a635a765a80d603d7226d978" id="r_ad43a6100a635a765a80d603d7226d978"><td class="memItemLeft" align="right" valign="top"><a id="ad43a6100a635a765a80d603d7226d978" name="ad43a6100a635a765a80d603d7226d978"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>MenuBase</b> (<a class="el" href="classsw_1_1IValueConverter.html">HMENU</a> <a class="el" href="classsw_1_1IValueConverter.html">hMenu</a>)</td></tr>
-<tr class="memdesc:ad43a6100a635a765a80d603d7226d978"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化菜单 <br /></td></tr>
-<tr class="separator:ad43a6100a635a765a80d603d7226d978"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada80ba5f2bae6a5d5ef1ab67cdf722c2" id="r_ada80ba5f2bae6a5d5ef1ab67cdf722c2"><td class="memItemLeft" align="right" valign="top"><a id="ada80ba5f2bae6a5d5ef1ab67cdf722c2" name="ada80ba5f2bae6a5d5ef1ab67cdf722c2"></a>
+<a class="el" href="classsw_1_1IValueConverter.html">virtual</a>&#160;</td><td class="memItemRight" valign="bottom"><b>~MenuBase</b> ()=<a class="el" href="classsw_1_1IValueConverter.html">default</a></td></tr>
+<tr class="memdesc:ada80ba5f2bae6a5d5ef1ab67cdf722c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数 <br /></td></tr>
+<tr class="separator:ada80ba5f2bae6a5d5ef1ab67cdf722c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff23b997e17db4466a522f35b7eb8d3d" id="r_aff23b997e17db4466a522f35b7eb8d3d"><td class="memItemLeft" align="right" valign="top"><a id="aff23b997e17db4466a522f35b7eb8d3d" name="aff23b997e17db4466a522f35b7eb8d3d"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>MenuBase</b> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1MenuBase.html">MenuBase</a> &amp;)=<a class="el" href="classsw_1_1IValueConverter.html">delete</a></td></tr>
 <tr class="separator:aff23b997e17db4466a522f35b7eb8d3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -201,191 +131,52 @@ Protected 成员函数</h2></td></tr>
 <tr class="memitem:ad6c7d6241cddfea3380ff3669a2ac261" id="r_ad6c7d6241cddfea3380ff3669a2ac261"><td class="memItemLeft" align="right" valign="top"><a id="ad6c7d6241cddfea3380ff3669a2ac261" name="ad6c7d6241cddfea3380ff3669a2ac261"></a>
 <a class="el" href="classsw_1_1MenuBase.html">MenuBase</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classsw_1_1MenuBase.html">MenuBase</a> &amp;&amp;)=<a class="el" href="classsw_1_1IValueConverter.html">delete</a></td></tr>
 <tr class="separator:ad6c7d6241cddfea3380ff3669a2ac261"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f94aca19decada231feeed33ab19743" id="r_a9f94aca19decada231feeed33ab19743"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#a9f94aca19decada231feeed33ab19743">IndexToID</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> index)=0</td></tr>
-<tr class="memdesc:a9f94aca19decada231feeed33ab19743"><td class="mdescLeft">&#160;</td><td class="mdescRight">根据索引获取ID  <br /></td></tr>
-<tr class="separator:a9f94aca19decada231feeed33ab19743"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84c15b6a20df581e6aed4b9df9e84f9a" id="r_a84c15b6a20df581e6aed4b9df9e84f9a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#a84c15b6a20df581e6aed4b9df9e84f9a">IDToIndex</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> id)=0</td></tr>
-<tr class="memdesc:a84c15b6a20df581e6aed4b9df9e84f9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">根据ID获取索引  <br /></td></tr>
-<tr class="separator:a84c15b6a20df581e6aed4b9df9e84f9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a453373fbf104c516895420bc65acc4b6" id="r_a453373fbf104c516895420bc65acc4b6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#a453373fbf104c516895420bc65acc4b6">RaiseClickedEvent</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> <a class="el" href="classsw_1_1IValueConverter.html">menuItemId</a>)</td></tr>
+<tr class="memdesc:a453373fbf104c516895420bc65acc4b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">触发菜单项点击事件  <br /></td></tr>
+<tr class="separator:a453373fbf104c516895420bc65acc4b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab41e6fa4d17f0620cdabf586647c1b1e" id="r_ab41e6fa4d17f0620cdabf586647c1b1e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#ab41e6fa4d17f0620cdabf586647c1b1e">FindMenuItemById</a> (<a class="el" href="classsw_1_1IValueConverter.html">int</a> id)</td></tr>
+<tr class="memdesc:ab41e6fa4d17f0620cdabf586647c1b1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">查找对应ID的菜单项  <br /></td></tr>
+<tr class="separator:ab41e6fa4d17f0620cdabf586647c1b1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fda0e4e848d935133a63d905e5b48af" id="r_a8fda0e4e848d935133a63d905e5b48af"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#a8fda0e4e848d935133a63d905e5b48af">FindMenuItemByTag</a> (<a class="el" href="classsw_1_1IValueConverter.html">uint64_t</a> tag)</td></tr>
+<tr class="memdesc:a8fda0e4e848d935133a63d905e5b48af"><td class="mdescLeft">&#160;</td><td class="mdescRight">查找对应tag的菜单项  <br /></td></tr>
+<tr class="separator:a8fda0e4e848d935133a63d905e5b48af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2bfc5c9e6a99abceada26485ae358de2" id="r_a2bfc5c9e6a99abceada26485ae358de2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1MenuBase.html#a2bfc5c9e6a99abceada26485ae358de2">FindMenuItemByText</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> std::wstring &amp;text)</td></tr>
+<tr class="memdesc:a2bfc5c9e6a99abceada26485ae358de2"><td class="mdescLeft">&#160;</td><td class="mdescRight">查找对应文本的菜单项  <br /></td></tr>
+<tr class="separator:a2bfc5c9e6a99abceada26485ae358de2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public 属性</h2></td></tr>
+<tr class="memitem:a096e023fe95f0671d58bf9f500fd789e" id="r_a096e023fe95f0671d58bf9f500fd789e"><td class="memItemLeft" align="right" valign="top"><a id="a096e023fe95f0671d58bf9f500fd789e" name="a096e023fe95f0671d58bf9f500fd789e"></a>
+<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1Event.html">Event</a>&lt; <a class="el" href="namespacesw.html#a32cc7d33f8514e448ac94c65e9026291">MenuItemClickedEventHandler</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ItemClicked</b></td></tr>
+<tr class="memdesc:a096e023fe95f0671d58bf9f500fd789e"><td class="mdescLeft">&#160;</td><td class="mdescRight">菜单项被点击事件 <br /></td></tr>
+<tr class="separator:a096e023fe95f0671d58bf9f500fd789e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65d3e3670239e6002e8078ef573015ad" id="r_a65d3e3670239e6002e8078ef573015ad"><td class="memItemLeft" align="right" valign="top"><a id="a65d3e3670239e6002e8078ef573015ad" name="a65d3e3670239e6002e8078ef573015ad"></a>
+<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; <a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Root</b></td></tr>
+<tr class="memdesc:a65d3e3670239e6002e8078ef573015ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">根菜单项 <br /></td></tr>
+<tr class="separator:a65d3e3670239e6002e8078ef573015ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8bef3ebcbfb430516725370ca85e7a0" id="r_ae8bef3ebcbfb430516725370ca85e7a0"><td class="memItemLeft" align="right" valign="top"><a id="ae8bef3ebcbfb430516725370ca85e7a0" name="ae8bef3ebcbfb430516725370ca85e7a0"></a>
+<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1ReadOnlyProperty.html">ReadOnlyProperty</a>&lt; <a class="el" href="classsw_1_1IValueConverter.html">HMENU</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Handle</b></td></tr>
+<tr class="memdesc:ae8bef3ebcbfb430516725370ca85e7a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">菜单句柄 <br /></td></tr>
+<tr class="separator:ae8bef3ebcbfb430516725370ca85e7a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected 成员函数</h2></td></tr>
+<tr class="memitem:a2c6da2517024d0afd36992c226cf955d" id="r_a2c6da2517024d0afd36992c226cf955d"><td class="memItemLeft" align="right" valign="top"><a id="a2c6da2517024d0afd36992c226cf955d" name="a2c6da2517024d0afd36992c226cf955d"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>MenuBase</b> (<a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> *<a class="el" href="classsw_1_1IValueConverter.html">root</a>)</td></tr>
+<tr class="memdesc:a2c6da2517024d0afd36992c226cf955d"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建菜单实例 <br /></td></tr>
+<tr class="separator:a2c6da2517024d0afd36992c226cf955d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>菜单类型的基类 </p>
 </div><h2 class="groupheader">成员函数说明</h2>
-<a id="a300bc76b5be03814cb8fa534a3a74cfe" name="a300bc76b5be03814cb8fa534a3a74cfe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a300bc76b5be03814cb8fa534a3a74cfe">&#9670;&#160;</a></span>AddItem()</h2>
+<a id="ab41e6fa4d17f0620cdabf586647c1b1e" name="ab41e6fa4d17f0620cdabf586647c1b1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab41e6fa4d17f0620cdabf586647c1b1e">&#9670;&#160;</a></span>FindMenuItemById()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">void</a> sw::MenuBase::AddItem </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;&#160;</td>
-          <td class="paramname"><em>item</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>添加新的菜单项到菜单 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">item</td><td>新的菜单项 </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="aa48a89a167974e8a7397ffe6058c475f" name="aa48a89a167974e8a7397ffe6058c475f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa48a89a167974e8a7397ffe6058c475f">&#9670;&#160;</a></span>AddSubItem()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::MenuBase::AddSubItem </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;&#160;</td>
-          <td class="paramname"><em>item</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;&#160;</td>
-          <td class="paramname"><em>subItem</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>向当前菜单中的某个菜单项添加新的子项 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">item</td><td>要添加子项的菜单项，当该项原本不含有子项时将会调用Update更新整个菜单 </td></tr>
-    <tr><td class="paramname">subItem</td><td>要添加的子菜单项 </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>返回一个bool值，表示操作是否成功 </dd></dl>
-
-</div>
-</div>
-<a id="a2a631549b5be6a41f8a24342a880826d" name="a2a631549b5be6a41f8a24342a880826d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2a631549b5be6a41f8a24342a880826d">&#9670;&#160;</a></span>GetChecked()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::MenuBase::GetChecked </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;&#160;</td>
-          <td class="paramname"><em>item</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> &amp;&#160;</td>
-          <td class="paramname"><em>out</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>获取一个值，表示菜单项是否选中 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">item</td><td>要获取的菜单项 </td></tr>
-    <tr><td class="paramname">out</td><td>输出值 </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>函数是否成功 </dd></dl>
-
-</div>
-</div>
-<a id="ab610a8a98e4bf6f199fe7706dbb57f4d" name="ab610a8a98e4bf6f199fe7706dbb57f4d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab610a8a98e4bf6f199fe7706dbb57f4d">&#9670;&#160;</a></span>GetEnabled()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::MenuBase::GetEnabled </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;&#160;</td>
-          <td class="paramname"><em>item</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> &amp;&#160;</td>
-          <td class="paramname"><em>out</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>获取一个值，表示菜单项是否可用 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">item</td><td>要获取的菜单项 </td></tr>
-    <tr><td class="paramname">out</td><td>输出值 </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>函数是否成功 </dd></dl>
-
-</div>
-</div>
-<a id="abfdedfa5a056bc6fcecbfd4e8b1c42a7" name="abfdedfa5a056bc6fcecbfd4e8b1c42a7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abfdedfa5a056bc6fcecbfd4e8b1c42a7">&#9670;&#160;</a></span>GetMenuItem() <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> * sw::MenuBase::GetMenuItem </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">HMENU</a>&#160;</td>
-          <td class="paramname"><em>hMenu</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>通过句柄获取菜单项 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">hMenu</td><td>要获取菜单项的菜单句柄 </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>若函数成功则返回菜单项的指针，否则返回nullptr </dd></dl>
-
-</div>
-</div>
-<a id="a47fe9d419c9c50459389c46b410849d8" name="a47fe9d419c9c50459389c46b410849d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a47fe9d419c9c50459389c46b410849d8">&#9670;&#160;</a></span>GetMenuItem() <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> * sw::MenuBase::GetMenuItem </td>
+          <td class="memname"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> * sw::MenuBase::FindMenuItemById </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
           <td class="paramname"><em>id</em></td><td>)</td>
@@ -394,79 +185,25 @@ Protected 成员函数</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>通过id获取菜单项 </p>
+<p>查找对应ID的菜单项 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">id</td><td>要获取菜单项的id </td></tr>
+    <tr><td class="paramname">id</td><td>菜单项ID </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>若函数成功则返回菜单项的指针，否则返回nullptr </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>指向菜单项的指针，如果未找到则返回nullptr </dd></dl>
 
 </div>
 </div>
-<a id="a207341719edb495ca22be7090b3a8b37" name="a207341719edb495ca22be7090b3a8b37"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a207341719edb495ca22be7090b3a8b37">&#9670;&#160;</a></span>GetMenuItem() <span class="overload">[3/4]</span></h2>
+<a id="a8fda0e4e848d935133a63d905e5b48af" name="a8fda0e4e848d935133a63d905e5b48af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fda0e4e848d935133a63d905e5b48af">&#9670;&#160;</a></span>FindMenuItemByTag()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> * sw::MenuBase::GetMenuItem </td>
-          <td>(</td>
-          <td class="paramtype">std::initializer_list&lt; <a class="el" href="classsw_1_1IValueConverter.html">int</a> &gt;&#160;</td>
-          <td class="paramname"><em>path</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>通过索引来获取菜单项 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">path</td><td>要找项所在下索引 </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>若函数成功则返回菜单项的指针，否则返回nullptr </dd></dl>
-
-</div>
-</div>
-<a id="a09259eb19e71878bd77f4d3dece7fed8" name="a09259eb19e71878bd77f4d3dece7fed8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a09259eb19e71878bd77f4d3dece7fed8">&#9670;&#160;</a></span>GetMenuItem() <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> * sw::MenuBase::GetMenuItem </td>
-          <td>(</td>
-          <td class="paramtype">std::initializer_list&lt; std::wstring &gt;&#160;</td>
-          <td class="paramname"><em>path</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>通过菜单项的text来获取菜单项 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">path</td><td>每层要找的text </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>若函数成功则返回菜单项的指针，否则返回nullptr </dd></dl>
-
-</div>
-</div>
-<a id="a1df38ffd7053c561bc746e5830672295" name="a1df38ffd7053c561bc746e5830672295"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1df38ffd7053c561bc746e5830672295">&#9670;&#160;</a></span>GetMenuItemByTag()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> * sw::MenuBase::GetMenuItemByTag </td>
+          <td class="memname"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> * sw::MenuBase::FindMenuItemByTag </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">uint64_t</a>&#160;</td>
           <td class="paramname"><em>tag</em></td><td>)</td>
@@ -475,382 +212,73 @@ Protected 成员函数</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>通过tag值获取菜单项 </p>
+<p>查找对应tag的菜单项 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">tag</td><td>指定的tag </td></tr>
+    <tr><td class="paramname">tag</td><td>菜单项tag </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>若函数成功则返回菜单项的指针，否则返回nullptr </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>指向菜单项的指针，如果未找到则返回nullptr </dd></dl>
 
 </div>
 </div>
-<a id="a1cb75444ab44b6b4dc3599634b30b07e" name="a1cb75444ab44b6b4dc3599634b30b07e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1cb75444ab44b6b4dc3599634b30b07e">&#9670;&#160;</a></span>GetParent()</h2>
+<a id="a2bfc5c9e6a99abceada26485ae358de2" name="a2bfc5c9e6a99abceada26485ae358de2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2bfc5c9e6a99abceada26485ae358de2">&#9670;&#160;</a></span>FindMenuItemByText()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> * sw::MenuBase::GetParent </td>
+          <td class="memname"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> * sw::MenuBase::FindMenuItemByText </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;&#160;</td>
-          <td class="paramname"><em>item</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>获取当前菜单中指定菜单项的直接父菜单项 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">item</td><td>要查询的子菜单项 </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>若函数成功则返回指向直接父菜单项的指针，否则返回nullptr </dd></dl>
-
-</div>
-</div>
-<a id="a84c15b6a20df581e6aed4b9df9e84f9a" name="a84c15b6a20df581e6aed4b9df9e84f9a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84c15b6a20df581e6aed4b9df9e84f9a">&#9670;&#160;</a></span>IDToIndex()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">int</a> sw::MenuBase::IDToIndex </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
-          <td class="paramname"><em>id</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>根据ID获取索引 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>菜单项的ID </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>索引 </dd></dl>
-
-<p>在 <a class="el" href="classsw_1_1ContextMenu.html#a93eb69c1dbf74969dd90d5c7a7532ce8">sw::ContextMenu</a> , 以及 <a class="el" href="classsw_1_1Menu.html#a546af91c1b0778610d79ed7e56423dd1">sw::Menu</a> 内被实现.</p>
-
-</div>
-</div>
-<a id="a9f94aca19decada231feeed33ab19743" name="a9f94aca19decada231feeed33ab19743"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9f94aca19decada231feeed33ab19743">&#9670;&#160;</a></span>IndexToID()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">int</a> sw::MenuBase::IndexToID </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
-          <td class="paramname"><em>index</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>根据索引获取ID </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">index</td><td>索引 </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>菜单项的ID </dd></dl>
-
-<p>在 <a class="el" href="classsw_1_1ContextMenu.html#ae27616f20c9f03d7e5b81eaa6e7f3446">sw::ContextMenu</a> , 以及 <a class="el" href="classsw_1_1Menu.html#a522312cc29234ea9048d94fae7258027">sw::Menu</a> 内被实现.</p>
-
-</div>
-</div>
-<a id="a75c96dd59694d38a9ea59e3973cd5bea" name="a75c96dd59694d38a9ea59e3973cd5bea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a75c96dd59694d38a9ea59e3973cd5bea">&#9670;&#160;</a></span>RemoveItem()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::MenuBase::RemoveItem </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;&#160;</td>
-          <td class="paramname"><em>item</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>移除当前菜单中的某个子项 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">item</td><td>要移除的菜单项 </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>返回一个bool值，表示操作是否成功 </dd></dl>
-
-</div>
-</div>
-<a id="ad9660cec7666003c520171dc44e85c13" name="ad9660cec7666003c520171dc44e85c13"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad9660cec7666003c520171dc44e85c13">&#9670;&#160;</a></span>SetBitmap()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::MenuBase::SetBitmap </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;&#160;</td>
-          <td class="paramname"><em>item</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">HBITMAP</a>&#160;</td>
-          <td class="paramname"><em>hBitmap</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>设置菜单项要显示的位图 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">item</td><td>要修改的菜单项 </td></tr>
-    <tr><td class="paramname">hBitmap</td><td>要设置的位图句柄 </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>修改是否成功 </dd></dl>
-
-</div>
-</div>
-<a id="a7795d9c4dd7dca16341249fab6f9cfb9" name="a7795d9c4dd7dca16341249fab6f9cfb9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7795d9c4dd7dca16341249fab6f9cfb9">&#9670;&#160;</a></span>SetCheckBitmap()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::MenuBase::SetCheckBitmap </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;&#160;</td>
-          <td class="paramname"><em>item</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">HBITMAP</a>&#160;</td>
-          <td class="paramname"><em>hBmpUnchecked</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">HBITMAP</a>&#160;</td>
-          <td class="paramname"><em>hBmpChecked</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>设置菜单不同选中状态下显示的位图 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">item</td><td>要修改的菜单项 </td></tr>
-    <tr><td class="paramname">hBmpUnchecked</td><td>未选中时显示的位图 </td></tr>
-    <tr><td class="paramname">hBmpChecked</td><td>选中时显示的位图 </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>修改是否成功 </dd></dl>
-
-</div>
-</div>
-<a id="a114b4fe9eb2cd543c605479198d67517" name="a114b4fe9eb2cd543c605479198d67517"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a114b4fe9eb2cd543c605479198d67517">&#9670;&#160;</a></span>SetChecked()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::MenuBase::SetChecked </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;&#160;</td>
-          <td class="paramname"><em>item</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td>
-          <td class="paramname"><em>value</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>设置菜单项是否选中 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">item</td><td>要修改的菜单项 </td></tr>
-    <tr><td class="paramname">value</td><td>设置的值 </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>修改是否成功 </dd></dl>
-
-</div>
-</div>
-<a id="a537663148790e0516c1a2aca7b02afd1" name="a537663148790e0516c1a2aca7b02afd1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a537663148790e0516c1a2aca7b02afd1">&#9670;&#160;</a></span>SetEnabled()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::MenuBase::SetEnabled </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;&#160;</td>
-          <td class="paramname"><em>item</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td>
-          <td class="paramname"><em>value</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>设置菜单项是否可用 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">item</td><td>要修改的菜单项 </td></tr>
-    <tr><td class="paramname">value</td><td>设置的值 </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>修改是否成功 </dd></dl>
-
-</div>
-</div>
-<a id="a2f4d2832b6bcc759e291a99278b3eb12" name="a2f4d2832b6bcc759e291a99278b3eb12"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f4d2832b6bcc759e291a99278b3eb12">&#9670;&#160;</a></span>SetSubItems()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::MenuBase::SetSubItems </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;&#160;</td>
-          <td class="paramname"><em>item</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::initializer_list&lt; <a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &gt;&#160;</td>
-          <td class="paramname"><em>subItems</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>重新设置当前菜单中某个菜单项的子项 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">item</td><td>要修改的菜单项，当该项原先不含有子项时将会调用Update更新整个菜单 </td></tr>
-    <tr><td class="paramname">subItems</td><td>新的子项列表 </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>返回一个bool值，表示操作是否成功 </dd></dl>
-
-</div>
-</div>
-<a id="a9f9fb3eda715d2c71e3e4a1b0562bac8" name="a9f9fb3eda715d2c71e3e4a1b0562bac8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9f9fb3eda715d2c71e3e4a1b0562bac8">&#9670;&#160;</a></span>SetText()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::MenuBase::SetText </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classsw_1_1MenuItem.html">MenuItem</a> &amp;&#160;</td>
-          <td class="paramname"><em>item</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> std::wstring &amp;&#160;</td>
-          <td class="paramname"><em>value</em>&#160;</td>
-        </tr>
-        <tr>
+          <td class="paramname"><em>text</em></td><td>)</td>
           <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>设置菜单项文本 </p>
+<p>查找对应文本的菜单项 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">item</td><td>要修改的菜单项 </td></tr>
-    <tr><td class="paramname">value</td><td>设置的值 </td></tr>
+    <tr><td class="paramname">text</td><td>菜单项文本 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>修改是否成功 </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>指向菜单项的指针，如果未找到则返回nullptr </dd></dl>
+
+</div>
+</div>
+<a id="a453373fbf104c516895420bc65acc4b6" name="a453373fbf104c516895420bc65acc4b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a453373fbf104c516895420bc65acc4b6">&#9670;&#160;</a></span>RaiseClickedEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::MenuBase::RaiseClickedEvent </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">int</a>&#160;</td>
+          <td class="paramname"><em>menuItemId</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>触发菜单项点击事件 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">menuItemId</td><td>菜单项ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若事件被成功触发则返回true，否则返回false </dd></dl>
 
 </div>
 </div>
 <hr/>该类的文档由以下文件生成:<ul>
-<li><a class="el" href="MenuBase_8h_source.html">MenuBase.h</a></li>
+<li><a class="el" href="Menu_8h_source.html">Menu.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

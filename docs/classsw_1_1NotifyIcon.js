@@ -11,7 +11,6 @@ var classsw_1_1NotifyIcon =
     [ "OnMenuCommand", "classsw_1_1NotifyIcon.html#a13ed36dbb395e8bc07cd9070903d6417", null ],
     [ "OnNotyfyIconMessage", "classsw_1_1NotifyIcon.html#acb8576526f6e879f43190445eaad1d9e", null ],
     [ "Show", "classsw_1_1NotifyIcon.html#ab24d6ac75d3c1ba4438098267bdb991f", null ],
-    [ "ShowContextMenu", "classsw_1_1NotifyIcon.html#af5e95e336bf02237e98b9b26ec7099bd", null ],
     [ "WndProc", "classsw_1_1NotifyIcon.html#add571486f242e22deb63c84812ded452", null ],
     [ "Clicked", "classsw_1_1NotifyIcon.html#a41545e170aba80a8f0ea61cf00f01b81", null ],
     [ "ContextMenu", "classsw_1_1NotifyIcon.html#aaddfb8f36febf3e9c5bf155bccdb16af", null ],

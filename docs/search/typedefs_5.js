@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['menuitemcommand_0',['MenuItemCommand',['../namespacesw.html#a22279d1736bbd98f26712c09e8e22258',1,'sw']]]
+  ['menuitemclickedeventhandler_0',['MenuItemClickedEventHandler',['../namespacesw.html#a32cc7d33f8514e448ac94c65e9026291',1,'sw']]]
 ];

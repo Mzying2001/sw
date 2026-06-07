@@ -12,9 +12,9 @@
 #include "sw_all.h"
 #include <strsafe.h>
 #include <climits>
+#include <atomic>
 #include <deque>
 #include <cstdarg>
-#include <atomic>
 
 // Animation.cpp
 
@@ -25,7 +25,10 @@ sw::Animation::Animation()
                   return self->GetStyle(ACS_CENTER);
               })
               .Setter([](Animation *self, bool value) {
-                  self->SetStyle(ACS_CENTER, value);
+                  if (self->Center != value) {
+                      self->SetStyle(ACS_CENTER, value);
+                      self->RaisePropertyChanged(&Animation::Center);
+                  }
               })),
 
       AutoPlay(
@@ -34,7 +37,10 @@ sw::Animation::Animation()
                   return self->GetStyle(ACS_AUTOPLAY);
               })
               .Setter([](Animation *self, bool value) {
-                  self->SetStyle(ACS_AUTOPLAY, value);
+                  if (self->AutoPlay != value) {
+                      self->SetStyle(ACS_AUTOPLAY, value);
+                      self->RaisePropertyChanged(&Animation::AutoPlay);
+                  }
               })),
 
       IsPlaying(
@@ -64,7 +70,12 @@ bool sw::Animation::Open(const wchar_t *fileName)
 
 bool sw::Animation::Play(int times, int beginFrame, int endFrame)
 {
-    return this->SendMessageW(ACM_PLAY, (WPARAM)times, MAKELPARAM(beginFrame, endFrame));
+    bool result = this->SendMessageW(ACM_PLAY, (WPARAM)times, MAKELPARAM(beginFrame, endFrame));
+
+    if (result) {
+        this->RaisePropertyChanged(&Animation::IsPlaying);
+    }
+    return result;
 }
 
 bool sw::Animation::Play(int times)
@@ -74,7 +85,12 @@ bool sw::Animation::Play(int times)
 
 bool sw::Animation::Stop()
 {
-    return this->SendMessageW(ACM_STOP, 0, 0);
+    bool result = this->SendMessageW(ACM_STOP, 0, 0);
+
+    if (result) {
+        this->RaisePropertyChanged(&Animation::IsPlaying);
+    }
+    return result;
 }
 
 // App.cpp
@@ -395,9 +411,14 @@ void sw::BmpBox::_SetBmp(HBITMAP hBitmap)
 {
     HBITMAP hOldBitmap = this->_hBitmap;
 
+    if (hOldBitmap == hBitmap) {
+        return;
+    }
+
     this->_hBitmap = hBitmap;
     this->_UpdateBmpSize();
     this->Redraw();
+    this->RaisePropertyChanged(&BmpBox::BmpHandle);
 
     if (this->_sizeMode == BmpBoxSizeMode::AutoSize) {
         this->InvalidateMeasure();
@@ -1167,42 +1188,6 @@ bool sw::CommandLink::OnKeyDown(VirtualKey key, const KeyFlags &flags)
         OnClicked();
     }
     return result;
-}
-
-// ContextMenu.cpp
-
-namespace
-{
-    /**
-     * @brief 上下文菜单ID的起始位置，用于与普通菜单ID区分
-     */
-    constexpr int _ContextMenuIDFirst = (std::numeric_limits<uint16_t>::max)() / 2;
-}
-
-sw::ContextMenu::ContextMenu()
-    : MenuBase(CreatePopupMenu())
-{
-}
-
-sw::ContextMenu::ContextMenu(std::initializer_list<MenuItem> items)
-    : ContextMenu()
-{
-    this->SetItems(items);
-}
-
-bool sw::ContextMenu::IsContextMenuID(int id)
-{
-    return id >= _ContextMenuIDFirst;
-}
-
-int sw::ContextMenu::IndexToID(int index)
-{
-    return index + _ContextMenuIDFirst;
-}
-
-int sw::ContextMenu::IDToIndex(int id)
-{
-    return id - _ContextMenuIDFirst;
 }
 
 // Control.cpp
@@ -2792,8 +2777,13 @@ void sw::FrameworkElement::SetTag(const Variant &tag)
 {
     if (!this->_tag.ReferenceEquals(tag)) {
         this->_tag = tag;
-        this->RaisePropertyChanged(&FrameworkElement::Tag);
+        this->OnTagChanged();
     }
+}
+
+void sw::FrameworkElement::OnTagChanged()
+{
+    this->RaisePropertyChanged(&FrameworkElement::Tag);
 }
 
 void sw::FrameworkElement::OnCurrentDataContextChanged(DynamicObject *oldDataContext)
@@ -3750,7 +3740,10 @@ sw::HwndHost::HwndHost()
                   return self->_fillContent;
               })
               .Setter([](HwndHost *self, bool value) {
-                  self->_fillContent = value;
+                  if (self->_fillContent != value) {
+                      self->_fillContent = value;
+                      self->RaisePropertyChanged(&HwndHost::FillContent);
+                  }
               })),
 
       SyncFont(
@@ -3759,7 +3752,10 @@ sw::HwndHost::HwndHost()
                   return self->_syncFont;
               })
               .Setter([](HwndHost *self, bool value) {
-                  self->_syncFont = value;
+                  if (self->_syncFont != value) {
+                      self->_syncFont = value;
+                      self->RaisePropertyChanged(&HwndHost::SyncFont);
+                  }
               }))
 {
     this->Rect = sw::Rect{0, 0, 100, 100};
@@ -3790,7 +3786,7 @@ void sw::HwndHost::FontChanged(HFONT hfont)
     if (this->_hWindowCore != NULL) {
         this->_SyncFont(hfont);
     }
-    this->StaticControl::FontChanged(hfont);
+    this->TBase::FontChanged(hfont);
 }
 
 bool sw::HwndHost::OnSize(const Size &newClientSize)
@@ -3798,14 +3794,14 @@ bool sw::HwndHost::OnSize(const Size &newClientSize)
     if (this->_hWindowCore != NULL) {
         this->_SyncSize(newClientSize);
     }
-    return this->StaticControl::OnSize(newClientSize);
+    return this->TBase::OnSize(newClientSize);
 }
 
 bool sw::HwndHost::OnDestroy()
 {
     this->DestroyWindowCore(this->_hWindowCore);
     this->_hWindowCore = NULL;
-    return this->StaticControl::OnDestroy();
+    return this->TBase::OnDestroy();
 }
 
 void sw::HwndHost::_SyncSize(const SIZE &newSize)
@@ -4108,8 +4104,13 @@ void sw::IconBox::_SetIcon(HICON hIcon)
 {
     HICON hOldIcon = this->_hIcon;
 
+    if (hIcon == hOldIcon) {
+        return;
+    }
+
     this->_hIcon = hIcon;
     this->SendMessageW(STM_SETICON, reinterpret_cast<WPARAM>(hIcon), 0);
+    this->RaisePropertyChanged(&IconBox::IconHandle);
 
     if (hOldIcon != NULL) {
         DestroyIcon(hOldIcon);
@@ -5665,537 +5666,644 @@ void sw::ListView::_ColumnsCollectionChangedHandler(
 
 // Menu.cpp
 
-sw::Menu::Menu()
-    : MenuBase(CreateMenu())
+sw::MenuBase::MenuBase(MenuItem *root)
+    : _root(root),
+
+      ItemClicked(
+          Event<MenuItemClickedEventHandler>::Init(this)
+              .Delegate([](MenuBase *self) -> MenuItemClickedEventHandler & {
+                  return self->_itemClicked;
+              })),
+
+      Root(
+          Property<MenuItem *>::Init(this)
+              .Getter([](MenuBase *self) -> MenuItem * {
+                  return self->_root.get();
+              })),
+
+      Handle(
+          Property<HMENU>::Init(this)
+              .Getter([](MenuBase *self) -> HMENU {
+                  return self->_root ? self->_root->Handle.Get() : NULL;
+              }))
 {
 }
 
-sw::Menu::Menu(std::initializer_list<MenuItem> items)
+bool sw::MenuBase::RaiseClickedEvent(int menuItemId)
+{
+    if (_root == nullptr) {
+        return false;
+    }
+
+    MenuItem *item =
+        FindMenuItemById(menuItemId);
+
+    if (item == nullptr) {
+        return false;
+    }
+
+    if (_itemClicked) {
+        MenuItemClickedEventArgs args{};
+        args.menu = this;
+        _itemClicked(*item, args);
+    }
+    return true;
+}
+
+sw::MenuItem *sw::MenuBase::FindMenuItemById(int id)
+{
+    if (_root == nullptr) {
+        return nullptr;
+    } else {
+        return _root->FindChildById(id);
+    }
+}
+
+sw::MenuItem *sw::MenuBase::FindMenuItemByTag(uint64_t tag)
+{
+    if (_root == nullptr) {
+        return nullptr;
+    } else {
+        return _root->FindChildByTag(tag);
+    }
+}
+
+sw::MenuItem *sw::MenuBase::FindMenuItemByText(const std::wstring &text)
+{
+    if (_root == nullptr) {
+        return nullptr;
+    }
+
+    std::vector<MenuItem *> stack;
+    stack.push_back(_root.get());
+
+    while (!stack.empty()) {
+        MenuItem *current = stack.back();
+        stack.pop_back();
+
+        if (current->Text == text) {
+            return current;
+        }
+        for (int i = current->GetChildCount() - 1; i >= 0; --i) {
+            stack.push_back(&current->GetChildAt(i));
+        }
+    }
+    return nullptr;
+}
+
+sw::Menu::Menu()
+    : MenuBase(MenuItem::CreateRoot(false))
+{
+}
+
+sw::Menu::Menu(std::initializer_list<MenuItemDesc> items)
     : Menu()
 {
-    this->SetItems(items);
+    Root->ResetChildren(items);
 }
 
-int sw::Menu::IndexToID(int index)
-{
-    return index;
-}
-
-int sw::Menu::IDToIndex(int id)
-{
-    return id;
-}
-
-// MenuBase.cpp
-
-sw::MenuBase::MenuBase(HMENU hMenu)
-    : _hMenu(hMenu)
+sw::ContextMenu::ContextMenu()
+    : MenuBase(MenuItem::CreateRoot(true))
 {
 }
 
-sw::MenuBase::~MenuBase()
+sw::ContextMenu::ContextMenu(std::initializer_list<MenuItemDesc> items)
+    : ContextMenu()
 {
-    this->_ClearAddedItems();
-
-    if (this->_hMenu != NULL) {
-        DestroyMenu(this->_hMenu);
-    }
+    Root->ResetChildren(items);
 }
 
-HMENU sw::MenuBase::GetHandle()
+bool sw::ContextMenu::Show(
+    HWND hwnd, const Point &point, sw::HorizontalAlignment horz, sw::VerticalAlignment vert)
 {
-    return this->_hMenu;
-}
+    UINT uFlags = 0;
+    HMENU hMenu = Handle;
 
-void sw::MenuBase::Update()
-{
-    this->_ClearAddedItems();
-
-    int i = 0;
-    for (std::shared_ptr<MenuItem> pItem : this->_items) {
-        this->_AppendMenuItem(this->_hMenu, pItem, i++);
-    }
-}
-
-void sw::MenuBase::SetItems(std::initializer_list<MenuItem> items)
-{
-    this->_ClearAddedItems();
-
-    for (const MenuItem &item : items) {
-        std::shared_ptr<MenuItem> pItem = std::make_shared<MenuItem>(item);
-        this->_items.push_back(pItem);
-    }
-
-    this->Update();
-}
-
-bool sw::MenuBase::SetSubItems(MenuItem &item, std::initializer_list<MenuItem> subItems)
-{
-    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
-
-    if (dependencyInfo == nullptr) {
+    if (hMenu == NULL) {
         return false;
     }
 
-    if (dependencyInfo->hSelf == NULL) {
-        item = MenuItem(item.text, subItems);
-        this->Update();
-        return true;
-    }
-
-    while (GetMenuItemCount(dependencyInfo->hSelf) > 0) {
-        RemoveMenu(dependencyInfo->hSelf, 0, MF_BYPOSITION);
-    }
-
-    item.subItems.clear();
-
-    int i = 0;
-    for (const MenuItem &subItem : subItems) {
-        std::shared_ptr<MenuItem> pSubItem(new MenuItem(subItem));
-        item.subItems.push_back(pSubItem);
-        this->_AppendMenuItem(dependencyInfo->hSelf, pSubItem, i++);
-    }
-
-    return true;
-}
-
-void sw::MenuBase::AddItem(const MenuItem &item)
-{
-    std::shared_ptr<MenuItem> pItem(new MenuItem(item));
-    this->_AppendMenuItem(this->_hMenu, pItem, (int)this->_items.size());
-    this->_items.push_back(pItem);
-}
-
-bool sw::MenuBase::AddSubItem(MenuItem &item, const MenuItem &subItem)
-{
-    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
-
-    if (dependencyInfo == nullptr) {
-        return false;
-    }
-
-    if (dependencyInfo->hSelf == NULL) {
-        item.subItems.emplace_back(new MenuItem(subItem));
-        this->Update();
-        return true;
-    }
-
-    std::shared_ptr<MenuItem> pSubItem(new MenuItem(subItem));
-    this->_AppendMenuItem(dependencyInfo->hSelf, pSubItem, (int)item.subItems.size());
-    item.subItems.push_back(pSubItem);
-    return true;
-}
-
-bool sw::MenuBase::RemoveItem(MenuItem &item)
-{
-    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
-
-    if (dependencyInfo == nullptr) {
-        return false;
-    }
-
-    if (dependencyInfo->hParent == this->_hMenu) {
-
-        int index = dependencyInfo->index;
-        RemoveMenu(dependencyInfo->hParent, index, MF_BYPOSITION);
-
-        this->_dependencyInfoMap.erase(&item);
-        this->_items.erase(this->_items.begin() + index);
-
-        for (int i = index; i < (int)this->_items.size(); ++i) {
-            this->_dependencyInfoMap[this->_items[i].get()].index -= 1;
+    switch (horz) {
+        case sw::HorizontalAlignment::Left: {
+            uFlags |= TPM_LEFTALIGN;
+            break;
         }
-
-    } else {
-
-        MenuItem *parent = this->GetParent(item);
-        if (parent == nullptr) {
-            return false;
+        case sw::HorizontalAlignment::Right: {
+            uFlags |= TPM_RIGHTALIGN;
+            break;
         }
-
-        int index = dependencyInfo->index;
-        RemoveMenu(dependencyInfo->hParent, index, MF_BYPOSITION);
-
-        this->_dependencyInfoMap.erase(&item);
-        parent->subItems.erase(parent->subItems.begin() + index);
-
-        for (int i = index; i < (int)parent->subItems.size(); ++i) {
-            this->_dependencyInfoMap[parent->subItems[i].get()].index -= 1;
-        }
-    }
-
-    return true;
-}
-
-sw::MenuItem *sw::MenuBase::GetMenuItem(int id)
-{
-    int index = this->IDToIndex(id);
-    return index >= 0 && index < (int)this->_ids.size() ? this->_ids[index].get() : nullptr;
-}
-
-sw::MenuItem *sw::MenuBase::GetMenuItem(HMENU hMenu)
-{
-    for (auto &info : this->_popupMenus) {
-        if (info.hSelf == hMenu) return info.pItem.get();
-    }
-    return nullptr;
-}
-
-sw::MenuItem *sw::MenuBase::GetMenuItem(std::initializer_list<int> path)
-{
-    MenuItem *result = nullptr;
-
-    std::initializer_list<int>::iterator it  = path.begin();
-    std::initializer_list<int>::iterator end = path.end();
-
-    if (it == end) {
-        return nullptr;
-    }
-
-    int index = *it++;
-
-    if (index < 0 || index >= (int)this->_items.size()) {
-        return nullptr;
-    }
-
-    result = this->_items[index].get();
-
-    while (it != end) {
-        index = *it++;
-        if (index < 0 || index >= (int)result->subItems.size()) {
-            return nullptr;
-        }
-        result = result->subItems[index].get();
-    }
-
-    return result;
-}
-
-sw::MenuItem *sw::MenuBase::GetMenuItem(std::initializer_list<std::wstring> path)
-{
-    MenuItem *result = nullptr;
-
-    std::initializer_list<std::wstring>::iterator it  = path.begin();
-    std::initializer_list<std::wstring>::iterator end = path.end();
-
-    if (it == end) {
-        return nullptr;
-    }
-
-    for (std::shared_ptr<MenuItem> pItem : this->_items) {
-        if (pItem->text == *it) {
-            result = pItem.get();
-            ++it;
+        case sw::HorizontalAlignment::Center:
+        case sw::HorizontalAlignment::Stretch: {
+            uFlags |= TPM_CENTERALIGN;
             break;
         }
     }
 
-    if (result == nullptr) {
-        return nullptr;
-    }
-
-    while (it != end) {
-        MenuItem *p = nullptr;
-
-        for (std::shared_ptr<MenuItem> pItem : result->subItems) {
-            if (pItem->text == *it) {
-                p = pItem.get();
-                ++it;
-                break;
-            }
-        }
-
-        if (p == nullptr) {
-            return nullptr;
-        }
-
-        result = p;
-    }
-
-    return result;
-}
-
-sw::MenuItem *sw::MenuBase::GetMenuItemByTag(uint64_t tag)
-{
-    return this->_GetMenuItemByTag(this->_items, tag);
-}
-
-sw::MenuItem *sw::MenuBase::GetParent(MenuItem &item)
-{
-    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
-
-    if (dependencyInfo == nullptr) {
-        return nullptr;
-    }
-
-    for (auto &info : this->_popupMenus) {
-        if (info.hSelf == dependencyInfo->hParent) {
-            return info.pItem.get();
-        }
-    }
-
-    return nullptr;
-}
-
-bool sw::MenuBase::GetEnabled(MenuItem &item, bool &out)
-{
-    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
-
-    if (dependencyInfo == nullptr) {
-        return false;
-    }
-
-    MENUITEMINFOW info{};
-    info.cbSize = sizeof(info);
-    info.fMask  = MIIM_STATE;
-
-    if (!GetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info)) {
-        return false;
-    }
-
-    out = (info.fState & MFS_DISABLED) != MFS_DISABLED;
-    return true;
-}
-
-bool sw::MenuBase::SetEnabled(MenuItem &item, bool value)
-{
-    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
-
-    if (dependencyInfo == nullptr) {
-        return false;
-    }
-
-    MENUITEMINFOW info{};
-    info.cbSize = sizeof(info);
-    info.fMask  = MIIM_STATE;
-
-    if (!GetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info)) {
-        return false;
-    }
-
-    if (value) {
-        info.fState &= ~MFS_DISABLED;
-    } else {
-        info.fState |= MFS_DISABLED;
-    }
-
-    return SetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info);
-}
-
-bool sw::MenuBase::GetChecked(MenuItem &item, bool &out)
-{
-    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
-
-    if (dependencyInfo == nullptr) {
-        return false;
-    }
-
-    MENUITEMINFOW info{};
-    info.cbSize = sizeof(info);
-    info.fMask  = MIIM_STATE;
-
-    if (!GetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info)) {
-        return false;
-    }
-
-    out = (info.fState & MFS_CHECKED) == MFS_CHECKED;
-    return true;
-}
-
-bool sw::MenuBase::SetChecked(MenuItem &item, bool value)
-{
-    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
-
-    if (dependencyInfo == nullptr) {
-        return false;
-    }
-
-    MENUITEMINFOW info{};
-    info.cbSize = sizeof(info);
-    info.fMask  = MIIM_STATE;
-
-    if (!GetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info)) {
-        return false;
-    }
-
-    if (value) {
-        info.fState |= MFS_CHECKED;
-    } else {
-        info.fState &= ~MFS_CHECKED;
-    }
-
-    return SetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info);
-}
-
-bool sw::MenuBase::SetText(MenuItem &item, const std::wstring &value)
-{
-    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
-
-    if (dependencyInfo == nullptr) {
-        return false;
-    }
-
-    MENUITEMINFOW info{};
-    info.cbSize     = sizeof(info);
-    info.fMask      = MIIM_STRING;
-    info.dwTypeData = const_cast<LPWSTR>(value.c_str());
-
-    bool success = SetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info);
-
-    if (success) {
-        item.text = value;
-    }
-
-    return success;
-}
-
-bool sw::MenuBase::SetBitmap(MenuItem &item, HBITMAP hBitmap)
-{
-    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
-
-    if (dependencyInfo == nullptr) {
-        return false;
-    }
-
-    MENUITEMINFOW info{};
-    info.cbSize   = sizeof(info);
-    info.fMask    = MIIM_BITMAP;
-    info.hbmpItem = hBitmap;
-
-    return SetMenuItemInfoW(dependencyInfo->hParent, dependencyInfo->index, TRUE, &info);
-}
-
-bool sw::MenuBase::SetCheckBitmap(MenuItem &item, HBITMAP hBmpUnchecked, HBITMAP hBmpChecked)
-{
-    auto dependencyInfo = this->_GetMenuItemDependencyInfo(item);
-
-    if (dependencyInfo == nullptr) {
-        return false;
-    }
-
-    return SetMenuItemBitmaps(dependencyInfo->hParent, dependencyInfo->index, MF_BYPOSITION, hBmpUnchecked, hBmpChecked);
-}
-
-void sw::MenuBase::_ClearAddedItems()
-{
-    while (GetMenuItemCount(this->_hMenu) > 0) {
-        RemoveMenu(this->_hMenu, 0, MF_BYPOSITION);
-    }
-
-    for (auto &info : this->_popupMenus) {
-        DestroyMenu(info.hSelf);
-    }
-
-    this->_dependencyInfoMap.clear();
-    this->_popupMenus.clear();
-    this->_ids.clear();
-}
-
-void sw::MenuBase::_AppendMenuItem(HMENU hMenu, std::shared_ptr<MenuItem> pItem, int index)
-{
-    this->_dependencyInfoMap[pItem.get()] =
-        {/*hParent*/ hMenu, /*hSelf*/ NULL, /*index*/ index};
-
-    // 分隔条
-    if (pItem->IsSeparator()) {
-        AppendMenuW(hMenu, MF_SEPARATOR, 0, NULL);
-        return;
-    }
-
-    // 菜单项
-    if (pItem->subItems.empty()) {
-        // 无子项，该菜单项没有句柄
-        int id = this->IndexToID((int)this->_ids.size());
-        AppendMenuW(hMenu, MF_STRING, id, pItem->text.c_str());
-        this->_ids.push_back(pItem);
-    } else {
-        // 有子项，需创建菜单句柄
-        HMENU hSelf = CreatePopupMenu();
-        this->_popupMenus.push_back({/*pItem*/ pItem, /*hSelf*/ hSelf});
-        this->_dependencyInfoMap[pItem.get()].hSelf = hSelf;
-        AppendMenuW(hMenu, MF_POPUP, reinterpret_cast<UINT_PTR>(hSelf), pItem->text.c_str());
-        // 递归添加子项
-        int i = 0;
-        for (std::shared_ptr<MenuItem> pSubItem : pItem->subItems) {
-            this->_AppendMenuItem(hSelf, pSubItem, i++);
-        }
-    }
-}
-
-sw::MenuBase::_MenuItemDependencyInfo *sw::MenuBase::_GetMenuItemDependencyInfo(MenuItem &item)
-{
-    MenuItem *p = &item;
-    return this->_dependencyInfoMap.count(p) ? &this->_dependencyInfoMap[p] : nullptr;
-}
-
-sw::MenuItem *sw::MenuBase::_GetMenuItemByTag(std::vector<std::shared_ptr<MenuItem>> &items, uint64_t tag)
-{
-    MenuItem *result = nullptr;
-
-    for (std::shared_ptr<MenuItem> pItem : items) {
-        if (pItem->tag == tag) {
-            result = pItem.get();
+    switch (vert) {
+        case sw::VerticalAlignment::Top: {
+            uFlags |= TPM_TOPALIGN;
             break;
         }
-        if (!pItem->subItems.empty()) {
-            result = this->_GetMenuItemByTag(pItem->subItems, tag);
-            if (result) break;
+        case sw::VerticalAlignment::Bottom: {
+            uFlags |= TPM_BOTTOMALIGN;
+            break;
+        }
+        case sw::VerticalAlignment::Center:
+        case sw::VerticalAlignment::Stretch: {
+            uFlags |= TPM_VCENTERALIGN;
+            break;
         }
     }
 
-    return result;
+    POINT pos = point;
+    SetForegroundWindow(hwnd); // 确保菜单能正确关闭
+    return TrackPopupMenu(hMenu, uFlags, pos.x, pos.y, 0, hwnd, nullptr);
 }
 
 // MenuItem.cpp
 
-sw::MenuItem::MenuItem(const std::wstring &text)
-    : tag(0), text(text), command(nullptr)
+sw::MenuItemDesc::MenuItemDesc(const wchar_t *text)
+    : text(text)
 {
 }
 
-sw::MenuItem::MenuItem(const std::wstring &text, const MenuItemCommand &command)
-    : tag(0), text(text), command(command)
+sw::MenuItemDesc::MenuItemDesc(const std::wstring &text)
+    : text(text)
 {
 }
 
-sw::MenuItem::MenuItem(const std::wstring &text, std::initializer_list<MenuItem> subItems)
-    : tag(0), text(text), command(nullptr)
+sw::MenuItemDesc::MenuItemDesc(const std::wstring &text,
+                               std::initializer_list<MenuItemDesc> subItems)
+    : text(text), subItems(subItems)
 {
-    for (const MenuItem &subItem : subItems) {
-        std::shared_ptr<MenuItem> pSubItem = std::make_shared<MenuItem>(subItem);
-        this->subItems.push_back(pSubItem);
+}
+
+sw::MenuItemDesc::MenuItemDesc(uint64_t tag, const std::wstring &text)
+    : tag(tag), text(text)
+{
+}
+
+sw::MenuItemDesc::MenuItemDesc(uint64_t tag, const std::wstring &text,
+                               std::initializer_list<MenuItemDesc> subItems)
+    : tag(tag), text(text), subItems(subItems)
+{
+}
+
+sw::MenuItem::MenuItem(const MenuItemDesc &desc)
+    : _id(_GenerateMenuItemID()),
+
+      Id(
+          Property<int>::Init(this)
+              .Getter([](MenuItem *self) -> int {
+                  return self->_id;
+              })),
+
+      Handle(
+          Property<HMENU>::Init(this)
+              .Getter([](MenuItem *self) -> HMENU {
+                  return self->_hMenu;
+              })),
+
+      Text(
+          Property<std::wstring>::Init(this)
+              .Getter([](MenuItem *self) -> std::wstring {
+                  return self->_desc.text;
+              })
+              .Setter([](MenuItem *self, const std::wstring &value) {
+                  if (self->_desc.text != value) {
+                      bool isSeparator = self->IsSeparator;
+                      self->_desc.text = value;
+                      if (self->IsSeparator == isSeparator) {
+                          self->_UpdateState();
+                          self->RaisePropertyChanged(&MenuItem::Text);
+                      } else {
+                          self->_ResetMenuItem();
+                          self->RaisePropertyChanged(&MenuItem::Text);
+                          self->RaisePropertyChanged(&MenuItem::IsSeparator);
+                      }
+                  }
+              })),
+
+      Enabled(
+          Property<bool>::Init(this)
+              .Getter([](MenuItem *self) -> bool {
+                  return self->_desc.enabled;
+              })
+              .Setter([](MenuItem *self, bool value) {
+                  if (self->_desc.enabled != value) {
+                      self->_desc.enabled = value;
+                      self->_UpdateState();
+                      self->RaisePropertyChanged(&MenuItem::Enabled);
+                  }
+              })),
+
+      IsChecked(
+          Property<bool>::Init(this)
+              .Getter([](MenuItem *self) -> bool {
+                  return self->_desc.checked;
+              })
+              .Setter([](MenuItem *self, bool value) {
+                  if (self->_desc.checked != value) {
+                      self->_desc.checked = value;
+                      self->_UpdateState();
+                      self->RaisePropertyChanged(&MenuItem::IsChecked);
+                  }
+              })),
+
+      Bitmap(
+          Property<HBITMAP>::Init(this)
+              .Getter([](MenuItem *self) -> HBITMAP {
+                  return self->_desc.hBitmap;
+              })
+              .Setter([](MenuItem *self, HBITMAP value) {
+                  if (self->_desc.hBitmap != value) {
+                      self->_desc.hBitmap = value;
+                      self->_UpdateState();
+                      self->RaisePropertyChanged(&MenuItem::Bitmap);
+                  }
+              })),
+
+      IsSeparator(
+          ReadOnlyProperty<bool>::Init(this)
+              .Getter([](MenuItem *self) -> bool {
+                  return self->_subItems.empty() &&
+                         self->_desc.text == L"-";
+              })),
+
+      Tag(
+          Property<uint64_t>::Init(this)
+              .Getter([](MenuItem *self) -> uint64_t {
+                  return self->_desc.tag;
+              })
+              .Setter([](MenuItem *self, uint64_t value) {
+                  self->SetTag(value);
+              }))
+{
+    SetTag(desc.tag);
+    _desc.text    = desc.text;
+    _desc.enabled = desc.enabled;
+    _desc.checked = desc.checked;
+    _desc.hBitmap = desc.hBitmap;
+}
+
+sw::MenuItem::~MenuItem()
+{
+    if (_isRoot && _hMenu != NULL) {
+        DestroyMenu(_hMenu);
+        _hMenu = NULL;
     }
 }
 
-sw::MenuItem::MenuItem(uint64_t tag, const std::wstring &text)
-    : tag(tag), text(text), command(nullptr)
+sw::MenuItem *sw::MenuItem::Create(const MenuItemDesc &desc)
 {
+    struct _CreateMenuItemStackItem {
+        MenuItem *parent;
+        const MenuItemDesc *desc;
+    };
+
+    std::vector<_CreateMenuItemStackItem> stack;
+    stack.push_back({/*parent*/ nullptr, /*desc*/ &desc});
+
+    MenuItem *root = nullptr;
+
+    while (!stack.empty()) {
+        auto parent = stack.back().parent;
+        auto desc   = stack.back().desc;
+        stack.pop_back();
+
+        auto item = new MenuItem(*desc);
+        if (root == nullptr) root = item;
+
+        if (parent == nullptr) {
+            item->_parent = nullptr;
+        } else {
+            _SetParent(parent, item);
+        }
+
+        for (int i = desc->subItems.Count() - 1; i >= 0; --i) {
+            stack.push_back({/*parent*/ item, /*desc*/ &desc->subItems[i]});
+        }
+    }
+    return root;
 }
 
-sw::MenuItem::MenuItem(uint64_t tag, const std::wstring &text, const MenuItemCommand &command)
-    : tag(tag), text(text), command(command)
+sw::MenuItem *sw::MenuItem::CreateRoot(bool isPopup)
 {
+    MenuItem *root = new MenuItem({});
+    root->_isRoot  = true;
+
+    if (!isPopup) {
+        root->_hMenu = CreateMenu();
+    } else {
+        root->_hMenu = CreatePopupMenu();
+    }
+    return root;
 }
 
-bool sw::MenuItem::IsSeparator() const
+void sw::MenuItem::OnTagChanged()
 {
-    return this->text == L"-";
+    TBase::OnTagChanged();
+
+    Variant tagVariant   = GetTag();
+    uint64_t newTagValue = 0;
+
+    if (tagVariant.IsType<uint64_t>()) {
+        newTagValue = tagVariant.UnsafeCast<uint64_t>();
+    }
+    if (_desc.tag != newTagValue) {
+        _desc.tag = newTagValue;
+        RaisePropertyChanged(&MenuItem::Tag);
+    }
 }
 
-void sw::MenuItem::CallCommand()
+sw::MenuItem *sw::MenuItem::GetParent() const
 {
-    if (this->command)
-        this->command(*this);
+    return _parent;
 }
 
-uint64_t sw::MenuItem::GetTag() const
+int sw::MenuItem::GetChildCount() const
 {
-    return this->tag;
+    return static_cast<int>(_subItems.size());
 }
 
-void sw::MenuItem::SetTag(uint64_t tag)
+sw::MenuItem &sw::MenuItem::GetChildAt(int index) const
 {
-    this->tag = tag;
+    return *_subItems.at(index);
+}
+
+sw::MenuItem *sw::MenuItem::AddChild(const MenuItemDesc &desc)
+{
+    auto child = Create(desc);
+    _SetParent(this, child);
+
+    if (_hMenu == NULL) {
+        _ResetMenuItem();
+    } else {
+        child->_ResetMenuItem();
+    }
+
+    if (child->CurrentDataContext != nullptr) {
+        child->OnCurrentDataContextChanged(nullptr);
+    }
+    return child;
+}
+
+sw::MenuItem *sw::MenuItem::InsertChild(int index, const MenuItemDesc &desc)
+{
+    if (index < 0 || index > static_cast<int>(_subItems.size())) {
+        throw std::out_of_range("Index out of range in InsertChild");
+    }
+
+    auto child = Create(desc);
+    _SetParent(this, child, index);
+
+    if (_hMenu == NULL) {
+        _ResetMenuItem();
+    } else {
+        InsertMenuW(_hMenu, index, MF_STRING | MF_BYPOSITION, static_cast<UINT_PTR>(child->_id), L"");
+        child->_ResetMenuItem();
+    }
+
+    if (child->CurrentDataContext != nullptr) {
+        child->OnCurrentDataContextChanged(nullptr);
+    }
+    return child;
+}
+
+bool sw::MenuItem::RemoveChildAt(int index)
+{
+    if (index < 0 || index >= static_cast<int>(_subItems.size())) {
+        return false;
+    }
+
+    _subItems.erase(_subItems.begin() + index);
+
+    if (_subItems.size() == 0) {
+        _ResetMenuItem();
+    } else {
+        RemoveMenu(_hMenu, index, MF_BYPOSITION);
+    }
+    return true;
+}
+
+bool sw::MenuItem::RemoveChild(MenuItem *child)
+{
+    int index = IndexOf(child);
+    return RemoveChildAt(index);
+}
+
+void sw::MenuItem::ClearChildren()
+{
+    _subItems.clear();
+    _ResetMenuItem();
+}
+
+int sw::MenuItem::IndexOf(MenuItem *child) const
+{
+    for (auto &p : _subItems) {
+        if (p.get() == child) {
+            return static_cast<int>(&p - &_subItems[0]);
+        }
+    }
+    return -1;
+}
+
+void sw::MenuItem::ResetChildren(std::initializer_list<MenuItemDesc> descs)
+{
+    if (descs.size() == 0) {
+        ClearChildren();
+        return;
+    }
+
+    _subItems.clear();
+
+    for (auto &desc : descs) {
+        auto child = Create(desc);
+        _SetParent(this, child);
+    }
+
+    bool resetMenu   = true;
+    auto dataContext = CurrentDataContext.Get();
+
+    if (_hMenu == NULL) {
+        resetMenu = false;
+        _ResetMenuItem();
+    } else {
+        for (int i = GetMenuItemCount(_hMenu) - 1; i >= 0; --i) {
+            DeleteMenu(_hMenu, i, MF_BYPOSITION);
+        }
+    }
+
+    for (auto &child : _subItems) {
+        if (resetMenu) {
+            child->_ResetMenuItem();
+        }
+        if (dataContext != nullptr) {
+            child->OnCurrentDataContextChanged(nullptr);
+        }
+    }
+}
+
+sw::MenuItem *sw::MenuItem::FindChildById(int id)
+{
+    std::vector<MenuItem *> stack;
+    stack.push_back(this);
+
+    while (!stack.empty()) {
+        MenuItem *current = stack.back();
+        stack.pop_back();
+
+        if (current->_id == id) {
+            return current;
+        }
+        for (auto &child : current->_subItems) {
+            stack.push_back(child.get());
+        }
+    }
+    return nullptr;
+}
+
+sw::MenuItem *sw::MenuItem::FindChildByTag(uint64_t tag)
+{
+    std::vector<MenuItem *> stack;
+    stack.push_back(this);
+
+    while (!stack.empty()) {
+        MenuItem *current = stack.back();
+        stack.pop_back();
+
+        if (current->_desc.tag == tag) {
+            return current;
+        }
+        for (auto &child : current->_subItems) {
+            stack.push_back(child.get());
+        }
+    }
+    return nullptr;
+}
+
+void sw::MenuItem::_ResetMenuItem()
+{
+    struct _UpdateMenuItemStackItem {
+        sw::MenuItem *parent;
+        int index;
+        sw::MenuItem *item;
+    };
+
+    HMENU hOldMenu = NULL;
+
+    if (!_isRoot) {
+        hOldMenu = _hMenu;
+        _hMenu   = NULL;
+    }
+
+    std::vector<_UpdateMenuItemStackItem> stack;
+
+    for (int i = static_cast<int>(_subItems.size()) - 1; i >= 0; --i) {
+        stack.push_back({/*parent*/ this, /*index*/ i, /*item*/ _subItems[i].get()});
+    }
+
+    if (_hMenu == NULL && !stack.empty()) {
+        _hMenu = CreatePopupMenu();
+    }
+
+    while (!stack.empty()) {
+        auto parent = stack.back().parent;
+        auto index  = stack.back().index;
+        auto item   = stack.back().item;
+        stack.pop_back();
+
+        HMENU hParentMenu = parent->_hMenu;
+
+        if (item->_subItems.empty()) {
+            item->_hMenu = NULL;
+            if (item->IsSeparator) {
+                AppendMenuW(hParentMenu, MF_SEPARATOR, 0, NULL);
+            } else {
+                AppendMenuW(hParentMenu, MF_STRING, static_cast<UINT_PTR>(item->_id), L"");
+                _UpdateMenuItem(hParentMenu, index, item->_desc);
+            }
+        } else {
+            item->_hMenu = CreatePopupMenu();
+            AppendMenuW(hParentMenu, MF_POPUP, reinterpret_cast<UINT_PTR>(item->_hMenu), L"");
+            _UpdateMenuItem(hParentMenu, index, item->_desc);
+        }
+
+        for (int i = static_cast<int>(item->_subItems.size()) - 1; i >= 0; --i) {
+            stack.push_back({/*parent*/ item, /*index*/ i, /*item*/ item->_subItems[i].get()});
+        }
+    }
+
+    if (_parent == nullptr) {
+        if (hOldMenu != NULL)
+            DestroyMenu(hOldMenu);
+        return;
+    }
+
+    int index = _parent->IndexOf(this);
+    RemoveMenu(_parent->_hMenu, index, MF_BYPOSITION);
+
+    if (hOldMenu != NULL) {
+        DestroyMenu(hOldMenu);
+    }
+
+    if (IsSeparator) {
+        InsertMenuW(_parent->_hMenu, index, MF_SEPARATOR | MF_BYPOSITION, 0, NULL);
+    } else {
+        if (_hMenu != NULL) {
+            InsertMenuW(_parent->_hMenu, index, MF_POPUP | MF_BYPOSITION, reinterpret_cast<UINT_PTR>(_hMenu), L"");
+        } else {
+            InsertMenuW(_parent->_hMenu, index, MF_STRING | MF_BYPOSITION, static_cast<UINT_PTR>(_id), L"");
+        }
+        _UpdateMenuItem(_parent->_hMenu, index, _desc);
+    }
+}
+
+void sw::MenuItem::_UpdateState()
+{
+    if (_parent != nullptr) {
+        int index = _parent->IndexOf(this);
+        _UpdateMenuItem(_parent->_hMenu, index, _desc);
+    }
+}
+
+void sw::MenuItem::_SetParent(MenuItem *parent, MenuItem *child, int index)
+{
+    child->_parent = parent;
+
+    if (index == -1) {
+        parent->_subItems.emplace_back(child);
+    } else {
+        parent->_subItems.insert(parent->_subItems.begin() + index, std::unique_ptr<MenuItem>(child));
+    }
+}
+
+int sw::MenuItem::_GenerateMenuItemID()
+{
+    static std::atomic<int> idCounter{1};
+    return idCounter.fetch_add(1);
+}
+
+void sw::MenuItem::_ApplyMenuDesc(const MenuItemDesc &desc, MENUITEMINFOW *pMii)
+{
+    pMii->cbSize     = sizeof(MENUITEMINFOW);
+    pMii->fMask      = MIIM_STRING | MIIM_STATE | MIIM_BITMAP;
+    pMii->hbmpItem   = desc.hBitmap;
+    pMii->dwTypeData = const_cast<LPWSTR>(desc.text.c_str());
+
+    if (desc.checked) {
+        pMii->fState |= MFS_CHECKED;
+    }
+    if (!desc.enabled) {
+        pMii->fState |= MFS_DISABLED;
+    }
+}
+
+void sw::MenuItem::_UpdateMenuItem(HMENU hParentMenu, int index, const MenuItemDesc &desc)
+{
+    MENUITEMINFOW mii{};
+    _ApplyMenuDesc(desc, &mii);
+    SetMenuItemInfoW(hParentMenu, index, TRUE, &mii);
 }
 
 // MonthCalendar.cpp
@@ -6588,8 +6696,7 @@ LRESULT sw::NotifyIcon::WndProc(ProcMsg &refMsg)
 void sw::NotifyIcon::OnMenuCommand(int id)
 {
     if (_contextMenu) {
-        MenuItem *item = _contextMenu->GetMenuItem(id);
-        if (item) item->CallCommand();
+        _contextMenu->RaiseClickedEvent(id);
     }
 }
 
@@ -6643,8 +6750,8 @@ void sw::NotifyIcon::OnContextMenuOpening(const Point &mousePos)
         handled = args.handled;
     }
 
-    if (!handled) {
-        ShowContextMenu(mousePos);
+    if (_contextMenu != nullptr && !handled) {
+        _contextMenu->Show(Handle, mousePos);
     }
 }
 
@@ -6666,56 +6773,6 @@ bool sw::NotifyIcon::Hide()
 void sw::NotifyIcon::Destroy()
 {
     DestroyWindow(Handle);
-}
-
-bool sw::NotifyIcon::ShowContextMenu(const Point &point, sw::HorizontalAlignment horz, sw::VerticalAlignment vert)
-{
-    UINT uFlags = 0;
-    HMENU hMenu = NULL;
-
-    if (_contextMenu) {
-        hMenu = _contextMenu->GetHandle();
-    }
-    if (hMenu == NULL) {
-        return false;
-    }
-
-    switch (horz) {
-        case sw::HorizontalAlignment::Left: {
-            uFlags |= TPM_LEFTALIGN;
-            break;
-        }
-        case sw::HorizontalAlignment::Right: {
-            uFlags |= TPM_RIGHTALIGN;
-            break;
-        }
-        case sw::HorizontalAlignment::Center:
-        case sw::HorizontalAlignment::Stretch: {
-            uFlags |= TPM_CENTERALIGN;
-            break;
-        }
-    }
-
-    switch (vert) {
-        case sw::VerticalAlignment::Top: {
-            uFlags |= TPM_TOPALIGN;
-            break;
-        }
-        case sw::VerticalAlignment::Bottom: {
-            uFlags |= TPM_BOTTOMALIGN;
-            break;
-        }
-        case sw::VerticalAlignment::Center:
-        case sw::VerticalAlignment::Stretch: {
-            uFlags |= TPM_VCENTERALIGN;
-            break;
-        }
-    }
-
-    POINT pos = point;
-    HWND hwnd = Handle;
-    SetForegroundWindow(hwnd); // 没这句的话菜单无法正确关闭
-    return TrackPopupMenu(hMenu, uFlags, pos.x, pos.y, 0, hwnd, nullptr);
 }
 
 bool sw::NotifyIcon::_ShellNotifyIcon(DWORD dwMessage)
@@ -7700,9 +7757,15 @@ sw::SplitButton::SplitButton()
 
 bool sw::SplitButton::ShowDropDownMenu()
 {
-    sw::Rect clientRect = ClientRect;
+    sw::Rect clientRect   = ClientRect;
+    sw::ContextMenu *menu = ContextMenu;
 
-    return ShowContextMenu(
+    if (menu == nullptr) {
+        return false;
+    }
+
+    return menu->Show(
+        Handle,
         PointToScreen({clientRect.width, clientRect.height}),
         HorizontalAlignment::Right, VerticalAlignment::Top);
 }
@@ -8192,7 +8255,7 @@ void sw::SysLink::OnClicked(NMLINK *pNMLink)
 
 void sw::SysLink::_UpdateTextSize()
 {
-    SIZE size;
+    SIZE size{};
     this->SendMessageW(LM_GETIDEALSIZE, INT_MAX, reinterpret_cast<LPARAM>(&size));
     this->_textSize = size;
 }
@@ -8357,7 +8420,7 @@ void sw::TabControl::OnAddedChild(UIElement &element)
     this->_InsertItem(index, item);
     ShowWindow(element.Handle, index == this->SelectedIndex ? SW_SHOW : SW_HIDE);
 
-    this->UIElement::OnAddedChild(element);
+    this->TBase::OnAddedChild(element);
 }
 
 void sw::TabControl::OnRemovedChild(UIElement &element)
@@ -8370,7 +8433,7 @@ void sw::TabControl::OnRemovedChild(UIElement &element)
         this->UpdateTab();
         this->_UpdateChildVisible(false);
     }
-    this->UIElement::OnRemovedChild(element);
+    this->TBase::OnRemovedChild(element);
 }
 
 sw::Size sw::TabControl::MeasureOverride(const Size &availableSize)
@@ -8378,7 +8441,7 @@ sw::Size sw::TabControl::MeasureOverride(const Size &availableSize)
     UIElement *selectedItem = this->_GetSelectedItem();
 
     if (!this->_autoSize || selectedItem == nullptr) {
-        return this->UIElement::MeasureOverride(availableSize);
+        return this->TBase::MeasureOverride(availableSize);
     }
 
     bool isWidthInf  = std::isinf(availableSize.width);
@@ -8431,7 +8494,7 @@ bool sw::TabControl::OnNotified(NMHDR *pNMHDR, LRESULT &result)
     if (pNMHDR->code == TCN_SELCHANGE) {
         this->OnSelectedIndexChanged();
     }
-    return this->Control::OnNotified(pNMHDR, result);
+    return this->TBase::OnNotified(pNMHDR, result);
 }
 
 void sw::TabControl::OnSelectedIndexChanged()
@@ -8576,7 +8639,9 @@ sw::TextBox::TextBox()
                       return;
                   }
                   self->_autoWrap = value;
-                  if (self->MultiLine && self->GetStyle(ES_AUTOHSCROLL) == value) {
+                  self->RaisePropertyChanged(&TextBox::AutoWrap);
+                  if (self->MultiLine &&
+                      self->GetStyle(ES_AUTOHSCROLL) == value) {
                       self->SetStyle(ES_AUTOHSCROLL, !value);
                       self->ResetHandle();
                   }
@@ -8592,6 +8657,7 @@ sw::TextBox::TextBox()
                       self->SetStyle(ES_MULTILINE, value);
                       self->SetStyle(ES_AUTOHSCROLL, !(value && self->_autoWrap));
                       self->ResetHandle();
+                      self->RaisePropertyChanged(&TextBox::MultiLine);
                   }
               })),
 
@@ -8604,6 +8670,7 @@ sw::TextBox::TextBox()
                   if (self->HorizontalScrollBar != value) {
                       self->SetStyle(WS_HSCROLL, value);
                       self->ResetHandle();
+                      self->RaisePropertyChanged(&TextBox::HorizontalScrollBar);
                   }
               })),
 
@@ -8616,6 +8683,7 @@ sw::TextBox::TextBox()
                   if (self->VerticalScrollBar != value) {
                       self->SetStyle(WS_VSCROLL, value);
                       self->ResetHandle();
+                      self->RaisePropertyChanged(&TextBox::VerticalScrollBar);
                   }
               }))
 {
@@ -9503,6 +9571,7 @@ namespace
     const sw::FieldId _PropId_MaxHeight           = sw::Reflection::GetFieldId(&sw::UIElement::MaxHeight);
     const sw::FieldId _PropId_LogicalRect         = sw::Reflection::GetFieldId(&sw::UIElement::LogicalRect);
     const sw::FieldId _PropId_IsHitTestVisible    = sw::Reflection::GetFieldId(&sw::UIElement::IsHitTestVisible);
+    const sw::FieldId _PropId_IsFocusedViaTab     = sw::Reflection::GetFieldId(&sw::UIElement::IsFocusedViaTab);
 }
 
 sw::UIElement::UIElement()
@@ -9967,56 +10036,6 @@ int sw::UIElement::IndexOf(UIElement &element)
     return this->IndexOf(&element);
 }
 
-bool sw::UIElement::ShowContextMenu(const Point &point, sw::HorizontalAlignment horz, sw::VerticalAlignment vert)
-{
-    UINT uFlags = 0;
-    HMENU hMenu = NULL;
-
-    if (this->_contextMenu) {
-        hMenu = this->_contextMenu->GetHandle();
-    }
-    if (hMenu == NULL) {
-        return false;
-    }
-
-    switch (horz) {
-        case sw::HorizontalAlignment::Left: {
-            uFlags |= TPM_LEFTALIGN;
-            break;
-        }
-        case sw::HorizontalAlignment::Right: {
-            uFlags |= TPM_RIGHTALIGN;
-            break;
-        }
-        case sw::HorizontalAlignment::Center:
-        case sw::HorizontalAlignment::Stretch: {
-            uFlags |= TPM_CENTERALIGN;
-            break;
-        }
-    }
-
-    switch (vert) {
-        case sw::VerticalAlignment::Top: {
-            uFlags |= TPM_TOPALIGN;
-            break;
-        }
-        case sw::VerticalAlignment::Bottom: {
-            uFlags |= TPM_BOTTOMALIGN;
-            break;
-        }
-        case sw::VerticalAlignment::Center:
-        case sw::VerticalAlignment::Stretch: {
-            uFlags |= TPM_VCENTERALIGN;
-            break;
-        }
-    }
-
-    POINT pos = point;
-    HWND hwnd = this->Handle;
-    SetForegroundWindow(hwnd); // 确保菜单能正确关闭
-    return TrackPopupMenu(hMenu, uFlags, pos.x, pos.y, 0, hwnd, nullptr);
-}
-
 void sw::UIElement::MoveToTop()
 {
     UIElement *parent = this->_parent;
@@ -10267,14 +10286,25 @@ void sw::UIElement::Measure(const Size &availableSize)
         return; // 若布局未失效且可用尺寸没有变化，则无需重新测量
     }
 
-    Size measureSize    = availableSize;
+    Size measureSize = availableSize;
+
     Thickness &margin   = this->_margin;
     sw::Rect windowRect = this->Rect;
     sw::Rect clientRect = this->ClientRect;
 
+    double frameWidth  = windowRect.width - clientRect.width;
+    double frameHeight = windowRect.height - clientRect.height;
+
+    // 考虑边距
+    measureSize.width -= margin.left + margin.right;
+    measureSize.height -= margin.top + margin.bottom;
+
+    // 限制可用尺寸在最小和最大尺寸之间
+    this->ClampDesireSize(measureSize);
+
     // 考虑边框
-    measureSize.width -= (windowRect.width - clientRect.width) + margin.left + margin.right;
-    measureSize.height -= (windowRect.height - clientRect.height) + margin.top + margin.bottom;
+    measureSize.width -= frameWidth;
+    measureSize.height -= frameHeight;
 
     // 由子类实现MeasureOverride函数来计算内容所需的尺寸
     this->_desireSize = this->MeasureOverride(measureSize);
@@ -10623,6 +10653,7 @@ void sw::UIElement::OnTabStop()
 {
     // 标记为通过Tab键获得焦点
     this->_focusedViaTab = true;
+    this->RaisePropertyChanged(_PropId_IsFocusedViaTab);
 
     // 设置焦点并滚动到可见区域
     this->Focused = true;
@@ -10804,6 +10835,7 @@ bool sw::UIElement::OnKillFocus(HWND hNextFocus)
 {
     this->WndBase::OnKillFocus(hNextFocus);
     this->_focusedViaTab = false;
+    this->RaisePropertyChanged(_PropId_IsFocusedViaTab);
 
     TypedRoutedEventArgs<UIElement_LostFocus> args;
     this->RaiseRoutedEvent(args);
@@ -10910,8 +10942,9 @@ bool sw::UIElement::OnContextMenu(bool isKeyboardMsg, const Point &mousePosition
     ShowContextMenuEventArgs args(isKeyboardMsg, mousePosition);
     this->RaiseRoutedEvent(args);
 
-    if (!args.cancel) {
-        this->ShowContextMenu(isKeyboardMsg ? this->PointToScreen({0, 0}) : mousePosition);
+    if (this->_contextMenu != nullptr && !args.cancel) {
+        Point pos = isKeyboardMsg ? this->PointToScreen({0, 0}) : mousePosition;
+        this->_contextMenu->Show(Handle, pos);
     }
 
     return true;
@@ -10920,8 +10953,7 @@ bool sw::UIElement::OnContextMenu(bool isKeyboardMsg, const Point &mousePosition
 void sw::UIElement::OnMenuCommand(int id)
 {
     if (this->_contextMenu) {
-        MenuItem *item = this->_contextMenu->GetMenuItem(id);
-        if (item) item->CallCommand();
+        this->_contextMenu->RaiseClickedEvent(id);
     }
 }
 
@@ -11374,7 +11406,10 @@ sw::Window::Window()
                   return self->_startupLocation;
               })
               .Setter([](Window *self, WindowStartupLocation value) {
-                  self->_startupLocation = value;
+                  if (self->_startupLocation != value) {
+                      self->_startupLocation = value;
+                      self->RaisePropertyChanged(&Window::StartupLocation);
+                  }
               })),
 
       State(
@@ -11390,18 +11425,21 @@ sw::Window::Window()
                   }
               })
               .Setter([](Window *self, WindowState value) {
-                  HWND hwnd = self->Handle;
+                  if (self->State == value) {
+                      return;
+                  }
                   switch (value) {
                       case WindowState::Normal:
-                          ShowWindow(hwnd, SW_RESTORE);
+                          ShowWindow(self->Handle, SW_RESTORE);
                           break;
                       case WindowState::Minimized:
-                          ShowWindow(hwnd, SW_MINIMIZE);
+                          ShowWindow(self->Handle, SW_MINIMIZE);
                           break;
                       case WindowState::Maximized:
-                          ShowWindow(hwnd, SW_MAXIMIZE);
+                          ShowWindow(self->Handle, SW_MAXIMIZE);
                           break;
                   }
+                  self->RaisePropertyChanged(&Window::State);
               })),
 
       SizeBox(
@@ -11410,7 +11448,10 @@ sw::Window::Window()
                   return self->GetStyle(WS_SIZEBOX);
               })
               .Setter([](Window *self, bool value) {
-                  self->SetStyle(WS_SIZEBOX, value);
+                  if (self->SizeBox != value) {
+                      self->SetStyle(WS_SIZEBOX, value);
+                      self->RaisePropertyChanged(&Window::SizeBox);
+                  }
               })),
 
       MaximizeBox(
@@ -11419,7 +11460,10 @@ sw::Window::Window()
                   return self->GetStyle(WS_MAXIMIZEBOX);
               })
               .Setter([](Window *self, bool value) {
-                  self->SetStyle(WS_MAXIMIZEBOX, value);
+                  if (self->MaximizeBox != value) {
+                      self->SetStyle(WS_MAXIMIZEBOX, value);
+                      self->RaisePropertyChanged(&Window::MaximizeBox);
+                  }
               })),
 
       MinimizeBox(
@@ -11428,7 +11472,10 @@ sw::Window::Window()
                   return self->GetStyle(WS_MINIMIZEBOX);
               })
               .Setter([](Window *self, bool value) {
-                  self->SetStyle(WS_MINIMIZEBOX, value);
+                  if (self->MinimizeBox != value) {
+                      self->SetStyle(WS_MINIMIZEBOX, value);
+                      self->RaisePropertyChanged(&Window::MinimizeBox);
+                  }
               })),
 
       Topmost(
@@ -11437,9 +11484,11 @@ sw::Window::Window()
                   return self->GetExtendedStyle(WS_EX_TOPMOST);
               })
               .Setter([](Window *self, bool value) {
-                  /*SetExtendedStyle(WS_EX_TOPMOST, value);*/
-                  HWND hWndInsertAfter = value ? HWND_TOPMOST : HWND_NOTOPMOST;
-                  SetWindowPos(self->Handle, hWndInsertAfter, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+                  if (self->Topmost != value) {
+                      HWND hWndInsertAfter = value ? HWND_TOPMOST : HWND_NOTOPMOST;
+                      SetWindowPos(self->Handle, hWndInsertAfter, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+                      self->RaisePropertyChanged(&Window::Topmost);
+                  }
               })),
 
       ToolWindow(
@@ -11448,7 +11497,10 @@ sw::Window::Window()
                   return self->GetExtendedStyle(WS_EX_TOOLWINDOW);
               })
               .Setter([](Window *self, bool value) {
-                  self->SetExtendedStyle(WS_EX_TOOLWINDOW, value);
+                  if (self->ToolWindow != value) {
+                      self->SetExtendedStyle(WS_EX_TOOLWINDOW, value);
+                      self->RaisePropertyChanged(&Window::ToolWindow);
+                  }
               })),
 
       Menu(
@@ -11457,8 +11509,11 @@ sw::Window::Window()
                   return self->_menu;
               })
               .Setter([](Window *self, sw::Menu *value) {
-                  self->_menu = value;
-                  SetMenu(self->Handle, value != nullptr ? value->GetHandle() : NULL);
+                  if (self->_menu != value) {
+                      self->_menu = value;
+                      SetMenu(self->Handle, value != nullptr ? value->Handle.Get() : NULL);
+                      self->RaisePropertyChanged(&Window::Menu);
+                  }
               })),
 
       IsModal(
@@ -11474,8 +11529,11 @@ sw::Window::Window()
                   return _GetWindowPtr(hOwner);
               })
               .Setter([](Window *self, Window *value) {
-                  HWND hOwner = value ? value->Handle.Get() : NULL;
-                  SetWindowLongPtrW(self->Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(hOwner));
+                  if (self->Owner != value) {
+                      HWND hOwner = value ? value->Handle.Get() : NULL;
+                      SetWindowLongPtrW(self->Handle, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(hOwner));
+                      self->RaisePropertyChanged(&Window::Owner);
+                  }
               })),
 
       IsLayered(
@@ -11484,7 +11542,10 @@ sw::Window::Window()
                   return self->GetExtendedStyle(WS_EX_LAYERED);
               })
               .Setter([](Window *self, bool value) {
-                  self->SetExtendedStyle(WS_EX_LAYERED, value);
+                  if (self->IsLayered != value) {
+                      self->SetExtendedStyle(WS_EX_LAYERED, value);
+                      self->RaisePropertyChanged(&Window::IsLayered);
+                  }
               })),
 
       Opacity(
@@ -11494,8 +11555,11 @@ sw::Window::Window()
                   return GetLayeredWindowAttributes(self->Handle, NULL, &result, NULL) ? (result / 255.0) : 1.0;
               })
               .Setter([](Window *self, double value) {
-                  double opacity = Utils::Min(1.0, Utils::Max(0.0, value));
-                  SetLayeredWindowAttributes(self->Handle, 0, (BYTE)std::lround(255 * opacity), LWA_ALPHA);
+                  if (self->Opacity != value) {
+                      double opacity = Utils::Min(1.0, Utils::Max(0.0, value));
+                      SetLayeredWindowAttributes(self->Handle, 0, (BYTE)std::lround(255 * opacity), LWA_ALPHA);
+                      self->RaisePropertyChanged(&Window::Opacity);
+                  }
               })),
 
       Borderless(
@@ -11507,6 +11571,7 @@ sw::Window::Window()
                   if (self->_isBorderless != value) {
                       self->_isBorderless = value;
                       self->SetStyle(WS_CAPTION | WS_THICKFRAME, !value);
+                      self->RaisePropertyChanged(&Window::Borderless);
                   }
               })),
 
@@ -11516,7 +11581,10 @@ sw::Window::Window()
                   return self->_dialogResult;
               })
               .Setter([](Window *self, int value) {
-                  self->_dialogResult = value;
+                  if (self->_dialogResult != value) {
+                      self->_dialogResult = value;
+                      self->RaisePropertyChanged(&Window::DialogResult);
+                  }
                   self->Close();
               })),
 
@@ -11693,13 +11761,14 @@ bool sw::Window::OnPaint()
 
 void sw::Window::OnMenuCommand(int id)
 {
-    if (ContextMenu::IsContextMenuID(id)) {
-        TBase::OnMenuCommand(id);
-        return;
+    bool handled = false;
+
+    if (_menu != nullptr) {
+        handled = _menu->RaiseClickedEvent(id);
     }
-    if (_menu) {
-        MenuItem *item = _menu->GetMenuItem(id);
-        if (item) item->CallCommand();
+
+    if (!handled) {
+        TBase::OnMenuCommand(id);
     }
 }
 
@@ -11870,7 +11939,12 @@ bool sw::Window::DisableLayout()
     if (!CheckAccess()) {
         return false; // 只能在创建窗口的线程调用
     }
+
     ++_disableLayoutCount;
+
+    if (_disableLayoutCount == 1) {
+        RaisePropertyChanged(&Window::IsLayoutDisabled);
+    }
     return true;
 }
 
@@ -11880,13 +11954,20 @@ bool sw::Window::EnableLayout(bool reset)
         return false; // 只能在创建窗口的线程调用
     }
 
+    bool oldValue = _IsLayoutDisabled();
+
     if (reset) {
         _disableLayoutCount = 0;
     } else {
         _disableLayoutCount = Utils::Max(0, _disableLayoutCount - 1);
     }
 
-    if (!_IsLayoutDisabled()) {
+    bool newValue = _IsLayoutDisabled();
+
+    if (oldValue != newValue) {
+        RaisePropertyChanged(&Window::IsLayoutDisabled);
+    }
+    if (!newValue) {
         UpdateLayout();
     }
     return true;
@@ -12300,11 +12381,6 @@ sw::WndBase::~WndBase()
 sw::UIElement *sw::WndBase::ToUIElement()
 {
     return nullptr;
-}
-
-bool sw::WndBase::Equals(const WndBase &other) const
-{
-    return this == &other;
 }
 
 std::wstring sw::WndBase::ToString() const

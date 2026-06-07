@@ -23,7 +23,7 @@ var hierarchy =
     [ "sw::Delegate< INotifyCollectionChanged, NotifyCollectionChangedEventArgs >", "classsw_1_1Delegate.html", null ],
     [ "sw::Delegate< INotifyObjectDead >", "classsw_1_1Delegate.html", null ],
     [ "sw::Delegate< INotifyPropertyChanged, PropertyChangedEventArgs >", "classsw_1_1Delegate.html", null ],
-    [ "sw::Delegate< MenuItem & >", "classsw_1_1Delegate.html", null ],
+    [ "sw::Delegate< MenuItem, MenuItemClickedEventArgs >", "classsw_1_1Delegate.html", null ],
     [ "sw::Delegate< NotifyIcon, NotifyIconMouseEventArgs >", "classsw_1_1Delegate.html", null ],
     [ "sw::Delegate< sw::UIElement &, TEventArgs & >", "classsw_1_1Delegate.html", null ],
     [ "sw::Delegate< Timer >", "classsw_1_1Delegate.html", null ],
@@ -39,6 +39,7 @@ var hierarchy =
         [ "sw::ObservableCollection< sw::ListViewColumn >", "classsw_1_1ObservableCollection.html", null ],
         [ "sw::ObservableCollection< UDACCEL >", "classsw_1_1ObservableCollection.html", null ],
         [ "sw::FrameworkElement", "classsw_1_1FrameworkElement.html", [
+          [ "sw::MenuItem", "classsw_1_1MenuItem.html", null ],
           [ "sw::WndBase", "classsw_1_1WndBase.html", [
             [ "sw::NotifyIcon", "classsw_1_1NotifyIcon.html", null ],
             [ "sw::Timer", "classsw_1_1Timer.html", null ],
@@ -103,6 +104,7 @@ var hierarchy =
     [ "sw::Event< sw::Delegate< MSG & > >", "classsw_1_1Event.html", null ],
     [ "sw::EventArgs", "structsw_1_1EventArgs.html", [
       [ "sw::DataContextChangedEventArgs", "structsw_1_1DataContextChangedEventArgs.html", null ],
+      [ "sw::MenuItemClickedEventArgs", "classsw_1_1MenuItemClickedEventArgs.html", null ],
       [ "sw::NotifyCollectionChangedEventArgs", "classsw_1_1NotifyCollectionChangedEventArgs.html", null ],
       [ "sw::NotifyIconMouseEventArgs", "structsw_1_1NotifyIconMouseEventArgs.html", null ],
       [ "sw::PropertyChangedEventArgs", "structsw_1_1PropertyChangedEventArgs.html", null ],
@@ -283,9 +285,6 @@ var hierarchy =
     [ "sw::IEqualityComparable< TreeViewNode >", "classsw_1_1IEqualityComparable.html", [
       [ "sw::TreeViewNode", "classsw_1_1TreeViewNode.html", null ]
     ] ],
-    [ "sw::IEqualityComparable< WndBase >", "classsw_1_1IEqualityComparable.html", [
-      [ "sw::WndBase", "classsw_1_1WndBase.html", null ]
-    ] ],
     [ "sw::ILayout", "classsw_1_1ILayout.html", [
       [ "sw::UIElement", "classsw_1_1UIElement.html", null ]
     ] ],
@@ -296,6 +295,7 @@ var hierarchy =
       [ "sw::IListT< sw::GridColumn >", "classsw_1_1IListT.html", null ],
       [ "sw::IListT< sw::ListViewItem >", "classsw_1_1IListT.html", null ],
       [ "sw::IListT< sw::ListViewColumn >", "classsw_1_1IListT.html", null ],
+      [ "sw::IListT< sw::MenuItemDesc >", "classsw_1_1IListT.html", null ],
       [ "sw::IListT< UDACCEL >", "classsw_1_1IListT.html", null ],
       [ "sw::IListT< T >", "classsw_1_1IListT.html", [
         [ "sw::List< std::wstring >", "classsw_1_1List.html", null ],
@@ -304,6 +304,7 @@ var hierarchy =
         [ "sw::List< sw::GridColumn >", "classsw_1_1List.html", null ],
         [ "sw::List< sw::ListViewItem >", "classsw_1_1List.html", null ],
         [ "sw::List< sw::ListViewColumn >", "classsw_1_1List.html", null ],
+        [ "sw::List< sw::MenuItemDesc >", "classsw_1_1List.html", null ],
         [ "sw::List< UDACCEL >", "classsw_1_1List.html", null ],
         [ "sw::ObservableCollection< std::wstring >", "classsw_1_1ObservableCollection.html", null ],
         [ "sw::ObservableCollection< sw::FileFilterItem >", "classsw_1_1ObservableCollection.html", null ],
@@ -338,9 +339,6 @@ var hierarchy =
       [ "sw::_IsWritableProperty< T >", "structsw_1_1__IsWritableProperty.html", null ]
     ] ],
     [ "sw::ITag< T >", "classsw_1_1ITag.html", null ],
-    [ "sw::ITag< uint64_t >", "classsw_1_1ITag.html", [
-      [ "sw::MenuItem", "classsw_1_1MenuItem.html", null ]
-    ] ],
     [ "sw::ITag< Variant >", "classsw_1_1ITag.html", [
       [ "sw::FrameworkElement", "classsw_1_1FrameworkElement.html", null ]
     ] ],
@@ -351,6 +349,7 @@ var hierarchy =
       [ "sw::List< sw::GridColumn >", "classsw_1_1List.html", null ],
       [ "sw::List< sw::ListViewItem >", "classsw_1_1List.html", null ],
       [ "sw::List< sw::ListViewColumn >", "classsw_1_1List.html", null ],
+      [ "sw::List< sw::MenuItemDesc >", "classsw_1_1List.html", null ],
       [ "sw::List< UDACCEL >", "classsw_1_1List.html", null ],
       [ "sw::ObservableCollection< std::wstring >", "classsw_1_1ObservableCollection.html", null ],
       [ "sw::ObservableCollection< sw::FileFilterItem >", "classsw_1_1ObservableCollection.html", null ],
@@ -372,6 +371,7 @@ var hierarchy =
     [ "sw::IToString< List< sw::GridRow > >", "classsw_1_1IToString.html", null ],
     [ "sw::IToString< List< sw::ListViewColumn > >", "classsw_1_1IToString.html", null ],
     [ "sw::IToString< List< sw::ListViewItem > >", "classsw_1_1IToString.html", null ],
+    [ "sw::IToString< List< sw::MenuItemDesc > >", "classsw_1_1IToString.html", null ],
     [ "sw::IToString< List< T > >", "classsw_1_1IToString.html", [
       [ "sw::List< T >", "classsw_1_1List.html", null ]
     ] ],
@@ -505,6 +505,7 @@ var hierarchy =
       [ "sw::ContextMenu", "classsw_1_1ContextMenu.html", null ],
       [ "sw::Menu", "classsw_1_1Menu.html", null ]
     ] ],
+    [ "sw::MenuItemDesc", "structsw_1_1MenuItemDesc.html", null ],
     [ "sw::MsgBox", "classsw_1_1MsgBox.html", null ],
     [ "sw::MsgBoxResultHelper", "classsw_1_1MsgBoxResultHelper.html", null ],
     [ "sw::NumericConverter< TSource, TTarget, typename >", "classsw_1_1NumericConverter.html", null ],
@@ -541,6 +542,8 @@ var hierarchy =
       [ "sw::Property< sw::VerticalAlignment >", "classsw_1_1Property.html", null ],
       [ "sw::Property< sw::TextTrimming >", "classsw_1_1Property.html", null ],
       [ "sw::Property< sw::LayoutHost * >", "classsw_1_1Property.html", null ],
+      [ "sw::Property< HBITMAP >", "classsw_1_1Property.html", null ],
+      [ "sw::Property< uint64_t >", "classsw_1_1Property.html", null ],
       [ "sw::Property< HICON >", "classsw_1_1Property.html", null ],
       [ "sw::Property< sw::ContextMenu * >", "classsw_1_1Property.html", null ],
       [ "sw::Property< sw::BorderStyle >", "classsw_1_1Property.html", null ],
@@ -553,7 +556,6 @@ var hierarchy =
       [ "sw::Property< ToolTipIcon >", "classsw_1_1Property.html", null ],
       [ "sw::Property< HorizontalAlignment >", "classsw_1_1Property.html", null ],
       [ "sw::Property< VerticalAlignment >", "classsw_1_1Property.html", null ],
-      [ "sw::Property< uint64_t >", "classsw_1_1Property.html", null ],
       [ "sw::Property< sw::LayoutUpdateCondition >", "classsw_1_1Property.html", null ],
       [ "sw::Property< WindowStartupLocation >", "classsw_1_1Property.html", null ],
       [ "sw::Property< WindowState >", "classsw_1_1Property.html", null ],
@@ -576,6 +578,8 @@ var hierarchy =
       [ "sw::ReadOnlyProperty< sw::Variant >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::ObservableCollection< sw::ListViewItem > * >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::ObservableCollection< sw::ListViewColumn > * >", "classsw_1_1ReadOnlyProperty.html", null ],
+      [ "sw::ReadOnlyProperty< sw::MenuItem * >", "classsw_1_1ReadOnlyProperty.html", null ],
+      [ "sw::ReadOnlyProperty< HMENU >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< MsgBoxResult >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::Rect >", "classsw_1_1ReadOnlyProperty.html", null ],
       [ "sw::ReadOnlyProperty< sw::Size >", "classsw_1_1ReadOnlyProperty.html", null ],
@@ -597,10 +601,12 @@ var hierarchy =
     [ "sw::PropertyBase< FileDialogFlags, Property< FileDialogFlags > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< FolderDialogFlags, Property< FolderDialogFlags > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< FontDialogFlags, Property< FontDialogFlags > >", "classsw_1_1PropertyBase.html", null ],
+    [ "sw::PropertyBase< HBITMAP, Property< HBITMAP > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< HBITMAP, ReadOnlyProperty< HBITMAP > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< HICON, Property< HICON > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< HICON, ReadOnlyProperty< HICON > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< HINSTANCE, ReadOnlyProperty< HINSTANCE > >", "classsw_1_1PropertyBase.html", null ],
+    [ "sw::PropertyBase< HMENU, ReadOnlyProperty< HMENU > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< HorizontalAlignment, Property< HorizontalAlignment > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< HWND, ReadOnlyProperty< HWND > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< int, Property< int > >", "classsw_1_1PropertyBase.html", null ],
@@ -624,6 +630,7 @@ var hierarchy =
     [ "sw::PropertyBase< sw::LayoutUpdateCondition, Property< sw::LayoutUpdateCondition > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::List< std::wstring >, ReadOnlyProperty< sw::List< std::wstring > > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::Menu *, Property< sw::Menu * > >", "classsw_1_1PropertyBase.html", null ],
+    [ "sw::PropertyBase< sw::MenuItem *, ReadOnlyProperty< sw::MenuItem * > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::ObservableCollection< std::wstring > *, ReadOnlyProperty< sw::ObservableCollection< std::wstring > * > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::ObservableCollection< sw::FileFilterItem > *, ReadOnlyProperty< sw::ObservableCollection< sw::FileFilterItem > * > >", "classsw_1_1PropertyBase.html", null ],
     [ "sw::PropertyBase< sw::ObservableCollection< sw::GridColumn > *, ReadOnlyProperty< sw::ObservableCollection< sw::GridColumn > * > >", "classsw_1_1PropertyBase.html", null ],
