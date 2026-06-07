@@ -156,8 +156,6 @@ sw::MenuItem *sw::MenuItem::Create(const MenuItemDesc &desc)
             stack.push_back({/*parent*/ item, /*desc*/ &desc->subItems[i]});
         }
     }
-
-    root->_ResetMenuItem();
     return root;
 }
 
@@ -210,7 +208,11 @@ sw::MenuItem *sw::MenuItem::AddChild(const MenuItemDesc &desc)
     auto child = Create(desc);
     _SetParent(this, child);
 
-    child->_ResetMenuItem();
+    if (_hMenu == NULL) {
+        _ResetMenuItem();
+    } else {
+        child->_ResetMenuItem();
+    }
 
     if (child->CurrentDataContext != nullptr) {
         child->OnCurrentDataContextChanged(nullptr);
