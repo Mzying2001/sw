@@ -379,6 +379,7 @@ sw::MenuItemDesc sw::MenuItem::CopyDescTree() const
 
     MenuItemDesc desc(_desc);
     desc.subItems.Clear();
+    desc.subItems.Reserve(static_cast<int>(_subItems.size()));
 
     for (auto it = _subItems.rbegin(); it != _subItems.rend(); ++it) {
         stack.push_back({/*parent*/ &desc, /*item*/ it->get()});
@@ -393,6 +394,7 @@ sw::MenuItemDesc sw::MenuItem::CopyDescTree() const
 
         auto &current = parent->subItems[parent->subItems.Count() - 1];
         current.subItems.Clear();
+        current.subItems.Reserve(static_cast<int>(item->_subItems.size()));
 
         for (auto it = item->_subItems.rbegin(); it != item->_subItems.rend(); ++it) {
             stack.push_back({/*parent*/ &current, /*item*/ it->get()});
