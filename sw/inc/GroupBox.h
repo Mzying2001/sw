@@ -57,6 +57,13 @@ namespace sw
         virtual void FontChanged(HFONT hfont) override;
 
         /**
+         * @brief 接收到WM_SIZE时调用该函数
+         * @param newClientSize 改变后的用户区尺寸
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnSize(const Size &newClientSize) override;
+
+        /**
          * @brief 设置背景颜色
          * @param color 要设置的颜色
          * @param redraw 是否重绘
