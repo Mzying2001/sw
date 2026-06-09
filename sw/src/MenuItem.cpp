@@ -368,6 +368,39 @@ sw::MenuItem *sw::MenuItem::FindChildByTag(uint64_t tag)
     return nullptr;
 }
 
+sw::MenuItemDesc sw::MenuItem::CopyDescTree() const
+{
+    struct _CopyDescTreeStackItem {
+        MenuItemDesc *parent;
+        const MenuItem *item;
+    };
+
+    std::vector<_CopyDescTreeStackItem> stack;
+
+    MenuItemDesc desc(_desc);
+    desc.subItems.Clear();
+
+    for (auto it = _subItems.rbegin(); it != _subItems.rend(); ++it) {
+        stack.push_back({/*parent*/ &desc, /*item*/ it->get()});
+    }
+
+    while (!stack.empty()) {
+        auto parent = stack.back().parent;
+        auto item   = stack.back().item;
+        stack.pop_back();
+
+        parent->subItems.Add(item->_desc);
+
+        auto &current = parent->subItems[parent->subItems.Count() - 1];
+        current.subItems.Clear();
+
+        for (auto it = item->_subItems.rbegin(); it != item->_subItems.rend(); ++it) {
+            stack.push_back({/*parent*/ &current, /*item*/ it->get()});
+        }
+    }
+    return desc;
+}
+
 void sw::MenuItem::_ResetMenuItem()
 {
     struct _UpdateMenuItemStackItem {
