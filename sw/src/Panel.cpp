@@ -254,8 +254,8 @@ void sw::Panel::OnDrawPadding(HDC hdc, RECT &rect)
         return;
     }
 
-    RECT rtPaddingOuter  = rect;
-    RECT &rtPaddingInner = rect;
+    RECT rtPaddingOuter = rect;
+    RECT rtPaddingInner = rect;
 
     rtPaddingInner.left += Dip::DipToPxX(_padding.left);
     rtPaddingInner.top += Dip::DipToPxY(_padding.top);
@@ -265,18 +265,36 @@ void sw::Panel::OnDrawPadding(HDC hdc, RECT &rect)
     rtPaddingInner.right  = Utils::Max(rtPaddingInner.left, rtPaddingInner.right);
     rtPaddingInner.bottom = Utils::Max(rtPaddingInner.top, rtPaddingInner.bottom);
 
-    if (hdc != NULL) {
-        HRGN hRgnOuter = CreateRectRgnIndirect(&rtPaddingOuter);
-        HRGN hRgnInner = CreateRectRgnIndirect(&rtPaddingInner);
-        HRGN hRgnDiff  = CreateRectRgn(0, 0, 0, 0);
-        CombineRgn(hRgnDiff, hRgnOuter, hRgnInner, RGN_DIFF);
+    rect = rtPaddingInner;
+    if (hdc == NULL) return;
 
-        HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
-        FillRgn(hdc, hRgnDiff, hBrush);
+    HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
+    if (hBrush == NULL) return;
 
-        DeleteObject(hRgnOuter);
-        DeleteObject(hRgnInner);
-        DeleteObject(hRgnDiff);
-        DeleteObject(hBrush);
-    }
+    auto clamp = [](LONG value, LONG minValue, LONG maxValue) -> LONG {
+        return Utils::Min(Utils::Max(value, minValue), maxValue);
+    };
+
+    RECT rtPaintInner = {
+        clamp(rtPaddingInner.left, rtPaddingOuter.left, rtPaddingOuter.right),
+        clamp(rtPaddingInner.top, rtPaddingOuter.top, rtPaddingOuter.bottom),
+        clamp(rtPaddingInner.right, rtPaddingOuter.left, rtPaddingOuter.right),
+        clamp(rtPaddingInner.bottom, rtPaddingOuter.top, rtPaddingOuter.bottom)};
+
+    rtPaintInner.right  = Utils::Max(rtPaintInner.left, rtPaintInner.right);
+    rtPaintInner.bottom = Utils::Max(rtPaintInner.top, rtPaintInner.bottom);
+
+    auto fillRect = [&](LONG left, LONG top, LONG right, LONG bottom) {
+        if (left < right && top < bottom) {
+            RECT rt = {left, top, right, bottom};
+            FillRect(hdc, &rt, hBrush);
+        }
+    };
+
+    fillRect(rtPaddingOuter.left, rtPaddingOuter.top, rtPaddingOuter.right, rtPaintInner.top);
+    fillRect(rtPaddingOuter.left, rtPaintInner.bottom, rtPaddingOuter.right, rtPaddingOuter.bottom);
+    fillRect(rtPaddingOuter.left, rtPaintInner.top, rtPaintInner.left, rtPaintInner.bottom);
+    fillRect(rtPaintInner.right, rtPaintInner.top, rtPaddingOuter.right, rtPaintInner.bottom);
+
+    DeleteObject(hBrush);
 }
