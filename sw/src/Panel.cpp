@@ -101,14 +101,23 @@ bool sw::Panel::OnEraseBackground(HDC hdc, LRESULT &result)
 
 bool sw::Panel::OnPaint()
 {
-    PAINTSTRUCT ps;
+    PAINTSTRUCT ps{};
     HWND hwnd = Handle;
     HDC hdc   = BeginPaint(hwnd, &ps);
 
-    HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
-    FillRect(hdc, &ps.rcPaint, hBrush);
+    if (hdc != NULL &&
+        ps.rcPaint.left < ps.rcPaint.right &&
+        ps.rcPaint.top < ps.rcPaint.bottom) //
+    {
+        auto color    = static_cast<COLORREF>(GetRealBackColor());
+        HBRUSH hBrush = CreateSolidBrush(color);
 
-    DeleteObject(hBrush);
+        if (hBrush != NULL) {
+            FillRect(hdc, &ps.rcPaint, hBrush);
+            DeleteObject(hBrush);
+        }
+    }
+
     EndPaint(hwnd, &ps);
     return true;
 }
