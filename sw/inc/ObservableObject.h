@@ -29,44 +29,17 @@ namespace sw
          */
         ObservableObject() = default;
 
-        /**
-         * @brief 禁用拷贝构造
-         * @note 事件订阅不应随对象拷贝传播，否则订阅者会收到来自副本的额外通知
-         */
+        // 删除拷贝构造函数
         ObservableObject(const ObservableObject &) = delete;
 
-        /**
-         * @brief 禁用拷贝赋值
-         * @note 事件订阅不应随对象拷贝传播，否则订阅者会收到来自副本的额外通知
-         */
+        // 删除移动构造函数
+        ObservableObject(ObservableObject &&) = delete;
+
+        // 删除拷贝赋值运算符
         ObservableObject &operator=(const ObservableObject &) = delete;
 
-        /**
-         * @brief 移动构造函数
-         * @note 将事件订阅从被移动对象转移到新对象
-         */
-        ObservableObject(ObservableObject &&other) noexcept
-            : DynamicObject(std::move(other)),
-              INotifyObjectDead(std::move(other)),
-              INotifyPropertyChanged(std::move(other)),
-              _propertyChanged(std::move(other._propertyChanged)),
-              _objectDead(std::move(other._objectDead))
-        {
-        }
-
-        /**
-         * @brief 移动赋值运算符
-         * @note 将事件订阅从被移动对象转移到当前对象，覆盖当前对象已有的订阅
-         */
-        ObservableObject &operator=(ObservableObject &&other) noexcept
-        {
-            if (this != &other) {
-                DynamicObject::operator=(std::move(other));
-                _propertyChanged = std::move(other._propertyChanged);
-                _objectDead      = std::move(other._objectDead);
-            }
-            return *this;
-        }
+        // 删除移动赋值运算符
+        ObservableObject &operator=(ObservableObject &&) = delete;
 
         /**
          * @brief 析构时触发对象销毁事件
