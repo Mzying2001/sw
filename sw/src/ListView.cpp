@@ -336,11 +336,23 @@ bool sw::ListView::OnItemPrePaint(NMCUSTOMDRAW *pNMCD, bool subItem, LRESULT &re
         RECT rtCheck{};
         GetCheckBoxRect(row, rtCheck);
 
-        DrawFrameControl(
-            pCD->nmcd.hdc,
-            &rtCheck,
-            DFC_BUTTON,
-            DFCS_BUTTONCHECK | (GetItemCheckState(row) ? DFCS_CHECKED : 0));
+        bool drawn      = false;
+        auto stateIcons = GetImageList(ListViewImageList::State);
+
+        bool checked   = GetItemCheckState(row);
+        int imageIndex = checked ? 1 : 0;
+
+        if (stateIcons.GetHandle() != NULL && stateIcons.GetImageCount() > imageIndex) {
+            drawn = stateIcons.Draw(imageIndex, pCD->nmcd.hdc, rtCheck.left, rtCheck.top, ILD_NORMAL);
+        }
+
+        if (!drawn) {
+            DrawFrameControl(
+                pCD->nmcd.hdc,
+                &rtCheck,
+                DFC_BUTTON,
+                DFCS_BUTTONCHECK | (checked ? DFCS_CHECKED : 0));
+        }
 
         result = CDRF_DODEFAULT;
     }
@@ -515,10 +527,22 @@ void sw::ListView::GetCheckBoxRect(int index, RECT &rect)
 {
     ListView_GetItemRect(Handle, index, &rect, LVIR_ICON);
 
-    int cyItem  = rect.bottom - rect.top;
-    int cxEdge  = GetSystemMetrics(SM_CXEDGE);
-    int cxCheck = GetSystemMetrics(SM_CXMENUCHECK);
-    int cyCheck = GetSystemMetrics(SM_CYMENUCHECK);
+    int cyItem = rect.bottom - rect.top;
+    int cxEdge = GetSystemMetrics(SM_CXEDGE);
+
+    int cxCheck = 0;
+    int cyCheck = 0;
+
+    ImageList stateImageList = GetImageList(ListViewImageList::State);
+
+    if (stateImageList.GetHandle() != NULL) {
+        stateImageList.GetIconSize(cxCheck, cyCheck);
+    }
+
+    if (cxCheck <= 0 || cyCheck <= 0) {
+        cxCheck = GetSystemMetrics(SM_CXMENUCHECK);
+        cyCheck = GetSystemMetrics(SM_CYMENUCHECK);
+    }
 
     int iconLeft = rect.left;
 
