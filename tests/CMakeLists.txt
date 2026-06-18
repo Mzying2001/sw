@@ -19,7 +19,7 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/../sw sw_build)
 enable_testing()
 
 add_executable(sw_unit_tests
-    common/TestMain.cpp
+    TestMain.cpp
     unit/PropertyTests.cpp
     unit/DelegateEventTests.cpp
     unit/ReflectionVariantTests.cpp
@@ -27,7 +27,7 @@ add_executable(sw_unit_tests
 )
 
 target_include_directories(sw_unit_tests PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/common
+    ${CMAKE_CURRENT_SOURCE_DIR}/support
 )
 target_compile_options(sw_unit_tests PRIVATE ${COMMON_COMPILE_OPTIONS})
 target_link_libraries(sw_unit_tests PRIVATE sw)
