@@ -16,6 +16,11 @@ endif()
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/../sw sw_build)
 
+if(MSVC)
+    # 测试工程不依赖vcpkg；禁用VS全局vcpkg集成，避免额外库污染链接命令。
+    set_target_properties(sw PROPERTIES VS_GLOBAL_VcpkgEnabled false)
+endif()
+
 enable_testing()
 
 add_executable(sw_unit_tests
@@ -24,12 +29,18 @@ add_executable(sw_unit_tests
     unit/DelegateEventTests.cpp
     unit/ReflectionVariantTests.cpp
     unit/CollectionTests.cpp
+    unit/TestFrameworkTests.cpp
 )
 
 target_include_directories(sw_unit_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/support
 )
+
 target_compile_options(sw_unit_tests PRIVATE ${COMMON_COMPILE_OPTIONS})
 target_link_libraries(sw_unit_tests PRIVATE sw)
+
+if(MSVC)
+    set_target_properties(sw_unit_tests PROPERTIES VS_GLOBAL_VcpkgEnabled false)
+endif()
 
 add_test(NAME sw_unit_tests COMMAND sw_unit_tests)
