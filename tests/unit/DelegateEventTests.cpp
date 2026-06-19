@@ -32,6 +32,15 @@ namespace
         }
     };
 
+    struct PlainFunctor {
+        int delta;
+
+        int operator()(int value) const
+        {
+            return value + delta;
+        }
+    };
+
     struct Receiver {
         int factor = 1;
         std::vector<int> calls;
@@ -97,10 +106,23 @@ namespace
 TEST_CASE("Delegate empty invocation throws")
 {
     sw::Delegate<int(int)> func;
+    sw::Delegate<int(int)> empty;
+    int (*nullFunc)(int) = nullptr;
 
     CHECK(func == nullptr);
     CHECK(nullptr == func);
+    CHECK_FALSE(static_cast<bool>(func));
+    CHECK_FALSE(func != nullptr);
+    CHECK_FALSE(nullptr != func);
+
+    func += empty;
+    func += nullFunc;
+    CHECK(func == nullptr);
+    CHECK_FALSE(func.Remove(empty));
+    CHECK_FALSE(func.Remove(nullFunc));
+
     REQUIRE_THROWS_AS(func(1), std::runtime_error);
+    REQUIRE_THROWS_AS(func.InvokeAll(1), std::runtime_error);
 }
 
 TEST_CASE("Delegate invokes free functions lambdas functors and member functions")
@@ -110,8 +132,17 @@ TEST_CASE("Delegate invokes free functions lambdas functors and member functions
     func += FreeAddOne;
     CHECK_EQ(4, func(3));
 
+    auto lambda = [](int value) {
+        return value * 2;
+    };
+    func += lambda;
+    CHECK_EQ(6, func(3));
+
     func += Functor{4};
     CHECK_EQ(7, func(3));
+
+    func += PlainFunctor{5};
+    CHECK_EQ(8, func(3));
 
     Receiver receiver;
     receiver.factor = 5;
@@ -132,17 +163,72 @@ TEST_CASE("Delegate removes handlers from the back and preserves multicast order
     sw::Delegate<int(int)> func;
     func += first;
     func += second;
+    func += first;
 
+    CHECK_EQ(13, func(3));
+    CHECK_EQ(3, static_cast<int>(calls.size()));
+    CHECK_EQ(13, calls[0]);
+    CHECK_EQ(23, calls[1]);
+    CHECK_EQ(13, calls[2]);
+
+    REQUIRE(func.Remove(first));
+    calls.clear();
     CHECK_EQ(23, func(3));
     CHECK_EQ(2, static_cast<int>(calls.size()));
     CHECK_EQ(13, calls[0]);
     CHECK_EQ(23, calls[1]);
 
-    REQUIRE(func.Remove(second));
+    CHECK_FALSE(func.Remove(RecordingFunctor{&calls, 30}));
     calls.clear();
-    CHECK_EQ(13, func(3));
-    CHECK_EQ(1, static_cast<int>(calls.size()));
+    CHECK_EQ(23, func(3));
+    CHECK_EQ(2, static_cast<int>(calls.size()));
     CHECK_EQ(13, calls[0]);
+    CHECK_EQ(23, calls[1]);
+}
+
+TEST_CASE("Delegate removes function objects and member handlers")
+{
+    sw::Delegate<int(int)> func;
+
+    func += PlainFunctor{5};
+    CHECK_EQ(8, func(3));
+    REQUIRE(func.Remove(PlainFunctor{5}));
+    CHECK(func == nullptr);
+
+    Receiver receiver;
+    receiver.factor = 4;
+    const Receiver constReceiver{6, {}};
+
+    func.Add(receiver, &Receiver::Multiply);
+    func.Add(constReceiver, &Receiver::AddFactor);
+    CHECK_EQ(9, func(3));
+    CHECK_EQ(1, static_cast<int>(receiver.calls.size()));
+
+    REQUIRE(func.Remove(constReceiver, &Receiver::AddFactor));
+    CHECK_EQ(12, func(3));
+    CHECK_EQ(2, static_cast<int>(receiver.calls.size()));
+
+    REQUIRE(func.Remove(receiver, &Receiver::Multiply));
+    CHECK(func == nullptr);
+    CHECK_FALSE(func.Remove(receiver, &Receiver::Multiply));
+}
+
+TEST_CASE("Delegate invokes all void handlers in order")
+{
+    std::vector<int> calls;
+    sw::Delegate<void(int)> action;
+
+    action += [&](int value) {
+        calls.push_back(value + 1);
+    };
+    action += [&](int value) {
+        calls.push_back(value + 2);
+    };
+
+    action(10);
+    CHECK_EQ(2, static_cast<int>(calls.size()));
+    CHECK_EQ(11, calls[0]);
+    CHECK_EQ(12, calls[1]);
 }
 
 TEST_CASE("Delegate InvokeAll returns every non-void result")
@@ -156,6 +242,30 @@ TEST_CASE("Delegate InvokeAll returns every non-void result")
     CHECK_EQ(2, static_cast<int>(results.size()));
     CHECK_EQ(11, results[0]);
     CHECK_EQ(12, results[1]);
+}
+
+TEST_CASE("Delegate assignment replaces handlers and keeps copies independent")
+{
+    sw::Delegate<int(int)> source;
+    source += FreeAddTwo;
+
+    sw::Delegate<int(int)> target;
+    target += FreeAddOne;
+
+    target = source;
+    CHECK(target == source);
+    CHECK_EQ(7, target(5));
+
+    source.Clear();
+    CHECK(source == nullptr);
+    CHECK_EQ(7, target(5));
+
+    sw::Delegate<int(int)> movedTarget;
+    movedTarget += Functor{1};
+    movedTarget = std::move(target);
+
+    CHECK_EQ(7, movedTarget(5));
+    CHECK(target == nullptr);
 }
 
 TEST_CASE("Delegate copy move equality and clear work")
@@ -178,11 +288,21 @@ TEST_CASE("Delegate copy move equality and clear work")
 
 TEST_CASE("Delegate supports adding and removing nested delegates")
 {
+    sw::Delegate<int(int)> single;
+    single += FreeAddOne;
+
+    sw::Delegate<int(int)> target;
+    target += single;
+    CHECK(target == single);
+    CHECK_EQ(6, target(5));
+
+    target -= single;
+    CHECK(target == nullptr);
+
     sw::Delegate<int(int)> source;
     source += FreeAddOne;
     source += FreeAddTwo;
 
-    sw::Delegate<int(int)> target;
     target += source;
     CHECK(target != source);
     CHECK_EQ(7, target(5));
