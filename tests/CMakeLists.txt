@@ -30,6 +30,11 @@ add_executable(sw_unit_tests
     unit/ReflectionVariantTests.cpp
     unit/CollectionTests.cpp
     unit/TestFrameworkTests.cpp
+    unit/ValueTypeTests.cpp
+    unit/UtilityTests.cpp
+    unit/ConverterBindingTests.cpp
+    unit/MacroPropertyTests.cpp
+    unit/RoutedInputTests.cpp
 )
 
 target_include_directories(sw_unit_tests PRIVATE
