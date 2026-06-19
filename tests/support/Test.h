@@ -54,6 +54,10 @@ namespace swtest
         int assertions = 0;              ///< 执行过的断言数量
         double elapsedMilliseconds = 0.; ///< 用例耗时
 
+        /**
+         * @brief 判断当前测试用例是否通过。
+         * @return 没有记录任何失败时返回true。
+         */
         bool Passed() const
         {
             return failures.empty();
@@ -93,11 +97,23 @@ namespace swtest
      * @brief 静态注册测试用例。
      */
     struct Registrar {
+        /**
+         * @brief 创建注册器并将测试用例加入全局注册表。
+         * @param name 测试用例名称
+         * @param func 测试用例入口函数
+         * @param file 定义测试用例的源文件
+         * @param line 定义测试用例的行号
+         */
         Registrar(const char *name, void (*func)(), const char *file, int line)
         {
             Registry().push_back(TestCase{name, func, file, line});
         }
 
+        /**
+         * @brief 兼容旧调用方式的注册构造函数。
+         * @param name 测试用例名称
+         * @param func 测试用例入口函数
+         */
         Registrar(const char *name, void (*func)())
             : Registrar(name, func, nullptr, 0)
         {
@@ -130,21 +146,37 @@ namespace swtest
 
     namespace Detail
     {
+        /**
+         * @brief 获取当前正在执行的测试结果指针。
+         *
+         * 断言函数通过该指针把失败和断言数量写回当前用例；当断言在测试运行器外被调用时，
+         * 该指针为空，此时失败会直接以异常形式向外抛出。
+         */
         inline TestResult *&CurrentResult()
         {
             static TestResult *result = nullptr;
             return result;
         }
 
+        /**
+         * @brief 在当前作用域内切换CurrentResult，并在离开作用域时恢复旧值。
+         */
         class ScopedCurrentResult
         {
         public:
+            /**
+             * @brief 进入指定测试用例的断言记录上下文。
+             * @param result 当前测试用例的执行结果对象
+             */
             explicit ScopedCurrentResult(TestResult &result)
                 : _previous(CurrentResult())
             {
                 CurrentResult() = &result;
             }
 
+            /**
+             * @brief 恢复进入作用域前的测试结果上下文。
+             */
             ~ScopedCurrentResult()
             {
                 CurrentResult() = _previous;
@@ -154,6 +186,9 @@ namespace swtest
             TestResult *_previous;
         };
 
+        /**
+         * @brief 为当前测试用例增加一次断言计数。
+         */
         inline void CountAssertion()
         {
             if (CurrentResult() != nullptr) {
@@ -161,6 +196,11 @@ namespace swtest
             }
         }
 
+        /**
+         * @brief 将宽字符串转换为UTF-8窄字符串，便于在测试失败信息中输出。
+         * @param value 需要转换的宽字符串
+         * @return UTF-8编码的字符串；转换失败时用问号替代非ASCII字符。
+         */
         inline std::string Narrow(const std::wstring &value)
         {
             try {
@@ -176,6 +216,11 @@ namespace swtest
             }
         }
 
+        /**
+         * @brief 转义字符串中的控制字符和引号，生成适合诊断输出的文本。
+         * @param value 原始字符串
+         * @return 转义后的字符串内容，不包含外层引号。
+         */
         inline std::string EscapeString(const std::string &value)
         {
             std::ostringstream oss;
@@ -209,6 +254,9 @@ namespace swtest
             return oss.str();
         }
 
+        /**
+         * @brief 判断类型T是否可以直接写入std::ostream。
+         */
         template <typename T>
         class IsOstreamWritable
         {
@@ -223,53 +271,83 @@ namespace swtest
             static const bool value = decltype(Test<T>(0))::value;
         };
 
+        /**
+         * @brief 将std::string格式化为带引号的诊断文本。
+         */
         inline std::string ValueToString(const std::string &value)
         {
             return "\"" + EscapeString(value) + "\"";
         }
 
+        /**
+         * @brief 将窄字符串指针格式化为诊断文本。
+         */
         inline std::string ValueToString(const char *value)
         {
             return value == nullptr ? "nullptr" : ValueToString(std::string(value));
         }
 
+        /**
+         * @brief 将可变窄字符串指针格式化为诊断文本。
+         */
         inline std::string ValueToString(char *value)
         {
             return ValueToString(static_cast<const char *>(value));
         }
 
+        /**
+         * @brief 将窄字符串字面量或字符数组格式化为诊断文本。
+         */
         template <std::size_t N>
         std::string ValueToString(const char (&value)[N])
         {
             return ValueToString(static_cast<const char *>(value));
         }
 
+        /**
+         * @brief 将std::wstring格式化为带L前缀和引号的诊断文本。
+         */
         inline std::string ValueToString(const std::wstring &value)
         {
             return "L\"" + EscapeString(Narrow(value)) + "\"";
         }
 
+        /**
+         * @brief 将宽字符串指针格式化为诊断文本。
+         */
         inline std::string ValueToString(const wchar_t *value)
         {
             return value == nullptr ? "nullptr" : ValueToString(std::wstring(value));
         }
 
+        /**
+         * @brief 将可变宽字符串指针格式化为诊断文本。
+         */
         inline std::string ValueToString(wchar_t *value)
         {
             return ValueToString(static_cast<const wchar_t *>(value));
         }
 
+        /**
+         * @brief 将宽字符串字面量或字符数组格式化为诊断文本。
+         */
         template <std::size_t N>
         std::string ValueToString(const wchar_t (&value)[N])
         {
             return ValueToString(static_cast<const wchar_t *>(value));
         }
 
+        /**
+         * @brief 将空指针格式化为诊断文本。
+         */
         inline std::string ValueToString(std::nullptr_t)
         {
             return "nullptr";
         }
 
+        /**
+         * @brief 将可写入std::ostream的值格式化为诊断文本。
+         */
         template <typename T>
         typename std::enable_if<IsOstreamWritable<T>::value, std::string>::type ValueToString(const T &value)
         {
@@ -278,6 +356,9 @@ namespace swtest
             return oss.str();
         }
 
+        /**
+         * @brief 将不可直接输出的枚举值按底层整数类型格式化。
+         */
         template <typename T>
         typename std::enable_if<!IsOstreamWritable<T>::value && std::is_enum<T>::value, std::string>::type ValueToString(
             const T &value)
@@ -286,6 +367,9 @@ namespace swtest
             return ValueToString(static_cast<Underlying>(value));
         }
 
+        /**
+         * @brief 为不可输出的非枚举类型生成占位诊断文本。
+         */
         template <typename T>
         typename std::enable_if<!IsOstreamWritable<T>::value && !std::is_enum<T>::value, std::string>::type ValueToString(
             const T &)
@@ -293,6 +377,11 @@ namespace swtest
             return "<unprintable>";
         }
 
+        /**
+         * @brief 将失败记录格式化为单行可读消息。
+         * @param failure 失败记录
+         * @return 包含文件、行号、断言类型、表达式和详情的消息。
+         */
         inline std::string FormatFailure(const Failure &failure)
         {
             std::ostringstream oss;
@@ -306,6 +395,9 @@ namespace swtest
             return oss.str();
         }
 
+        /**
+         * @brief 构造一条失败记录，并补齐空指针输入的默认文本。
+         */
         inline Failure MakeFailure(
             const char *kind,
             const std::string &expression,
@@ -324,6 +416,12 @@ namespace swtest
             return failure;
         }
 
+        /**
+         * @brief 记录一次断言失败，并按断言类型决定是否抛出异常。
+         *
+         * 非致命断言只写入当前测试结果并继续执行；致命断言会抛出FatalAssertionFailure，
+         * 由RunOne捕获后结束当前用例。若当前没有测试上下文，任何失败都会抛出异常。
+         */
         inline void ReportFailure(
             const char *kind,
             const std::string &expression,
@@ -348,6 +446,9 @@ namespace swtest
             }
         }
 
+        /**
+         * @brief 格式化二元比较断言中的左右值详情。
+         */
         inline std::string FormatBinaryDetail(
             const std::string &leftName,
             const std::string &leftValue,
@@ -359,6 +460,9 @@ namespace swtest
             return oss.str();
         }
 
+        /**
+         * @brief 拼接二元断言的表达式文本。
+         */
         inline std::string JoinExpression(const char *leftExpr, const char *op, const char *rightExpr)
         {
             std::ostringstream oss;
@@ -366,6 +470,9 @@ namespace swtest
             return oss.str();
         }
 
+        /**
+         * @brief 将毫秒耗时格式化为固定两位小数的字符串。
+         */
         inline std::string FormatDuration(double milliseconds)
         {
             std::ostringstream oss;
@@ -373,18 +480,32 @@ namespace swtest
             return oss.str();
         }
 
+        /**
+         * @brief 判断字符串是否以指定前缀开头。
+         */
         inline bool StartsWith(const std::string &value, const char *prefix)
         {
             const auto length = std::strlen(prefix);
             return value.size() >= length && value.compare(0, length, prefix) == 0;
         }
 
+        /**
+         * @brief 判断测试用例名称是否匹配过滤条件。
+         */
         inline bool MatchesFilter(const TestCase &test, const std::string &filter)
         {
             return filter.empty() || std::string(test.name).find(filter) != std::string::npos;
         }
     }
 
+    /**
+     * @brief 记录致命失败并终止当前测试用例。
+     * @param kind 失败类型
+     * @param expr 失败表达式或消息
+     * @param file 失败位置所在文件
+     * @param line 失败位置所在行号
+     * @param detail 额外诊断信息
+     */
     inline void Fail(
         const char *kind,
         const char *expr,
@@ -396,11 +517,17 @@ namespace swtest
         Detail::ReportFailure(kind, expr == nullptr ? "" : expr, file, line, detail, true);
     }
 
+    /**
+     * @brief 记录自定义致命失败并终止当前测试用例。
+     */
     inline void Fail(const char *message, const char *file, int line)
     {
         Fail("FAIL", message, file, line);
     }
 
+    /**
+     * @brief 检查表达式是否为true；失败时记录错误并继续执行当前用例。
+     */
     inline void Check(bool condition, const char *expr, const char *file, int line)
     {
         Detail::CountAssertion();
@@ -409,6 +536,9 @@ namespace swtest
         }
     }
 
+    /**
+     * @brief 检查表达式是否为true；失败时立即终止当前用例。
+     */
     inline void Require(bool condition, const char *expr, const char *file, int line)
     {
         Detail::CountAssertion();
@@ -417,6 +547,9 @@ namespace swtest
         }
     }
 
+    /**
+     * @brief 检查表达式是否为false；失败时记录错误并继续执行当前用例。
+     */
     inline void CheckFalse(bool condition, const char *expr, const char *file, int line)
     {
         Detail::CountAssertion();
@@ -425,6 +558,9 @@ namespace swtest
         }
     }
 
+    /**
+     * @brief 检查表达式是否为false；失败时立即终止当前用例。
+     */
     inline void RequireFalse(bool condition, const char *expr, const char *file, int line)
     {
         Detail::CountAssertion();
@@ -433,6 +569,9 @@ namespace swtest
         }
     }
 
+    /**
+     * @brief 检查两个值是否相等；失败时记录expected/actual并继续执行当前用例。
+     */
     template <typename TExpected, typename TActual>
     void CheckEqual(
         const TExpected &expected,
@@ -458,6 +597,9 @@ namespace swtest
         }
     }
 
+    /**
+     * @brief 检查两个值是否相等；失败时记录expected/actual并立即终止当前用例。
+     */
     template <typename TExpected, typename TActual>
     void RequireEqual(
         const TExpected &expected,
@@ -483,6 +625,9 @@ namespace swtest
         }
     }
 
+    /**
+     * @brief 检查两个值是否不相等；失败时继续执行当前用例。
+     */
     template <typename TLeft, typename TRight>
     void CheckNotEqual(
         const TLeft &left,
@@ -504,6 +649,9 @@ namespace swtest
         }
     }
 
+    /**
+     * @brief 检查两个值是否不相等；失败时立即终止当前用例。
+     */
     template <typename TLeft, typename TRight>
     void RequireNotEqual(
         const TLeft &left,
@@ -525,6 +673,9 @@ namespace swtest
         }
     }
 
+    /**
+     * @brief 检查left < right；失败时继续执行当前用例。
+     */
     template <typename TLeft, typename TRight>
     void CheckLess(
         const TLeft &left,
@@ -546,6 +697,9 @@ namespace swtest
         }
     }
 
+    /**
+     * @brief 检查left <= right；失败时继续执行当前用例。
+     */
     template <typename TLeft, typename TRight>
     void CheckLessOrEqual(
         const TLeft &left,
@@ -567,6 +721,9 @@ namespace swtest
         }
     }
 
+    /**
+     * @brief 检查left > right；失败时继续执行当前用例。
+     */
     template <typename TLeft, typename TRight>
     void CheckGreater(
         const TLeft &left,
@@ -588,6 +745,9 @@ namespace swtest
         }
     }
 
+    /**
+     * @brief 检查left >= right；失败时继续执行当前用例。
+     */
     template <typename TLeft, typename TRight>
     void CheckGreaterOrEqual(
         const TLeft &left,
@@ -609,6 +769,9 @@ namespace swtest
         }
     }
 
+    /**
+     * @brief 检查表达式是否抛出指定异常类型；失败时继续执行当前用例。
+     */
     template <typename TException, typename TFunc>
     void CheckThrowsAs(TFunc func, const char *expr, const char *exceptionName, const char *file, int line)
     {
@@ -634,6 +797,9 @@ namespace swtest
         Detail::ReportFailure("CHECK_THROWS_AS", expr, file, line, oss.str(), false);
     }
 
+    /**
+     * @brief 检查表达式是否抛出指定异常类型；失败时立即终止当前用例。
+     */
     template <typename TException, typename TFunc>
     void RequireThrowsAs(TFunc func, const char *expr, const char *exceptionName, const char *file, int line)
     {
@@ -659,6 +825,9 @@ namespace swtest
         Detail::ReportFailure("REQUIRE_THROWS_AS", expr, file, line, oss.str(), true);
     }
 
+    /**
+     * @brief 检查表达式是否不抛出异常；失败时继续执行当前用例。
+     */
     template <typename TFunc>
     void CheckNoThrow(TFunc func, const char *expr, const char *file, int line)
     {
@@ -672,6 +841,9 @@ namespace swtest
         }
     }
 
+    /**
+     * @brief 检查表达式是否不抛出异常；失败时立即终止当前用例。
+     */
     template <typename TFunc>
     void RequireNoThrow(TFunc func, const char *expr, const char *file, int line)
     {
@@ -685,6 +857,11 @@ namespace swtest
         }
     }
 
+    /**
+     * @brief 执行单个测试用例并返回完整结果。
+     * @param test 待执行的测试用例
+     * @return 包含失败列表、断言数量和耗时的执行结果。
+     */
     inline TestResult RunOne(const TestCase &test)
     {
         TestResult result;
@@ -731,6 +908,10 @@ namespace swtest
         return result;
     }
 
+    /**
+     * @brief 输出当前注册的全部测试用例。
+     * @param out 输出流
+     */
     inline void PrintRegisteredTests(std::ostream &out)
     {
         const auto &tests = Registry();
@@ -743,6 +924,13 @@ namespace swtest
         }
     }
 
+    /**
+     * @brief 按配置运行测试用例并输出测试报告。
+     * @param options 运行配置
+     * @param out 标准报告输出流
+     * @param err 失败详情输出流
+     * @return 测试运行汇总信息。
+     */
     inline TestRunSummary RunTests(
         const TestOptions &options,
         std::ostream &out = std::cout,
@@ -796,6 +984,9 @@ namespace swtest
         return summary;
     }
 
+    /**
+     * @brief 输出命令行用法说明。
+     */
     inline void PrintUsage(std::ostream &out, const char *program)
     {
         out << "Usage: " << program << " [--list] [--filter <substring>]\n"
@@ -804,6 +995,13 @@ namespace swtest
             << "  --help                 Show this help message.\n";
     }
 
+    /**
+     * @brief 解析命令行参数并运行测试。
+     *
+     * 支持 --list、--filter <substring>、--filter=<substring> 和 --help。
+     *
+     * @return 0表示成功；1表示测试失败或没有选中任何测试；2表示参数错误。
+     */
     inline int RunAll(int argc, char **argv)
     {
         TestOptions options;
@@ -846,6 +1044,9 @@ namespace swtest
         return summary.failed == 0 && summary.selected > 0 ? 0 : 1;
     }
 
+    /**
+     * @brief 使用默认参数运行全部测试。
+     */
     inline int RunAll()
     {
         char program[] = "sw_unit_tests";
@@ -857,16 +1058,27 @@ namespace swtest
 #define SWTEST_CONCAT_IMPL(a, b) a##b
 #define SWTEST_CONCAT(a, b) SWTEST_CONCAT_IMPL(a, b)
 
-#define TEST_CASE(name)                                                                    \
-    static void SWTEST_CONCAT(SwTestFunc_, __LINE__)();                                    \
-    static ::swtest::Registrar SWTEST_CONCAT(SwTestRegistrar_, __LINE__)(                  \
-        name, &SWTEST_CONCAT(SwTestFunc_, __LINE__), __FILE__, __LINE__);                  \
+/**
+ * @brief 定义并自动注册一个测试用例。
+ *
+ * name会出现在测试报告和--filter匹配中；宏内部使用当前行号生成静态函数名，
+ * 因此同一源文件中不要在同一行写多个TEST_CASE。
+ */
+#define TEST_CASE(name)                                                   \
+    static void SWTEST_CONCAT(SwTestFunc_, __LINE__)();                   \
+    static ::swtest::Registrar SWTEST_CONCAT(SwTestRegistrar_, __LINE__)( \
+        name, &SWTEST_CONCAT(SwTestFunc_, __LINE__), __FILE__, __LINE__); \
     static void SWTEST_CONCAT(SwTestFunc_, __LINE__)()
 
-#define CHECK(expr) ::swtest::Check(static_cast<bool>(expr), #expr, __FILE__, __LINE__)
-#define REQUIRE(expr) ::swtest::Require(static_cast<bool>(expr), #expr, __FILE__, __LINE__)
-#define CHECK_FALSE(expr) ::swtest::CheckFalse(static_cast<bool>(expr), #expr, __FILE__, __LINE__)
-#define REQUIRE_FALSE(expr) ::swtest::RequireFalse(static_cast<bool>(expr), #expr, __FILE__, __LINE__)
+// CHECK_*断言失败后继续执行当前测试；REQUIRE_*断言失败后立即结束当前测试。
+#define CHECK(expr) \
+    ::swtest::Check(static_cast<bool>(expr), #expr, __FILE__, __LINE__)
+#define REQUIRE(expr) \
+    ::swtest::Require(static_cast<bool>(expr), #expr, __FILE__, __LINE__)
+#define CHECK_FALSE(expr) \
+    ::swtest::CheckFalse(static_cast<bool>(expr), #expr, __FILE__, __LINE__)
+#define REQUIRE_FALSE(expr) \
+    ::swtest::RequireFalse(static_cast<bool>(expr), #expr, __FILE__, __LINE__)
 #define CHECK_EQ(expected, actual) \
     ::swtest::CheckEqual((expected), (actual), #expected, #actual, __FILE__, __LINE__)
 #define REQUIRE_EQ(expected, actual) \
@@ -891,4 +1103,5 @@ namespace swtest
     ::swtest::CheckNoThrow([&]() { (void)(expr); }, #expr, __FILE__, __LINE__)
 #define REQUIRE_NOTHROW(expr) \
     ::swtest::RequireNoThrow([&]() { (void)(expr); }, #expr, __FILE__, __LINE__)
-#define FAIL(message) ::swtest::Fail((message), __FILE__, __LINE__)
+#define FAIL(message) \
+    ::swtest::Fail((message), __FILE__, __LINE__)
