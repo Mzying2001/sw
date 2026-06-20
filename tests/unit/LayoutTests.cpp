@@ -178,6 +178,30 @@ TEST_CASE("StackLayoutV measures and arranges children from top to bottom")
     CHECK_EQ(sw::Rect(0, 35, 25, 30), third.lastArrangeRect);
 }
 
+TEST_CASE("StackLayout dispatches through the generic host orientation")
+{
+    LayoutFixture<sw::StackLayout> fx;
+    auto &first  = fx.container.EmplaceChild("first", sw::Size(30, 10));
+    auto &second = fx.container.EmplaceChild("second", sw::Size(20, 15));
+
+    CHECK_EQ(sw::Size(30, 25), fx.host.MeasureOverride(sw::Size(100, 40)));
+    CHECK_EQ(sw::Size(100, kInf), first.lastMeasureAvailableSize);
+    CHECK_EQ(sw::Size(100, kInf), second.lastMeasureAvailableSize);
+
+    fx.host.ArrangeOverride(sw::Size(40, 25));
+    CHECK_EQ(sw::Rect(0, 0, 40, 10), first.lastArrangeRect);
+    CHECK_EQ(sw::Rect(0, 10, 40, 15), second.lastArrangeRect);
+
+    fx.host.orientation = sw::Orientation::Horizontal;
+    CHECK_EQ(sw::Size(50, 15), fx.host.MeasureOverride(sw::Size(100, 40)));
+    CHECK_EQ(sw::Size(kInf, 40), first.lastMeasureAvailableSize);
+    CHECK_EQ(sw::Size(kInf, 40), second.lastMeasureAvailableSize);
+
+    fx.host.ArrangeOverride(sw::Size(50, 20));
+    CHECK_EQ(sw::Rect(0, 0, 30, 20), first.lastArrangeRect);
+    CHECK_EQ(sw::Rect(30, 0, 20, 20), second.lastArrangeRect);
+}
+
 TEST_CASE("FillLayout measures all children with the same constraint and fills the final rect")
 {
     LayoutFixture<sw::FillLayout> fx;
@@ -191,6 +215,17 @@ TEST_CASE("FillLayout measures all children with the same constraint and fills t
     fx.host.ArrangeOverride(sw::Size(120, 70));
     CHECK_EQ(sw::Rect(0, 0, 120, 70), first.lastArrangeRect);
     CHECK_EQ(sw::Rect(0, 0, 120, 70), second.lastArrangeRect);
+}
+
+TEST_CASE("FillLayout handles an empty container")
+{
+    LayoutFixture<sw::FillLayout> fx;
+
+    CHECK_EQ(sw::Size(0, 0), fx.host.MeasureOverride(sw::Size(80, 60)));
+
+    CHECK_NOTHROW(fx.host.ArrangeOverride(sw::Size(80, 60)));
+    CHECK_EQ(0, fx.container.GetChildLayoutCount());
+    CHECK_EQ(0, static_cast<int>(fx.calls.size()));
 }
 
 TEST_CASE("CanvasLayout uses layout tags as absolute positions")
@@ -259,6 +294,20 @@ TEST_CASE("DockLayout can let the last child fill the remaining area")
     CHECK_EQ(sw::Rect(10, 6, 90, 54), fill.lastArrangeRect);
 }
 
+TEST_CASE("DockLayout treats unknown layout tags as left docks")
+{
+    LayoutFixture<sw::DockLayout> fx;
+    fx.host.lastChildFill = false;
+
+    auto &fallback = fx.container.EmplaceChild("fallback", sw::Size(10, 6), 99);
+
+    CHECK_EQ(sw::Size(10, 6), fx.host.MeasureOverride(sw::Size(100, 80)));
+    CHECK_EQ(sw::Size(100, 80), fallback.lastMeasureAvailableSize);
+
+    fx.host.ArrangeOverride(sw::Size(100, 80));
+    CHECK_EQ(sw::Rect(0, 0, 10, 80), fallback.lastArrangeRect);
+}
+
 TEST_CASE("WrapLayout wraps horizontally when width is exhausted")
 {
     LayoutFixture<sw::WrapLayout> fx;
@@ -279,6 +328,26 @@ TEST_CASE("WrapLayout wraps horizontally when width is exhausted")
     CHECK_EQ(sw::Rect(0, 10, 40, 12), third.lastArrangeRect);
 }
 
+TEST_CASE("WrapLayout measures horizontally without a width constraint")
+{
+    LayoutFixture<sw::WrapLayout> fx;
+    fx.host.orientation = sw::Orientation::Horizontal;
+
+    auto &first  = fx.container.EmplaceChild("first", sw::Size(20, 10));
+    auto &second = fx.container.EmplaceChild("second", sw::Size(30, 8));
+    auto &third  = fx.container.EmplaceChild("third", sw::Size(40, 12));
+
+    CHECK_EQ(sw::Size(90, 12), fx.host.MeasureOverride(sw::Size(kInf, 50)));
+    CHECK_EQ(sw::Size(kInf, kInf), first.lastMeasureAvailableSize);
+    CHECK_EQ(sw::Size(kInf, kInf), second.lastMeasureAvailableSize);
+    CHECK_EQ(sw::Size(kInf, kInf), third.lastMeasureAvailableSize);
+
+    fx.host.ArrangeOverride(sw::Size(90, 20));
+    CHECK_EQ(sw::Rect(0, 0, 20, 12), first.lastArrangeRect);
+    CHECK_EQ(sw::Rect(20, 0, 30, 12), second.lastArrangeRect);
+    CHECK_EQ(sw::Rect(50, 0, 40, 12), third.lastArrangeRect);
+}
+
 TEST_CASE("WrapLayout wraps vertically when height is exhausted")
 {
     LayoutFixture<sw::WrapLayout> fx;
@@ -297,6 +366,26 @@ TEST_CASE("WrapLayout wraps vertically when height is exhausted")
     CHECK_EQ(sw::Rect(0, 0, 12, 20), first.lastArrangeRect);
     CHECK_EQ(sw::Rect(0, 20, 12, 15), second.lastArrangeRect);
     CHECK_EQ(sw::Rect(12, 0, 14, 30), third.lastArrangeRect);
+}
+
+TEST_CASE("WrapLayout measures vertically without a height constraint")
+{
+    LayoutFixture<sw::WrapLayout> fx;
+    fx.host.orientation = sw::Orientation::Vertical;
+
+    auto &first  = fx.container.EmplaceChild("first", sw::Size(10, 20));
+    auto &second = fx.container.EmplaceChild("second", sw::Size(12, 15));
+    auto &third  = fx.container.EmplaceChild("third", sw::Size(14, 30));
+
+    CHECK_EQ(sw::Size(14, 65), fx.host.MeasureOverride(sw::Size(50, kInf)));
+    CHECK_EQ(sw::Size(kInf, kInf), first.lastMeasureAvailableSize);
+    CHECK_EQ(sw::Size(kInf, kInf), second.lastMeasureAvailableSize);
+    CHECK_EQ(sw::Size(kInf, kInf), third.lastMeasureAvailableSize);
+
+    fx.host.ArrangeOverride(sw::Size(20, 65));
+    CHECK_EQ(sw::Rect(0, 0, 14, 20), first.lastArrangeRect);
+    CHECK_EQ(sw::Rect(0, 20, 14, 15), second.lastArrangeRect);
+    CHECK_EQ(sw::Rect(0, 35, 14, 30), third.lastArrangeRect);
 }
 
 TEST_CASE("UniformGridLayout measures evenly and respects firstColumn")
@@ -330,6 +419,31 @@ TEST_CASE("UniformGridLayout measures evenly and respects firstColumn")
     CHECK_EQ(sw::Rect(80, 30, 40, 30), sixth.lastArrangeRect);
 }
 
+TEST_CASE("UniformGridLayout clamps firstColumn to the last column")
+{
+    LayoutFixture<sw::UniformGridLayout> fx;
+    fx.host.rows = 2;
+    fx.host.columns = 3;
+    fx.host.firstColumn = 8;
+
+    auto &first  = fx.container.EmplaceChild("first", sw::Size(10, 8));
+    auto &second = fx.container.EmplaceChild("second", sw::Size(12, 9));
+    auto &third  = fx.container.EmplaceChild("third", sw::Size(14, 10));
+    auto &fourth = fx.container.EmplaceChild("fourth", sw::Size(16, 11));
+
+    CHECK_EQ(sw::Size(120, 60), fx.host.MeasureOverride(sw::Size(120, 60)));
+    CHECK_EQ(sw::Size(40, 30), first.lastMeasureAvailableSize);
+    CHECK_EQ(sw::Size(40, 30), second.lastMeasureAvailableSize);
+    CHECK_EQ(sw::Size(40, 30), third.lastMeasureAvailableSize);
+    CHECK_EQ(sw::Size(40, 30), fourth.lastMeasureAvailableSize);
+
+    fx.host.ArrangeOverride(sw::Size(120, 60));
+    CHECK_EQ(sw::Rect(80, 0, 40, 30), first.lastArrangeRect);
+    CHECK_EQ(sw::Rect(0, 30, 40, 30), second.lastArrangeRect);
+    CHECK_EQ(sw::Rect(40, 30, 40, 30), third.lastArrangeRect);
+    CHECK_EQ(sw::Rect(80, 30, 40, 30), fourth.lastArrangeRect);
+}
+
 TEST_CASE("GridLayout uses fixed rows and columns without GUI involvement")
 {
     LayoutFixture<sw::GridLayout> fx;
@@ -358,6 +472,47 @@ TEST_CASE("GridLayout uses fixed rows and columns without GUI involvement")
     CHECK_EQ(sw::Rect(40, 0, 60, 20), second.lastArrangeRect);
     CHECK_EQ(sw::Rect(0, 20, 40, 30), third.lastArrangeRect);
     CHECK_EQ(sw::Rect(40, 20, 60, 30), fourth.lastArrangeRect);
+}
+
+TEST_CASE("GridLayout uses a default one-by-one grid when rows and columns are omitted")
+{
+    LayoutFixture<sw::GridLayout> fx;
+    auto &child = fx.container.EmplaceChild("child", sw::Size(16, 9));
+
+    CHECK_EQ(sw::Size(120, 80), fx.host.MeasureOverride(sw::Size(120, 80)));
+    CHECK_EQ(1, child.measureCount);
+    CHECK_EQ(sw::Size(120, 80), child.lastMeasureAvailableSize);
+
+    fx.host.ArrangeOverride(sw::Size(120, 80));
+    CHECK_EQ(sw::Rect(0, 0, 120, 80), child.lastArrangeRect);
+}
+
+TEST_CASE("GridLayout clamps out-of-range tags and zero spans")
+{
+    LayoutFixture<sw::GridLayout> fx;
+    fx.host.rows.Add(sw::FixSizeGridRow(10));
+    fx.host.rows.Add(sw::FixSizeGridRow(20));
+    fx.host.columns.Add(sw::FixSizeGridColumn(30));
+    fx.host.columns.Add(sw::FixSizeGridColumn(40));
+
+    auto &clamped = fx.container.EmplaceChild(
+        "clamped",
+        sw::Size(2, 3),
+        static_cast<uint64_t>(sw::GridLayoutTag(9, 8, 0, 0)));
+    auto &spanned = fx.container.EmplaceChild(
+        "spanned",
+        sw::Size(4, 5),
+        static_cast<uint64_t>(sw::GridLayoutTag(0, 0, 5, 5)));
+
+    CHECK_EQ(sw::Size(70, 30), fx.host.MeasureOverride(sw::Size(100, 50)));
+    CHECK_EQ(1, clamped.measureCount);
+    CHECK_EQ(1, spanned.measureCount);
+    CHECK_EQ(sw::Size(40, 20), clamped.lastMeasureAvailableSize);
+    CHECK_EQ(sw::Size(70, 30), spanned.lastMeasureAvailableSize);
+
+    fx.host.ArrangeOverride(sw::Size(100, 50));
+    CHECK_EQ(sw::Rect(30, 10, 40, 20), clamped.lastArrangeRect);
+    CHECK_EQ(sw::Rect(0, 0, 70, 30), spanned.lastArrangeRect);
 }
 
 TEST_CASE("GridLayout distributes span sizes across auto rows and columns")
