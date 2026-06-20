@@ -515,6 +515,40 @@ TEST_CASE("GridLayout clamps out-of-range tags and zero spans")
     CHECK_EQ(sw::Rect(0, 0, 70, 30), spanned.lastArrangeRect);
 }
 
+TEST_CASE("GridLayout distributes fill remain rows and columns by proportion")
+{
+    LayoutFixture<sw::GridLayout> fx;
+    fx.host.rows.Add(sw::FixSizeGridRow(10));
+    fx.host.rows.Add(sw::FillRemainGridRow(1));
+    fx.host.rows.Add(sw::FillRemainGridRow(3));
+    fx.host.columns.Add(sw::FixSizeGridColumn(20));
+    fx.host.columns.Add(sw::FillRemainGridColumn(1));
+    fx.host.columns.Add(sw::FillRemainGridColumn(2));
+
+    auto &fixed = fx.container.EmplaceChild(
+        "fixed",
+        sw::Size(1, 1),
+        static_cast<uint64_t>(sw::GridLayoutTag(0, 0)));
+    auto &smallFill = fx.container.EmplaceChild(
+        "smallFill",
+        sw::Size(2, 2),
+        static_cast<uint64_t>(sw::GridLayoutTag(1, 1)));
+    auto &largeFill = fx.container.EmplaceChild(
+        "largeFill",
+        sw::Size(3, 3),
+        static_cast<uint64_t>(sw::GridLayoutTag(2, 2)));
+
+    CHECK_EQ(sw::Size(140, 130), fx.host.MeasureOverride(sw::Size(140, 130)));
+    CHECK_EQ(sw::Size(20, 10), fixed.lastMeasureAvailableSize);
+    CHECK_EQ(sw::Size(40, 30), smallFill.lastMeasureAvailableSize);
+    CHECK_EQ(sw::Size(80, 90), largeFill.lastMeasureAvailableSize);
+
+    fx.host.ArrangeOverride(sw::Size(140, 130));
+    CHECK_EQ(sw::Rect(0, 0, 20, 10), fixed.lastArrangeRect);
+    CHECK_EQ(sw::Rect(20, 10, 40, 30), smallFill.lastArrangeRect);
+    CHECK_EQ(sw::Rect(60, 40, 80, 90), largeFill.lastArrangeRect);
+}
+
 TEST_CASE("GridLayout distributes span sizes across auto rows and columns")
 {
     LayoutFixture<sw::GridLayout> fx;
@@ -534,6 +568,36 @@ TEST_CASE("GridLayout distributes span sizes across auto rows and columns")
     CHECK_EQ(sw::Size(100, kInf), span.measureAvailableSizes[1]);
 
     fx.host.ArrangeOverride(sw::Size(100, 80));
+    CHECK_EQ(sw::Rect(0, 0, 100, 80), span.lastArrangeRect);
+}
+
+TEST_CASE("GridLayout lets mixed auto fill spans expand the fill remainder")
+{
+    LayoutFixture<sw::GridLayout> fx;
+    fx.host.rows.Add(sw::AutoSizeGridRow());
+    fx.host.rows.Add(sw::FillRemainGridRow(1));
+    fx.host.columns.Add(sw::AutoSizeGridColumn());
+    fx.host.columns.Add(sw::FillRemainGridColumn(1));
+
+    auto &autoCell = fx.container.EmplaceChild(
+        "autoCell",
+        sw::Size(30, 10),
+        static_cast<uint64_t>(sw::GridLayoutTag(0, 0)));
+    auto &span = fx.container.EmplaceChild(
+        "span",
+        sw::Size(100, 80),
+        static_cast<uint64_t>(sw::GridLayoutTag(0, 0, 2, 2)));
+
+    CHECK_EQ(sw::Size(100, 80), fx.host.MeasureOverride(sw::Size(kInf, kInf)));
+    CHECK_EQ(2, autoCell.measureCount);
+    CHECK_EQ(2, span.measureCount);
+    CHECK_EQ(sw::Size(kInf, kInf), autoCell.measureAvailableSizes[0]);
+    CHECK_EQ(sw::Size(30, kInf), autoCell.measureAvailableSizes[1]);
+    CHECK_EQ(sw::Size(kInf, kInf), span.measureAvailableSizes[0]);
+    CHECK_EQ(sw::Size(100, kInf), span.measureAvailableSizes[1]);
+
+    fx.host.ArrangeOverride(sw::Size(100, 80));
+    CHECK_EQ(sw::Rect(0, 0, 30, 10), autoCell.lastArrangeRect);
     CHECK_EQ(sw::Rect(0, 0, 100, 80), span.lastArrangeRect);
 }
 
