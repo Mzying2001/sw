@@ -1,6 +1,6 @@
 #include "Test.h"
 
-#include "LayoutTestDoubles.h"
+#include "LayoutTestHelpers.h"
 
 #include "CanvasLayout.h"
 #include "DockLayout.h"
