@@ -35,6 +35,7 @@ add_executable(sw_unit_tests
     unit/ConverterBindingTests.cpp
     unit/MacroPropertyTests.cpp
     unit/RoutedInputTests.cpp
+    unit/LayoutTests.cpp
 )
 
 target_include_directories(sw_unit_tests PRIVATE
