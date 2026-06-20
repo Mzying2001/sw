@@ -30,7 +30,7 @@ void sw::UniformGridLayout::ArrangeOverride(const Size &finalSize)
 {
     int rowCount = Utils::Max(1, this->rows);
     int colCount = Utils::Max(1, this->columns);
-    int beginCol = Utils::Max(0, Utils::Min(rowCount - 1, this->firstColumn));
+    int beginCol = Utils::Max(0, Utils::Min(colCount - 1, this->firstColumn));
 
     double arrangeWidth  = finalSize.width / colCount;
     double arrangeHeight = finalSize.height / rowCount;

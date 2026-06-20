@@ -101,14 +101,23 @@ bool sw::Panel::OnEraseBackground(HDC hdc, LRESULT &result)
 
 bool sw::Panel::OnPaint()
 {
-    PAINTSTRUCT ps;
+    PAINTSTRUCT ps{};
     HWND hwnd = Handle;
     HDC hdc   = BeginPaint(hwnd, &ps);
 
-    HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
-    FillRect(hdc, &ps.rcPaint, hBrush);
+    if (hdc != NULL &&
+        ps.rcPaint.left < ps.rcPaint.right &&
+        ps.rcPaint.top < ps.rcPaint.bottom) //
+    {
+        auto color    = static_cast<COLORREF>(GetRealBackColor());
+        HBRUSH hBrush = CreateSolidBrush(color);
 
-    DeleteObject(hBrush);
+        if (hBrush != NULL) {
+            FillRect(hdc, &ps.rcPaint, hBrush);
+            DeleteObject(hBrush);
+        }
+    }
+
     EndPaint(hwnd, &ps);
     return true;
 }
@@ -116,16 +125,110 @@ bool sw::Panel::OnPaint()
 bool sw::Panel::OnNcPaint(HRGN hRgn)
 {
     HWND hwnd = Handle;
-    HDC hdc   = GetWindowDC(hwnd);
 
-    RECT rect;
-    GetWindowRect(hwnd, &rect);
-    OffsetRect(&rect, -rect.left, -rect.top);
+    RECT rtWindow;
 
-    OnDrawBorder(hdc, rect);
-    OnDrawPadding(hdc, rect);
-    ReleaseDC(hwnd, hdc);
+    if (!GetWindowRect(hwnd, &rtWindow)) {
+        DefaultWndProc(ProcMsg{
+            hwnd, WM_NCPAINT, reinterpret_cast<WPARAM>(hRgn), 0}); // scrollbars
+        return true;
+    }
 
+    // GetWindowDC使用窗口左上角作为原点，这里将屏幕坐标转换为窗口坐标。
+    OffsetRect(&rtWindow, -rtWindow.left, -rtWindow.top);
+
+    int width  = rtWindow.right - rtWindow.left;
+    int height = rtWindow.bottom - rtWindow.top;
+
+    // 资源不足或区域计算失败时回退到旧的直接绘制方式，保证边框仍能显示。
+    auto drawDirect = [this, hwnd, &rtWindow]() {
+        HDC hdc = GetWindowDC(hwnd);
+        if (hdc != NULL) {
+            RECT rect = rtWindow;
+            OnDrawBorder(hdc, rect);
+            OnDrawPadding(hdc, rect);
+            ReleaseDC(hwnd, hdc);
+        }
+    };
+
+    if (width > 0 && height > 0) {
+        // OnDrawBorder/OnDrawPadding在hdc为NULL时只更新rect，用于得到最终客户区。
+        RECT rtClient = rtWindow;
+        OnDrawBorder(NULL, rtClient);
+        OnDrawPadding(NULL, rtClient);
+
+        // 实际需要提交到窗口DC的区域是整个窗口减去最终客户区，也就是非客户区。
+        HRGN hRgnWindow = CreateRectRgnIndirect(&rtWindow);
+        HRGN hRgnClient = CreateRectRgnIndirect(&rtClient);
+        HRGN hRgnNc     = CreateRectRgn(0, 0, 0, 0);
+
+        bool useDirect = hRgnWindow == NULL || hRgnClient == NULL || hRgnNc == NULL;
+        int rgnType    = ERROR;
+
+        if (!useDirect) {
+            rgnType   = CombineRgn(hRgnNc, hRgnWindow, hRgnClient, RGN_DIFF);
+            useDirect = rgnType == ERROR;
+        }
+
+        if (useDirect) {
+            drawDirect();
+        } else if (rgnType != NULLREGION) {
+            bool buffered = false;
+            HDC hdc       = GetWindowDC(hwnd);
+
+            if (hdc != NULL) {
+                HDC hdcMem      = CreateCompatibleDC(hdc);
+                HBITMAP hBmpWnd = hdcMem == NULL ? NULL : CreateCompatibleBitmap(hdc, width, height);
+
+                if (hdcMem != NULL && hBmpWnd != NULL) {
+                    HBITMAP hBmpOld = (HBITMAP)SelectObject(hdcMem, hBmpWnd);
+                    if (hBmpOld != NULL) {
+                        HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
+                        if (hBrush != NULL) {
+                            // 先在内存DC中完成整块非客户区绘制，再一次性提交，减少绘制步骤外露。
+                            FillRect(hdcMem, &rtWindow, hBrush);
+                            DeleteObject(hBrush);
+
+                            RECT rect = rtWindow;
+                            OnDrawBorder(hdcMem, rect);
+                            OnDrawPadding(hdcMem, rect);
+
+                            // BitBlt会受目标DC裁剪区域限制，因此只会覆盖非客户区，不影响客户区内容。
+                            if (SelectClipRgn(hdc, hRgnNc) != ERROR) {
+                                buffered = BitBlt(hdc, 0, 0, width, height, hdcMem, 0, 0, SRCCOPY) != FALSE;
+                                SelectClipRgn(hdc, NULL);
+                            }
+                        }
+                        SelectObject(hdcMem, hBmpOld);
+                    }
+                }
+
+                if (hBmpWnd != NULL) {
+                    DeleteObject(hBmpWnd);
+                }
+                if (hdcMem != NULL) {
+                    DeleteDC(hdcMem);
+                }
+                ReleaseDC(hwnd, hdc);
+            }
+
+            if (!buffered) {
+                drawDirect();
+            }
+        }
+
+        if (hRgnWindow != NULL) {
+            DeleteObject(hRgnWindow);
+        }
+        if (hRgnClient != NULL) {
+            DeleteObject(hRgnClient);
+        }
+        if (hRgnNc != NULL) {
+            DeleteObject(hRgnNc);
+        }
+    }
+
+    // 自绘只负责边框和Padding，默认非客户区绘制仍用于系统滚动条。
     DefaultWndProc(ProcMsg{
         hwnd, WM_NCPAINT, reinterpret_cast<WPARAM>(hRgn), 0}); // scrollbars
     return true;
@@ -160,8 +263,8 @@ void sw::Panel::OnDrawPadding(HDC hdc, RECT &rect)
         return;
     }
 
-    RECT rtPaddingOuter  = rect;
-    RECT &rtPaddingInner = rect;
+    RECT rtPaddingOuter = rect;
+    RECT rtPaddingInner = rect;
 
     rtPaddingInner.left += Dip::DipToPxX(_padding.left);
     rtPaddingInner.top += Dip::DipToPxY(_padding.top);
@@ -171,18 +274,36 @@ void sw::Panel::OnDrawPadding(HDC hdc, RECT &rect)
     rtPaddingInner.right  = Utils::Max(rtPaddingInner.left, rtPaddingInner.right);
     rtPaddingInner.bottom = Utils::Max(rtPaddingInner.top, rtPaddingInner.bottom);
 
-    if (hdc != NULL) {
-        HRGN hRgnOuter = CreateRectRgnIndirect(&rtPaddingOuter);
-        HRGN hRgnInner = CreateRectRgnIndirect(&rtPaddingInner);
-        HRGN hRgnDiff  = CreateRectRgn(0, 0, 0, 0);
-        CombineRgn(hRgnDiff, hRgnOuter, hRgnInner, RGN_DIFF);
+    rect = rtPaddingInner;
+    if (hdc == NULL) return;
 
-        HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
-        FillRgn(hdc, hRgnDiff, hBrush);
+    HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
+    if (hBrush == NULL) return;
 
-        DeleteObject(hRgnOuter);
-        DeleteObject(hRgnInner);
-        DeleteObject(hRgnDiff);
-        DeleteObject(hBrush);
-    }
+    auto clamp = [](LONG value, LONG minValue, LONG maxValue) -> LONG {
+        return Utils::Min(Utils::Max(value, minValue), maxValue);
+    };
+
+    RECT rtPaintInner = {
+        clamp(rtPaddingInner.left, rtPaddingOuter.left, rtPaddingOuter.right),
+        clamp(rtPaddingInner.top, rtPaddingOuter.top, rtPaddingOuter.bottom),
+        clamp(rtPaddingInner.right, rtPaddingOuter.left, rtPaddingOuter.right),
+        clamp(rtPaddingInner.bottom, rtPaddingOuter.top, rtPaddingOuter.bottom)};
+
+    rtPaintInner.right  = Utils::Max(rtPaintInner.left, rtPaintInner.right);
+    rtPaintInner.bottom = Utils::Max(rtPaintInner.top, rtPaintInner.bottom);
+
+    auto fillRect = [&](LONG left, LONG top, LONG right, LONG bottom) {
+        if (left < right && top < bottom) {
+            RECT rt = {left, top, right, bottom};
+            FillRect(hdc, &rt, hBrush);
+        }
+    };
+
+    fillRect(rtPaddingOuter.left, rtPaddingOuter.top, rtPaddingOuter.right, rtPaintInner.top);
+    fillRect(rtPaddingOuter.left, rtPaintInner.bottom, rtPaddingOuter.right, rtPaddingOuter.bottom);
+    fillRect(rtPaddingOuter.left, rtPaintInner.top, rtPaintInner.left, rtPaintInner.bottom);
+    fillRect(rtPaintInner.right, rtPaintInner.top, rtPaddingOuter.right, rtPaintInner.bottom);
+
+    DeleteObject(hBrush);
 }

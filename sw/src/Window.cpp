@@ -377,29 +377,23 @@ bool sw::Window::OnEraseBackground(HDC hdc, LRESULT &result)
 
 bool sw::Window::OnPaint()
 {
-    PAINTSTRUCT ps;
+    PAINTSTRUCT ps{};
     HWND hwnd = Handle;
     HDC hdc   = BeginPaint(hwnd, &ps);
 
-    RECT rtClient;
-    GetClientRect(hwnd, &rtClient);
+    if (hdc != NULL &&
+        ps.rcPaint.left < ps.rcPaint.right &&
+        ps.rcPaint.top < ps.rcPaint.bottom) //
+    {
+        auto color    = static_cast<COLORREF>(GetRealBackColor());
+        HBRUSH hBrush = CreateSolidBrush(color);
 
-    SIZE sizeClient{
-        rtClient.right - rtClient.left,
-        rtClient.bottom - rtClient.top};
+        if (hBrush != NULL) {
+            FillRect(hdc, &ps.rcPaint, hBrush);
+            DeleteObject(hBrush);
+        }
+    }
 
-    HDC hdcMem      = CreateCompatibleDC(hdc);
-    HBITMAP hBmpWnd = CreateCompatibleBitmap(hdc, sizeClient.cx, sizeClient.cy);
-    HBITMAP hBmpOld = (HBITMAP)SelectObject(hdcMem, hBmpWnd);
-
-    HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
-    FillRect(hdcMem, &rtClient, hBrush);
-    BitBlt(hdc, 0, 0, sizeClient.cx, sizeClient.cy, hdcMem, 0, 0, SRCCOPY);
-
-    SelectObject(hdcMem, hBmpOld);
-    DeleteObject(hBmpWnd);
-    DeleteObject(hBrush);
-    DeleteDC(hdcMem);
     EndPaint(hwnd, &ps);
     return true;
 }

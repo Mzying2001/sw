@@ -76,6 +76,7 @@ namespace sw
 
         /**
          * @brief 菜单项描述信息
+         * @note 该字段仅用于保存当前节点的状态，_desc.subItems始终为空。
          */
         MenuItemDesc _desc{};
 
@@ -260,6 +261,12 @@ namespace sw
          * @return 指向子菜单项的指针，如果未找到则返回nullptr
          */
         MenuItem *FindChildByTag(uint64_t tag);
+
+        /**
+         * @brief 获取菜单项描述信息的副本
+         * @return 菜单项描述信息副本
+         */
+        MenuItemDesc CopyDescTree() const;
 
     private:
         /**

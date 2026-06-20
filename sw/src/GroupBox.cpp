@@ -43,10 +43,13 @@ void sw::GroupBox::OnDrawBorder(HDC hdc, RECT &rect)
         rect.top + headerHeight};
 
     if (hdc != NULL) {
-        HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
-        ::SetBkColor(hdc, static_cast<COLORREF>(GetRealBackColor()));
-        ::SetTextColor(hdc, static_cast<COLORREF>(GetRealTextColor()));
-        ::SelectObject(hdc, GetFontHandle());
+        COLORREF backColor    = static_cast<COLORREF>(GetRealBackColor());
+        COLORREF textColor    = static_cast<COLORREF>(GetRealTextColor());
+        COLORREF oldBackColor = ::SetBkColor(hdc, backColor);
+        COLORREF oldTextColor = ::SetTextColor(hdc, textColor);
+        HGDIOBJ hOldFont      = ::SelectObject(hdc, GetFontHandle());
+
+        HBRUSH hBrush = CreateSolidBrush(backColor);
 
         RECT rtHeaderRow = {
             rect.left,
@@ -54,7 +57,9 @@ void sw::GroupBox::OnDrawBorder(HDC hdc, RECT &rect)
             rect.right,
             rtHeader.bottom};
 
-        FillRect(hdc, &rtHeaderRow, hBrush);
+        if (hBrush != NULL) {
+            FillRect(hdc, &rtHeaderRow, hBrush);
+        }
 
         RECT rtBorder = {
             rect.left,
@@ -75,12 +80,23 @@ void sw::GroupBox::OnDrawBorder(HDC hdc, RECT &rect)
             rtHeader.right - _GroupBoxHeaderPadding,
             rtHeader.bottom - _GroupBoxHeaderPadding};
 
-        FillRect(hdc, &rtHeader, hBrush);
+        if (hBrush != NULL) {
+            FillRect(hdc, &rtHeader, hBrush);
+        }
 
         std::wstring &text = GetInternalText();
         DrawTextW(hdc, text.c_str(), (int)text.size(), &rtHeaderText, DT_SINGLELINE);
 
-        DeleteObject(hBrush);
+        if (hOldFont != NULL) {
+            ::SelectObject(hdc, hOldFont);
+        }
+
+        ::SetTextColor(hdc, oldTextColor);
+        ::SetBkColor(hdc, oldBackColor);
+
+        if (hBrush != NULL) {
+            DeleteObject(hBrush);
+        }
     }
 
     rect.left += borderThicknessX;
@@ -106,16 +122,33 @@ void sw::GroupBox::FontChanged(HFONT hfont)
     TBase::FontChanged(hfont);
 }
 
+bool sw::GroupBox::OnSize(const Size &newClientSize)
+{
+    bool result = TBase::OnSize(newClientSize);
+
+    // GroupBox的边框绘制在非客户区，连续调整尺寸时系统可能延后WM_NCPAINT，
+    // 导致新尺寸已经生效但边框仍未及时刷新。这里立即重绘frame，并避免擦除背景，
+    // 减少调整大小过程中边框短暂消失或闪烁。
+    RedrawWindow(Handle, NULL, NULL, RDW_FRAME | RDW_INVALIDATE | RDW_NOERASE | RDW_UPDATENOW);
+    return result;
+}
+
 void sw::GroupBox::OnSetBackColor(Color color, bool redraw)
 {
     TBase::OnSetBackColor(color, redraw);
-    if (redraw) UpdateBorder();
+
+    if (redraw) {
+        RedrawWindow(Handle, NULL, NULL, RDW_FRAME | RDW_INVALIDATE | RDW_NOERASE);
+    }
 }
 
 void sw::GroupBox::OnSetTextColor(Color color, bool redraw)
 {
     TBase::OnSetTextColor(color, redraw);
-    if (redraw) UpdateBorder();
+
+    if (redraw) {
+        RedrawWindow(Handle, NULL, NULL, RDW_FRAME | RDW_INVALIDATE | RDW_NOERASE);
+    }
 }
 
 void sw::GroupBox::_UpdateTextSize()
@@ -123,12 +156,21 @@ void sw::GroupBox::_UpdateTextSize()
     HWND hwnd = Handle;
     HDC hdc   = GetDC(hwnd);
 
-    SelectObject(hdc, GetFontHandle());
+    if (hdc == NULL) {
+        _textSize = {0, 0};
+        return;
+    }
+
+    HGDIOBJ hOldFont = SelectObject(hdc, GetFontHandle());
 
     RECT rect{};
     std::wstring &text = GetInternalText();
     DrawTextW(hdc, text.c_str(), (int)text.size(), &rect, DT_SINGLELINE | DT_CALCRECT);
 
     _textSize = {rect.right - rect.left, rect.bottom - rect.top};
+
+    if (hOldFont != NULL) {
+        SelectObject(hdc, hOldFont);
+    }
     ReleaseDC(hwnd, hdc);
 }

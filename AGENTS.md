@@ -12,10 +12,11 @@ All code is in `namespace sw`. Source files are UTF-8 encoded. Wide-character st
 
 - `sw/inc/` — Header files (public API)
 - `sw/src/` — Implementation files
+- `docs/` — Doxygen HTML output
 - `examples/` — Example apps demonstrating features
 - `single_header/` — Auto-generated single-file distribution
+- `tests/` — Unit tests and test support code
 - `vs/` — Visual Studio project files
-- `docs/` — Doxygen HTML output
 
 ## Build Commands
 
@@ -33,13 +34,21 @@ cmake -S examples -B examples/build
 cmake --build examples/build
 ```
 
+### Run unit tests
+
+```bash
+cmake -S tests -B tests/build
+cmake --build tests/build
+ctest --test-dir tests/build --build-config Debug
+```
+
 ### Generate single-header distribution
 
 ```bash
 python single_header/build.py
 ```
 
-GitHub Action regenerates `single_header/` automatically; unless explicitly requested, **do not** run this script or edit generated files manually.
+GitHub Action regenerates `single_header/` automatically; unless explicitly requested, **DO NOT** run this script or edit generated files manually.
 
 ### Visual Studio
 
@@ -50,6 +59,7 @@ The `vs/sw.vcxproj` project has 8 configurations: Debug/Release × MT/default ×
 - **Naming**: PascalCase for classes, methods, properties, enums. `_camelCase` for private fields.
 - **Style**: 4-space indent, clang-format (Microsoft style), `#pragma once` include guards
 - **Docs**: Doxygen comments in Chinese
+- **Tests**: Unit tests live under `tests/unit/`; keep them focused and close to the behavior being changed.
 
 ## Git Commit Conventions
 
