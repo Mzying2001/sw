@@ -150,6 +150,9 @@ Protected 成员函数</h2></td></tr>
 <tr class="memitem:adab6535b853278a6f293939c0bf0cde2" id="r_adab6535b853278a6f293939c0bf0cde2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1GroupBox.html#adab6535b853278a6f293939c0bf0cde2">FontChanged</a> (<a class="el" href="classsw_1_1IValueConverter.html">HFONT</a> <a class="el" href="classsw_1_1IValueConverter.html">hfont</a>) <a class="el" href="classsw_1_1IValueConverter.html">override</a></td></tr>
 <tr class="memdesc:adab6535b853278a6f293939c0bf0cde2"><td class="mdescLeft">&#160;</td><td class="mdescRight">字体改变时调用该函数  <br /></td></tr>
 <tr class="separator:adab6535b853278a6f293939c0bf0cde2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b034b61d6a6ce092b8747195b4e2936" id="r_a8b034b61d6a6ce092b8747195b4e2936"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1GroupBox.html#a8b034b61d6a6ce092b8747195b4e2936">OnSize</a> (<a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="structsw_1_1Size.html">Size</a> &amp;newClientSize) <a class="el" href="classsw_1_1IValueConverter.html">override</a></td></tr>
+<tr class="memdesc:a8b034b61d6a6ce092b8747195b4e2936"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收到WM_SIZE时调用该函数  <br /></td></tr>
+<tr class="separator:a8b034b61d6a6ce092b8747195b4e2936"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46794e201dc23ef37e63a854bd68238d" id="r_a46794e201dc23ef37e63a854bd68238d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsw_1_1GroupBox.html#a46794e201dc23ef37e63a854bd68238d">OnSetBackColor</a> (<a class="el" href="structsw_1_1Color.html">Color</a> <a class="el" href="classsw_1_1IValueConverter.html">color</a>, <a class="el" href="classsw_1_1IValueConverter.html">bool</a> <a class="el" href="classsw_1_1IValueConverter.html">redraw</a>) <a class="el" href="classsw_1_1IValueConverter.html">override</a></td></tr>
 <tr class="memdesc:a46794e201dc23ef37e63a854bd68238d"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置背景颜色  <br /></td></tr>
 <tr class="separator:a46794e201dc23ef37e63a854bd68238d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -362,6 +365,41 @@ Protected 成员函数</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a8b034b61d6a6ce092b8747195b4e2936" name="a8b034b61d6a6ce092b8747195b4e2936"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b034b61d6a6ce092b8747195b4e2936">&#9670;&#160;</a></span>OnSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsw_1_1IValueConverter.html">virtual</a> <a class="el" href="classsw_1_1IValueConverter.html">bool</a> sw::GroupBox::OnSize </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsw_1_1IValueConverter.html">const</a> <a class="el" href="structsw_1_1Size.html">Size</a> &amp;&#160;</td>
+          <td class="paramname"><em>newClientSize</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收到WM_SIZE时调用该函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newClientSize</td><td>改变后的用户区尺寸 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>若已处理该消息则返回true，否则返回false以调用DefaultWndProc </dd></dl>
 
 </div>
 </div>

@@ -11471,44 +11471,17 @@ namespace sw
          */
         ObservableObject() = default;
 
-        /**
-         * @brief 禁用拷贝构造
-         * @note 事件订阅不应随对象拷贝传播，否则订阅者会收到来自副本的额外通知
-         */
+        // 删除拷贝构造函数
         ObservableObject(const ObservableObject &) = delete;
 
-        /**
-         * @brief 禁用拷贝赋值
-         * @note 事件订阅不应随对象拷贝传播，否则订阅者会收到来自副本的额外通知
-         */
+        // 删除移动构造函数
+        ObservableObject(ObservableObject &&) = delete;
+
+        // 删除拷贝赋值运算符
         ObservableObject &operator=(const ObservableObject &) = delete;
 
-        /**
-         * @brief 移动构造函数
-         * @note 将事件订阅从被移动对象转移到新对象
-         */
-        ObservableObject(ObservableObject &&other) noexcept
-            : DynamicObject(std::move(other)),
-              INotifyObjectDead(std::move(other)),
-              INotifyPropertyChanged(std::move(other)),
-              _propertyChanged(std::move(other._propertyChanged)),
-              _objectDead(std::move(other._objectDead))
-        {
-        }
-
-        /**
-         * @brief 移动赋值运算符
-         * @note 将事件订阅从被移动对象转移到当前对象，覆盖当前对象已有的订阅
-         */
-        ObservableObject &operator=(ObservableObject &&other) noexcept
-        {
-            if (this != &other) {
-                DynamicObject::operator=(std::move(other));
-                _propertyChanged = std::move(other._propertyChanged);
-                _objectDead      = std::move(other._objectDead);
-            }
-            return *this;
-        }
+        // 删除移动赋值运算符
+        ObservableObject &operator=(ObservableObject &&) = delete;
 
         /**
          * @brief 析构时触发对象销毁事件
@@ -14842,6 +14815,7 @@ namespace sw
 
         /**
          * @brief 菜单项描述信息
+         * @note 该字段仅用于保存当前节点的状态，_desc.subItems始终为空。
          */
         MenuItemDesc _desc{};
 
@@ -15026,6 +15000,12 @@ namespace sw
          * @return 指向子菜单项的指针，如果未找到则返回nullptr
          */
         MenuItem *FindChildByTag(uint64_t tag);
+
+        /**
+         * @brief 获取菜单项描述信息的副本
+         * @return 菜单项描述信息副本
+         */
+        MenuItemDesc CopyDescTree() const;
 
     private:
         /**
@@ -21949,6 +21929,13 @@ namespace sw
          * @param hfont 字体句柄
          */
         virtual void FontChanged(HFONT hfont) override;
+
+        /**
+         * @brief 接收到WM_SIZE时调用该函数
+         * @param newClientSize 改变后的用户区尺寸
+         * @return 若已处理该消息则返回true，否则返回false以调用DefaultWndProc
+         */
+        virtual bool OnSize(const Size &newClientSize) override;
 
         /**
          * @brief 设置背景颜色

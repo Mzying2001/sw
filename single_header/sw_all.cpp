@@ -3590,10 +3590,13 @@ void sw::GroupBox::OnDrawBorder(HDC hdc, RECT &rect)
         rect.top + headerHeight};
 
     if (hdc != NULL) {
-        HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
-        ::SetBkColor(hdc, static_cast<COLORREF>(GetRealBackColor()));
-        ::SetTextColor(hdc, static_cast<COLORREF>(GetRealTextColor()));
-        ::SelectObject(hdc, GetFontHandle());
+        COLORREF backColor    = static_cast<COLORREF>(GetRealBackColor());
+        COLORREF textColor    = static_cast<COLORREF>(GetRealTextColor());
+        COLORREF oldBackColor = ::SetBkColor(hdc, backColor);
+        COLORREF oldTextColor = ::SetTextColor(hdc, textColor);
+        HGDIOBJ hOldFont      = ::SelectObject(hdc, GetFontHandle());
+
+        HBRUSH hBrush = CreateSolidBrush(backColor);
 
         RECT rtHeaderRow = {
             rect.left,
@@ -3601,7 +3604,9 @@ void sw::GroupBox::OnDrawBorder(HDC hdc, RECT &rect)
             rect.right,
             rtHeader.bottom};
 
-        FillRect(hdc, &rtHeaderRow, hBrush);
+        if (hBrush != NULL) {
+            FillRect(hdc, &rtHeaderRow, hBrush);
+        }
 
         RECT rtBorder = {
             rect.left,
@@ -3622,12 +3627,23 @@ void sw::GroupBox::OnDrawBorder(HDC hdc, RECT &rect)
             rtHeader.right - _GroupBoxHeaderPadding,
             rtHeader.bottom - _GroupBoxHeaderPadding};
 
-        FillRect(hdc, &rtHeader, hBrush);
+        if (hBrush != NULL) {
+            FillRect(hdc, &rtHeader, hBrush);
+        }
 
         std::wstring &text = GetInternalText();
         DrawTextW(hdc, text.c_str(), (int)text.size(), &rtHeaderText, DT_SINGLELINE);
 
-        DeleteObject(hBrush);
+        if (hOldFont != NULL) {
+            ::SelectObject(hdc, hOldFont);
+        }
+
+        ::SetTextColor(hdc, oldTextColor);
+        ::SetBkColor(hdc, oldBackColor);
+
+        if (hBrush != NULL) {
+            DeleteObject(hBrush);
+        }
     }
 
     rect.left += borderThicknessX;
@@ -3653,16 +3669,33 @@ void sw::GroupBox::FontChanged(HFONT hfont)
     TBase::FontChanged(hfont);
 }
 
+bool sw::GroupBox::OnSize(const Size &newClientSize)
+{
+    bool result = TBase::OnSize(newClientSize);
+
+    // GroupBox的边框绘制在非客户区，连续调整尺寸时系统可能延后WM_NCPAINT，
+    // 导致新尺寸已经生效但边框仍未及时刷新。这里立即重绘frame，并避免擦除背景，
+    // 减少调整大小过程中边框短暂消失或闪烁。
+    RedrawWindow(Handle, NULL, NULL, RDW_FRAME | RDW_INVALIDATE | RDW_NOERASE | RDW_UPDATENOW);
+    return result;
+}
+
 void sw::GroupBox::OnSetBackColor(Color color, bool redraw)
 {
     TBase::OnSetBackColor(color, redraw);
-    if (redraw) UpdateBorder();
+
+    if (redraw) {
+        RedrawWindow(Handle, NULL, NULL, RDW_FRAME | RDW_INVALIDATE | RDW_NOERASE);
+    }
 }
 
 void sw::GroupBox::OnSetTextColor(Color color, bool redraw)
 {
     TBase::OnSetTextColor(color, redraw);
-    if (redraw) UpdateBorder();
+
+    if (redraw) {
+        RedrawWindow(Handle, NULL, NULL, RDW_FRAME | RDW_INVALIDATE | RDW_NOERASE);
+    }
 }
 
 void sw::GroupBox::_UpdateTextSize()
@@ -3670,13 +3703,22 @@ void sw::GroupBox::_UpdateTextSize()
     HWND hwnd = Handle;
     HDC hdc   = GetDC(hwnd);
 
-    SelectObject(hdc, GetFontHandle());
+    if (hdc == NULL) {
+        _textSize = {0, 0};
+        return;
+    }
+
+    HGDIOBJ hOldFont = SelectObject(hdc, GetFontHandle());
 
     RECT rect{};
     std::wstring &text = GetInternalText();
     DrawTextW(hdc, text.c_str(), (int)text.size(), &rect, DT_SINGLELINE | DT_CALCRECT);
 
     _textSize = {rect.right - rect.left, rect.bottom - rect.top};
+
+    if (hOldFont != NULL) {
+        SelectObject(hdc, hOldFont);
+    }
     ReleaseDC(hwnd, hdc);
 }
 
@@ -5307,11 +5349,23 @@ bool sw::ListView::OnItemPrePaint(NMCUSTOMDRAW *pNMCD, bool subItem, LRESULT &re
         RECT rtCheck{};
         GetCheckBoxRect(row, rtCheck);
 
-        DrawFrameControl(
-            pCD->nmcd.hdc,
-            &rtCheck,
-            DFC_BUTTON,
-            DFCS_BUTTONCHECK | (GetItemCheckState(row) ? DFCS_CHECKED : 0));
+        bool drawn      = false;
+        auto stateIcons = GetImageList(ListViewImageList::State);
+
+        bool checked   = GetItemCheckState(row);
+        int imageIndex = checked ? 1 : 0;
+
+        if (stateIcons.GetHandle() != NULL && stateIcons.GetImageCount() > imageIndex) {
+            drawn = stateIcons.Draw(imageIndex, pCD->nmcd.hdc, rtCheck.left, rtCheck.top, ILD_NORMAL);
+        }
+
+        if (!drawn) {
+            DrawFrameControl(
+                pCD->nmcd.hdc,
+                &rtCheck,
+                DFC_BUTTON,
+                DFCS_BUTTONCHECK | (checked ? DFCS_CHECKED : 0));
+        }
 
         result = CDRF_DODEFAULT;
     }
@@ -5486,10 +5540,22 @@ void sw::ListView::GetCheckBoxRect(int index, RECT &rect)
 {
     ListView_GetItemRect(Handle, index, &rect, LVIR_ICON);
 
-    int cyItem  = rect.bottom - rect.top;
-    int cxEdge  = GetSystemMetrics(SM_CXEDGE);
-    int cxCheck = GetSystemMetrics(SM_CXMENUCHECK);
-    int cyCheck = GetSystemMetrics(SM_CYMENUCHECK);
+    int cyItem = rect.bottom - rect.top;
+    int cxEdge = GetSystemMetrics(SM_CXEDGE);
+
+    int cxCheck = 0;
+    int cyCheck = 0;
+
+    ImageList stateImageList = GetImageList(ListViewImageList::State);
+
+    if (stateImageList.GetHandle() != NULL) {
+        stateImageList.GetIconSize(cxCheck, cyCheck);
+    }
+
+    if (cxCheck <= 0 || cyCheck <= 0) {
+        cxCheck = GetSystemMetrics(SM_CXMENUCHECK);
+        cyCheck = GetSystemMetrics(SM_CYMENUCHECK);
+    }
 
     int iconLeft = rect.left;
 
@@ -6076,12 +6142,11 @@ bool sw::MenuItem::RemoveChildAt(int index)
         return false;
     }
 
+    DeleteMenu(_hMenu, index, MF_BYPOSITION);
     _subItems.erase(_subItems.begin() + index);
 
-    if (_subItems.size() == 0) {
+    if (_subItems.empty() && !_isRoot) {
         _ResetMenuItem();
-    } else {
-        RemoveMenu(_hMenu, index, MF_BYPOSITION);
     }
     return true;
 }
@@ -6094,6 +6159,14 @@ bool sw::MenuItem::RemoveChild(MenuItem *child)
 
 void sw::MenuItem::ClearChildren()
 {
+    if (_hMenu == NULL && _subItems.empty()) {
+        return;
+    }
+    if (_hMenu != NULL) {
+        for (int i = GetMenuItemCount(_hMenu) - 1; i >= 0; --i) {
+            DeleteMenu(_hMenu, i, MF_BYPOSITION);
+        }
+    }
     _subItems.clear();
     _ResetMenuItem();
 }
@@ -6180,6 +6253,41 @@ sw::MenuItem *sw::MenuItem::FindChildByTag(uint64_t tag)
         }
     }
     return nullptr;
+}
+
+sw::MenuItemDesc sw::MenuItem::CopyDescTree() const
+{
+    struct _CopyDescTreeStackItem {
+        MenuItemDesc *parent;
+        const MenuItem *item;
+    };
+
+    std::vector<_CopyDescTreeStackItem> stack;
+
+    MenuItemDesc desc(_desc);
+    desc.subItems.Clear();
+    desc.subItems.Reserve(static_cast<int>(_subItems.size()));
+
+    for (auto it = _subItems.rbegin(); it != _subItems.rend(); ++it) {
+        stack.push_back({/*parent*/ &desc, /*item*/ it->get()});
+    }
+
+    while (!stack.empty()) {
+        auto parent = stack.back().parent;
+        auto item   = stack.back().item;
+        stack.pop_back();
+
+        parent->subItems.Add(item->_desc);
+
+        auto &current = parent->subItems[parent->subItems.Count() - 1];
+        current.subItems.Clear();
+        current.subItems.Reserve(static_cast<int>(item->_subItems.size()));
+
+        for (auto it = item->_subItems.rbegin(); it != item->_subItems.rend(); ++it) {
+            stack.push_back({/*parent*/ &current, /*item*/ it->get()});
+        }
+    }
+    return desc;
 }
 
 void sw::MenuItem::_ResetMenuItem()
@@ -6914,14 +7022,23 @@ bool sw::Panel::OnEraseBackground(HDC hdc, LRESULT &result)
 
 bool sw::Panel::OnPaint()
 {
-    PAINTSTRUCT ps;
+    PAINTSTRUCT ps{};
     HWND hwnd = Handle;
     HDC hdc   = BeginPaint(hwnd, &ps);
 
-    HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
-    FillRect(hdc, &ps.rcPaint, hBrush);
+    if (hdc != NULL &&
+        ps.rcPaint.left < ps.rcPaint.right &&
+        ps.rcPaint.top < ps.rcPaint.bottom) //
+    {
+        auto color    = static_cast<COLORREF>(GetRealBackColor());
+        HBRUSH hBrush = CreateSolidBrush(color);
 
-    DeleteObject(hBrush);
+        if (hBrush != NULL) {
+            FillRect(hdc, &ps.rcPaint, hBrush);
+            DeleteObject(hBrush);
+        }
+    }
+
     EndPaint(hwnd, &ps);
     return true;
 }
@@ -6929,16 +7046,110 @@ bool sw::Panel::OnPaint()
 bool sw::Panel::OnNcPaint(HRGN hRgn)
 {
     HWND hwnd = Handle;
-    HDC hdc   = GetWindowDC(hwnd);
 
-    RECT rect;
-    GetWindowRect(hwnd, &rect);
-    OffsetRect(&rect, -rect.left, -rect.top);
+    RECT rtWindow;
 
-    OnDrawBorder(hdc, rect);
-    OnDrawPadding(hdc, rect);
-    ReleaseDC(hwnd, hdc);
+    if (!GetWindowRect(hwnd, &rtWindow)) {
+        DefaultWndProc(ProcMsg{
+            hwnd, WM_NCPAINT, reinterpret_cast<WPARAM>(hRgn), 0}); // scrollbars
+        return true;
+    }
 
+    // GetWindowDC使用窗口左上角作为原点，这里将屏幕坐标转换为窗口坐标。
+    OffsetRect(&rtWindow, -rtWindow.left, -rtWindow.top);
+
+    int width  = rtWindow.right - rtWindow.left;
+    int height = rtWindow.bottom - rtWindow.top;
+
+    // 资源不足或区域计算失败时回退到旧的直接绘制方式，保证边框仍能显示。
+    auto drawDirect = [this, hwnd, &rtWindow]() {
+        HDC hdc = GetWindowDC(hwnd);
+        if (hdc != NULL) {
+            RECT rect = rtWindow;
+            OnDrawBorder(hdc, rect);
+            OnDrawPadding(hdc, rect);
+            ReleaseDC(hwnd, hdc);
+        }
+    };
+
+    if (width > 0 && height > 0) {
+        // OnDrawBorder/OnDrawPadding在hdc为NULL时只更新rect，用于得到最终客户区。
+        RECT rtClient = rtWindow;
+        OnDrawBorder(NULL, rtClient);
+        OnDrawPadding(NULL, rtClient);
+
+        // 实际需要提交到窗口DC的区域是整个窗口减去最终客户区，也就是非客户区。
+        HRGN hRgnWindow = CreateRectRgnIndirect(&rtWindow);
+        HRGN hRgnClient = CreateRectRgnIndirect(&rtClient);
+        HRGN hRgnNc     = CreateRectRgn(0, 0, 0, 0);
+
+        bool useDirect = hRgnWindow == NULL || hRgnClient == NULL || hRgnNc == NULL;
+        int rgnType    = ERROR;
+
+        if (!useDirect) {
+            rgnType   = CombineRgn(hRgnNc, hRgnWindow, hRgnClient, RGN_DIFF);
+            useDirect = rgnType == ERROR;
+        }
+
+        if (useDirect) {
+            drawDirect();
+        } else if (rgnType != NULLREGION) {
+            bool buffered = false;
+            HDC hdc       = GetWindowDC(hwnd);
+
+            if (hdc != NULL) {
+                HDC hdcMem      = CreateCompatibleDC(hdc);
+                HBITMAP hBmpWnd = hdcMem == NULL ? NULL : CreateCompatibleBitmap(hdc, width, height);
+
+                if (hdcMem != NULL && hBmpWnd != NULL) {
+                    HBITMAP hBmpOld = (HBITMAP)SelectObject(hdcMem, hBmpWnd);
+                    if (hBmpOld != NULL) {
+                        HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
+                        if (hBrush != NULL) {
+                            // 先在内存DC中完成整块非客户区绘制，再一次性提交，减少绘制步骤外露。
+                            FillRect(hdcMem, &rtWindow, hBrush);
+                            DeleteObject(hBrush);
+
+                            RECT rect = rtWindow;
+                            OnDrawBorder(hdcMem, rect);
+                            OnDrawPadding(hdcMem, rect);
+
+                            // BitBlt会受目标DC裁剪区域限制，因此只会覆盖非客户区，不影响客户区内容。
+                            if (SelectClipRgn(hdc, hRgnNc) != ERROR) {
+                                buffered = BitBlt(hdc, 0, 0, width, height, hdcMem, 0, 0, SRCCOPY) != FALSE;
+                                SelectClipRgn(hdc, NULL);
+                            }
+                        }
+                        SelectObject(hdcMem, hBmpOld);
+                    }
+                }
+
+                if (hBmpWnd != NULL) {
+                    DeleteObject(hBmpWnd);
+                }
+                if (hdcMem != NULL) {
+                    DeleteDC(hdcMem);
+                }
+                ReleaseDC(hwnd, hdc);
+            }
+
+            if (!buffered) {
+                drawDirect();
+            }
+        }
+
+        if (hRgnWindow != NULL) {
+            DeleteObject(hRgnWindow);
+        }
+        if (hRgnClient != NULL) {
+            DeleteObject(hRgnClient);
+        }
+        if (hRgnNc != NULL) {
+            DeleteObject(hRgnNc);
+        }
+    }
+
+    // 自绘只负责边框和Padding，默认非客户区绘制仍用于系统滚动条。
     DefaultWndProc(ProcMsg{
         hwnd, WM_NCPAINT, reinterpret_cast<WPARAM>(hRgn), 0}); // scrollbars
     return true;
@@ -6973,8 +7184,8 @@ void sw::Panel::OnDrawPadding(HDC hdc, RECT &rect)
         return;
     }
 
-    RECT rtPaddingOuter  = rect;
-    RECT &rtPaddingInner = rect;
+    RECT rtPaddingOuter = rect;
+    RECT rtPaddingInner = rect;
 
     rtPaddingInner.left += Dip::DipToPxX(_padding.left);
     rtPaddingInner.top += Dip::DipToPxY(_padding.top);
@@ -6984,20 +7195,38 @@ void sw::Panel::OnDrawPadding(HDC hdc, RECT &rect)
     rtPaddingInner.right  = Utils::Max(rtPaddingInner.left, rtPaddingInner.right);
     rtPaddingInner.bottom = Utils::Max(rtPaddingInner.top, rtPaddingInner.bottom);
 
-    if (hdc != NULL) {
-        HRGN hRgnOuter = CreateRectRgnIndirect(&rtPaddingOuter);
-        HRGN hRgnInner = CreateRectRgnIndirect(&rtPaddingInner);
-        HRGN hRgnDiff  = CreateRectRgn(0, 0, 0, 0);
-        CombineRgn(hRgnDiff, hRgnOuter, hRgnInner, RGN_DIFF);
+    rect = rtPaddingInner;
+    if (hdc == NULL) return;
 
-        HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
-        FillRgn(hdc, hRgnDiff, hBrush);
+    HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
+    if (hBrush == NULL) return;
 
-        DeleteObject(hRgnOuter);
-        DeleteObject(hRgnInner);
-        DeleteObject(hRgnDiff);
-        DeleteObject(hBrush);
-    }
+    auto clamp = [](LONG value, LONG minValue, LONG maxValue) -> LONG {
+        return Utils::Min(Utils::Max(value, minValue), maxValue);
+    };
+
+    RECT rtPaintInner = {
+        clamp(rtPaddingInner.left, rtPaddingOuter.left, rtPaddingOuter.right),
+        clamp(rtPaddingInner.top, rtPaddingOuter.top, rtPaddingOuter.bottom),
+        clamp(rtPaddingInner.right, rtPaddingOuter.left, rtPaddingOuter.right),
+        clamp(rtPaddingInner.bottom, rtPaddingOuter.top, rtPaddingOuter.bottom)};
+
+    rtPaintInner.right  = Utils::Max(rtPaintInner.left, rtPaintInner.right);
+    rtPaintInner.bottom = Utils::Max(rtPaintInner.top, rtPaintInner.bottom);
+
+    auto fillRect = [&](LONG left, LONG top, LONG right, LONG bottom) {
+        if (left < right && top < bottom) {
+            RECT rt = {left, top, right, bottom};
+            FillRect(hdc, &rt, hBrush);
+        }
+    };
+
+    fillRect(rtPaddingOuter.left, rtPaddingOuter.top, rtPaddingOuter.right, rtPaintInner.top);
+    fillRect(rtPaddingOuter.left, rtPaintInner.bottom, rtPaddingOuter.right, rtPaddingOuter.bottom);
+    fillRect(rtPaddingOuter.left, rtPaintInner.top, rtPaintInner.left, rtPaintInner.bottom);
+    fillRect(rtPaintInner.right, rtPaintInner.top, rtPaddingOuter.right, rtPaintInner.bottom);
+
+    DeleteObject(hBrush);
 }
 
 // PasswordBox.cpp
@@ -11203,7 +11432,7 @@ void sw::UniformGridLayout::ArrangeOverride(const Size &finalSize)
 {
     int rowCount = Utils::Max(1, this->rows);
     int colCount = Utils::Max(1, this->columns);
-    int beginCol = Utils::Max(0, Utils::Min(rowCount - 1, this->firstColumn));
+    int beginCol = Utils::Max(0, Utils::Min(colCount - 1, this->firstColumn));
 
     double arrangeWidth  = finalSize.width / colCount;
     double arrangeHeight = finalSize.height / rowCount;
@@ -11732,29 +11961,23 @@ bool sw::Window::OnEraseBackground(HDC hdc, LRESULT &result)
 
 bool sw::Window::OnPaint()
 {
-    PAINTSTRUCT ps;
+    PAINTSTRUCT ps{};
     HWND hwnd = Handle;
     HDC hdc   = BeginPaint(hwnd, &ps);
 
-    RECT rtClient;
-    GetClientRect(hwnd, &rtClient);
+    if (hdc != NULL &&
+        ps.rcPaint.left < ps.rcPaint.right &&
+        ps.rcPaint.top < ps.rcPaint.bottom) //
+    {
+        auto color    = static_cast<COLORREF>(GetRealBackColor());
+        HBRUSH hBrush = CreateSolidBrush(color);
 
-    SIZE sizeClient{
-        rtClient.right - rtClient.left,
-        rtClient.bottom - rtClient.top};
+        if (hBrush != NULL) {
+            FillRect(hdc, &ps.rcPaint, hBrush);
+            DeleteObject(hBrush);
+        }
+    }
 
-    HDC hdcMem      = CreateCompatibleDC(hdc);
-    HBITMAP hBmpWnd = CreateCompatibleBitmap(hdc, sizeClient.cx, sizeClient.cy);
-    HBITMAP hBmpOld = (HBITMAP)SelectObject(hdcMem, hBmpWnd);
-
-    HBRUSH hBrush = CreateSolidBrush(static_cast<COLORREF>(GetRealBackColor()));
-    FillRect(hdcMem, &rtClient, hBrush);
-    BitBlt(hdc, 0, 0, sizeClient.cx, sizeClient.cy, hdcMem, 0, 0, SRCCOPY);
-
-    SelectObject(hdcMem, hBmpOld);
-    DeleteObject(hBmpWnd);
-    DeleteObject(hBrush);
-    DeleteDC(hdcMem);
     EndPaint(hwnd, &ps);
     return true;
 }
