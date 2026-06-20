@@ -3,6 +3,7 @@ var classsw_1_1MenuItem =
     [ "~MenuItem", "classsw_1_1MenuItem.html#adad01522cedea9942f0cf0abeb8f138c", null ],
     [ "AddChild", "classsw_1_1MenuItem.html#a6c6330ccbbeb5479dcb26826cc2fa024", null ],
     [ "ClearChildren", "classsw_1_1MenuItem.html#a8a813c6f1c688e206c22bdfb647efaad", null ],
+    [ "CopyDescTree", "classsw_1_1MenuItem.html#a5fc3e1e3135e697ccadc0b1f28b0ae38", null ],
     [ "FindChildById", "classsw_1_1MenuItem.html#a329e69aeeb59dd374bee973096b0974e", null ],
     [ "FindChildByTag", "classsw_1_1MenuItem.html#ab9ca8e0764de2088daeb4a75c18c7504", null ],
     [ "GetChildAt", "classsw_1_1MenuItem.html#a52e84bc99713a56fc26b6e2157b65495", null ],
