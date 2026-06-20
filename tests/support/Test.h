@@ -1070,38 +1070,104 @@ namespace swtest
         name, &SWTEST_CONCAT(SwTestFunc_, __LINE__), __FILE__, __LINE__); \
     static void SWTEST_CONCAT(SwTestFunc_, __LINE__)()
 
-// CHECK_*断言失败后继续执行当前测试；REQUIRE_*断言失败后立即结束当前测试。
+/**
+ * @brief 检查表达式是否为true，失败后继续执行当前测试
+ */
 #define CHECK(expr) \
     ::swtest::Check(static_cast<bool>(expr), #expr, __FILE__, __LINE__)
+
+/**
+ * @brief 要求表达式为true，失败后立即结束当前测试
+ */
 #define REQUIRE(expr) \
     ::swtest::Require(static_cast<bool>(expr), #expr, __FILE__, __LINE__)
+
+/**
+ * @brief 检查表达式是否为false，失败后继续执行当前测试
+ */
 #define CHECK_FALSE(expr) \
     ::swtest::CheckFalse(static_cast<bool>(expr), #expr, __FILE__, __LINE__)
+
+/**
+ * @brief 要求表达式为false，失败后立即结束当前测试
+ */
 #define REQUIRE_FALSE(expr) \
     ::swtest::RequireFalse(static_cast<bool>(expr), #expr, __FILE__, __LINE__)
+
+/**
+ * @brief 检查两个值是否相等，失败后继续执行当前测试
+ */
 #define CHECK_EQ(expected, actual) \
     ::swtest::CheckEqual((expected), (actual), #expected, #actual, __FILE__, __LINE__)
+
+/**
+ * @brief 要求两个值相等，失败后立即结束当前测试
+ */
 #define REQUIRE_EQ(expected, actual) \
     ::swtest::RequireEqual((expected), (actual), #expected, #actual, __FILE__, __LINE__)
+
+/**
+ * @brief 检查两个值是否不相等，失败后继续执行当前测试
+ */
 #define CHECK_NE(left, right) \
     ::swtest::CheckNotEqual((left), (right), #left, #right, __FILE__, __LINE__)
+
+/**
+ * @brief 要求两个值不相等，失败后立即结束当前测试
+ */
 #define REQUIRE_NE(left, right) \
     ::swtest::RequireNotEqual((left), (right), #left, #right, __FILE__, __LINE__)
+
+/**
+ * @brief 检查left是否小于right，失败后继续执行当前测试
+ */
 #define CHECK_LT(left, right) \
     ::swtest::CheckLess((left), (right), #left, #right, __FILE__, __LINE__)
+
+/**
+ * @brief 检查left是否小于或等于right，失败后继续执行当前测试
+ */
 #define CHECK_LE(left, right) \
     ::swtest::CheckLessOrEqual((left), (right), #left, #right, __FILE__, __LINE__)
+
+/**
+ * @brief 检查left是否大于right，失败后继续执行当前测试
+ */
 #define CHECK_GT(left, right) \
     ::swtest::CheckGreater((left), (right), #left, #right, __FILE__, __LINE__)
+
+/**
+ * @brief 检查left是否大于或等于right，失败后继续执行当前测试
+ */
 #define CHECK_GE(left, right) \
     ::swtest::CheckGreaterOrEqual((left), (right), #left, #right, __FILE__, __LINE__)
+
+/**
+ * @brief 检查表达式是否抛出指定异常类型，失败后继续执行当前测试
+ */
 #define CHECK_THROWS_AS(expr, exceptionType) \
     ::swtest::CheckThrowsAs<exceptionType>([&]() { (void)(expr); }, #expr, #exceptionType, __FILE__, __LINE__)
+
+/**
+ * @brief 要求表达式抛出指定异常类型，失败后立即结束当前测试
+ */
 #define REQUIRE_THROWS_AS(expr, exceptionType) \
     ::swtest::RequireThrowsAs<exceptionType>([&]() { (void)(expr); }, #expr, #exceptionType, __FILE__, __LINE__)
+
+/**
+ * @brief 检查表达式不抛出异常，失败后继续执行当前测试
+ */
 #define CHECK_NOTHROW(expr) \
     ::swtest::CheckNoThrow([&]() { (void)(expr); }, #expr, __FILE__, __LINE__)
+
+/**
+ * @brief 要求表达式不抛出异常，失败后立即结束当前测试
+ */
 #define REQUIRE_NOTHROW(expr) \
     ::swtest::RequireNoThrow([&]() { (void)(expr); }, #expr, __FILE__, __LINE__)
+
+/**
+ * @brief 记录一条致命失败并立即结束当前测试
+ */
 #define FAIL(message) \
     ::swtest::Fail((message), __FILE__, __LINE__)
