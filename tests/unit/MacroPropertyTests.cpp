@@ -73,6 +73,24 @@ namespace
         }
     };
 
+    struct NonComparableValue {
+        int value = 0;
+    };
+
+    struct NonComparableNotifyMacroOwner : sw::ObservableObject {
+        NonComparableValue raw{1};
+        std::vector<sw::FieldId> ids;
+
+        SW_DEFINE_NOTIFY_PROPERTY(Value, raw);
+
+        NonComparableNotifyMacroOwner()
+        {
+            PropertyChanged += [&](sw::INotifyPropertyChanged &, sw::PropertyChangedEventArgs &args) {
+                ids.push_back(args.propertyId);
+            };
+        }
+    };
+
     struct ExprMacroOwner : sw::ObservableObject {
         int first = 1;
         int second = 2;
@@ -89,6 +107,31 @@ namespace
         SW_DEFINE_EXPR_NOTIFY_PROPERTY(SecondAlias, second);
 
         ExprMacroOwner()
+        {
+            PropertyChanged += [&](sw::INotifyPropertyChanged &, sw::PropertyChangedEventArgs &args) {
+                ids.push_back(args.propertyId);
+            };
+        }
+    };
+
+    struct ForwardedPropertyOwner : sw::ObservableObject {
+        int raw = 1;
+        int setCalls = 0;
+        std::vector<sw::FieldId> ids;
+
+        sw::Property<int> Backing{
+            sw::Property<int>::Init(this).Getter<&ForwardedPropertyOwner::raw>().Setter<&ForwardedPropertyOwner::SetRaw>()};
+
+        SW_DEFINE_EXPR_PROPERTY(Alias, Backing);
+        SW_DEFINE_EXPR_NOTIFY_PROPERTY(NotifyAlias, Backing);
+
+        void SetRaw(int value)
+        {
+            ++setCalls;
+            raw = value + 10;
+        }
+
+        ForwardedPropertyOwner()
         {
             PropertyChanged += [&](sw::INotifyPropertyChanged &, sw::PropertyChangedEventArgs &args) {
                 ids.push_back(args.propertyId);
@@ -152,6 +195,19 @@ TEST_CASE("Notify property macro leaves notification to custom setters")
     CHECK(owner.ids.empty());
 }
 
+TEST_CASE("Notify property macro raises for every non comparable assignment")
+{
+    NonComparableNotifyMacroOwner owner;
+
+    owner.Value = NonComparableValue{1};
+    owner.Value = NonComparableValue{1};
+
+    REQUIRE_EQ(2, static_cast<int>(owner.ids.size()));
+    CHECK(owner.ids[0] == sw::Reflection::GetFieldId(&NonComparableNotifyMacroOwner::Value));
+    CHECK(owner.ids[1] == sw::Reflection::GetFieldId(&NonComparableNotifyMacroOwner::Value));
+    CHECK_EQ(1, owner.raw.value);
+}
+
 TEST_CASE("Expression property macros read write and forward through properties")
 {
     ExprMacroOwner owner;
@@ -184,4 +240,25 @@ TEST_CASE("Expression notify macro suppresses unchanged comparable values")
     owner.SecondAlias = 2;
 
     CHECK(owner.ids.empty());
+}
+
+TEST_CASE("Expression macros forward property expressions through target setters")
+{
+    ForwardedPropertyOwner owner;
+
+    owner.Alias = 5;
+    CHECK_EQ(15, owner.raw);
+    CHECK_EQ(1, owner.setCalls);
+    CHECK_EQ(15, owner.Alias.Get());
+
+    owner.NotifyAlias = 15;
+    CHECK_EQ(1, owner.setCalls);
+    CHECK(owner.ids.empty());
+
+    owner.NotifyAlias = 20;
+
+    CHECK_EQ(30, owner.raw);
+    CHECK_EQ(2, owner.setCalls);
+    REQUIRE_EQ(1, static_cast<int>(owner.ids.size()));
+    CHECK(owner.ids[0] == sw::Reflection::GetFieldId(&ForwardedPropertyOwner::NotifyAlias));
 }
