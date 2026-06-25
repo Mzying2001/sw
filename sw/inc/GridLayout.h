@@ -194,38 +194,38 @@ namespace sw
          * @brief 子元素的信息
          */
         struct _ChildInfo {
-            ILayout *instance;         // 子元素对象
-            GridLayoutTag layoutTag;   // 布局标记
-            GridRCType rowMeasureType; // 元素measure行时的类型
-            GridRCType colMeasureType; // 元素measure列时的类型
+            ILayout *instance;         ///< 子元素对象
+            GridLayoutTag layoutTag;   ///< 布局标记
+            GridRCType rowMeasureType; ///< 元素measure行时的类型
+            GridRCType colMeasureType; ///< 元素measure列时的类型
         };
 
         /**
          * @brief 行信息
          */
         struct _RowInfo {
-            GridRow row;           // 行
-            double size       = 0; // 所需空间大小
-            double proportion = 0; // 类型为FillRemain时该字段保存该行的高度占比，范围为0~1
+            GridRow row;           ///< 行
+            double size       = 0; ///< 所需空间大小
+            double proportion = 0; ///< 类型为FillRemain时该字段保存该行的高度占比，范围为0~1
         };
 
         /**
          * @brief 列信息
          */
         struct _ColInfo {
-            GridColumn col;        // 列
-            double size       = 0; // 所需空间大小
-            double proportion = 0; // 类型为FillRemain时该字段保存该列的宽度占比，范围为0~1
+            GridColumn col;        ///< 列
+            double size       = 0; ///< 所需空间大小
+            double proportion = 0; ///< 类型为FillRemain时该字段保存该列的宽度占比，范围为0~1
         };
 
         /**
          * @brief 一些内部数据
          */
         struct {
-            std::vector<_RowInfo> rowsInfo;       // 行信息
-            std::vector<_ColInfo> colsInfo;       // 列信息
-            std::vector<_ChildInfo> childrenInfo; // 子元素信息
-            std::vector<Rect> cells;              // 保存格信息
+            std::vector<_RowInfo> rowsInfo;       ///< 行信息
+            std::vector<_ColInfo> colsInfo;       ///< 列信息
+            std::vector<_ChildInfo> childrenInfo; ///< 子元素信息
+            std::vector<Rect> cells;              ///< 保存格信息
         } _internalData;
 
     public:
