@@ -10,5 +10,6 @@ var searchData=
   ['root_7',['root',['../classsw_1_1MenuBase.html#a65d3e3670239e6002e8078ef573015ad',1,'sw::MenuBase::Root'],['../classsw_1_1TreeView.html#ae2bc81c3c3ac2cbf81a8975266f466a6',1,'sw::TreeView::Root']]],
   ['row_8',['row',['../structsw_1_1GridLayoutTag.html#a8411afa319d4ad7cf2d95edd5aa3434c',1,'sw::GridLayoutTag']]],
   ['rows_9',['rows',['../classsw_1_1GridLayout.html#a0bd8d5cf70f6ec6dc715aecc04b7a341',1,'sw::GridLayout::rows'],['../classsw_1_1UniformGridLayout.html#a2cde92e2a61f62efb85761f11c221390',1,'sw::UniformGridLayout::rows'],['../classsw_1_1Grid.html#a6b21f928c2e41c548c1a1e7aaa346351',1,'sw::Grid::Rows'],['../classsw_1_1UniformGrid.html#a65a180db32f61dee181c0ae7e36364a6',1,'sw::UniformGrid::Rows']]],
-  ['rowspan_10',['rowSpan',['../structsw_1_1GridLayoutTag.html#a5caf39bc6aa93afd290f09ee15f2c722',1,'sw::GridLayoutTag']]]
+  ['rowsinfo_10',['rowsInfo',['../classsw_1_1GridLayout.html#aac737a92c88b92b06f48b91b72157bbb',1,'sw::GridLayout']]],
+  ['rowspan_11',['rowSpan',['../structsw_1_1GridLayoutTag.html#a5caf39bc6aa93afd290f09ee15f2c722',1,'sw::GridLayoutTag']]]
 ];
