@@ -286,7 +286,7 @@ LRESULT sw::Window::WndProc(ProcMsg &refMsg)
         }
 
         case WM_SHOWWINDOW: {
-            if (_isFirstShow) {
+            if (_isFirstShow && refMsg.wParam) {
                 _isFirstShow = false;
                 OnFirstShow();
             }
