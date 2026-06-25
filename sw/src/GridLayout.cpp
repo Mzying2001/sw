@@ -3,18 +3,9 @@
 #include <algorithm>
 #include <cmath>
 
-sw::GridLayoutTag::GridLayoutTag()
-    : row(0), column(0), rowSpan(1), columnSpan(1)
-{
-}
-
-sw::GridLayoutTag::GridLayoutTag(uint16_t row, uint16_t column, uint16_t rowSpan, uint16_t columnSpan)
+sw::GridLayoutTag::GridLayoutTag(
+    uint16_t row, uint16_t column, uint16_t rowSpan, uint16_t columnSpan)
     : row(row), column(column), rowSpan(rowSpan), columnSpan(columnSpan)
-{
-}
-
-sw::GridLayoutTag::GridLayoutTag(uint16_t row, uint16_t column)
-    : row(row), column(column), rowSpan(1), columnSpan(1)
 {
 }
 
@@ -24,7 +15,7 @@ sw::GridLayoutTag::GridLayoutTag(uint64_t layoutTag)
 {
 }
 
-sw::GridLayoutTag::operator uint64_t() const
+sw::GridLayoutTag::operator uint64_t() const noexcept
 {
     return ((uint64_t)(this->row) << 0) |
            ((uint64_t)(this->column) << 16) |
@@ -32,18 +23,13 @@ sw::GridLayoutTag::operator uint64_t() const
            ((uint64_t)(this->columnSpan) << 48);
 }
 
-sw::GridRow::GridRow()
-    : type(GridRCType::FillRemain), height(1)
+sw::GridRow::GridRow(double height)
+    : type(GridRCType::FixSize), height(height)
 {
 }
 
 sw::GridRow::GridRow(GridRCType type, double height)
     : type(type), height(height)
-{
-}
-
-sw::GridRow::GridRow(double height)
-    : type(GridRCType::FixSize), height(height)
 {
 }
 
@@ -62,18 +48,13 @@ sw::FillRemainGridRow::FillRemainGridRow(double proportion)
 {
 }
 
-sw::GridColumn::GridColumn()
-    : type(GridRCType::FillRemain), width(1)
+sw::GridColumn::GridColumn(double width)
+    : type(GridRCType::FixSize), width(width)
 {
 }
 
 sw::GridColumn::GridColumn(GridRCType type, double width)
     : type(type), width(width)
-{
-}
-
-sw::GridColumn::GridColumn(double width)
-    : type(GridRCType::FixSize), width(width)
 {
 }
 
