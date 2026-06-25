@@ -434,6 +434,10 @@ void sw::Window::OnFirstShow()
         GetChildAt(0).Focused = true;
     }
 
+    if (!IsRootElement()) {
+        return; // StartupLocation仅对顶级窗口生效
+    }
+
     // 按照StartupLocation修改位置
     switch (_startupLocation) {
         case WindowStartupLocation::Manual: {
