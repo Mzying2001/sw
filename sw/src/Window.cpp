@@ -248,7 +248,7 @@ sw::Window::Window()
                   return self->_IsLayoutDisabled();
               }))
 {
-    InitWindow(L"Window", WS_OVERLAPPEDWINDOW, 0);
+    InitWindow(L"Window", WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, 0);
     _SetWindowPtr(Handle, *this);
     SetIcon(_GetWindowDefaultIcon());
 }

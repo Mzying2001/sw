@@ -1210,8 +1210,15 @@ HFONT sw::WndBase::GetFontHandle() const noexcept
 
 void sw::WndBase::Redraw(bool erase, bool updateWindow)
 {
+    if (this->_hwnd == NULL || this->_isDestroyed) {
+        return;
+    }
+
     InvalidateRect(this->_hwnd, NULL, erase);
-    if (updateWindow) UpdateWindow(this->_hwnd);
+
+    if (updateWindow) {
+        UpdateWindow(this->_hwnd);
+    }
 }
 
 bool sw::WndBase::IsVisible() const noexcept
