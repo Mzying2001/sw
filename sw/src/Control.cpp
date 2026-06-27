@@ -98,7 +98,7 @@ bool sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam)
                       reinterpret_cast<LONG_PTR>(_originalWndProc));
     DestroyWindow(oldHwnd);
 
-    SendMessageW(WM_SETFONT, (WPARAM)GetFontHandle(), this->IsVisible() ? TRUE : FALSE);
+    SendMessageW(WM_SETFONT, (WPARAM)GetFontHandle(), IsVisible() ? TRUE : FALSE);
     UpdateSiblingsZOrder();
     OnHandleChanged(_hwnd);
     return true;

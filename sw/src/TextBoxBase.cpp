@@ -59,15 +59,9 @@ std::wstring &sw::TextBoxBase::GetInternalText()
 
 void sw::TextBoxBase::OnCommand(int code)
 {
-    switch (code) {
-        case EN_CHANGE: {
-            this->_isTextChanged = true;
-            this->OnTextChanged();
-            break;
-        }
-
-        default:
-            break;
+    if (code == EN_CHANGE) {
+        this->_isTextChanged = true;
+        this->OnTextChanged();
     }
 }
 

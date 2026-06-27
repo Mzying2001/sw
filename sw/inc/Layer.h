@@ -425,8 +425,10 @@ namespace sw
 
             sw::Rect clientRect = this->ClientRect;
 
-            if (VerticalScrollBar) {
+            if (VerticalScrollBar) //
+            {
                 double curPos = VerticalScrollPos;
+
                 if (rect.top < curPos) {
                     VerticalScrollPos = rect.top;
                 } else if (rect.top + rect.height > curPos + clientRect.height) {
@@ -439,8 +441,10 @@ namespace sw
                 handled = true;
             }
 
-            if (HorizontalScrollBar) {
+            if (HorizontalScrollBar) //
+            {
                 double curPos = HorizontalScrollPos;
+
                 if (rect.left < curPos) {
                     HorizontalScrollPos = rect.left;
                 } else if (rect.left + rect.width > curPos + clientRect.width) {
@@ -609,7 +613,8 @@ namespace sw
                 return;
             }
 
-            if (HorizontalScrollBar) {
+            if (HorizontalScrollBar) //
+            {
                 double childRightmost = this->GetChildRightmost(true);
 
                 if (int(childRightmost - this->ClientWidth) > 0) {
@@ -622,7 +627,6 @@ namespace sw
                     if (-this->GetInternalArrangeOffsetX() > pos) {
                         HorizontalScrollPos = pos;
                     }
-
                 } else {
                     HorizontalScrollPos = 0;
                     EnableScrollBar(this->Handle, SB_HORZ, ESB_DISABLE_BOTH);
@@ -630,7 +634,8 @@ namespace sw
                 }
             }
 
-            if (VerticalScrollBar) {
+            if (VerticalScrollBar) //
+            {
                 double childBottommost = this->GetChildBottommost(true);
 
                 if (int(childBottommost - this->ClientHeight) > 0) {
@@ -643,7 +648,6 @@ namespace sw
                     if (-this->GetInternalArrangeOffsetY() > pos) {
                         VerticalScrollPos = pos;
                     }
-
                 } else {
                     VerticalScrollPos = 0;
                     EnableScrollBar(this->Handle, SB_VERT, ESB_DISABLE_BOTH);
@@ -708,7 +712,6 @@ namespace sw
          */
         LayoutHost *_GetLayout()
         {
-
             auto layout = (_customLayout != nullptr) ? _customLayout : GetDefaultLayout();
             return (layout != nullptr && layout->IsAssociated(this)) ? layout : nullptr;
         }

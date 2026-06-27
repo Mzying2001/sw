@@ -8,9 +8,8 @@
 
 namespace sw
 {
-    // 向前声明
     template <typename>
-    class Event;
+    class Event; // 向前声明
 
     /*================================================================================*/
 
@@ -291,7 +290,8 @@ namespace sw
     /**
      * @brief 事件参数结构体
      */
-    struct EventArgs {};
+    struct EventArgs {
+    };
 
     /**
      * @brief 事件处理函数类型别名
