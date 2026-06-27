@@ -227,7 +227,6 @@ namespace sw
             }
 
             UpdateScrollRange();
-            // Redraw();
         }
 
         /**

@@ -10,9 +10,8 @@
 
 namespace
 {
-    /**
-     * @brief 属性ID
-     */
+    // 属性ID
+
     const sw::FieldId _PropId_Margin              = sw::Reflection::GetFieldId(&sw::UIElement::Margin);
     const sw::FieldId _PropId_HorizontalAlignment = sw::Reflection::GetFieldId(&sw::UIElement::HorizontalAlignment);
     const sw::FieldId _PropId_VerticalAlignment   = sw::Reflection::GetFieldId(&sw::UIElement::VerticalAlignment);
