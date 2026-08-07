@@ -35,13 +35,19 @@ namespace sw
         std::wstring header;
 
         /// @brief 列宽度
-        double width;
+        double width = 100;
+
+        /// @brief 列在界面中的实际显示顺序，零表示最左侧，-1表示由控件自动决定
+        int order = -1;
 
         /// @brief 关联图像在图像列表中的索引，-1表示无图像
-        int imageIndex;
+        int imageIndex = -1;
 
         /// @brief 列对齐方式
-        ListViewColumnAlignment alignment;
+        ListViewColumnAlignment alignment = ListViewColumnAlignment::Left;
+
+        /// @brief 默认构造函数
+        ListViewColumn() = default;
 
         /// @brief 构造函数，默认宽度100，左对齐
         ListViewColumn(const wchar_t *header, double width = 100,
@@ -320,6 +326,12 @@ namespace sw
         virtual void OnHeaderItemChanged(NMHEADERW *pNMH);
 
         /**
+         * @brief 接收到内部Header控件发送的HDN_ENDDRAG通知时调用该函数
+         * @param pNMH 包含有关列标题拖拽结果的信息
+         */
+        virtual void OnHeaderEndDrag(NMHEADERW *pNMH);
+
+        /**
          * @brief 鼠标左键单击列标题时调用该函数
          * @note 内部Header控件接收到HDN_ITEMCLICKW通知后会调用该函数
          */
@@ -450,15 +462,19 @@ namespace sw
          * @brief 同步ListViewColumn数据到LVCOLUMNW结构体
          * @param column 包含要显示信息的ListViewColumn结构体
          * @param pLvc 要同步到的LVCOLUMNW结构体指针
+         * @param applyOrder 是否同步列显示顺序
          */
-        void _ApplyColumnInfo(const ListViewColumn &column, LVCOLUMNW *pLvc);
+        void _ApplyColumnInfo(
+            const ListViewColumn &column, LVCOLUMNW *pLvc, bool applyOrder);
 
         /**
          * @brief 插入列
          * @param index 列索引
          * @param column 列信息
+         * @param applyOrder 是否同步列显示顺序
          */
-        bool _InsertColumn(int index, const ListViewColumn &column);
+        bool _InsertColumn(
+            int index, const ListViewColumn &column, bool applyOrder = true);
 
         /**
          * @brief 移除列
@@ -470,8 +486,34 @@ namespace sw
          * @brief 设置列信息
          * @param index 列索引
          * @param column 列信息
+         * @param applyOrder 是否同步列显示顺序
          */
-        bool _SetColumn(int index, const ListViewColumn &column);
+        bool _SetColumn(
+            int index, const ListViewColumn &column, bool applyOrder = true);
+
+        /**
+         * @brief 获取列从左到右的逻辑索引排列
+         * @param orderArray 用于接收列逻辑索引排列
+         * @return 操作是否成功且返回的排列是否合法
+         */
+        bool _GetColumnOrderArray(List<int> &orderArray);
+
+        /**
+         * @brief 将列集合中的显示顺序应用到控件
+         * @return 所有列的order是否构成合法排列且应用成功
+         */
+        bool _ApplyColumnOrders();
+
+        /**
+         * @brief 根据列逻辑索引排列同步列集合中的显示顺序
+         * @param orderArray 列从左到右的逻辑索引排列
+         */
+        void _SyncColumnOrders(const List<int> &orderArray);
+
+        /**
+         * @brief 从控件同步列集合中的显示顺序
+         */
+        void _SyncColumnOrders();
 
         /**
          * @brief 更新列以匹配数据源
