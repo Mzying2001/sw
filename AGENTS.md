@@ -52,7 +52,7 @@ GitHub Action regenerates `single_header/` automatically; unless explicitly requ
 
 ### Visual Studio
 
-The `vs/sw.vcxproj` project has 8 configurations: Debug/Release × MT/default × Win32/x64 (toolset v143).
+The `vs/sw.vcxproj` project has 8 configurations: Debug/Release × MT/default × Win32/x64, using the default platform toolset.
 
 ## Code Conventions
 
