@@ -7,6 +7,7 @@
 #include "FillLayout.h"
 #include "GridLayout.h"
 #include "StackLayout.h"
+#include "StackPanel.h"
 #include "UniformGridLayout.h"
 #include "WrapLayout.h"
 
@@ -29,6 +30,15 @@ namespace
               host()
         {
             this->host.Associate(&this->container);
+        }
+    };
+
+    class TestStackPanel : public sw::StackPanel
+    {
+    public:
+        sw::StackLayout &GetStackLayoutForTest()
+        {
+            return *static_cast<sw::StackLayout *>(GetDefaultLayout());
         }
     };
 }
@@ -184,6 +194,7 @@ TEST_CASE("StackLayout dispatches through the generic host orientation")
     auto &first  = fx.container.EmplaceChild("first", sw::Size(30, 10));
     auto &second = fx.container.EmplaceChild("second", sw::Size(20, 15));
 
+    CHECK_EQ(0, fx.host.spacing);
     CHECK_EQ(sw::Size(30, 25), fx.host.MeasureOverride(sw::Size(100, 40)));
     CHECK_EQ(sw::Size(100, kInf), first.lastMeasureAvailableSize);
     CHECK_EQ(sw::Size(100, kInf), second.lastMeasureAvailableSize);
@@ -193,13 +204,82 @@ TEST_CASE("StackLayout dispatches through the generic host orientation")
     CHECK_EQ(sw::Rect(0, 10, 40, 15), second.lastArrangeRect);
 
     fx.host.orientation = sw::Orientation::Horizontal;
-    CHECK_EQ(sw::Size(50, 15), fx.host.MeasureOverride(sw::Size(100, 40)));
+    fx.host.spacing     = 5;
+    CHECK_EQ(sw::Size(55, 15), fx.host.MeasureOverride(sw::Size(100, 40)));
     CHECK_EQ(sw::Size(kInf, 40), first.lastMeasureAvailableSize);
     CHECK_EQ(sw::Size(kInf, 40), second.lastMeasureAvailableSize);
 
-    fx.host.ArrangeOverride(sw::Size(50, 20));
+    fx.host.ArrangeOverride(sw::Size(55, 20));
     CHECK_EQ(sw::Rect(0, 0, 30, 20), first.lastArrangeRect);
-    CHECK_EQ(sw::Rect(30, 0, 20, 20), second.lastArrangeRect);
+    CHECK_EQ(sw::Rect(35, 0, 20, 20), second.lastArrangeRect);
+}
+
+TEST_CASE("StackLayout applies vertical spacing only between children")
+{
+    LayoutFixture<sw::StackLayout> fx;
+    fx.host.spacing = 4;
+
+    CHECK_EQ(sw::Size(0, 0), fx.host.MeasureOverride(sw::Size(60, 50)));
+    CHECK_NOTHROW(fx.host.ArrangeOverride(sw::Size(60, 50)));
+
+    auto &first = fx.container.EmplaceChild("first", sw::Size(12, 20));
+    CHECK_EQ(sw::Size(12, 20), fx.host.MeasureOverride(sw::Size(60, 50)));
+    fx.host.ArrangeOverride(sw::Size(25, 20));
+    CHECK_EQ(sw::Rect(0, 0, 25, 20), first.lastArrangeRect);
+
+    auto &second = fx.container.EmplaceChild("second", sw::Size(18, 15));
+    auto &third  = fx.container.EmplaceChild("third", sw::Size(8, 30));
+    CHECK_EQ(sw::Size(18, 73), fx.host.MeasureOverride(sw::Size(60, 50)));
+
+    fx.host.ArrangeOverride(sw::Size(25, 73));
+    CHECK_EQ(sw::Rect(0, 0, 25, 20), first.lastArrangeRect);
+    CHECK_EQ(sw::Rect(0, 24, 25, 15), second.lastArrangeRect);
+    CHECK_EQ(sw::Rect(0, 43, 25, 30), third.lastArrangeRect);
+}
+
+TEST_CASE("StackLayout supports negative spacing")
+{
+    LayoutFixture<sw::StackLayout> fx;
+    fx.host.spacing = -4;
+
+    auto &first  = fx.container.EmplaceChild("first", sw::Size(12, 10));
+    auto &second = fx.container.EmplaceChild("second", sw::Size(18, 15));
+
+    CHECK_EQ(sw::Size(18, 21), fx.host.MeasureOverride(sw::Size(60, 50)));
+    fx.host.ArrangeOverride(sw::Size(25, 21));
+    CHECK_EQ(sw::Rect(0, 0, 25, 10), first.lastArrangeRect);
+    CHECK_EQ(sw::Rect(0, 6, 25, 15), second.lastArrangeRect);
+}
+
+TEST_CASE("StackPanel exposes spacing and invalidates measure when it changes")
+{
+    TestStackPanel panel;
+    int notificationCount = 0;
+    sw::FieldId propertyId{};
+
+    panel.PropertyChanged +=
+        [&](sw::INotifyPropertyChanged &, sw::PropertyChangedEventArgs &args) {
+            ++notificationCount;
+            propertyId = args.propertyId;
+        };
+
+    CHECK_EQ(0, panel.Spacing.Get());
+    CHECK_EQ(0, panel.GetStackLayoutForTest().spacing);
+
+    panel.LayoutUpdateCondition = sw::LayoutUpdateCondition::SizeChanged;
+    REQUIRE(panel.IsMeasureValid.Get());
+
+    panel.Spacing = 8;
+    CHECK_EQ(8, panel.Spacing.Get());
+    CHECK_EQ(8, panel.GetStackLayoutForTest().spacing);
+    CHECK_EQ(1, notificationCount);
+    CHECK(propertyId == sw::Reflection::GetFieldId(&sw::StackPanel::Spacing));
+    CHECK_FALSE(panel.IsMeasureValid.Get());
+
+    panel.LayoutUpdateCondition = sw::LayoutUpdateCondition::SizeChanged;
+    panel.Spacing               = 8;
+    CHECK_EQ(1, notificationCount);
+    CHECK(panel.IsMeasureValid.Get());
 }
 
 TEST_CASE("FillLayout measures all children with the same constraint and fills the final rect")

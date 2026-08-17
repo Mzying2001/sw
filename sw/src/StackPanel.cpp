@@ -12,6 +12,19 @@ sw::StackPanel::StackPanel()
                       self->RaisePropertyChanged(&StackPanel::Orientation);
                       self->InvalidateMeasure();
                   }
+              })),
+
+      Spacing(
+          Property<double>::Init(this)
+              .Getter([](StackPanel *self) -> double {
+                  return self->_stackLayout.spacing;
+              })
+              .Setter([](StackPanel *self, double value) {
+                  if (self->_stackLayout.spacing != value) {
+                      self->_stackLayout.spacing = value;
+                      self->RaisePropertyChanged(&StackPanel::Spacing);
+                      self->InvalidateMeasure();
+                  }
               }))
 
 {

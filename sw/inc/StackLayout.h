@@ -57,6 +57,11 @@ namespace sw
         Orientation orientation = Orientation::Vertical;
 
         /**
+         * @brief 子元素之间的间距
+         */
+        double spacing = 0;
+
+        /**
          * @brief 测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
          * @return 返回元素需要占用的尺寸
