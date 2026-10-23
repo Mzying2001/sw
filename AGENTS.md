@@ -52,14 +52,15 @@ GitHub Action regenerates `single_header/` automatically; unless explicitly requ
 
 ### Visual Studio
 
-The `vs/sw.vcxproj` project has 8 configurations: Debug/Release × MT/default × Win32/x64 (toolset v143).
+The `vs/sw.vcxproj` project has 8 configurations: Debug/Release × MT/default × Win32/x64, using the default platform toolset.
 
 ## Code Conventions
 
 - **Naming**: PascalCase for classes, methods, properties, enums. `_camelCase` for private fields.
-- **Style**: 4-space indent, clang-format (Microsoft style), `#pragma once` include guards
-- **Docs**: Doxygen comments in Chinese
+- **Style**: 4-space indent, clang-format (Microsoft style), `#pragma once` include guards.
+- **Docs**: Doxygen comments in Chinese.
 - **Tests**: Unit tests live under `tests/unit/`; keep them focused and close to the behavior being changed.
+- **this->**: Some older files use `this->`; keep that style when editing them, but avoid it in new code unless necessary.
 
 ## Git Commit Conventions
 

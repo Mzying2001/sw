@@ -36,6 +36,7 @@ add_executable(sw_unit_tests
     unit/MacroPropertyTests.cpp
     unit/RoutedInputTests.cpp
     unit/LayoutTests.cpp
+    unit/ListViewTests.cpp
 )
 
 target_include_directories(sw_unit_tests PRIVATE
@@ -43,7 +44,7 @@ target_include_directories(sw_unit_tests PRIVATE
 )
 
 target_compile_options(sw_unit_tests PRIVATE ${COMMON_COMPILE_OPTIONS})
-target_link_libraries(sw_unit_tests PRIVATE sw)
+target_link_libraries(sw_unit_tests PRIVATE sw comctl32)
 
 if(MSVC)
     set_target_properties(sw_unit_tests PROPERTIES VS_GLOBAL_VcpkgEnabled false)

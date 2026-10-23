@@ -84,6 +84,7 @@ void sw::HwndHost::_SyncSize(const SIZE &newSize)
 void sw::HwndHost::_SyncFont(HFONT hfont)
 {
     if (this->_hWindowCore != NULL && this->_syncFont) {
-        ::SendMessageW(this->_hWindowCore, WM_SETFONT, reinterpret_cast<WPARAM>(hfont), TRUE);
+        BOOL bRedraw = this->IsVisible() ? TRUE : FALSE;
+        ::SendMessageW(this->_hWindowCore, WM_SETFONT, (WPARAM)hfont, bRedraw);
     }
 }

@@ -1,16 +1,18 @@
 #include "ListView.h"
 #include "Dip.h"
+#include <algorithm>
 #include <climits>
 #include <cmath>
 #include <memory>
+#include <vector>
 
 sw::ListViewColumn::ListViewColumn(const wchar_t *header, double width, ListViewColumnAlignment alignment)
-    : header(header), width(width), imageIndex(-1), alignment(alignment)
+    : header(header), width(width), alignment(alignment)
 {
 }
 
 sw::ListViewColumn::ListViewColumn(const std::wstring &header, double width, ListViewColumnAlignment alignment)
-    : header(header), width(width), imageIndex(-1), alignment(alignment)
+    : header(header), width(width), alignment(alignment)
 {
 }
 
@@ -121,7 +123,7 @@ sw::ListView::ListView()
         WC_LISTVIEWW, L"",
         WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | LVS_REPORT | LVS_OWNERDATA, 0);
 
-    _SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
+    _SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER | LVS_EX_HEADERDRAGDROP);
 
     Rect    = sw::Rect(0, 0, 200, 200);
     TabStop = true;
@@ -260,6 +262,10 @@ bool sw::ListView::OnNotify(NMHDR *pNMHDR, LRESULT &result)
             OnHeaderItemChanged(reinterpret_cast<NMHEADERW *>(pNMHDR));
             break;
         }
+        case HDN_ENDDRAG: {
+            OnHeaderEndDrag(reinterpret_cast<NMHEADERW *>(pNMHDR));
+            break;
+        }
         case HDN_ITEMCLICKW: {
             OnHeaderItemClicked(reinterpret_cast<NMHEADERW *>(pNMHDR));
             break;
@@ -390,6 +396,39 @@ void sw::ListView::OnHeaderItemChanged(NMHEADERW *pNMH)
             column.width = Dip::PxToDipX(pNMH->pitem->cxy);
         }
     }
+}
+
+void sw::ListView::OnHeaderEndDrag(NMHEADERW *pNMH)
+{
+    if (pNMH == nullptr || pNMH->pitem == nullptr ||
+        !(pNMH->pitem->mask & HDI_ORDER)) {
+        return;
+    }
+
+    int count    = _columns.Count();
+    int index    = pNMH->iItem;
+    int newOrder = pNMH->pitem->iOrder;
+
+    if (count != _GetColCount() || index < 0 || index >= count ||
+        newOrder < 0 || newOrder >= count) {
+        return;
+    }
+
+    List<int> orderArray;
+    if (!_GetColumnOrderArray(orderArray)) {
+        return;
+    }
+
+    auto &orders = orderArray.GetInternalVector();
+    auto iter    = std::find(orders.begin(), orders.end(), index);
+
+    if (iter == orders.end()) {
+        return;
+    }
+
+    orders.erase(iter);
+    orders.insert(orders.begin() + newOrder, index);
+    _SyncColumnOrders(orderArray);
 }
 
 void sw::ListView::OnHeaderItemClicked(NMHEADERW *pNMH)
@@ -525,31 +564,45 @@ bool sw::ListView::GetDisplayInfo(int index, const Variant &item, ListViewItem &
 
 void sw::ListView::GetCheckBoxRect(int index, RECT &rect)
 {
-    ListView_GetItemRect(Handle, index, &rect, LVIR_ICON);
+    rect = {};
 
-    int cyItem = rect.bottom - rect.top;
-    int cxEdge = GetSystemMetrics(SM_CXEDGE);
+    if (_columns.Count() == 0) {
+        return;
+    }
 
-    int cxCheck = 0;
-    int cyCheck = 0;
+    HWND hwnd    = Handle;
+    HWND hHeader = ListView_GetHeader(hwnd);
+
+    RECT rtColumn{}, rtItem{}, rtIcon{};
+
+    if (hHeader == NULL || !Header_GetItemRect(hHeader, 0, &rtColumn) ||
+        !ListView_GetItemRect(hwnd, index, &rtItem, LVIR_BOUNDS) ||
+        !ListView_GetItemRect(hwnd, index, &rtIcon, LVIR_ICON)) {
+        return;
+    }
+
+    MapWindowPoints(
+        hHeader, hwnd, reinterpret_cast<POINT *>(&rtColumn), 2);
+
+    int checkWidth  = 0;
+    int checkHeight = 0;
 
     ImageList stateImageList = GetImageList(ListViewImageList::State);
 
     if (stateImageList.GetHandle() != NULL) {
-        stateImageList.GetIconSize(cxCheck, cyCheck);
+        stateImageList.GetIconSize(checkWidth, checkHeight);
     }
 
-    if (cxCheck <= 0 || cyCheck <= 0) {
-        cxCheck = GetSystemMetrics(SM_CXMENUCHECK);
-        cyCheck = GetSystemMetrics(SM_CYMENUCHECK);
+    if (checkWidth <= 0 || checkHeight <= 0) {
+        checkWidth  = GetSystemMetrics(SM_CXMENUCHECK);
+        checkHeight = GetSystemMetrics(SM_CYMENUCHECK);
     }
 
-    int iconLeft = rect.left;
+    int checkLeft = rtColumn.left +
+                    (rtIcon.left - rtColumn.left - checkWidth) / 2;
+    int checkTop  = rtItem.top + (rtItem.bottom - rtItem.top - checkHeight) / 2;
 
-    rect.top += (cyItem - cyCheck) / 2;
-    rect.left   = cxEdge + (iconLeft - cxEdge - cxCheck) / 2;
-    rect.right  = rect.left + cxCheck;
-    rect.bottom = rect.top + cyCheck;
+    rect = {checkLeft, checkTop, checkLeft + checkWidth, checkTop + checkHeight};
 }
 
 void sw::ListView::OnGetItemCheckState(int index, bool &checked)
@@ -640,7 +693,8 @@ void sw::ListView::_ApplyDispInfo(const ListViewItem &item, NMLVDISPINFOW *pNMIn
     }
 }
 
-void sw::ListView::_ApplyColumnInfo(const ListViewColumn &column, LVCOLUMNW *pLvc)
+void sw::ListView::_ApplyColumnInfo(
+    const ListViewColumn &column, LVCOLUMNW *pLvc, bool applyOrder)
 {
     pLvc->mask    = LVCF_TEXT | LVCF_WIDTH | LVCF_FMT;
     pLvc->fmt     = static_cast<int>(column.alignment);
@@ -651,12 +705,22 @@ void sw::ListView::_ApplyColumnInfo(const ListViewColumn &column, LVCOLUMNW *pLv
         pLvc->mask |= LVCF_IMAGE;
         pLvc->iImage = column.imageIndex;
     }
+
+    if (applyOrder && column.order >= 0) {
+        pLvc->mask |= LVCF_ORDER;
+        pLvc->iOrder = column.order;
+    }
 }
 
-bool sw::ListView::_InsertColumn(int index, const ListViewColumn &column)
+bool sw::ListView::_InsertColumn(
+    int index, const ListViewColumn &column, bool applyOrder)
 {
     LVCOLUMNW lvc{};
-    _ApplyColumnInfo(column, &lvc);
+    int colCount = _GetColCount();
+    bool validOrder =
+        applyOrder && column.order >= 0 && column.order <= colCount;
+
+    _ApplyColumnInfo(column, &lvc, validOrder);
     return SendMessageW(LVM_INSERTCOLUMNW, index, reinterpret_cast<LPARAM>(&lvc)) != -1;
 }
 
@@ -665,11 +729,114 @@ bool sw::ListView::_DeleteColumn(int index)
     return SendMessageW(LVM_DELETECOLUMN, index, 0) != FALSE;
 }
 
-bool sw::ListView::_SetColumn(int index, const ListViewColumn &column)
+bool sw::ListView::_SetColumn(
+    int index, const ListViewColumn &column, bool applyOrder)
 {
     LVCOLUMNW lvc{};
-    _ApplyColumnInfo(column, &lvc);
+    int colCount = _GetColCount();
+    bool validOrder =
+        applyOrder && column.order >= 0 && column.order < colCount;
+
+    _ApplyColumnInfo(column, &lvc, validOrder);
     return SendMessageW(LVM_SETCOLUMNW, index, reinterpret_cast<LPARAM>(&lvc)) != FALSE;
+}
+
+bool sw::ListView::_GetColumnOrderArray(List<int> &orderArray)
+{
+    int count = _GetColCount();
+
+    orderArray.Clear();
+    for (int i = 0; i < count; ++i) {
+        orderArray.Add(-1);
+    }
+
+    if (count == 0) {
+        return true;
+    }
+
+    auto &orders = orderArray.GetInternalVector();
+    if (!ListView_GetColumnOrderArray(Handle, count, orders.data())) {
+        orderArray.Clear();
+        return false;
+    }
+
+    std::vector<bool> visited(static_cast<size_t>(count), false);
+
+    for (int index : orders) {
+        if (index < 0 || index >= count || visited[static_cast<size_t>(index)]) {
+            orderArray.Clear();
+            return false;
+        }
+        visited[static_cast<size_t>(index)] = true;
+    }
+    return true;
+}
+
+bool sw::ListView::_ApplyColumnOrders()
+{
+    int count = _columns.Count();
+
+    if (count != _GetColCount()) {
+        return false;
+    }
+
+    List<int> orderArray;
+    for (int i = 0; i < count; ++i) {
+        orderArray.Add(-1);
+    }
+
+    auto &orders = orderArray.GetInternalVector();
+
+    for (int index = 0; index < count; ++index) {
+        int order = _columns.GetAt(index).order;
+
+        if (order < 0 || order >= count || orders[static_cast<size_t>(order)] != -1) {
+            return false;
+        }
+        orders[static_cast<size_t>(order)] = index;
+    }
+
+    if (count > 0 &&
+        !ListView_SetColumnOrderArray(Handle, count, orders.data())) {
+        return false;
+    }
+
+    _SyncColumnOrders();
+    return true;
+}
+
+void sw::ListView::_SyncColumnOrders(const List<int> &orderArray)
+{
+    int count = _columns.Count();
+
+    if (orderArray.Count() != count) {
+        return;
+    }
+
+    std::vector<bool> visited(static_cast<size_t>(count), false);
+
+    for (int order = 0; order < count; ++order) {
+        int index = orderArray.GetAt(order);
+
+        if (index < 0 || index >= count || visited[static_cast<size_t>(index)]) {
+            return;
+        }
+        visited[static_cast<size_t>(index)] = true;
+    }
+
+    for (int order = 0; order < count; ++order) {
+        int index = orderArray.GetAt(order);
+        _columns.GetAt(index).order = order;
+    }
+}
+
+void sw::ListView::_SyncColumnOrders()
+{
+    List<int> orderArray;
+
+    if (_GetColumnOrderArray(orderArray)) {
+        _SyncColumnOrders(orderArray);
+    }
 }
 
 void sw::ListView::_UpdateColumns()
@@ -680,13 +847,17 @@ void sw::ListView::_UpdateColumns()
     int i = 0;
 
     for (; i < colCount && i < newCount; ++i) {
-        _SetColumn(i, _columns.GetAt(i));
+        _SetColumn(i, _columns.GetAt(i), false);
     }
     for (; i < newCount; ++i) {
-        _InsertColumn(i, _columns.GetAt(i));
+        _InsertColumn(i, _columns.GetAt(i), false);
     }
     while (colCount > newCount) {
         _DeleteColumn(--colCount);
+    }
+
+    if (!_ApplyColumnOrders()) {
+        _SyncColumnOrders();
     }
 }
 
@@ -695,22 +866,24 @@ void sw::ListView::_ColumnsCollectionChangedHandler(
 {
     switch (args.action) {
         case NotifyCollectionChangedAction::Add:
-            _InsertColumn(args.index, _columns.GetAt(args.index));
+            if (_InsertColumn(args.index, _columns.GetAt(args.index))) {
+                _SyncColumnOrders();
+            }
             break;
 
         case NotifyCollectionChangedAction::Remove:
-            _DeleteColumn(args.index);
+            if (_DeleteColumn(args.index)) {
+                _SyncColumnOrders();
+            }
             break;
 
         case NotifyCollectionChangedAction::Replace:
-            _SetColumn(args.index, _columns.GetAt(args.index));
+            if (_SetColumn(args.index, _columns.GetAt(args.index))) {
+                _SyncColumnOrders();
+            }
             break;
 
         case NotifyCollectionChangedAction::Move:
-            _SetColumn(args.index, _columns.GetAt(args.index));
-            _SetColumn(args.oldIndex, _columns.GetAt(args.oldIndex));
-            break;
-
         case NotifyCollectionChangedAction::Reset:
             _UpdateColumns();
             break;

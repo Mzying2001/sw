@@ -248,7 +248,7 @@ sw::Window::Window()
                   return self->_IsLayoutDisabled();
               }))
 {
-    InitWindow(L"Window", WS_OVERLAPPEDWINDOW, 0);
+    InitWindow(L"Window", WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, 0);
     _SetWindowPtr(Handle, *this);
     SetIcon(_GetWindowDefaultIcon());
 }
@@ -286,7 +286,7 @@ LRESULT sw::Window::WndProc(ProcMsg &refMsg)
         }
 
         case WM_SHOWWINDOW: {
-            if (_isFirstShow) {
+            if (_isFirstShow && refMsg.wParam) {
                 _isFirstShow = false;
                 OnFirstShow();
             }
@@ -432,6 +432,10 @@ void sw::Window::OnFirstShow()
     // 若未设置焦点元素则默认第一个元素为焦点元素
     if (ChildCount > 0 && (GetAncestor(GetFocus(), GA_ROOT) != Handle)) {
         GetChildAt(0).Focused = true;
+    }
+
+    if (!IsRootElement()) {
+        return; // StartupLocation仅对顶级窗口生效
     }
 
     // 按照StartupLocation修改位置

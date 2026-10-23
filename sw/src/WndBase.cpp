@@ -1195,11 +1195,16 @@ void sw::WndBase::Update()
 
 void sw::WndBase::UpdateFont()
 {
-    if (this->_hfont != NULL) {
-        DeleteObject(this->_hfont);
+    HFONT hOldFont = this->_hfont;
+    this->_hfont   = this->_font.CreateHandle();
+
+    this->SendMessageW(
+        WM_SETFONT, (WPARAM)this->_hfont, this->IsVisible() ? TRUE : FALSE);
+
+    if (hOldFont != NULL) {
+        DeleteObject(hOldFont);
     }
-    this->_hfont = this->_font.CreateHandle();
-    this->SendMessageW(WM_SETFONT, (WPARAM)this->_hfont, TRUE);
+
     this->FontChanged(this->_hfont);
 }
 
@@ -1210,8 +1215,15 @@ HFONT sw::WndBase::GetFontHandle() const noexcept
 
 void sw::WndBase::Redraw(bool erase, bool updateWindow)
 {
+    if (this->_hwnd == NULL || this->_isDestroyed || !this->IsVisible()) {
+        return;
+    }
+
     InvalidateRect(this->_hwnd, NULL, erase);
-    if (updateWindow) UpdateWindow(this->_hwnd);
+
+    if (updateWindow) {
+        UpdateWindow(this->_hwnd);
+    }
 }
 
 bool sw::WndBase::IsVisible() const noexcept

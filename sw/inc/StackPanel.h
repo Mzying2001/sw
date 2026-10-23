@@ -22,6 +22,11 @@ namespace sw
          */
         const Property<sw::Orientation> Orientation;
 
+        /**
+         * @brief 子元素之间的间距
+         */
+        const Property<double> Spacing;
+
     public:
         /**
          * @brief 初始化StackPanel

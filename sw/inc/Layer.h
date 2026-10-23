@@ -61,10 +61,13 @@ namespace sw
                     return self->_customLayout;
                 })
                 .Setter([](Layer *self, LayoutHost *value) {
-                    if (value != nullptr)
-                        value->Associate(self);
-                    self->_customLayout = value;
-                    self->InvalidateMeasure();
+                    if (self->_customLayout != value) {
+                        if (value != nullptr)
+                            value->Associate(self);
+                        self->_customLayout = value;
+                        self->RaisePropertyChanged(&Layer::Layout);
+                        self->InvalidateMeasure();
+                    }
                 })};
 
         /**
@@ -78,6 +81,7 @@ namespace sw
                 .Setter([](Layer *self, bool value) {
                     if (self->_autoSize != value) {
                         self->_autoSize = value;
+                        self->RaisePropertyChanged(&Layer::AutoSize);
                         self->InvalidateMeasure();
                     }
                 })};
@@ -96,10 +100,12 @@ namespace sw
                     }
                     if (value) {
                         ShowScrollBar(self->Handle, SB_HORZ, value);
+                        self->RaisePropertyChanged(&Layer::HorizontalScrollBar);
                         self->HorizontalScrollPos = self->HorizontalScrollPos;
                     } else {
                         self->HorizontalScrollPos = 0;
                         ShowScrollBar(self->Handle, SB_HORZ, value);
+                        self->RaisePropertyChanged(&Layer::HorizontalScrollBar);
                     }
                 })};
 
@@ -117,10 +123,12 @@ namespace sw
                     }
                     if (value) {
                         ShowScrollBar(self->Handle, SB_VERT, value);
+                        self->RaisePropertyChanged(&Layer::VerticalScrollBar);
                         self->VerticalScrollPos = self->VerticalScrollPos;
                     } else {
                         self->VerticalScrollPos = 0;
                         ShowScrollBar(self->Handle, SB_VERT, value);
+                        self->RaisePropertyChanged(&Layer::VerticalScrollBar);
                     }
                 })};
 
@@ -137,18 +145,7 @@ namespace sw
                     return Dip::PxToDipX(info.nPos);
                 })
                 .Setter([](Layer *self, double value) {
-                    SCROLLINFO info{};
-                    info.cbSize = sizeof(info);
-                    info.fMask  = SIF_POS;
-                    info.nPos   = Dip::DipToPxX(value);
-                    SetScrollInfo(self->Handle, SB_HORZ, &info, true);
-
-                    LayoutHost *layout = self->_GetLayout();
-
-                    if (layout != nullptr && !self->_horizontalScrollDisabled && self->HorizontalScrollBar) {
-                        self->GetInternalArrangeOffsetX() = -self->HorizontalScrollPos;
-                        self->_MeasureAndArrangeWithoutResize(*layout, self->ClientRect->GetSize());
-                    }
+                    self->_SetHorizontalScrollPos(value);
                 })};
 
         /**
@@ -165,18 +162,7 @@ namespace sw
                 })
                 .Setter(
                     [](Layer *self, double value) {
-                        SCROLLINFO info{};
-                        info.cbSize = sizeof(info);
-                        info.fMask  = SIF_POS;
-                        info.nPos   = Dip::DipToPxY(value);
-                        SetScrollInfo(self->Handle, SB_VERT, &info, true);
-
-                        LayoutHost *layout = self->_GetLayout();
-
-                        if (layout != nullptr && !self->_verticalScrollDisabled && self->VerticalScrollBar) {
-                            self->GetInternalArrangeOffsetY() = -self->VerticalScrollPos;
-                            self->_MeasureAndArrangeWithoutResize(*layout, self->ClientRect->GetSize());
-                        }
+                        self->_SetVerticalScrollPos(value);
                     })};
 
         /**
@@ -220,7 +206,10 @@ namespace sw
                     return self->_mouseWheelScrollEnabled;
                 })
                 .Setter([](Layer *self, bool value) {
-                    self->_mouseWheelScrollEnabled = value;
+                    if (self->_mouseWheelScrollEnabled != value) {
+                        self->_mouseWheelScrollEnabled = value;
+                        self->RaisePropertyChanged(&Layer::MouseWheelScrollEnabled);
+                    }
                 })};
 
     protected:
@@ -238,7 +227,6 @@ namespace sw
             }
 
             UpdateScrollRange();
-            // Redraw();
         }
 
         /**
@@ -425,8 +413,10 @@ namespace sw
 
             sw::Rect clientRect = this->ClientRect;
 
-            if (VerticalScrollBar) {
+            if (VerticalScrollBar) //
+            {
                 double curPos = VerticalScrollPos;
+
                 if (rect.top < curPos) {
                     VerticalScrollPos = rect.top;
                 } else if (rect.top + rect.height > curPos + clientRect.height) {
@@ -439,8 +429,10 @@ namespace sw
                 handled = true;
             }
 
-            if (HorizontalScrollBar) {
+            if (HorizontalScrollBar) //
+            {
                 double curPos = HorizontalScrollPos;
+
                 if (rect.left < curPos) {
                     HorizontalScrollPos = rect.left;
                 } else if (rect.left + rect.width > curPos + clientRect.width) {
@@ -609,7 +601,8 @@ namespace sw
                 return;
             }
 
-            if (HorizontalScrollBar) {
+            if (HorizontalScrollBar) //
+            {
                 double childRightmost = this->GetChildRightmost(true);
 
                 if (int(childRightmost - this->ClientWidth) > 0) {
@@ -622,7 +615,6 @@ namespace sw
                     if (-this->GetInternalArrangeOffsetX() > pos) {
                         HorizontalScrollPos = pos;
                     }
-
                 } else {
                     HorizontalScrollPos = 0;
                     EnableScrollBar(this->Handle, SB_HORZ, ESB_DISABLE_BOTH);
@@ -630,7 +622,8 @@ namespace sw
                 }
             }
 
-            if (VerticalScrollBar) {
+            if (VerticalScrollBar) //
+            {
                 double childBottommost = this->GetChildBottommost(true);
 
                 if (int(childBottommost - this->ClientHeight) > 0) {
@@ -643,7 +636,6 @@ namespace sw
                     if (-this->GetInternalArrangeOffsetY() > pos) {
                         VerticalScrollPos = pos;
                     }
-
                 } else {
                     VerticalScrollPos = 0;
                     EnableScrollBar(this->Handle, SB_VERT, ESB_DISABLE_BOTH);
@@ -708,9 +700,54 @@ namespace sw
          */
         LayoutHost *_GetLayout()
         {
-
             auto layout = (_customLayout != nullptr) ? _customLayout : GetDefaultLayout();
             return (layout != nullptr && layout->IsAssociated(this)) ? layout : nullptr;
+        }
+
+        /**
+         * @brief 设置水平滚动条位置
+         * @param value 滚动条位置
+         */
+        void _SetHorizontalScrollPos(double value)
+        {
+            if (HorizontalScrollPos != value) {
+                SCROLLINFO info{};
+                info.cbSize = sizeof(info);
+                info.fMask  = SIF_POS;
+                info.nPos   = Dip::DipToPxX(value);
+                SetScrollInfo(this->Handle, SB_HORZ, &info, true);
+                this->RaisePropertyChanged(&Layer::HorizontalScrollPos);
+            }
+
+            LayoutHost *layout = this->_GetLayout();
+
+            if (layout != nullptr && !this->_horizontalScrollDisabled && this->HorizontalScrollBar) {
+                this->GetInternalArrangeOffsetX() = -this->HorizontalScrollPos;
+                this->_MeasureAndArrangeWithoutResize(*layout, this->ClientRect->GetSize());
+            }
+        }
+
+        /**
+         * @brief 设置垂直滚动条位置
+         * @param value 滚动条位置
+         */
+        void _SetVerticalScrollPos(double value)
+        {
+            if (VerticalScrollPos != value) {
+                SCROLLINFO info{};
+                info.cbSize = sizeof(info);
+                info.fMask  = SIF_POS;
+                info.nPos   = Dip::DipToPxY(value);
+                SetScrollInfo(this->Handle, SB_VERT, &info, true);
+                this->RaisePropertyChanged(&Layer::VerticalScrollPos);
+            }
+
+            LayoutHost *layout = this->_GetLayout();
+
+            if (layout != nullptr && !this->_verticalScrollDisabled && this->VerticalScrollBar) {
+                this->GetInternalArrangeOffsetY() = -this->VerticalScrollPos;
+                this->_MeasureAndArrangeWithoutResize(*layout, this->ClientRect->GetSize());
+            }
         }
 
         /**
