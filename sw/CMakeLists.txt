@@ -52,11 +52,90 @@ target_include_directories(sw PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
-# 指定源文件
-file(GLOB SRC_FILES "${PROJECT_SOURCE_DIR}/src/*.cpp")
-
 # 添加源文件
-target_sources(sw PRIVATE ${SRC_FILES})
+target_sources(sw PRIVATE
+    src/Animation.cpp
+    src/App.cpp
+    src/BmpBox.cpp
+    src/Button.cpp
+    src/ButtonBase.cpp
+    src/Canvas.cpp
+    src/CanvasLayout.cpp
+    src/CheckableButton.cpp
+    src/CheckBox.cpp
+    src/Color.cpp
+    src/ColorDialog.cpp
+    src/ComboBox.cpp
+    src/CommandLink.cpp
+    src/Control.cpp
+    src/Cursor.cpp
+    src/DateTimePicker.cpp
+    src/Dip.cpp
+    src/DockLayout.cpp
+    src/DockPanel.cpp
+    src/DockSplitter.cpp
+    src/FileDialog.cpp
+    src/FillLayout.cpp
+    src/FolderDialog.cpp
+    src/Font.cpp
+    src/FontDialog.cpp
+    src/FrameworkElement.cpp
+    src/Grid.cpp
+    src/GridLayout.cpp
+    src/GroupBox.cpp
+    src/HotKeyControl.cpp
+    src/HwndHost.cpp
+    src/HwndWrapper.cpp
+    src/Icon.cpp
+    src/IconBox.cpp
+    src/ImageList.cpp
+    src/IPAddressControl.cpp
+    src/ItemsControl.cpp
+    src/Label.cpp
+    src/Layer.cpp
+    src/LayoutHost.cpp
+    src/ListBox.cpp
+    src/ListView.cpp
+    src/Menu.cpp
+    src/MenuItem.cpp
+    src/MonthCalendar.cpp
+    src/MsgBox.cpp
+    src/NotifyIcon.cpp
+    src/Panel.cpp
+    src/PasswordBox.cpp
+    src/Path.cpp
+    src/Point.cpp
+    src/ProgressBar.cpp
+    src/Property.cpp
+    src/RadioButton.cpp
+    src/Rect.cpp
+    src/Screen.cpp
+    src/Size.cpp
+    src/Slider.cpp
+    src/SpinBox.cpp
+    src/SplitButton.cpp
+    src/Splitter.cpp
+    src/StackLayout.cpp
+    src/StackPanel.cpp
+    src/StaticControl.cpp
+    src/StatusBar.cpp
+    src/SysLink.cpp
+    src/TabControl.cpp
+    src/TextBox.cpp
+    src/TextBoxBase.cpp
+    src/Thickness.cpp
+    src/Timer.cpp
+    src/ToolTip.cpp
+    src/TreeView.cpp
+    src/UIElement.cpp
+    src/UniformGrid.cpp
+    src/UniformGridLayout.cpp
+    src/Utils.cpp
+    src/Window.cpp
+    src/WndBase.cpp
+    src/WrapLayout.cpp
+    src/WrapPanel.cpp
+)
 
 # 安装目标
 install(TARGETS sw EXPORT swTargets
