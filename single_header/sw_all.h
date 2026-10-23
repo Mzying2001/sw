@@ -2880,9 +2880,8 @@ namespace sw
 
 namespace sw
 {
-    // 向前声明
     template <typename>
-    class Event;
+    class Event; // 向前声明
 
     /*================================================================================*/
 
@@ -3163,7 +3162,8 @@ namespace sw
     /**
      * @brief 事件参数结构体
      */
-    struct EventArgs {};
+    struct EventArgs {
+    };
 
     /**
      * @brief 事件处理函数类型别名
@@ -12956,6 +12956,11 @@ namespace sw
         Orientation orientation = Orientation::Vertical;
 
         /**
+         * @brief 子元素之间的间距
+         */
+        double spacing = 0;
+
+        /**
          * @brief 测量元素所需尺寸，无需考虑边框和边距
          * @param availableSize 可用的尺寸
          * @return 返回元素需要占用的尺寸
@@ -18034,10 +18039,13 @@ namespace sw
                     return self->_customLayout;
                 })
                 .Setter([](Layer *self, LayoutHost *value) {
-                    if (value != nullptr)
-                        value->Associate(self);
-                    self->_customLayout = value;
-                    self->InvalidateMeasure();
+                    if (self->_customLayout != value) {
+                        if (value != nullptr)
+                            value->Associate(self);
+                        self->_customLayout = value;
+                        self->RaisePropertyChanged(&Layer::Layout);
+                        self->InvalidateMeasure();
+                    }
                 })};
 
         /**
@@ -18051,6 +18059,7 @@ namespace sw
                 .Setter([](Layer *self, bool value) {
                     if (self->_autoSize != value) {
                         self->_autoSize = value;
+                        self->RaisePropertyChanged(&Layer::AutoSize);
                         self->InvalidateMeasure();
                     }
                 })};
@@ -18069,10 +18078,12 @@ namespace sw
                     }
                     if (value) {
                         ShowScrollBar(self->Handle, SB_HORZ, value);
+                        self->RaisePropertyChanged(&Layer::HorizontalScrollBar);
                         self->HorizontalScrollPos = self->HorizontalScrollPos;
                     } else {
                         self->HorizontalScrollPos = 0;
                         ShowScrollBar(self->Handle, SB_HORZ, value);
+                        self->RaisePropertyChanged(&Layer::HorizontalScrollBar);
                     }
                 })};
 
@@ -18090,10 +18101,12 @@ namespace sw
                     }
                     if (value) {
                         ShowScrollBar(self->Handle, SB_VERT, value);
+                        self->RaisePropertyChanged(&Layer::VerticalScrollBar);
                         self->VerticalScrollPos = self->VerticalScrollPos;
                     } else {
                         self->VerticalScrollPos = 0;
                         ShowScrollBar(self->Handle, SB_VERT, value);
+                        self->RaisePropertyChanged(&Layer::VerticalScrollBar);
                     }
                 })};
 
@@ -18110,18 +18123,7 @@ namespace sw
                     return Dip::PxToDipX(info.nPos);
                 })
                 .Setter([](Layer *self, double value) {
-                    SCROLLINFO info{};
-                    info.cbSize = sizeof(info);
-                    info.fMask  = SIF_POS;
-                    info.nPos   = Dip::DipToPxX(value);
-                    SetScrollInfo(self->Handle, SB_HORZ, &info, true);
-
-                    LayoutHost *layout = self->_GetLayout();
-
-                    if (layout != nullptr && !self->_horizontalScrollDisabled && self->HorizontalScrollBar) {
-                        self->GetInternalArrangeOffsetX() = -self->HorizontalScrollPos;
-                        self->_MeasureAndArrangeWithoutResize(*layout, self->ClientRect->GetSize());
-                    }
+                    self->_SetHorizontalScrollPos(value);
                 })};
 
         /**
@@ -18138,18 +18140,7 @@ namespace sw
                 })
                 .Setter(
                     [](Layer *self, double value) {
-                        SCROLLINFO info{};
-                        info.cbSize = sizeof(info);
-                        info.fMask  = SIF_POS;
-                        info.nPos   = Dip::DipToPxY(value);
-                        SetScrollInfo(self->Handle, SB_VERT, &info, true);
-
-                        LayoutHost *layout = self->_GetLayout();
-
-                        if (layout != nullptr && !self->_verticalScrollDisabled && self->VerticalScrollBar) {
-                            self->GetInternalArrangeOffsetY() = -self->VerticalScrollPos;
-                            self->_MeasureAndArrangeWithoutResize(*layout, self->ClientRect->GetSize());
-                        }
+                        self->_SetVerticalScrollPos(value);
                     })};
 
         /**
@@ -18193,7 +18184,10 @@ namespace sw
                     return self->_mouseWheelScrollEnabled;
                 })
                 .Setter([](Layer *self, bool value) {
-                    self->_mouseWheelScrollEnabled = value;
+                    if (self->_mouseWheelScrollEnabled != value) {
+                        self->_mouseWheelScrollEnabled = value;
+                        self->RaisePropertyChanged(&Layer::MouseWheelScrollEnabled);
+                    }
                 })};
 
     protected:
@@ -18211,7 +18205,6 @@ namespace sw
             }
 
             UpdateScrollRange();
-            // Redraw();
         }
 
         /**
@@ -18398,8 +18391,10 @@ namespace sw
 
             sw::Rect clientRect = this->ClientRect;
 
-            if (VerticalScrollBar) {
+            if (VerticalScrollBar) //
+            {
                 double curPos = VerticalScrollPos;
+
                 if (rect.top < curPos) {
                     VerticalScrollPos = rect.top;
                 } else if (rect.top + rect.height > curPos + clientRect.height) {
@@ -18412,8 +18407,10 @@ namespace sw
                 handled = true;
             }
 
-            if (HorizontalScrollBar) {
+            if (HorizontalScrollBar) //
+            {
                 double curPos = HorizontalScrollPos;
+
                 if (rect.left < curPos) {
                     HorizontalScrollPos = rect.left;
                 } else if (rect.left + rect.width > curPos + clientRect.width) {
@@ -18582,7 +18579,8 @@ namespace sw
                 return;
             }
 
-            if (HorizontalScrollBar) {
+            if (HorizontalScrollBar) //
+            {
                 double childRightmost = this->GetChildRightmost(true);
 
                 if (int(childRightmost - this->ClientWidth) > 0) {
@@ -18595,7 +18593,6 @@ namespace sw
                     if (-this->GetInternalArrangeOffsetX() > pos) {
                         HorizontalScrollPos = pos;
                     }
-
                 } else {
                     HorizontalScrollPos = 0;
                     EnableScrollBar(this->Handle, SB_HORZ, ESB_DISABLE_BOTH);
@@ -18603,7 +18600,8 @@ namespace sw
                 }
             }
 
-            if (VerticalScrollBar) {
+            if (VerticalScrollBar) //
+            {
                 double childBottommost = this->GetChildBottommost(true);
 
                 if (int(childBottommost - this->ClientHeight) > 0) {
@@ -18616,7 +18614,6 @@ namespace sw
                     if (-this->GetInternalArrangeOffsetY() > pos) {
                         VerticalScrollPos = pos;
                     }
-
                 } else {
                     VerticalScrollPos = 0;
                     EnableScrollBar(this->Handle, SB_VERT, ESB_DISABLE_BOTH);
@@ -18681,9 +18678,54 @@ namespace sw
          */
         LayoutHost *_GetLayout()
         {
-
             auto layout = (_customLayout != nullptr) ? _customLayout : GetDefaultLayout();
             return (layout != nullptr && layout->IsAssociated(this)) ? layout : nullptr;
+        }
+
+        /**
+         * @brief 设置水平滚动条位置
+         * @param value 滚动条位置
+         */
+        void _SetHorizontalScrollPos(double value)
+        {
+            if (HorizontalScrollPos != value) {
+                SCROLLINFO info{};
+                info.cbSize = sizeof(info);
+                info.fMask  = SIF_POS;
+                info.nPos   = Dip::DipToPxX(value);
+                SetScrollInfo(this->Handle, SB_HORZ, &info, true);
+                this->RaisePropertyChanged(&Layer::HorizontalScrollPos);
+            }
+
+            LayoutHost *layout = this->_GetLayout();
+
+            if (layout != nullptr && !this->_horizontalScrollDisabled && this->HorizontalScrollBar) {
+                this->GetInternalArrangeOffsetX() = -this->HorizontalScrollPos;
+                this->_MeasureAndArrangeWithoutResize(*layout, this->ClientRect->GetSize());
+            }
+        }
+
+        /**
+         * @brief 设置垂直滚动条位置
+         * @param value 滚动条位置
+         */
+        void _SetVerticalScrollPos(double value)
+        {
+            if (VerticalScrollPos != value) {
+                SCROLLINFO info{};
+                info.cbSize = sizeof(info);
+                info.fMask  = SIF_POS;
+                info.nPos   = Dip::DipToPxY(value);
+                SetScrollInfo(this->Handle, SB_VERT, &info, true);
+                this->RaisePropertyChanged(&Layer::VerticalScrollPos);
+            }
+
+            LayoutHost *layout = this->_GetLayout();
+
+            if (layout != nullptr && !this->_verticalScrollDisabled && this->VerticalScrollBar) {
+                this->GetInternalArrangeOffsetY() = -this->VerticalScrollPos;
+                this->_MeasureAndArrangeWithoutResize(*layout, this->ClientRect->GetSize());
+            }
         }
 
         /**
@@ -22467,13 +22509,19 @@ namespace sw
         std::wstring header;
 
         /// @brief 列宽度
-        double width;
+        double width = 100;
+
+        /// @brief 列在界面中的实际显示顺序，零表示最左侧，-1表示由控件自动决定
+        int order = -1;
 
         /// @brief 关联图像在图像列表中的索引，-1表示无图像
-        int imageIndex;
+        int imageIndex = -1;
 
         /// @brief 列对齐方式
-        ListViewColumnAlignment alignment;
+        ListViewColumnAlignment alignment = ListViewColumnAlignment::Left;
+
+        /// @brief 默认构造函数
+        ListViewColumn() = default;
 
         /// @brief 构造函数，默认宽度100，左对齐
         ListViewColumn(const wchar_t *header, double width = 100,
@@ -22752,6 +22800,12 @@ namespace sw
         virtual void OnHeaderItemChanged(NMHEADERW *pNMH);
 
         /**
+         * @brief 接收到内部Header控件发送的HDN_ENDDRAG通知时调用该函数
+         * @param pNMH 包含有关列标题拖拽结果的信息
+         */
+        virtual void OnHeaderEndDrag(NMHEADERW *pNMH);
+
+        /**
          * @brief 鼠标左键单击列标题时调用该函数
          * @note 内部Header控件接收到HDN_ITEMCLICKW通知后会调用该函数
          */
@@ -22882,15 +22936,19 @@ namespace sw
          * @brief 同步ListViewColumn数据到LVCOLUMNW结构体
          * @param column 包含要显示信息的ListViewColumn结构体
          * @param pLvc 要同步到的LVCOLUMNW结构体指针
+         * @param applyOrder 是否同步列显示顺序
          */
-        void _ApplyColumnInfo(const ListViewColumn &column, LVCOLUMNW *pLvc);
+        void _ApplyColumnInfo(
+            const ListViewColumn &column, LVCOLUMNW *pLvc, bool applyOrder);
 
         /**
          * @brief 插入列
          * @param index 列索引
          * @param column 列信息
+         * @param applyOrder 是否同步列显示顺序
          */
-        bool _InsertColumn(int index, const ListViewColumn &column);
+        bool _InsertColumn(
+            int index, const ListViewColumn &column, bool applyOrder = true);
 
         /**
          * @brief 移除列
@@ -22902,8 +22960,34 @@ namespace sw
          * @brief 设置列信息
          * @param index 列索引
          * @param column 列信息
+         * @param applyOrder 是否同步列显示顺序
          */
-        bool _SetColumn(int index, const ListViewColumn &column);
+        bool _SetColumn(
+            int index, const ListViewColumn &column, bool applyOrder = true);
+
+        /**
+         * @brief 获取列从左到右的逻辑索引排列
+         * @param orderArray 用于接收列逻辑索引排列
+         * @return 操作是否成功且返回的排列是否合法
+         */
+        bool _GetColumnOrderArray(List<int> &orderArray);
+
+        /**
+         * @brief 将列集合中的显示顺序应用到控件
+         * @return 所有列的order是否构成合法排列且应用成功
+         */
+        bool _ApplyColumnOrders();
+
+        /**
+         * @brief 根据列逻辑索引排列同步列集合中的显示顺序
+         * @param orderArray 列从左到右的逻辑索引排列
+         */
+        void _SyncColumnOrders(const List<int> &orderArray);
+
+        /**
+         * @brief 从控件同步列集合中的显示顺序
+         */
+        void _SyncColumnOrders();
 
         /**
          * @brief 更新列以匹配数据源
@@ -23121,6 +23205,11 @@ namespace sw
          * @brief 排列方式
          */
         const Property<sw::Orientation> Orientation;
+
+        /**
+         * @brief 子元素之间的间距
+         */
+        const Property<double> Spacing;
 
     public:
         /**

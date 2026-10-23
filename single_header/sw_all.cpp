@@ -1289,7 +1289,7 @@ bool sw::Control::ResetHandle(DWORD style, DWORD exStyle, LPVOID lpParam)
                       reinterpret_cast<LONG_PTR>(_originalWndProc));
     DestroyWindow(oldHwnd);
 
-    SendMessageW(WM_SETFONT, (WPARAM)GetFontHandle(), TRUE);
+    SendMessageW(WM_SETFONT, (WPARAM)GetFontHandle(), IsVisible() ? TRUE : FALSE);
     UpdateSiblingsZOrder();
     OnHandleChanged(_hwnd);
     return true;
@@ -3840,7 +3840,8 @@ void sw::HwndHost::_SyncSize(const SIZE &newSize)
 void sw::HwndHost::_SyncFont(HFONT hfont)
 {
     if (this->_hWindowCore != NULL && this->_syncFont) {
-        ::SendMessageW(this->_hWindowCore, WM_SETFONT, reinterpret_cast<WPARAM>(hfont), TRUE);
+        BOOL bRedraw = this->IsVisible() ? TRUE : FALSE;
+        ::SendMessageW(this->_hWindowCore, WM_SETFONT, (WPARAM)hfont, bRedraw);
     }
 }
 
@@ -4745,24 +4746,26 @@ namespace sw
 
 void sw::LayoutHost::Associate(ILayout *obj)
 {
-    this->_associatedObj = obj;
+    _associatedObj = obj;
 }
 
 bool sw::LayoutHost::IsAssociated(ILayout *obj) const
 {
-    return obj == nullptr
-               ? (this->_associatedObj != nullptr)
-               : (this->_associatedObj == obj);
+    if (obj != nullptr) {
+        return _associatedObj == obj;
+    } else {
+        return _associatedObj != nullptr;
+    }
 }
 
 int sw::LayoutHost::GetChildLayoutCount() const
 {
-    return this->_associatedObj->GetChildLayoutCount();
+    return _associatedObj->GetChildLayoutCount();
 }
 
 sw::ILayout &sw::LayoutHost::GetChildLayoutAt(int index) const
 {
-    return this->_associatedObj->GetChildLayoutAt(index);
+    return _associatedObj->GetChildLayoutAt(index);
 }
 
 // ListBox.cpp
@@ -4999,12 +5002,12 @@ void sw::ListBox::_UpdateItemHeight()
 // ListView.cpp
 
 sw::ListViewColumn::ListViewColumn(const wchar_t *header, double width, ListViewColumnAlignment alignment)
-    : header(header), width(width), imageIndex(-1), alignment(alignment)
+    : header(header), width(width), alignment(alignment)
 {
 }
 
 sw::ListViewColumn::ListViewColumn(const std::wstring &header, double width, ListViewColumnAlignment alignment)
-    : header(header), width(width), imageIndex(-1), alignment(alignment)
+    : header(header), width(width), alignment(alignment)
 {
 }
 
@@ -5115,7 +5118,7 @@ sw::ListView::ListView()
         WC_LISTVIEWW, L"",
         WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER | LVS_REPORT | LVS_OWNERDATA, 0);
 
-    _SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
+    _SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER | LVS_EX_HEADERDRAGDROP);
 
     Rect    = sw::Rect(0, 0, 200, 200);
     TabStop = true;
@@ -5254,6 +5257,10 @@ bool sw::ListView::OnNotify(NMHDR *pNMHDR, LRESULT &result)
             OnHeaderItemChanged(reinterpret_cast<NMHEADERW *>(pNMHDR));
             break;
         }
+        case HDN_ENDDRAG: {
+            OnHeaderEndDrag(reinterpret_cast<NMHEADERW *>(pNMHDR));
+            break;
+        }
         case HDN_ITEMCLICKW: {
             OnHeaderItemClicked(reinterpret_cast<NMHEADERW *>(pNMHDR));
             break;
@@ -5384,6 +5391,39 @@ void sw::ListView::OnHeaderItemChanged(NMHEADERW *pNMH)
             column.width = Dip::PxToDipX(pNMH->pitem->cxy);
         }
     }
+}
+
+void sw::ListView::OnHeaderEndDrag(NMHEADERW *pNMH)
+{
+    if (pNMH == nullptr || pNMH->pitem == nullptr ||
+        !(pNMH->pitem->mask & HDI_ORDER)) {
+        return;
+    }
+
+    int count    = _columns.Count();
+    int index    = pNMH->iItem;
+    int newOrder = pNMH->pitem->iOrder;
+
+    if (count != _GetColCount() || index < 0 || index >= count ||
+        newOrder < 0 || newOrder >= count) {
+        return;
+    }
+
+    List<int> orderArray;
+    if (!_GetColumnOrderArray(orderArray)) {
+        return;
+    }
+
+    auto &orders = orderArray.GetInternalVector();
+    auto iter    = std::find(orders.begin(), orders.end(), index);
+
+    if (iter == orders.end()) {
+        return;
+    }
+
+    orders.erase(iter);
+    orders.insert(orders.begin() + newOrder, index);
+    _SyncColumnOrders(orderArray);
 }
 
 void sw::ListView::OnHeaderItemClicked(NMHEADERW *pNMH)
@@ -5519,31 +5559,45 @@ bool sw::ListView::GetDisplayInfo(int index, const Variant &item, ListViewItem &
 
 void sw::ListView::GetCheckBoxRect(int index, RECT &rect)
 {
-    ListView_GetItemRect(Handle, index, &rect, LVIR_ICON);
+    rect = {};
 
-    int cyItem = rect.bottom - rect.top;
-    int cxEdge = GetSystemMetrics(SM_CXEDGE);
+    if (_columns.Count() == 0) {
+        return;
+    }
 
-    int cxCheck = 0;
-    int cyCheck = 0;
+    HWND hwnd    = Handle;
+    HWND hHeader = ListView_GetHeader(hwnd);
+
+    RECT rtColumn{}, rtItem{}, rtIcon{};
+
+    if (hHeader == NULL || !Header_GetItemRect(hHeader, 0, &rtColumn) ||
+        !ListView_GetItemRect(hwnd, index, &rtItem, LVIR_BOUNDS) ||
+        !ListView_GetItemRect(hwnd, index, &rtIcon, LVIR_ICON)) {
+        return;
+    }
+
+    MapWindowPoints(
+        hHeader, hwnd, reinterpret_cast<POINT *>(&rtColumn), 2);
+
+    int checkWidth  = 0;
+    int checkHeight = 0;
 
     ImageList stateImageList = GetImageList(ListViewImageList::State);
 
     if (stateImageList.GetHandle() != NULL) {
-        stateImageList.GetIconSize(cxCheck, cyCheck);
+        stateImageList.GetIconSize(checkWidth, checkHeight);
     }
 
-    if (cxCheck <= 0 || cyCheck <= 0) {
-        cxCheck = GetSystemMetrics(SM_CXMENUCHECK);
-        cyCheck = GetSystemMetrics(SM_CYMENUCHECK);
+    if (checkWidth <= 0 || checkHeight <= 0) {
+        checkWidth  = GetSystemMetrics(SM_CXMENUCHECK);
+        checkHeight = GetSystemMetrics(SM_CYMENUCHECK);
     }
 
-    int iconLeft = rect.left;
+    int checkLeft = rtColumn.left +
+                    (rtIcon.left - rtColumn.left - checkWidth) / 2;
+    int checkTop  = rtItem.top + (rtItem.bottom - rtItem.top - checkHeight) / 2;
 
-    rect.top += (cyItem - cyCheck) / 2;
-    rect.left   = cxEdge + (iconLeft - cxEdge - cxCheck) / 2;
-    rect.right  = rect.left + cxCheck;
-    rect.bottom = rect.top + cyCheck;
+    rect = {checkLeft, checkTop, checkLeft + checkWidth, checkTop + checkHeight};
 }
 
 void sw::ListView::OnGetItemCheckState(int index, bool &checked)
@@ -5634,7 +5688,8 @@ void sw::ListView::_ApplyDispInfo(const ListViewItem &item, NMLVDISPINFOW *pNMIn
     }
 }
 
-void sw::ListView::_ApplyColumnInfo(const ListViewColumn &column, LVCOLUMNW *pLvc)
+void sw::ListView::_ApplyColumnInfo(
+    const ListViewColumn &column, LVCOLUMNW *pLvc, bool applyOrder)
 {
     pLvc->mask    = LVCF_TEXT | LVCF_WIDTH | LVCF_FMT;
     pLvc->fmt     = static_cast<int>(column.alignment);
@@ -5645,12 +5700,22 @@ void sw::ListView::_ApplyColumnInfo(const ListViewColumn &column, LVCOLUMNW *pLv
         pLvc->mask |= LVCF_IMAGE;
         pLvc->iImage = column.imageIndex;
     }
+
+    if (applyOrder && column.order >= 0) {
+        pLvc->mask |= LVCF_ORDER;
+        pLvc->iOrder = column.order;
+    }
 }
 
-bool sw::ListView::_InsertColumn(int index, const ListViewColumn &column)
+bool sw::ListView::_InsertColumn(
+    int index, const ListViewColumn &column, bool applyOrder)
 {
     LVCOLUMNW lvc{};
-    _ApplyColumnInfo(column, &lvc);
+    int colCount = _GetColCount();
+    bool validOrder =
+        applyOrder && column.order >= 0 && column.order <= colCount;
+
+    _ApplyColumnInfo(column, &lvc, validOrder);
     return SendMessageW(LVM_INSERTCOLUMNW, index, reinterpret_cast<LPARAM>(&lvc)) != -1;
 }
 
@@ -5659,11 +5724,114 @@ bool sw::ListView::_DeleteColumn(int index)
     return SendMessageW(LVM_DELETECOLUMN, index, 0) != FALSE;
 }
 
-bool sw::ListView::_SetColumn(int index, const ListViewColumn &column)
+bool sw::ListView::_SetColumn(
+    int index, const ListViewColumn &column, bool applyOrder)
 {
     LVCOLUMNW lvc{};
-    _ApplyColumnInfo(column, &lvc);
+    int colCount = _GetColCount();
+    bool validOrder =
+        applyOrder && column.order >= 0 && column.order < colCount;
+
+    _ApplyColumnInfo(column, &lvc, validOrder);
     return SendMessageW(LVM_SETCOLUMNW, index, reinterpret_cast<LPARAM>(&lvc)) != FALSE;
+}
+
+bool sw::ListView::_GetColumnOrderArray(List<int> &orderArray)
+{
+    int count = _GetColCount();
+
+    orderArray.Clear();
+    for (int i = 0; i < count; ++i) {
+        orderArray.Add(-1);
+    }
+
+    if (count == 0) {
+        return true;
+    }
+
+    auto &orders = orderArray.GetInternalVector();
+    if (!ListView_GetColumnOrderArray(Handle, count, orders.data())) {
+        orderArray.Clear();
+        return false;
+    }
+
+    std::vector<bool> visited(static_cast<size_t>(count), false);
+
+    for (int index : orders) {
+        if (index < 0 || index >= count || visited[static_cast<size_t>(index)]) {
+            orderArray.Clear();
+            return false;
+        }
+        visited[static_cast<size_t>(index)] = true;
+    }
+    return true;
+}
+
+bool sw::ListView::_ApplyColumnOrders()
+{
+    int count = _columns.Count();
+
+    if (count != _GetColCount()) {
+        return false;
+    }
+
+    List<int> orderArray;
+    for (int i = 0; i < count; ++i) {
+        orderArray.Add(-1);
+    }
+
+    auto &orders = orderArray.GetInternalVector();
+
+    for (int index = 0; index < count; ++index) {
+        int order = _columns.GetAt(index).order;
+
+        if (order < 0 || order >= count || orders[static_cast<size_t>(order)] != -1) {
+            return false;
+        }
+        orders[static_cast<size_t>(order)] = index;
+    }
+
+    if (count > 0 &&
+        !ListView_SetColumnOrderArray(Handle, count, orders.data())) {
+        return false;
+    }
+
+    _SyncColumnOrders();
+    return true;
+}
+
+void sw::ListView::_SyncColumnOrders(const List<int> &orderArray)
+{
+    int count = _columns.Count();
+
+    if (orderArray.Count() != count) {
+        return;
+    }
+
+    std::vector<bool> visited(static_cast<size_t>(count), false);
+
+    for (int order = 0; order < count; ++order) {
+        int index = orderArray.GetAt(order);
+
+        if (index < 0 || index >= count || visited[static_cast<size_t>(index)]) {
+            return;
+        }
+        visited[static_cast<size_t>(index)] = true;
+    }
+
+    for (int order = 0; order < count; ++order) {
+        int index = orderArray.GetAt(order);
+        _columns.GetAt(index).order = order;
+    }
+}
+
+void sw::ListView::_SyncColumnOrders()
+{
+    List<int> orderArray;
+
+    if (_GetColumnOrderArray(orderArray)) {
+        _SyncColumnOrders(orderArray);
+    }
 }
 
 void sw::ListView::_UpdateColumns()
@@ -5674,13 +5842,17 @@ void sw::ListView::_UpdateColumns()
     int i = 0;
 
     for (; i < colCount && i < newCount; ++i) {
-        _SetColumn(i, _columns.GetAt(i));
+        _SetColumn(i, _columns.GetAt(i), false);
     }
     for (; i < newCount; ++i) {
-        _InsertColumn(i, _columns.GetAt(i));
+        _InsertColumn(i, _columns.GetAt(i), false);
     }
     while (colCount > newCount) {
         _DeleteColumn(--colCount);
+    }
+
+    if (!_ApplyColumnOrders()) {
+        _SyncColumnOrders();
     }
 }
 
@@ -5689,22 +5861,24 @@ void sw::ListView::_ColumnsCollectionChangedHandler(
 {
     switch (args.action) {
         case NotifyCollectionChangedAction::Add:
-            _InsertColumn(args.index, _columns.GetAt(args.index));
+            if (_InsertColumn(args.index, _columns.GetAt(args.index))) {
+                _SyncColumnOrders();
+            }
             break;
 
         case NotifyCollectionChangedAction::Remove:
-            _DeleteColumn(args.index);
+            if (_DeleteColumn(args.index)) {
+                _SyncColumnOrders();
+            }
             break;
 
         case NotifyCollectionChangedAction::Replace:
-            _SetColumn(args.index, _columns.GetAt(args.index));
+            if (_SetColumn(args.index, _columns.GetAt(args.index))) {
+                _SyncColumnOrders();
+            }
             break;
 
         case NotifyCollectionChangedAction::Move:
-            _SetColumn(args.index, _columns.GetAt(args.index));
-            _SetColumn(args.oldIndex, _columns.GetAt(args.oldIndex));
-            break;
-
         case NotifyCollectionChangedAction::Reset:
             _UpdateColumns();
             break;
@@ -8123,7 +8297,8 @@ namespace
     /**
      * @brief 水平堆叠布局的测量逻辑
      */
-    sw::Size _StackLayoutMeasureOverrideHorz(sw::LayoutHost *self, const sw::Size &availableSize)
+    sw::Size _StackLayoutMeasureOverrideHorz(
+        sw::LayoutHost *self, const sw::Size &availableSize, double spacing)
     {
         sw::Size desireSize{};
         int childCount = self->GetChildLayoutCount();
@@ -8133,6 +8308,9 @@ namespace
             item.Measure(sw::Size{INFINITY, std::isinf(availableSize.height) ? INFINITY : availableSize.height});
 
             sw::Size itemDesireSize = item.GetDesireSize();
+            if (i > 0) {
+                desireSize.width += spacing;
+            }
             desireSize.width += itemDesireSize.width;
             desireSize.height = sw::Utils::Max(desireSize.height, itemDesireSize.height);
         }
@@ -8142,7 +8320,8 @@ namespace
     /**
      * @brief 水平堆叠布局的排列逻辑
      */
-    void _StackLayoutArrangeOverrideHorz(sw::LayoutHost *self, const sw::Size &finalSize)
+    void _StackLayoutArrangeOverrideHorz(
+        sw::LayoutHost *self, const sw::Size &finalSize, double spacing)
     {
         double width   = 0;
         int childCount = self->GetChildLayoutCount();
@@ -8150,6 +8329,9 @@ namespace
         for (int i = 0; i < childCount; ++i) {
             sw::ILayout &item       = self->GetChildLayoutAt(i);
             sw::Size itemDesireSize = item.GetDesireSize();
+            if (i > 0) {
+                width += spacing;
+            }
             item.Arrange(sw::Rect{width, 0, itemDesireSize.width, finalSize.height});
             width += itemDesireSize.width;
         }
@@ -8158,7 +8340,8 @@ namespace
     /**
      * @brief 垂直堆叠布局的测量逻辑
      */
-    sw::Size _StackLayoutMeasureOverrideVert(sw::LayoutHost *self, const sw::Size &availableSize)
+    sw::Size _StackLayoutMeasureOverrideVert(
+        sw::LayoutHost *self, const sw::Size &availableSize, double spacing)
     {
         sw::Size desireSize{};
         int childCount = self->GetChildLayoutCount();
@@ -8168,6 +8351,9 @@ namespace
             item.Measure(sw::Size{std::isinf(availableSize.width) ? INFINITY : availableSize.width, INFINITY});
 
             sw::Size itemDesireSize = item.GetDesireSize();
+            if (i > 0) {
+                desireSize.height += spacing;
+            }
             desireSize.height += itemDesireSize.height;
             desireSize.width = sw::Utils::Max(desireSize.width, itemDesireSize.width);
         }
@@ -8177,7 +8363,8 @@ namespace
     /**
      * @brief 垂直堆叠布局的排列逻辑
      */
-    void _StackLayoutArrangeOverrideVert(sw::LayoutHost *self, const sw::Size &finalSize)
+    void _StackLayoutArrangeOverrideVert(
+        sw::LayoutHost *self, const sw::Size &finalSize, double spacing)
     {
         double top     = 0;
         int childCount = self->GetChildLayoutCount();
@@ -8185,6 +8372,9 @@ namespace
         for (int i = 0; i < childCount; ++i) {
             sw::ILayout &item       = self->GetChildLayoutAt(i);
             sw::Size itemDesireSize = item.GetDesireSize();
+            if (i > 0) {
+                top += spacing;
+            }
             item.Arrange(sw::Rect{0, top, finalSize.width, itemDesireSize.height});
             top += itemDesireSize.height;
         }
@@ -8193,39 +8383,39 @@ namespace
 
 sw::Size sw::StackLayoutH::MeasureOverride(const Size &availableSize)
 {
-    return _StackLayoutMeasureOverrideHorz(this, availableSize);
+    return _StackLayoutMeasureOverrideHorz(this, availableSize, 0);
 }
 
 void sw::StackLayoutH::ArrangeOverride(const Size &finalSize)
 {
-    _StackLayoutArrangeOverrideHorz(this, finalSize);
+    _StackLayoutArrangeOverrideHorz(this, finalSize, 0);
 }
 
 sw::Size sw::StackLayoutV::MeasureOverride(const Size &availableSize)
 {
-    return _StackLayoutMeasureOverrideVert(this, availableSize);
+    return _StackLayoutMeasureOverrideVert(this, availableSize, 0);
 }
 
 void sw::StackLayoutV::ArrangeOverride(const Size &finalSize)
 {
-    _StackLayoutArrangeOverrideVert(this, finalSize);
+    _StackLayoutArrangeOverrideVert(this, finalSize, 0);
 }
 
 sw::Size sw::StackLayout::MeasureOverride(const Size &availableSize)
 {
     if (orientation == Orientation::Horizontal) {
-        return _StackLayoutMeasureOverrideHorz(this, availableSize);
+        return _StackLayoutMeasureOverrideHorz(this, availableSize, spacing);
     } else {
-        return _StackLayoutMeasureOverrideVert(this, availableSize);
+        return _StackLayoutMeasureOverrideVert(this, availableSize, spacing);
     }
 }
 
 void sw::StackLayout::ArrangeOverride(const Size &finalSize)
 {
     if (orientation == Orientation::Horizontal) {
-        _StackLayoutArrangeOverrideHorz(this, finalSize);
+        _StackLayoutArrangeOverrideHorz(this, finalSize, spacing);
     } else {
-        _StackLayoutArrangeOverrideVert(this, finalSize);
+        _StackLayoutArrangeOverrideVert(this, finalSize, spacing);
     }
 }
 
@@ -8241,6 +8431,19 @@ sw::StackPanel::StackPanel()
                   if (self->_stackLayout.orientation != value) {
                       self->_stackLayout.orientation = value;
                       self->RaisePropertyChanged(&StackPanel::Orientation);
+                      self->InvalidateMeasure();
+                  }
+              })),
+
+      Spacing(
+          Property<double>::Init(this)
+              .Getter([](StackPanel *self) -> double {
+                  return self->_stackLayout.spacing;
+              })
+              .Setter([](StackPanel *self, double value) {
+                  if (self->_stackLayout.spacing != value) {
+                      self->_stackLayout.spacing = value;
+                      self->RaisePropertyChanged(&StackPanel::Spacing);
                       self->InvalidateMeasure();
                   }
               }))
@@ -8962,15 +9165,9 @@ std::wstring &sw::TextBoxBase::GetInternalText()
 
 void sw::TextBoxBase::OnCommand(int code)
 {
-    switch (code) {
-        case EN_CHANGE: {
-            this->_isTextChanged = true;
-            this->OnTextChanged();
-            break;
-        }
-
-        default:
-            break;
+    if (code == EN_CHANGE) {
+        this->_isTextChanged = true;
+        this->OnTextChanged();
     }
 }
 
@@ -9759,9 +9956,8 @@ sw::TreeViewNode sw::TreeView::_InsertItem(HTREEITEM hParent, HTREEITEM hInsertA
 
 namespace
 {
-    /**
-     * @brief 属性ID
-     */
+    // 属性ID
+
     const sw::FieldId _PropId_Margin              = sw::Reflection::GetFieldId(&sw::UIElement::Margin);
     const sw::FieldId _PropId_HorizontalAlignment = sw::Reflection::GetFieldId(&sw::UIElement::HorizontalAlignment);
     const sw::FieldId _PropId_VerticalAlignment   = sw::Reflection::GetFieldId(&sw::UIElement::VerticalAlignment);
@@ -11813,7 +12009,7 @@ sw::Window::Window()
                   return self->_IsLayoutDisabled();
               }))
 {
-    InitWindow(L"Window", WS_OVERLAPPEDWINDOW, 0);
+    InitWindow(L"Window", WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, 0);
     _SetWindowPtr(Handle, *this);
     SetIcon(_GetWindowDefaultIcon());
 }
@@ -11851,7 +12047,7 @@ LRESULT sw::Window::WndProc(ProcMsg &refMsg)
         }
 
         case WM_SHOWWINDOW: {
-            if (_isFirstShow) {
+            if (_isFirstShow && refMsg.wParam) {
                 _isFirstShow = false;
                 OnFirstShow();
             }
@@ -11997,6 +12193,10 @@ void sw::Window::OnFirstShow()
     // 若未设置焦点元素则默认第一个元素为焦点元素
     if (ChildCount > 0 && (GetAncestor(GetFocus(), GA_ROOT) != Handle)) {
         GetChildAt(0).Focused = true;
+    }
+
+    if (!IsRootElement()) {
+        return; // StartupLocation仅对顶级窗口生效
     }
 
     // 按照StartupLocation修改位置
@@ -13459,11 +13659,16 @@ void sw::WndBase::Update()
 
 void sw::WndBase::UpdateFont()
 {
-    if (this->_hfont != NULL) {
-        DeleteObject(this->_hfont);
+    HFONT hOldFont = this->_hfont;
+    this->_hfont   = this->_font.CreateHandle();
+
+    this->SendMessageW(
+        WM_SETFONT, (WPARAM)this->_hfont, this->IsVisible() ? TRUE : FALSE);
+
+    if (hOldFont != NULL) {
+        DeleteObject(hOldFont);
     }
-    this->_hfont = this->_font.CreateHandle();
-    this->SendMessageW(WM_SETFONT, (WPARAM)this->_hfont, TRUE);
+
     this->FontChanged(this->_hfont);
 }
 
@@ -13474,8 +13679,15 @@ HFONT sw::WndBase::GetFontHandle() const noexcept
 
 void sw::WndBase::Redraw(bool erase, bool updateWindow)
 {
+    if (this->_hwnd == NULL || this->_isDestroyed || !this->IsVisible()) {
+        return;
+    }
+
     InvalidateRect(this->_hwnd, NULL, erase);
-    if (updateWindow) UpdateWindow(this->_hwnd);
+
+    if (updateWindow) {
+        UpdateWindow(this->_hwnd);
+    }
 }
 
 bool sw::WndBase::IsVisible() const noexcept
