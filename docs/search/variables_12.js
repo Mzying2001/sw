@@ -20,11 +20,12 @@ var searchData=
   ['sizemode_17',['SizeMode',['../classsw_1_1BmpBox.html#a95fbd6a72c3a54987b3fc7df107a4edd',1,'sw::BmpBox']]],
   ['sizinggrip_18',['SizingGrip',['../classsw_1_1StatusBar.html#a4da5dcbe130095ab4e52a67e9f3f9a65',1,'sw::StatusBar']]],
   ['source_19',['source',['../structsw_1_1RoutedEventArgs.html#abfb9cf4b493d4cf7f6dc6c2d2a803fad',1,'sw::RoutedEventArgs']]],
-  ['startuplocation_20',['StartupLocation',['../classsw_1_1Window.html#a4a09a7ec772a2febfcda54b9aa6a8557',1,'sw::Window']]],
-  ['state_21',['state',['../classsw_1_1ProgressBar.html#a596e05cda7fcc656dde20354a519cee4',1,'sw::ProgressBar::State'],['../classsw_1_1Window.html#a257ba940703f41b12990678bb3ff0e0e',1,'sw::Window::State']]],
-  ['stretchicon_22',['StretchIcon',['../classsw_1_1IconBox.html#a5d2016c9ce58815053fcaccb7b2ae8a2',1,'sw::IconBox']]],
-  ['strikeout_23',['strikeOut',['../classsw_1_1Font.html#a14ae471a9508e23aad832f3060bbcb85',1,'sw::Font']]],
-  ['subindex_24',['subIndex',['../classsw_1_1ListViewSubItemEventArgs.html#aa604df8522b9bd1ed45a984effa592be',1,'sw::ListViewSubItemEventArgs']]],
-  ['subitems_25',['subitems',['../structsw_1_1ListViewItem.html#ab2d2963279ba0a65df1329be4e381540',1,'sw::ListViewItem::subItems'],['../structsw_1_1MenuItemDesc.html#a7ae196c9b1acf125aa0311ba49e50a10',1,'sw::MenuItemDesc::subItems']]],
-  ['syncfont_26',['SyncFont',['../classsw_1_1HwndHost.html#af3ea0920e77a1a6573dac901cf867c2b',1,'sw::HwndHost']]]
+  ['spacing_20',['spacing',['../classsw_1_1StackPanel.html#afb21dcb2e564e09059d490fadc5518aa',1,'sw::StackPanel::Spacing'],['../classsw_1_1StackLayout.html#a05b08f1bce0b0d9f827ca7c4ef854f9f',1,'sw::StackLayout::spacing']]],
+  ['startuplocation_21',['StartupLocation',['../classsw_1_1Window.html#a4a09a7ec772a2febfcda54b9aa6a8557',1,'sw::Window']]],
+  ['state_22',['state',['../classsw_1_1ProgressBar.html#a596e05cda7fcc656dde20354a519cee4',1,'sw::ProgressBar::State'],['../classsw_1_1Window.html#a257ba940703f41b12990678bb3ff0e0e',1,'sw::Window::State']]],
+  ['stretchicon_23',['StretchIcon',['../classsw_1_1IconBox.html#a5d2016c9ce58815053fcaccb7b2ae8a2',1,'sw::IconBox']]],
+  ['strikeout_24',['strikeOut',['../classsw_1_1Font.html#a14ae471a9508e23aad832f3060bbcb85',1,'sw::Font']]],
+  ['subindex_25',['subIndex',['../classsw_1_1ListViewSubItemEventArgs.html#aa604df8522b9bd1ed45a984effa592be',1,'sw::ListViewSubItemEventArgs']]],
+  ['subitems_26',['subitems',['../structsw_1_1ListViewItem.html#ab2d2963279ba0a65df1329be4e381540',1,'sw::ListViewItem::subItems'],['../structsw_1_1MenuItemDesc.html#a7ae196c9b1acf125aa0311ba49e50a10',1,'sw::MenuItemDesc::subItems']]],
+  ['syncfont_27',['SyncFont',['../classsw_1_1HwndHost.html#af3ea0920e77a1a6573dac901cf867c2b',1,'sw::HwndHost']]]
 ];

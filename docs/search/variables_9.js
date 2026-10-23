@@ -2,7 +2,7 @@ var searchData=
 [
   ['icon_0',['Icon',['../classsw_1_1NotifyIcon.html#a377bc226da2c591c1e25acd84dc1bf72',1,'sw::NotifyIcon']]],
   ['iconhandle_1',['IconHandle',['../classsw_1_1IconBox.html#a86e82265ade73734e49489ffd7a97769',1,'sw::IconBox']]],
-  ['id_2',['id',['../classsw_1_1SysLinkClickedEventArgs.html#a9af5eccaf1eaca462799a51876c14f91',1,'sw::SysLinkClickedEventArgs::id'],['../classsw_1_1MenuItem.html#a7b4b0389e4c00263e8d977288b33f259',1,'sw::MenuItem::Id']]],
+  ['id_2',['id',['../classsw_1_1MenuItem.html#a7b4b0389e4c00263e8d977288b33f259',1,'sw::MenuItem::Id'],['../classsw_1_1SysLinkClickedEventArgs.html#a9af5eccaf1eaca462799a51876c14f91',1,'sw::SysLinkClickedEventArgs::id']]],
   ['ignorereturn_3',['IgnoreReturn',['../classsw_1_1SysLink.html#a117ea396b1e35951b45c8758fa3ad1d2',1,'sw::SysLink']]],
   ['imageindex_4',['imageindex',['../structsw_1_1ListViewColumn.html#ad0a3d17508f3177593239f40712eef05',1,'sw::ListViewColumn::imageIndex'],['../structsw_1_1ListViewItem.html#a07f8b1fb08266c08a0c5a67ba9cabb41',1,'sw::ListViewItem::imageIndex']]],
   ['increment_5',['Increment',['../classsw_1_1SpinBox.html#a8e8ca4573e2ffd67bb28e9fb60f249b4',1,'sw::SpinBox']]],
@@ -37,5 +37,5 @@ var searchData=
   ['itemheight_34',['ItemHeight',['../classsw_1_1ListBox.html#aead175c0a1da369cbe7b8d686d62ff2d',1,'sw::ListBox']]],
   ['items_35',['items',['../classsw_1_1ComboBox.html#ad458375244726ae62bf2329e025de5e2',1,'sw::ComboBox::Items'],['../classsw_1_1ListBox.html#aa1e749e11a13dc2fd016b35c8c84c47a',1,'sw::ListBox::Items'],['../classsw_1_1ListView.html#a82fa7d162f79cc4ccf5a34d638fefcc8',1,'sw::ListView::Items']]],
   ['itemscount_36',['ItemsCount',['../classsw_1_1ItemsControl.html#ad09bab1e5b3a3f51c3b106951c519a98',1,'sw::ItemsControl']]],
-  ['itemssource_37',['itemssource',['../classsw_1_1ItemsControl.html#ad805f59deddd47e396b3ac3ad79ba8d9',1,'sw::ItemsControl::ItemsSource'],['../classsw_1_1ItemsControl.html#a5811744c76c8366217a308f48573539e',1,'sw::ItemsControl::itemsSource']]]
+  ['itemssource_37',['itemssource',['../classsw_1_1ItemsControl.html#a5811744c76c8366217a308f48573539e',1,'sw::ItemsControl::itemsSource'],['../classsw_1_1ItemsControl.html#ad805f59deddd47e396b3ac3ad79ba8d9',1,'sw::ItemsControl::ItemsSource']]]
 ];

@@ -21,6 +21,7 @@ var classsw_1_1ListView =
     [ "OnEndEdit", "classsw_1_1ListView.html#ae476eb592150329608a27034280ae8b0", null ],
     [ "OnGetDispInfo", "classsw_1_1ListView.html#a685d431b998be4b714fd51c0eeccfe1f", null ],
     [ "OnGetItemCheckState", "classsw_1_1ListView.html#a56e9e3840dff369d92e61c8e74f79a28", null ],
+    [ "OnHeaderEndDrag", "classsw_1_1ListView.html#aa0dce29cbbc27f8ceda1d00530d50155", null ],
     [ "OnHeaderItemChanged", "classsw_1_1ListView.html#a2039dbf641f3d587557dda0187d8aefe", null ],
     [ "OnHeaderItemChanging", "classsw_1_1ListView.html#af1580d4e0ebf5d46bced799546f750cc", null ],
     [ "OnHeaderItemClicked", "classsw_1_1ListView.html#aebad3b5c7fafae2aa71f811beecfaeb8", null ],
